@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/04/01 19:48:38 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/04/01 20:03:40 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void		handle_line(char *line, t_env **env)
 int			main(int ac, char **av, char **env)
 {
 	t_env	*list;
-	char	*cmd;
+//	char	*cmd;
 
 	if (ac > 1)
 	{
@@ -108,10 +108,15 @@ int			main(int ac, char **av, char **env)
 	exec_mshrc(&list);
 	singleton_termios(init_term(), 1);
 	print_prompt(list);
+	boucle(list);	
+	return (0);
+}
+
+/*
+	print_prompt(list);
 	while (get_next_line(0, &cmd))
 	{
 		handle_line(cmd, &list);
 		print_prompt(list);
 	}
-	return (0);
-}
+*/

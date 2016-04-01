@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/04/01 19:45:41 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/04/01 20:03:52 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int				ft_source(char **scmd, t_env **env);
 void			exec_cmd(char *cmd, t_env **env);
 void			handle_line(char *line, t_env **env);
 void			free_char_tab(char **tab);
-t_termios	*singleton_termios(t_termios *termios, int i);
-t_termios	*init_term(void);
+t_termios		*singleton_termios(t_termios *termios, int i);
+t_termios		*init_term(void);
+void			boucle(t_env *env);
 #endif
