@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+         #
+#    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#*   Updated: 2016/03/14 13:09:31 by jcamhi           ###   ########.fr       *#
+#    Updated: 2016/04/01 19:46:00 by jcamhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,19 +19,21 @@ SRC_NAME = main.c \
 	   ft_cd.c \
 	   list2.c \
 	   exec.c \
-	   ft_source.c
+	   ft_source.c \
+		 singelton.c \
+		 term.c
 
 OBJ_PATH = ./obj/
 
 INC_PATH = ./includes
 
-NAME = minishell
+NAME = 21sh
 
 CC = gcc
 
 CFLAGS = -Werror -Wextra -Wall -g
 
-LFLAGS = -Llib/ -lft -lftprintf
+LFLAGS = -ltermcap -Llib/ -lft -lftprintf
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
@@ -42,26 +44,26 @@ INC = $(addprefix -I,$(INC_PATH))
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	@mkdir lib
-	make -C libsrcs/libft
-	make -C libsrcs/ft_printf
-	$(CC) $(LFLAGS) $(INC) -o $@ $^
+#	@mkdir ./lib 2> /dev/null || true
+#	make -C libsrcs/libft
+#	make -C libsrcs/ft_printf
+	$(CC) $(CFLAGS) $(LFLAGS) $(INC) -o $@ $^
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
-	@mkdir $(OBJ_PATH) 2> /dev/null || echo "" > /dev/null
+	@mkdir $(OBJ_PATH) 2> /dev/null || true
 	$(CC) $(CFLAGS) $(INC) -o $@ -c $<
 
 clean:
 	/bin/rm -fv $(OBJ)
-	@rmdir $(OBJ_PATH) 2> /dev/null || echo "" > /dev/null
-	make -C libsrcs/libft clean
-	make -C libsrcs/ft_printf clean
+	@rmdir $(OBJ_PATH) 2> /dev/null || true
+#	make -C libsrcs/libft clean
+#	make -C libsrcs/ft_printf clean
 
 fclean: clean
 	rm -fv $(NAME)
-	make -C libsrcs/libft fclean
-	make -C libsrcs/ft_printf fclean
-	@rmdir lib
+#	make -C libsrcs/libft fclean
+#	make -C libsrcs/ft_printf fclean
+#	@rmdir lib 2> /dev/null || true
 
 re: fclean all
 

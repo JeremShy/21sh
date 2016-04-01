@@ -6,11 +6,11 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/03/14 14:59:29 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/04/01 19:48:38 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <sh21.h>
 
 static void	print_prompt(t_env *env)
 {
@@ -103,9 +103,10 @@ int			main(int ac, char **av, char **env)
 		ft_putstr_fd("\n", 2);
 		return (0);
 	}
-	signal(SIGINT, SIG_IGN);
+//	signal(SIGINT, SIG_IGN);
 	list = ft_parse_env(env);
 	exec_mshrc(&list);
+	singleton_termios(init_term(), 1);
 	print_prompt(list);
 	while (get_next_line(0, &cmd))
 	{

@@ -6,11 +6,11 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 16:51:55 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/03/14 14:46:40 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/03/30 16:22:33 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <sh21.h>
 
 int		is_builtin(char *cmd)
 {

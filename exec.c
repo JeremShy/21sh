@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <sh21.h>
 
 static char	*print_error_no_path(char *tmp)
 {

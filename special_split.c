@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <sh21.h>
 
 static int		ft_isspace(char car)
 {

@@ -6,11 +6,11 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 16:57:59 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/03/14 14:47:00 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/04/01 19:32:52 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <sh21.h>
 
 int			ft_env(t_env *env)
 {

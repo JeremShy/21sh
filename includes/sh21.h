@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   sh21.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/03/14 15:00:21 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/04/01 19:45:41 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef SH21_H
+# define SH21_H
 # include <ft_printf.h>
 # include <libft.h>
 # include <dirent.h>
@@ -23,8 +23,13 @@
 # include <sys/uio.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <term.h>
+# include <sys/ioctl.h>
+# include <curses.h>
+# undef tab
 
 typedef struct dirent		t_dirent;
+typedef struct termios	t_termios;
 typedef struct	s_env {
 	char			*name;
 	char			*arg;
@@ -48,4 +53,6 @@ int				ft_source(char **scmd, t_env **env);
 void			exec_cmd(char *cmd, t_env **env);
 void			handle_line(char *line, t_env **env);
 void			free_char_tab(char **tab);
+t_termios	*singleton_termios(t_termios *termios, int i);
+t_termios	*init_term(void);
 #endif

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <sh21.h>
 
 static int	chg_arg1(char **scmd, t_env *env, char *tmp)
 {

@@ -6,11 +6,11 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 15:12:42 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/03/14 14:50:23 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/03/30 16:22:06 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <sh21.h>
 
 static t_env	*parse_line(t_env *ret, char *env)
 {
