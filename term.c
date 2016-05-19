@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:38:44 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/19 14:54:05 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/19 14:55:45 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ int		my_putchar(int c)
         exit(EXIT_FAILURE);
     }
     if (c == -1)
+		{
         close(fd);
+				return (c);
+		}
     write(fd, &c, 1);
     return (c);
 }
