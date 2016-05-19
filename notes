@@ -1,4 +1,6 @@
-Fleche haut		: 27 - 91 - 65
-Fleche bas		: 27 - 91 - 66
-Fleche gauche	: 27 - 91 - 68
-Fleche droite	: 27 - 91 - 67
+Fleche haut		: 27	- 91	-	65
+Fleche bas		: 27	- 91	-	66
+Fleche gauche	: 27	- 91	-	68
+Fleche droite	: 27	- 91	-	67
+Delete				:	127	- 0		-	0
+return				: 10	- 0		-	0

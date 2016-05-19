@@ -6,13 +6,13 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/19 15:28:57 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/19 20:38:20 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-static char	*print_prompt(t_env *env)
+char	*print_prompt(t_env *env)
 {
 	char	*new;
 	char	*tmp;
