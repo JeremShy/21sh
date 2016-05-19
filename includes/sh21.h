@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/19 15:29:10 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/19 19:56:37 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,5 @@ t_termios		*init_term(void);
 void				boucle(t_env *env, t_data *data);
 int					my_putchar(int c);
 void				exec_tcap(char *tcap);
+char				*insert_char(char *str, int index, char c);
 #endif
