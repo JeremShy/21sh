@@ -6,16 +6,17 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/18 11:05:17 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/19 13:20:48 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-static void	print_prompt(t_env *env)
+static char	*print_prompt(t_env *env)
 {
 	char	*new;
 	char	*tmp;
+	char	*prompt;
 
 	new = find_arg(env, "PROMPT");
 	if (ft_strequ(new, ""))
@@ -32,11 +33,15 @@ static void	print_prompt(t_env *env)
 			new = getcwd(NULL, 0);
 			free(tmp);
 		}
-		ft_printf("<%s>%% ", new);
+//		ft_printf("<%s>%% ", new);
+		prompt = ft_strdup("<");
+		prompt = ft_strjoinaf12(prompt, new);
+		prompt = ft_strjoinaf1(prompt, ">% ");
 	}
 	else
-		ft_printf("%s ", new);
-	free(new);
+		prompt = ft_strjoinaf1(new, " ");
+	ft_putstr(prompt);
+	return(prompt);
 }
 
 void		exec_cmd(char *cmd, t_env **env)
@@ -53,7 +58,7 @@ void		exec_cmd(char *cmd, t_env **env)
 			exec_file(scmd, *env);
 	}
 }
-
+/*
 static void	exec_mshrc(t_env **env)
 {
 	char **scmd;
@@ -68,7 +73,7 @@ static void	exec_mshrc(t_env **env)
 	free(scmd[1]);
 	free(scmd[2]);
 	free(scmd);
-}
+}*/
 
 void		handle_line(char *line, t_env **env)
 {
@@ -93,7 +98,8 @@ void		handle_line(char *line, t_env **env)
 
 int			main(int ac, char **av, char **env)
 {
-	t_env	*list;
+	t_env		*list;
+	t_data	data;
 //	char	*cmd;
 
 	if (ac > 1)
@@ -104,10 +110,13 @@ int			main(int ac, char **av, char **env)
 		return (0);
 	}
 	list = ft_parse_env(env);
-	exec_mshrc(&list);
+//	exec_mshrc(&list);
 	singleton_termios(init_term(), 1);
-	print_prompt(list);
-	boucle(list);
+	data.prompt = print_prompt(list);
+	data.len_prompt = ft_strlen(data.prompt);
+	data.curs_x = data.len_prompt;
+	data.curs_y = -1;
+	boucle(list, &data);
 	return (0);
 }
 

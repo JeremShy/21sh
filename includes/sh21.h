@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/04/01 20:03:52 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/19 13:18:58 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ typedef struct	s_env {
 	struct s_env	*next;
 }				t_env;
 
+typedef struct s_data {
+	int				curs_x;
+	int				curs_y;
+	char			*prompt;
+	int				len_prompt;
+}				t_data;
+
 t_env			*ft_parse_env(char **env);
 t_env			*add_elem_end(t_env *list, char *name, char *arg);
 char			**ft_special_split(char const *s);
@@ -55,5 +62,5 @@ void			handle_line(char *line, t_env **env);
 void			free_char_tab(char **tab);
 t_termios		*singleton_termios(t_termios *termios, int i);
 t_termios		*init_term(void);
-void			boucle(t_env *env);
+void			boucle(t_env *env, t_data *data);
 #endif

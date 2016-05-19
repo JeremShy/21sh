@@ -6,13 +6,13 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/19 11:44:32 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/19 13:20:05 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-void	boucle(t_env *env)
+void	boucle(t_env *env, t_data *data)
 {
 	char	buf[6];
 	int		r;
@@ -26,7 +26,7 @@ void	boucle(t_env *env)
 		else if (buf[0] == 4 && buf[1] == 0)
 			exit(0);
 		else
-			ft_printf("%d - %d - %d - %d - %d - %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5]);
+			ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
 			ft_bzero(buf, 6);
 	}
 }
