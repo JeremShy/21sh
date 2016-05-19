@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/19 14:57:55 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/19 15:29:10 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef struct s_data {
 	int				curs_y;
 	char			*prompt;
 	int				len_prompt;
+	char			*cmd;
+	int				index;
 }				t_data;
 
 t_env				*ft_parse_env(char **env);

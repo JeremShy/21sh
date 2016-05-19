@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/19 15:11:09 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/19 15:31:13 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	boucle(t_env *env, t_data *data)
 {
 	env = NULL;
-	
+
 	char	buf[6];
 	int		r;
 
@@ -26,6 +26,8 @@ void	boucle(t_env *env, t_data *data)
 		{
 			ft_putchar(buf[0]);
 			data->curs_x++;
+			data->cmd = ft_strjoinaf1(data->cmd, buf);
+			data->index++;
 		}
 		else if (buf[0] == 4 && buf[1] == 0)
 			exit(0);
@@ -35,6 +37,7 @@ void	boucle(t_env *env, t_data *data)
 			{
 				exec_tcap("le");
 				data->curs_x--;
+				data->index--;
 			}
 		}
 		else
