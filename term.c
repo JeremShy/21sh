@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:38:44 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/04/01 19:39:31 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/19 14:54:05 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,25 @@ t_termios	*init_term(void)
 	if (tgetent(NULL, name_term) == ERR)
 		return (NULL);
 	return (ret);
+}
+
+int		my_putchar(int c)
+{
+    static int  fd = 0;
+
+    if (!fd)
+        fd = open("/dev/tty", O_RDWR);
+    if (!isatty(fd))
+    {
+        ft_printf("/dev/tty is not a valid tty.\n");
+        exit(EXIT_FAILURE);
+    }
+    if (c == -1)
+        close(fd);
+    write(fd, &c, 1);
+    return (c);
+}
+
+void exec_tcap(char *tcap) {
+	tputs(tgetstr(tcap, NULL), 1, my_putchar);
 }

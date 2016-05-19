@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/19 13:18:58 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/19 14:54:16 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 typedef struct dirent		t_dirent;
 typedef struct termios	t_termios;
+
 typedef struct	s_env {
 	char			*name;
 	char			*arg;
@@ -63,4 +64,5 @@ void			free_char_tab(char **tab);
 t_termios		*singleton_termios(t_termios *termios, int i);
 t_termios		*init_term(void);
 void			boucle(t_env *env, t_data *data);
+int					my_putchar(int c);
 #endif

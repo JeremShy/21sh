@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/19 13:20:48 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/19 14:38:17 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*print_prompt(t_env *env)
 		prompt = ft_strjoinaf1(prompt, ">% ");
 	}
 	else
-		prompt = ft_strjoinaf1(new, " ");
+		prompt = ft_strjoinaf1(new, "");
 	ft_putstr(prompt);
 	return(prompt);
 }
@@ -114,7 +114,7 @@ int			main(int ac, char **av, char **env)
 	singleton_termios(init_term(), 1);
 	data.prompt = print_prompt(list);
 	data.len_prompt = ft_strlen(data.prompt);
-	data.curs_x = data.len_prompt;
+	data.curs_x = data.len_prompt + 1;
 	data.curs_y = -1;
 	boucle(list, &data);
 	return (0);
