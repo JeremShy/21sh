@@ -6,7 +6,7 @@
 #    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/04/01 20:01:04 by jcamhi           ###   ########.fr        #
+#    Updated: 2016/05/19 11:42:36 by jcamhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,8 @@ SRC_NAME = main.c \
 	   term.c \
 	   boucle.c
 
-OBJ_PATH = ./obj/
-
+#OBJ_PATH = ./obj/
+OBJ_PATH = ./
 INC_PATH = ./includes
 
 NAME = 21sh
