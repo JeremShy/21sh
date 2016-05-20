@@ -6,7 +6,7 @@
 /*   By: jcamhi   <jcamhi  @student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/20 12:42:07 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/20 16:42:38 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	boucle(t_env *env, t_data *data)
 {
-	env = NULL;
-
 	char	buf[6];
 	int		r;
 
@@ -72,7 +70,7 @@ void	boucle(t_env *env, t_data *data)
 		else if (buf[0] == 10 && buf[1] == 0)
 		{
 			ft_putstr("\n");
-			ft_putendl(data->cmd);
+			exec_cmd(data->cmd, &env);
 			data->prompt = print_prompt(env);
 			data->len_prompt = ft_strlen(data->prompt);
 			data->curs_x = data->len_prompt + 1;
@@ -92,7 +90,7 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else
 		{
-			ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
+	//		ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
 		}
 		ft_bzero(buf, 6);
 	}

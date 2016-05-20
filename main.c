@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jcamhi   <jcamhi  @student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/19 20:38:20 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/20 15:24:39 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ char	*print_prompt(t_env *env)
 			new = getcwd(NULL, 0);
 			free(tmp);
 		}
-//		ft_printf("<%s>%% ", new);
-		prompt = ft_strdup("<");
+ 		prompt = ft_strdup("<");
 		prompt = ft_strjoinaf12(prompt, new);
 		prompt = ft_strjoinaf1(prompt, ">% ");
 	}
