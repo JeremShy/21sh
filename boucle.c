@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   boucle.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jcamhi   <jcamhi  @student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/19 21:22:46 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/20 12:42:07 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,7 @@ void	boucle(t_env *env, t_data *data)
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 68 && buf[3] == 0)
 		{
 			if (data->curs_x > data->len_prompt + 1 && data->curs_x > 0)
-			{
-				exec_tcap("le");
-				data->curs_x--;
-				data->index--;
-			}
+				move_left(data);
 //			else
 //				exec_tcap("bl");
 		}
@@ -57,9 +53,7 @@ void	boucle(t_env *env, t_data *data)
 		{
 			if (data->curs_x < data->len_prompt + 1 + (int)ft_strlen(data->cmd))
 			{
-				exec_tcap("nd");
-				data->curs_x++;
-				data->index++;
+				move_right(data);
 			}
 		}
 		else if (buf[0] == 127 && buf[1] == 0)
@@ -85,6 +79,16 @@ void	boucle(t_env *env, t_data *data)
 			data->curs_y = -1;
 			data->cmd = ft_strdup("");
 			data->index = 0;
+		}
+		else if (buf[0] == 27	&&	buf[1] == 91	&&	buf[2] == 72 && buf[3] == 0)
+			while(data->curs_x > data->len_prompt + 1 && data->curs_x > 0)
+				move_left(data);
+		else if (buf[0] == 27 && buf[1] == 91	&& buf[2] == 70 && buf[3] == 0)
+		{
+			while(data->curs_x < data->len_prompt + 1 + (int)ft_strlen(data->cmd))
+			{
+				move_right(data);
+			}
 		}
 		else
 		{

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
+#    By: jcamhi   <jcamhi  @student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/05/19 15:25:54 by jcamhi           ###   ########.fr        #
+#    Updated: 2016/05/20 12:21:03 by jcamhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRC_NAME = main.c \
 	   singelton.c \
 	   term.c \
 	   boucle.c \
-		 ft_string.c
+		 ft_string.c \
+		 line.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes

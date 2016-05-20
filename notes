@@ -4,3 +4,5 @@ Fleche gauche	: 27	- 91	-	68
 Fleche droite	: 27	- 91	-	67
 Delete				:	127	- 0		-	0
 return				: 10	- 0		-	0
+Home					:	27	-	91	-	72
+End						:	27	-	91	-	70
