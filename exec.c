@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/11 14:53:03 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/03/14 14:52:30 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/20 16:54:25 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,15 @@ int			exec_file(char **scmd, t_env *list)
 	char	*file;
 	char	**env;
 	pid_t	process;
+	int		retour;
 
 	file = find_exec(scmd[0], list);
 	if (!file)
 		return (0);
 	if (access(file, X_OK) == -1)
 	{
-		ft_putstr_fd("minishell: Command not found : ", 2);
-		ft_putstr_fd(file, 2);
+		ft_putstr_fd("21sh: permission denied: ", 2);
+		ft_putstr_fd(scmd[0], 2);
 		ft_putchar_fd('\n', 2);
 		free(file);
 		return (0);
@@ -88,7 +89,16 @@ int			exec_file(char **scmd, t_env *list)
 	if (process != 0)
 		wait(NULL);
 	else
-		execve(file, scmd, env);
+	{
+		retour = execve(file, scmd, env);
+		if (retour == -1)
+		{
+			ft_putstr_fd("21sh: exec format error: ", 2);
+			ft_putstr_fd(scmd[0], 2);
+			ft_putchar_fd('\n', 2);
+			exit(EXIT_FAILURE);
+		}
+	}
 	free_char_tab(env);
 	return (1);
 }
