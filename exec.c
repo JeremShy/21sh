@@ -6,7 +6,7 @@
 /*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/11 14:53:03 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/05/20 16:54:25 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/21 17:27:54 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*while_exec(char **split, char *scmd)
 			closedir(directory);
 		i++;
 	}
-	ft_putstr_fd("minishell: command not found: ", 2);
+	ft_putstr_fd("21sh: command not found: ", 2);
 	ft_putstr_fd(scmd, 2);
 	ft_putchar_fd('\n', 2);
 	return (NULL);
