@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/25 20:04:09 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/01 14:10:35 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ void	boucle(t_env *env, t_data *data)
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 67 )
 		{
 			if (data->curs_x < data->len_prompt + 1 + (int)ft_strlen(data->cmd))
-			{
 				move_right(data);
-			}
 		}
 		else if (buf[0] == 127 && buf[1] == 0)
 		{

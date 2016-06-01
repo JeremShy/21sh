@@ -6,7 +6,7 @@ int main(int ac, char **av)
 
 	while (i < ac)
 	{
-		printf("av[%d] : -%s-\n", i, av[i]);
+		printf("av[%d] : [%s]\n", i, av[i]);
 		i++;
 	}
 	return (0);
