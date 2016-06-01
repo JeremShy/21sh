@@ -6,13 +6,13 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/01 14:36:59 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/01 15:40:29 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-char	*quote_mgmt(char en_cours, char *str)
+char	*quote_ends(char en_cours, char *str)
 {
 	int	i;
 
@@ -26,25 +26,57 @@ char	*quote_mgmt(char en_cours, char *str)
 	return (NULL);
 }
 
+char	*quote_mgmt(char en_cours, char *str, int taille)
+{
+	char	*ret;
+
+	ret = (char*)malloc(taille * sizeof(char));
+	if (!ret)
+		return(NULL);
+	ft_strncpy(ret, str, taille - 1);
+	ret[taille - 1] = '\0';
+	printf("ret : %s\n", ret);
+	return(ret);
+}
+
+int		count(char *str)
+{
+	int	ret;
+
+	return (ret);
+}
+
 int nb_arg(char *av)
 {
 	size_t	i;
 	char		*suite;
+	char		*between;
+	char		*actuel;
 
 	i = 0;
-	while (av[i])
+	actuel = ft_strdup("");
+	while (*av)
 	{
 		if (is_quote(av[i]))
 		{
-			if (!(suite = quote_mgmt(av[i], av + i + 1)))
+			if (!(suite = quote_ends(av[i], av + i + 1)))
 				exit(EXIT_FAILURE); // On attends la fin de l'entree.
 			else
 			{
-				
+				actuel = ft_strjoinaf12(actuel, quote_mgmt(av[i], av + i + 1, (size_t)(suite - (av + i + 1) + 1)));
+				av = suite;
 			}
 		}
-		i++;
+		else
+		{
+			if(ft_isspace(*av))
+			{
+
+			}
+		}
+	av++;
 	}
+	return (0);
 }
 
 int	main(int ac , char **av)

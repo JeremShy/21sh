@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/01 14:31:52 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/01 15:28:35 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ typedef struct s_data {
 	int				index;
 }				t_data;
 
+typedef	struct	s_cmd {
+	char **av;
+}								t_cmd;
+
 t_env				*ft_parse_env(char **env);
 t_env				*add_elem_end(t_env *list, char *name, char *arg);
 char				**ft_special_split(char const *s);
@@ -75,4 +79,5 @@ void				move_left(t_data *data);
 void				move_right(t_data *data);
 int					is_special(char car);
 int					is_quote(char car);
+int					ft_isspace(char car);
 #endif
