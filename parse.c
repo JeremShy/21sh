@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/01 15:40:29 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/01 16:46:36 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ char	*quote_mgmt(char en_cours, char *str, int taille)
 	return(ret);
 }
 
-int		count(char *str)
+int count(char *str)
 {
-	int	ret;
+	int count;
 
-	return (ret);
+//	char *
+	return (0);
 }
 
 int nb_arg(char *av)
@@ -55,7 +56,7 @@ int nb_arg(char *av)
 
 	i = 0;
 	actuel = ft_strdup("");
-	while (*av)
+	while (av[i])
 	{
 		if (is_quote(av[i]))
 		{
@@ -64,17 +65,16 @@ int nb_arg(char *av)
 			else
 			{
 				actuel = ft_strjoinaf12(actuel, quote_mgmt(av[i], av + i + 1, (size_t)(suite - (av + i + 1) + 1)));
-				av = suite;
+				i = suite - av;
 			}
 		}
 		else
 		{
-			if(ft_isspace(*av))
+			if(ft_isspace(av[i]))
 			{
-
 			}
 		}
-	av++;
+	i++;
 	}
 	return (0);
 }

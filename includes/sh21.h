@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/01 15:28:35 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/01 16:47:52 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ typedef struct s_data {
 	int				len_prompt;
 	char			*cmd;
 	int				index;
+	int				dquote;
+	int				quote;
+	int				acc;
+	int				cro;
+	int				par;
 }				t_data;
 
 typedef	struct	s_cmd {
