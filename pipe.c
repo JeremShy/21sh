@@ -29,6 +29,7 @@ int main()
 	int n;
 
 	pipe(tab);
+//	 write(tab[1], "penis", strlen("penis"));
 	printf("%d - %d\n", tab[0], tab[1]);
 	f1 = fork();
 	if (f1 != 0)

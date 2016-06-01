@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi   <jcamhi  @student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/20 15:24:39 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/05/31 12:39:20 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*print_prompt(t_env *env)
 		prompt = ft_strjoinaf1(prompt, ">% ");
 	}
 	else
-		prompt = ft_strjoinaf1(new, "");
+//		prompt = ft_strjoinaf1(new, "");
+		prompt = new;
 	ft_putstr(prompt);
 	return(prompt);
 }
@@ -110,9 +111,9 @@ int			main(int ac, char **av, char **env)
 	}
 	list = ft_parse_env(env);
 //	exec_mshrc(&list);
-	singleton_termios(init_term(), 1);
-	data.prompt = print_prompt(list);
-	data.len_prompt = ft_strlen(data.prompt);
+	singleton_termios(init_term(), 1); // Mets le term en mode non canonique et tout le bordel
+	data.prompt = print_prompt(list); // On mets le prompt dans data.prompt
+	data.len_prompt = ft_strlen(data.prompt); // On mets la longueur dans...
 	data.curs_x = data.len_prompt + 1;
 	data.curs_y = -1;
 	data.cmd = ft_strdup("");

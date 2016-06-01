@@ -6,7 +6,7 @@
 #    By: jcamhi   <jcamhi  @student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/05/20 12:21:03 by jcamhi           ###   ########.fr        #
+#    Updated: 2016/05/23 13:47:49 by jcamhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRC_NAME = main.c \
 	   term.c \
 	   boucle.c \
 		 ft_string.c \
-		 line.c
+		 line.c \
+		 ft_is_x.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes

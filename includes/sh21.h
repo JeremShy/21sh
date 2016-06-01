@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh21.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi   <jcamhi  @student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/20 12:37:06 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/01 14:31:52 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,6 @@ char				*delete_char(char *str, int index);
 char				*print_prompt(t_env *env);
 void				move_left(t_data *data);
 void				move_right(t_data *data);
+int					is_special(char car);
+int					is_quote(char car);
 #endif
