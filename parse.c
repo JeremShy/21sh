@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/02 17:45:55 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/02 18:39:40 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int count(char *str)
 	return (0);
 } */
 
-int nb_arg(char *av)
+int nb_arg(char *av, char **new_av)
 {
 	size_t	i;
 	size_t	count;
@@ -88,7 +88,10 @@ int nb_arg(char *av)
 			while (!ft_isspace2(av[i]) && av[i] != '\0')
 			{
 				if (av[i] == '|' || av[i] == ';')
+				{
+					*new_av = av + i;
 					return (tmp == i ? count - 1 : count);
+				}
 				if (is_quote_open(av[i]))
 				{
 					suite = pos_quote_end(av[i], av + i + 1);
@@ -103,15 +106,25 @@ int nb_arg(char *av)
 
 int	main(int ac , char **av)
 {
-	int	i;
+	size_t	count;
+	char		*new_av;
+	size_t	i;
+
 	if (ac == 1)
 	{
 		printf("KAKA\n");
 		return (0);
 	}
-	i = nb_arg(av[1]);
-	if (i == -1)
-		return (NULL);
-	printf("CA MARCHE : %d\n", i);
+	i = 0;
+	while (av[i])
+	{
+		count = nb_arg(av[1], &new_av);
+		if (count == -1)
+			//return (NULL);
+			return(0);
+		//...
+		i = new_av - av[1];
+	}
+	printf("CA MARCHE : %zu\n", i);
 	return (1);
 }
