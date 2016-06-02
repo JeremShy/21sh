@@ -6,7 +6,7 @@
 #    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/06/02 18:21:20 by jcamhi           ###   ########.fr        #
+#    Updated: 2016/06/02 19:20:26 by jcamhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ $(NAME) : $(OBJ)
 #	@mkdir ./lib 2> /dev/null || true
 #	make -C libsrcs/libft
 #	make -C libsrcs/ft_printf
-	@$(CC) $(CFLAGS) $(LFLAGS) $(INC) -o $@ $^
+	$(CC) $(CFLAGS) $(LFLAGS) $(INC) -o $@ $^
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true

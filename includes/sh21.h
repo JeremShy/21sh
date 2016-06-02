@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/02 18:35:04 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/02 18:41:51 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ typedef struct s_data {
 	int				par;
 }				t_data;
 
-typedef	struct	s_cmd {
-	char **av;
-}								t_cmd;
+typedef	struct		s_cmd {
+	char					**av;
+	int						ac;
+	struct s_cmd	*next;
+}									t_cmd;
 
 t_env				*ft_parse_env(char **env);
 t_env				*add_elem_end(t_env *list, char *name, char *arg);

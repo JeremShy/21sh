@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/02 18:39:40 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/02 19:04:52 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int nb_arg(char *av, char **new_av)
 	actuel = ft_strdup("");
 	if (av[0] == '|')
 	{
-		ft_putstr_fd("zsh: parse error near '|'\n", 2);
+		ft_putstr_fd("21sh: parse error near '|'\n", 2);
 		return (-1);
 	}
 	while (av[i])
@@ -101,6 +101,7 @@ int nb_arg(char *av, char **new_av)
 			}
 		}
 	}
+	*new_av = av + i;
 	return (count);
 }
 
@@ -115,16 +116,20 @@ int	main(int ac , char **av)
 		printf("KAKA\n");
 		return (0);
 	}
+	printf("On reçoit : #%s#\n", av[1]);
 	i = 0;
-	while (av[i])
+	while (av[1][i])
 	{
 		count = nb_arg(av[1], &new_av);
 		if (count == -1)
 			//return (NULL);
 			return(0);
-		//...
-		i = new_av - av[1];
+		printf("count : %zu\n", count);
+		i = 0;
+		av[1] = new_av;
+		if (av[1][i])
+			av[1]++;
 	}
-	printf("CA MARCHE : %zu\n", i);
+	printf("CA MARCHU\n");
 	return (1);
 }
