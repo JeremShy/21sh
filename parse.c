@@ -70,7 +70,7 @@ int nb_arg(char *av)
 		}
 		else
 		{
-			if(ft_isspace(av[i]))
+			if(ft_isspace2(av[i]))
 			{
 			}
 		}

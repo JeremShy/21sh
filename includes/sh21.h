@@ -43,6 +43,7 @@ typedef struct s_data {
 	char			*prompt;
 	int				len_prompt;
 	char			*cmd;
+	char			c;
 	int				index;
 	int				dquote;
 	int				quote;
@@ -79,10 +80,15 @@ int					my_putchar(int c);
 void				exec_tcap(char *tcap);
 char				*insert_char(char *str, int index, char c);
 char				*delete_char(char *str, int index);
-char				*print_prompt(t_env *env);
+char				*print_prompt(t_env *env, t_data *data);
 void				move_left(t_data *data);
 void				move_right(t_data *data);
-int					is_special(char car);
-int					is_quote(char car);
-int					ft_isspace(char car);
+
+int 				is_special(char car);
+int 				is_quote(char car);
+int 				is_quote_open(char car);
+int 				is_quote_close(char car, char open);
+int					is_quote_end(t_data *data);
+int					ft_isspace2(char car);
+void				prompt_quote(t_data *data);
 #endif
