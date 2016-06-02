@@ -6,13 +6,13 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/01 16:46:36 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/02 16:56:44 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-char	*quote_ends(char en_cours, char *str)
+char	pos_quote_end(char en_cours, char *str)
 {
 	int	i;
 
@@ -60,7 +60,7 @@ int nb_arg(char *av)
 	{
 		if (is_quote(av[i]))
 		{
-			if (!(suite = quote_ends(av[i], av + i + 1)))
+			if (!(suite = pos_quote_end(av[i], av + i + 1)))
 				exit(EXIT_FAILURE); // On attends la fin de l'entree.
 			else
 			{
