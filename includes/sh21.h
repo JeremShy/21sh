@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/01 16:47:52 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/02 14:50:24 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_data {
 	char			*cmd;
 	char			c;
 	int				index;
+	int				real_len_cmd;
 	int				dquote;
 	int				quote;
 	int				acc;

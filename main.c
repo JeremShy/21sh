@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/01 16:18:33 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/02 14:51:03 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*print_prompt(t_env *env, t_data *data)
 	char	*tmp;
 	char	*prompt;
 
-	if (is_quote_end(data))
+	if (data->c != '\0')
 	{
 		prompt_quote(data);
 		return (data->prompt);
@@ -124,6 +124,7 @@ int			main(int ac, char **av, char **env)
 	data.curs_y = -1;
 	data.cmd = ft_strdup("");
 	data.index = 0;
+	data.real_len_cmd = 0;
 	boucle(list, &data);
 	return (0);
 }
