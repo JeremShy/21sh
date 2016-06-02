@@ -6,13 +6,13 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/02 16:56:44 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/02 17:45:55 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-char	pos_quote_end(char en_cours, char *str)
+char	*pos_quote_end(char en_cours, char *str)
 {
 	int	i;
 
@@ -39,54 +39,79 @@ char	*quote_mgmt(char en_cours, char *str, int taille)
 	return(ret);
 }
 
+/*
 int count(char *str)
 {
-	int count;
+	size_t	count;
+	size_t	i;
 
-//	char *
+	i = 0;
+	count = 0;
+	while (av[i] && av[i] != '|' && av[i] != ';')
+	{
+		if (is_quote(av[i]))
+		{
+			suite = pos_quote_end(av[i], av + i + 1)));
+			actuel = ft_strjoinaf12(actuel, quote_mgmt(av[i], av + i + 1, (size_t)(suite - (av + i + 1) + 1)));
+			i = suite - av;
+		}
+		i++;
+	}
 	return (0);
-}
+} */
 
 int nb_arg(char *av)
 {
 	size_t	i;
+	size_t	count;
 	char		*suite;
 	char		*between;
 	char		*actuel;
+	size_t	tmp;
 
 	i = 0;
+	count = 0;
 	actuel = ft_strdup("");
+	if (av[0] == '|')
+	{
+		ft_putstr_fd("zsh: parse error near '|'\n", 2);
+		return (-1);
+	}
 	while (av[i])
 	{
-		if (is_quote(av[i]))
+		while (ft_isspace2(av[i]))
+			i++;
+		if (!ft_isspace2(av[i]) && av[i] != '\0')
 		{
-			if (!(suite = pos_quote_end(av[i], av + i + 1)))
-				exit(EXIT_FAILURE); // On attends la fin de l'entree.
-			else
+			count++;
+			tmp = i;
+			while (!ft_isspace2(av[i]) && av[i] != '\0')
 			{
-				actuel = ft_strjoinaf12(actuel, quote_mgmt(av[i], av + i + 1, (size_t)(suite - (av + i + 1) + 1)));
-				i = suite - av;
+				if (av[i] == '|' || av[i] == ';')
+					return (tmp == i ? count - 1 : count);
+				if (is_quote_open(av[i]))
+				{
+					suite = pos_quote_end(av[i], av + i + 1);
+					i = suite - av;
+				}
+				i++;
 			}
 		}
-		else
-		{
-			if(ft_isspace2(av[i]))
-			{
-			}
-		}
-	i++;
 	}
-	return (0);
+	return (count);
 }
 
 int	main(int ac , char **av)
 {
+	int	i;
 	if (ac == 1)
 	{
 		printf("KAKA\n");
 		return (0);
 	}
-	nb_arg(av[1]);
-	printf("CA MARCHE\n");
+	i = nb_arg(av[1]);
+	if (i == -1)
+		return (NULL);
+	printf("CA MARCHE : %d\n", i);
 	return (1);
 }
