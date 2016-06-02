@@ -6,18 +6,23 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/31 12:39:20 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/02 14:51:03 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-char	*print_prompt(t_env *env)
+char	*print_prompt(t_env *env, t_data *data)
 {
 	char	*new;
 	char	*tmp;
 	char	*prompt;
 
+	if (data->c != '\0')
+	{
+		prompt_quote(data);
+		return (data->prompt);
+	}
 	new = find_arg(env, "PROMPT");
 	if (ft_strequ(new, ""))
 	{
@@ -112,12 +117,14 @@ int			main(int ac, char **av, char **env)
 	list = ft_parse_env(env);
 //	exec_mshrc(&list);
 	singleton_termios(init_term(), 1); // Mets le term en mode non canonique et tout le bordel
-	data.prompt = print_prompt(list); // On mets le prompt dans data.prompt
+	data.c = '\0';
+	data.prompt = print_prompt(list, &data); // On mets le prompt dans data.prompt
 	data.len_prompt = ft_strlen(data.prompt); // On mets la longueur dans...
 	data.curs_x = data.len_prompt + 1;
 	data.curs_y = -1;
 	data.cmd = ft_strdup("");
 	data.index = 0;
+	data.real_len_cmd = 0;
 	boucle(list, &data);
 	return (0);
 }

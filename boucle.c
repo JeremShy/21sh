@@ -6,11 +6,28 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/01 14:10:35 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/02 14:53:33 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+void	prompt_quote(t_data *data)
+{
+	if (data->c == '\'')
+		data->prompt = ft_strdup("quote> ");
+	else if (data->c == '"')
+		data->prompt = ft_strdup("dquote> ");
+	else if (data->c == '`')
+		data->prompt = ft_strdup("bquote> ");
+	else if (data->c == '(')
+		data->prompt = ft_strdup("subsh> ");
+	else if (data->c == '[')
+		data->prompt = ft_strdup("crochet> ");
+	else if (data->c == '{')
+		data->prompt = ft_strdup("cursh> ");
+	ft_putstr(data->prompt);
+}
 
 void	boucle(t_env *env, t_data *data)
 {
@@ -23,7 +40,7 @@ void	boucle(t_env *env, t_data *data)
 		if ((ft_isalpha(buf[0]) || (buf[0] >= 32 && buf[0] <= 64) || (buf[0] >= 123 && buf[0] <= 126) || (buf[0] >= 91 && buf[0] <= 96)) && buf[1] == '\0')
 		{
 			data->curs_x++;
-			if (data->index == (int)ft_strlen(data->cmd))
+			if (data->index == (int)data->real_len_cmd)
 			{
 				data->cmd = ft_strjoinaf1(data->cmd, buf);
 				ft_putchar(buf[0]);
@@ -36,6 +53,7 @@ void	boucle(t_env *env, t_data *data)
 				exec_tcap("ei");
 				data->cmd = insert_char(data->cmd, data->index, buf[0]);
 			}
+			data->real_len_cmd++;
 			data->index++;
 		}
 		else if (buf[0] == 4 && buf[1] == 0)
@@ -49,7 +67,8 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 67 )
 		{
-			if (data->curs_x < data->len_prompt + 1 + (int)ft_strlen(data->cmd))
+			if (data->curs_x < data->len_prompt +
+					1 + (int)data->real_len_cmd)
 				move_right(data);
 		}
 		else if (buf[0] == 127 && buf[1] == 0)
@@ -68,20 +87,31 @@ void	boucle(t_env *env, t_data *data)
 		else if (buf[0] == 10 && buf[1] == 0)
 		{
 			ft_putstr("\n");
-			exec_cmd(data->cmd, &env);
-			data->prompt = print_prompt(env);
+			if (!is_quote_end(data))
+				exec_cmd(data->cmd, &env);
+			else
+			{
+				data->cmd = ft_strjoinaf1(data->cmd, "\n");
+				data->index++;
+			}
+			free(data->prompt);
+			data->prompt = print_prompt(env, data);
 			data->len_prompt = ft_strlen(data->prompt);
+			data->real_len_cmd = 0;
 			data->curs_x = data->len_prompt + 1;
 			data->curs_y = -1;
-			data->cmd = ft_strdup("");
-			data->index = 0;
+			if (!(data->c))
+			{
+				data->cmd = ft_strdup("");
+				data->index = 0;
+			}
 		}
 		else if (buf[0] == 27	&&	buf[1] == 91	&&	buf[2] == 72 && buf[3] == 0)
 			while(data->curs_x > data->len_prompt + 1 && data->curs_x > 0)
 				move_left(data);
 		else if (buf[0] == 27 && buf[1] == 91	&& buf[2] == 70 && buf[3] == 0)
 		{
-			while(data->curs_x < data->len_prompt + 1 + (int)ft_strlen(data->cmd))
+			while(data->curs_x < data->len_prompt + 1 + (int)data->real_len_cmd)
 			{
 				move_right(data);
 			}
