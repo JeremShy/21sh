@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/03 14:38:03 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/03 15:00:11 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	boucle(t_env *env, t_data *data)
 			if (!is_quote_end(data))
 			{
 				data->history = add_history_elem(data->history, create_history_elem(data->cmd));
-				data->history_en_cours = data->history;
+				data->history_en_cours = NULL;
 				exec_cmd(data->cmd, &env);
 			}
 			else
@@ -131,9 +131,12 @@ void	boucle(t_env *env, t_data *data)
 					exec_tcap("cr");
 					data->prompt = print_prompt(env, data);
 					data->len_prompt = ft_strlen(data->prompt);
-					free(data->cmd);
 					if (data->history_en_cours == NULL)
+					{
 						data->history_en_cours = data->history;
+						data->nouveau = ft_strdup(data->cmd);
+					}
+					free(data->cmd);
 					ft_putstr((data->history_en_cours)->line);
 					data->cmd = ft_strdup((data->history_en_cours)->line);
 					data->real_len_cmd = ft_strlen(data->cmd);
@@ -143,16 +146,43 @@ void	boucle(t_env *env, t_data *data)
 						data->history_en_cours = (data->history_en_cours)->prec;
 				}
 			}
-			else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66 && buf[3] == 0)
-			{
-				if (data->c == '\0')
-				{
-					
-				}
-			}
 			else
 			{
 				//On fait des trucs. (important).
+			}
+		}
+		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66 && buf[3] == 0)
+		{
+			if (data->c == '\0')
+			{
+				if (data->history != NULL)
+				{
+					if (data->history_en_cours == NULL)
+						data->history_en_cours = data->history;
+					exec_tcap("dl");
+					exec_tcap("cr");
+					data->prompt = print_prompt(env, data);
+					data->len_prompt = ft_strlen(data->prompt);
+					free(data->cmd);
+					if (!data->history_en_cours->next)
+					{
+						printf("\nnew %s\n", data->nouveau);
+						ft_putstr(data->nouveau);
+						data->cmd = ft_strdup(data->nouveau);
+						data->real_len_cmd = ft_strlen(data->cmd);
+						data->index = ft_strlen(data->cmd);
+						data->curs_x = data->len_prompt + data->real_len_cmd + 1;
+					}
+					else
+					{
+						data->history_en_cours = data->history_en_cours->next;
+						ft_putstr((data->history_en_cours)->line);
+						data->cmd = ft_strdup((data->history_en_cours)->line);
+						data->real_len_cmd = ft_strlen(data->cmd);
+						data->index = ft_strlen(data->cmd);
+						data->curs_x = data->len_prompt + data->real_len_cmd + 1;
+					}
+				}
 			}
 		}
 		else

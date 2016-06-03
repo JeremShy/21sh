@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/03 14:12:30 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/03 14:50:24 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_data {
 	int				real_len_cmd;
 	t_history	*history;
 	t_history	*history_en_cours;
+	char			*nouveau;
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
