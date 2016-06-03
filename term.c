@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   term.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi   <jcamhi  @student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:38:44 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/20 12:53:04 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/01 16:27:41 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,22 @@ t_termios	*init_term(void)
 
 int		my_putchar(int c)
 {
-    static int  fd = 0;
+	static int  fd = 0;
 
-    if (!fd)
-        fd = open("/dev/tty", O_RDWR);
-    if (!isatty(fd))
-    {
-        ft_printf("/dev/tty is not a valid tty.\n");
-        exit(EXIT_FAILURE);
-    }
-    if (c == -1)
-		{
-        close(fd);
-				return (c);
-		}
-    write(fd, &c, 1);
-    return (c);
+	if (!fd)
+		fd = open("/dev/tty", O_RDWR);
+	if (!isatty(fd))
+	{
+		ft_printf("/dev/tty is not a valid tty.\n");
+		exit(EXIT_FAILURE);
+	}
+	if (c == -1)
+	{
+		close(fd);
+		return (c);
+	}
+	write(fd, &c, 1);
+	return (c);
 }
 
 void exec_tcap(char *tcap) {

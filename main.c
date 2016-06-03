@@ -3,21 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi   <jcamhi  @student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/20 15:24:39 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/03 14:12:46 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-char	*print_prompt(t_env *env)
+char	*print_prompt(t_env *env, t_data *data)
 {
 	char	*new;
 	char	*tmp;
 	char	*prompt;
 
+	if (data->c != '\0')
+	{
+		prompt_quote(data);
+		return (data->prompt);
+	}
 	new = find_arg(env, "PROMPT");
 	if (ft_strequ(new, ""))
 	{
@@ -38,7 +43,8 @@ char	*print_prompt(t_env *env)
 		prompt = ft_strjoinaf1(prompt, ">% ");
 	}
 	else
-		prompt = ft_strjoinaf1(new, "");
+//		prompt = ft_strjoinaf1(new, "");
+		prompt = new;
 	ft_putstr(prompt);
 	return(prompt);
 }
@@ -110,13 +116,17 @@ int			main(int ac, char **av, char **env)
 	}
 	list = ft_parse_env(env);
 //	exec_mshrc(&list);
-	singleton_termios(init_term(), 1);
-	data.prompt = print_prompt(list);
-	data.len_prompt = ft_strlen(data.prompt);
+	singleton_termios(init_term(), 1); // Mets le term en mode non canonique et tout le bordel
+	data.c = '\0';
+	data.prompt = print_prompt(list, &data); // On mets le prompt dans data.prompt
+	data.len_prompt = ft_strlen(data.prompt); // On mets la longueur dans...
 	data.curs_x = data.len_prompt + 1;
 	data.curs_y = -1;
 	data.cmd = ft_strdup("");
 	data.index = 0;
+	data.real_len_cmd = 0;
+	data.history = NULL;
+	data.history_en_cours = NULL;
 	boucle(list, &data);
 	return (0);
 }

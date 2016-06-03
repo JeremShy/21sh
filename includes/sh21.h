@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh21.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi   <jcamhi  @student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/05/20 12:37:06 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/03 14:50:24 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@
 # include <term.h>
 # include <sys/ioctl.h>
 # include <curses.h>
+#	define	POINT_VIRGULE 1
+#	define	ETET 2
+#	define	PIPE 3
+#	define	CHEV_GAUCHE 4
+#	define	DCHEV_GAUCHE 5
+#	define	CHEV_DROITE 6
+#	define	DCHEV_DROITE 7
 # undef tab
 
 typedef struct dirent		t_dirent;
@@ -37,13 +44,34 @@ typedef struct	s_env {
 	struct s_env	*next;
 }				t_env;
 
+typedef	struct		s_cmd {
+	char					**av;
+	int						ac;
+	int						is_special;
+	int						caractere;
+	struct s_cmd	*next;
+}									t_cmd;
+
+typedef struct	s_history {
+	char							*line;
+	int								index;
+	struct s_history	*next;
+	struct s_history	*prec;
+
+}								t_history;
+
 typedef struct s_data {
 	int				curs_x;
 	int				curs_y;
 	char			*prompt;
 	int				len_prompt;
 	char			*cmd;
+	char			c;
 	int				index;
+	int				real_len_cmd;
+	t_history	*history;
+	t_history	*history_en_cours;
+	char			*nouveau;
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
@@ -70,7 +98,18 @@ int					my_putchar(int c);
 void				exec_tcap(char *tcap);
 char				*insert_char(char *str, int index, char c);
 char				*delete_char(char *str, int index);
-char				*print_prompt(t_env *env);
+char				*print_prompt(t_env *env, t_data *data);
 void				move_left(t_data *data);
 void				move_right(t_data *data);
+int 				is_special(char car);
+int 				is_quote(char car);
+int 				is_quote_open(char car);
+int 				is_quote_close(char car, char open);
+int					is_quote_end(t_data *data);
+int					ft_isspace2(char car);
+void				prompt_quote(t_data *data);
+t_history		*add_history_elem(t_history *list, t_history *elem);
+t_history		*create_history_elem(char *content);
+
+
 #endif
