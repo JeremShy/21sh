@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/03 14:30:12 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/03 14:38:03 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,13 @@ void	boucle(t_env *env, t_data *data)
 					data->curs_x = data->len_prompt + data->real_len_cmd + 1;
 					if ((data->history_en_cours)->prec)
 						data->history_en_cours = (data->history_en_cours)->prec;
+				}
+			}
+			else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66 && buf[3] == 0)
+			{
+				if (data->c == '\0')
+				{
+					
 				}
 			}
 			else
