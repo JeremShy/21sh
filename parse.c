@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/03 12:25:36 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/03 20:49:35 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int count(char *str)
 	return (0);
 } */
 
-int nb_arg(char *av, char **new_av)
+size_t nb_arg(char *av, char **new_av)
 {
 	size_t	i;
 	size_t	count;
@@ -111,12 +111,14 @@ int	main(int ac , char **av)
 	char		*new_av;
 	char		*str;
 	size_t	i;
+	t_cmd		*list;
 
 	if (ac == 1)
 	{
 		printf("KAKA\n");
 		return (0);
 	}
+	list = NULL;
 	str = av[1];
 	printf("On reçoit : #%s#\n", str);
 	i = 0;
@@ -127,9 +129,9 @@ int	main(int ac , char **av)
 			//return (NULL);
 			return(0);
 		printf("count : %zu\n", count);
-		i = 0;
+		list = add_cmd_elem(list, create_cmd_elem(ft_strsub(str, 0, new_av - str), count));
 		str = new_av;
-		if (str[i])
+		if (str[0])
 			str++;
 	}
 	printf("CA MARCHU\n");

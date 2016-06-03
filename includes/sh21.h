@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/03 14:50:24 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/03 20:50:19 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,6 @@ int					ft_isspace2(char car);
 void				prompt_quote(t_data *data);
 t_history		*add_history_elem(t_history *list, t_history *elem);
 t_history		*create_history_elem(char *content);
-
-
+t_cmd				*create_cmd_elem(char *str, size_t count);
+t_cmd				*add_cmd_elem(t_cmd *list, t_cmd *elem);
 #endif
