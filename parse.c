@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/02 19:04:52 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/03 12:25:36 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int	main(int ac , char **av)
 {
 	size_t	count;
 	char		*new_av;
+	char		*str;
 	size_t	i;
 
 	if (ac == 1)
@@ -116,19 +117,20 @@ int	main(int ac , char **av)
 		printf("KAKA\n");
 		return (0);
 	}
-	printf("On reçoit : #%s#\n", av[1]);
+	str = av[1];
+	printf("On reçoit : #%s#\n", str);
 	i = 0;
-	while (av[1][i])
+	while (str[i])
 	{
-		count = nb_arg(av[1], &new_av);
+		count = nb_arg(str, &new_av);
 		if (count == -1)
 			//return (NULL);
 			return(0);
 		printf("count : %zu\n", count);
 		i = 0;
-		av[1] = new_av;
-		if (av[1][i])
-			av[1]++;
+		str = new_av;
+		if (str[i])
+			str++;
 	}
 	printf("CA MARCHU\n");
 	return (1);

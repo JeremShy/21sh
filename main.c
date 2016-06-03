@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/02 14:51:03 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/03 14:12:46 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ int			main(int ac, char **av, char **env)
 	data.cmd = ft_strdup("");
 	data.index = 0;
 	data.real_len_cmd = 0;
+	data.history = NULL;
+	data.history_en_cours = NULL;
 	boucle(list, &data);
 	return (0);
 }

@@ -29,7 +29,6 @@ int main()
 	int n;
 
 	pipe(tab);
-//	 write(tab[1], "penis", strlen("penis"));
 	printf("%d - %d\n", tab[0], tab[1]);
 	f1 = fork();
 	if (f1 != 0)
@@ -45,7 +44,6 @@ int main()
 			stdline[n] = '\0';
 			write(tab[1], stdline, sizeof(stdline));
 			close(tab[1]);
-			exit(0);
 		}
 		else
 		{
@@ -53,8 +51,8 @@ int main()
 			line[n] = '\0';
 			write(1, line, strlen(line));
 			close(tab[0]);
-			exit(0);
 		}
+		exit(0);
 	}
 	printf("everything was okay.\n");
 	return (0);
