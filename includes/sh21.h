@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/03 14:50:24 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/06 20:02:34 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@
 # include <term.h>
 # include <sys/ioctl.h>
 # include <curses.h>
-#	define	POINT_VIRGULE 1
-#	define	ETET 2
-#	define	PIPE 3
-#	define	CHEV_GAUCHE 4
-#	define	DCHEV_GAUCHE 5
-#	define	CHEV_DROITE 6
-#	define	DCHEV_DROITE 7
+#	define	POINT_VIRGULE ';'
+#	define	ETET 'a'
+#	define	PIPE '['
+#	define	CHEV_GAUCHE '<'
+#	define	DCHEV_GAUCHE 'l'
+#	define	CHEV_DROITE '>'
+#	define	DCHEV_DROITE 'r'
 # undef tab
 
 typedef struct dirent		t_dirent;
@@ -46,8 +46,7 @@ typedef struct	s_env {
 
 typedef	struct		s_cmd {
 	char					**av;
-	int						ac;
-	int						is_special;
+//	int						ac;
 	int						caractere;
 	struct s_cmd	*next;
 }									t_cmd;
@@ -101,7 +100,7 @@ char				*delete_char(char *str, int index);
 char				*print_prompt(t_env *env, t_data *data);
 void				move_left(t_data *data);
 void				move_right(t_data *data);
-int 				is_special(char car);
+int 				is_special(char *str);
 int 				is_quote(char car);
 int 				is_quote_open(char car);
 int 				is_quote_close(char car, char open);
@@ -110,6 +109,8 @@ int					ft_isspace2(char car);
 void				prompt_quote(t_data *data);
 t_history		*add_history_elem(t_history *list, t_history *elem);
 t_history		*create_history_elem(char *content);
-
-
+t_cmd				*create_cmd_elem(char *str, int count);
+t_cmd				*add_cmd_elem(t_cmd *list, t_cmd *elem);
+char*				pos_quote_end(char en_cours, char *str);
+void				print_list(t_cmd *lst);
 #endif

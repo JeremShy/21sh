@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/03 12:25:36 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/06 23:01:57 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ char	*pos_quote_end(char en_cours, char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == en_cours)
+		if (is_quote_close(en_cours, str[i]))
 			return (str + i);
 		i++;
 	}
 	return (NULL);
 }
 
-char	*quote_mgmt(char en_cours, char *str, int taille)
+char	*quote_mgmt(char *str, int taille)
 {
 	char	*ret;
 
@@ -39,39 +39,15 @@ char	*quote_mgmt(char en_cours, char *str, int taille)
 	return(ret);
 }
 
-/*
-int count(char *str)
-{
-	size_t	count;
-	size_t	i;
-
-	i = 0;
-	count = 0;
-	while (av[i] && av[i] != '|' && av[i] != ';')
-	{
-		if (is_quote(av[i]))
-		{
-			suite = pos_quote_end(av[i], av + i + 1)));
-			actuel = ft_strjoinaf12(actuel, quote_mgmt(av[i], av + i + 1, (size_t)(suite - (av + i + 1) + 1)));
-			i = suite - av;
-		}
-		i++;
-	}
-	return (0);
-} */
-
-int nb_arg(char *av, char **new_av)
+int nb_arg(char *av, char **new_av, int *dchev)
 {
 	size_t	i;
-	size_t	count;
+	int			count;
 	char		*suite;
-	char		*between;
-	char		*actuel;
 	size_t	tmp;
 
 	i = 0;
 	count = 0;
-	actuel = ft_strdup("");
 	if (av[0] == '|')
 	{
 		ft_putstr_fd("21sh: parse error near '|'\n", 2);
@@ -87,9 +63,18 @@ int nb_arg(char *av, char **new_av)
 			tmp = i;
 			while (!ft_isspace2(av[i]) && av[i] != '\0')
 			{
-				if (av[i] == '|' || av[i] == ';')
+				if (is_special(av + i))
 				{
-					*new_av = av + i;
+					if (ft_strnstr(av + i, "&&", 2) || ft_strnstr(av + i, "<<", 2) || ft_strnstr(av + i, ">>", 2))
+					{
+						*dchev = 1;
+						*new_av = av + i + 1;
+					}
+					else
+					{
+						*dchev = 0;
+						*new_av = av + i;
+					}
 					return (tmp == i ? count - 1 : count);
 				}
 				if (is_quote_open(av[i]))
@@ -107,31 +92,48 @@ int nb_arg(char *av, char **new_av)
 
 int	main(int ac , char **av)
 {
-	size_t	count;
+	int			count;
 	char		*new_av;
 	char		*str;
 	size_t	i;
+	t_cmd		*list;
+	int			dchev;
 
 	if (ac == 1)
 	{
 		printf("KAKA\n");
 		return (0);
 	}
+	list = NULL;
 	str = av[1];
 	printf("On reçoit : #%s#\n", str);
 	i = 0;
 	while (str[i])
 	{
-		count = nb_arg(str, &new_av);
+		count = nb_arg(str, &new_av, &dchev);
 		if (count == -1)
-			//return (NULL);
 			return(0);
-		printf("count : %zu\n", count);
-		i = 0;
+		list = add_cmd_elem(list, create_cmd_elem(ft_strsub(str, 0, new_av - str + 1), count));
 		str = new_av;
-		if (str[i])
+		if (str[0])
 			str++;
 	}
 	printf("CA MARCHU\n");
+	print_list(list);
+	t_cmd *tmp;
+	while (list)
+	{
+		tmp = list->next;
+		int j = 0;
+		while (list->av[j] != NULL)
+		{
+			printf("j : %d\n", j);
+			free(list->av[j]);
+			j++;
+		}
+		free(list->av);
+		free(list);
+		list = tmp;
+	}
 	return (1);
 }

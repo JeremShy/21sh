@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 12:51:49 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/03 13:07:12 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/03 20:11:59 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_history	*create_history_elem(char *content)
 	elem->index = i;
 	elem->next = NULL;
 	elem->prec = NULL;
+	i++;
 	return (elem);
 }
 
