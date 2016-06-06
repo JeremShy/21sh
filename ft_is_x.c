@@ -12,9 +12,9 @@
 
 #include "sh21.h"
 
-int is_special(char car)
+int is_special(char *str)
 {
-	if (car == '|' || car == '>' || car == '<')
+	if (ft_strnstr(str, ">>", 2) || ft_strnstr(str, "<<", 2) || ft_strnstr(str, "&&", 2) || str[0] == '|' || str[0] == '>' || str[0] == '<' || str[0] == ';')
 		return (1);
 	return (0);
 }

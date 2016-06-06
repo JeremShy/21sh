@@ -19,7 +19,7 @@ char	*pos_quote_end(char en_cours, char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == en_cours)
+		if (is_quote_close(en_cours, str[i]))
 			return (str + i);
 		i++;
 	}
@@ -60,7 +60,7 @@ int count(char *str)
 	return (0);
 } */
 
-size_t nb_arg(char *av, char **new_av)
+size_t nb_arg(char *av, char **new_av, int *dchev)
 {
 	size_t	i;
 	size_t	count;
@@ -87,9 +87,21 @@ size_t nb_arg(char *av, char **new_av)
 			tmp = i;
 			while (!ft_isspace2(av[i]) && av[i] != '\0')
 			{
-				if (av[i] == '|' || av[i] == ';')
+				if (is_special(av + i))
 				{
-					*new_av = av + i;
+					if (ft_strnstr(av + i, "&&", 2) || ft_strnstr(av + i, "<<", 2) || ft_strnstr(av + i, ">>", 2))
+//					if ((av + i)[0] == '|' || (av + i)[0] == '>' || (av + i)[0] == '<' || (av + i)[0] == ';')
+					{
+						// printf("dchev\n");
+						*dchev = 1;
+						*new_av = av + i + 1;
+					}
+					else
+					{
+						*dchev = 0;
+						*new_av = av + i;
+						// printf("no dchev\n");
+					}
 					return (tmp == i ? count - 1 : count);
 				}
 				if (is_quote_open(av[i]))
@@ -112,6 +124,7 @@ int	main(int ac , char **av)
 	char		*str;
 	size_t	i;
 	t_cmd		*list;
+	int			dchev;
 
 	if (ac == 1)
 	{
@@ -124,15 +137,23 @@ int	main(int ac , char **av)
 	i = 0;
 	while (str[i])
 	{
-		count = nb_arg(str, &new_av);
+		count = nb_arg(str, &new_av, &dchev);
 		if (count == -1)
 			//return (NULL);
 			return(0);
-		printf("count : %zu\n", count);
-		list = add_cmd_elem(list, create_cmd_elem(ft_strsub(str, 0, new_av - str), count));
+		//printf("count : %zu\n", count);
+		//printf("new av : %s\n", new_av);
+		// if (ft_strnstr(new_av - 2, "&&", 2) || ft_strnstr(new_av - 2, "<<", 2) || ft_strnstr(new_av - 2, ">>", 2))
+		//if (dchev)
+		//	list = add_cmd_elem(list, create_cmd_elem(ft_strsub(str, 0, new_av - str + 2), count));
+		//else if (str[new_av - str] == '<' || str[new_av - str] == ';' || str[new_av - str] == '|' || str[new_av - str] == '>')
+		//else
+		list = add_cmd_elem(list, create_cmd_elem(ft_strsub(str, 0, new_av - str + 1), count));
 		str = new_av;
+	//	if (str[0] == ' ' || str[0] == '>' || str[0] == '&' || str[0] == '<')
 		if (str[0])
 			str++;
+		// printf("prev str = [%s]\n", str);
 	}
 	printf("CA MARCHU\n");
 	return (1);
