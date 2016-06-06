@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/23 13:44:33 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/02 15:37:00 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/06 19:37:24 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,17 @@ int 	is_quote_open(char car)
 
 int 	is_quote_close(char car, char open)
 {
-	if (open == '\'' && car == '\'')
+	if (car == '\'' && open == '\'')
 		return (1);
-	else if (open == '"' && car == '"')
+	else if (car == '"' && open == '"')
 		return (1);
-	else if (open == '`' && car == '`')
+	else if (car == '`' && open == '`')
 		return (1);
-	else if (open == '(' && car == ')')
+	else if (car == '(' && open == ')')
 		return (1);
-	else if (open == '[' && car == ']')
+	else if (car == '[' && open == ']')
 		return (1);
-	else if (open == '{' && car == '}')
+	else if (car == '{' && open == '}')
 		return (1);
 	return (0);
 }

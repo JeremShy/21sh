@@ -6,7 +6,7 @@
 #    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/06/03 20:50:32 by jcamhi           ###   ########.fr        #
+#    Updated: 2016/06/06 20:47:33 by jcamhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,6 @@ fclean: clean
 re: fclean all
 
 parsing:
-	gcc -I includes parse.c ft_is_x.c list_parse.c lib/libft.a
+	gcc -Wall -Werror -Wextra -g -I includes parse.c ft_is_x.c list_parse.c lib/libft.a
 
 .PHONY : all clean fclean re

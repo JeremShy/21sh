@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 20:12:36 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/03 21:09:19 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/06 21:05:06 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,143 +31,110 @@ int		def_sep(char *str)
 	return (0);
 }
 
-// static int	special_copy(char **dst, char *str)
-// {
-// 	int		i;
-// 	char	*suite;
-
-// 	*dst = ft_strdup("");
-// 	i = 0;
-// 	while (str[i] != '\0')
-// 	{
-// 		if (is_quote_open(str[i]))
-// 		{
-// 			suite = pos_quote_end(str[i], str + i);
-// 			*dst = ft_strjoinaf12(*dst, ft_strsub(str, i + 1, suite - (str + i) - 1));
-// 			i = suite - str + 1;
-// 		}
-// 		else
-// 		{
-// 			*dst = ft_strjoinaf12(*dst, ft_strsub(str, i + 1, 1));
-// 			i++;
-// 		}
-// 	}
-// }
-
 void	join_inside_quote(size_t *i, char *str)
 {
 	size_t	tmp;
 	char	open;
 
 	open = str[*i];
-	while (is_quote_close(str[*i + 1], open) == 0)
+	while (is_quote_close(open, str[*i + 1]) == 0)
 	{
 		str[*i] = str[*i + 1];
 		(*i)++;
 	}
-	// (*i)++;
 	tmp = *i;
-	//printf("CAR EN COURS = [%c]\n", str[*i]);
 	while (str[tmp + 2])
 	{
 		str[tmp] = str[tmp + 2];
-		tmp++; 
+		tmp++;
 	}
 	str[tmp] = '\0';
 	if (*i == 0)
 		return ;
 	(*i)--;
-	//printf("CAR AT THE END = [%c]\n", str[*i]);
 }
 
-char	**split_cmd(char *str, size_t count, int *sep)
+char	**split_cmd(char *str, int count, int *sep)
 {
 	char		**av;
 	size_t		i;
 	size_t		n_av;
 	size_t		tmp;
-	char		*suite;
 	int			quote;
-	size_t		tmp2;
 	size_t 		start;
 
-	av = malloc(count * sizeof(char*));
+	printf("count : %d\n", count);
+	av = malloc((count + 1) * sizeof(char*));
+	if (!av)
+	{
+		printf("Le malloc a pas marchu\n");
+		exit(0);
+	}
+	printf("on recoit : %s\n", str);
 	i = 0;
 	n_av = 0;
 	while (str[i])
 	{
 		while (ft_isspace2(str[i]))
 			i++;
-		printf("JE SUIS ICI /// i = %zu /// str[i] = [%c]\n", i, str[i]);
 		if (str[i] != '\0')
 		{
 			tmp = i;
-//			quote = 0;
 			start = i;
-			printf("CARACTERE EN COURS : avant = [%c] /// actuel = [%c] /// apres = [%c]\n", str[i - 1], str[i], str[i + 1]);
 			while (!ft_isspace2(str[i]) && str[i] != '\0')
 			{
 				if (is_special(str + i) == 1)
 				{
+					av[n_av] = ft_strsub(str, start, i - start);
+					n_av++;
 					*sep = def_sep(str + i);
-					av[n_av] = NULL;
+					av[count] = NULL;
 					return (av);
 				}
-//				printf("KAKA\n");
-				// printf("1 str[i] : %c\n", str[i]);
 				if (is_quote_open(str[i]))
 				{
-					//printf("A KE KOUKOU JE SUIS ICI\n");
 					join_inside_quote(&i, str);
-					//printf("str = [%s]\n", str);
-					// if (quote != 0)
-					// 	free(av[n_av]);
-					//av[n_av] = ft_strdup(str);
-					// suite = pos_quote_end(str[i], str + i + 1);
-					// i = suite - str + 1;
 					quote = 1;
-					printf("CARACTERE EN COURS : avant = [%c] /// actuel = [%c] /// apres = [%c]\n", str[i - 1], str[i], str[i + 1]);
 				}
-				// printf("2 str[i] : %c\n", str[i]);
-				// if (!is_special(str + i))
-				// 	i++;
-				// printf("4 str[i] : %c\n", str[i]);
-				printf("i = %zu /// str[i] = [%c]\n", i, str[i]);
 				i++;
 			}
-			if (ft_isspace2(str[i]) || str[i] == '\0' || is_special(str + i))
-			{
+			if (ft_isspace2(str[i]) || str[i] == '\0')
+ 			{
 				av[n_av] = ft_strsub(str, start, i - start);
-				printf("RESULTAT DU SUB : [%s]\n", av[n_av]);
 				n_av++;
-				// printf("3 str[i] : %c\n", str[i]);
-				// if (!quote)
-				// {
-				// 	av[n_av] = (char*)malloc((i - tmp + 1) * sizeof(char));
-				// 	ft_strncpy(av[n_av], str + tmp, i - tmp);
-				// }
-				// else
-				// {
-				// 	av[n_av] = (char*)malloc((i - tmp - 1) * sizeof(char));
-				// 	ft_strncpy(av[n_av], str + tmp + 1, i - tmp - 2);
-				// }
-				// special_copy(&(av[n_av]), str + tmp, i - tmp - 2);
-				
-				// if (!quote)
-				// {
-				// 	av[n_av] = (char*)malloc((i - tmp + 1) * sizeof(char));
-				// 	ft_strncpy(av[n_av], str + tmp, i - tmp);		
-				// }
-				//printf("av[%zu] = %s\n", n_av, av[n_av]);
 			}
 		}
 	}
-	av[n_av] = NULL;
+	av[count] = NULL;
 	*sep = 0;
 	return (av);
 }
 
-t_cmd	*create_cmd_elem(char *str, size_t count)
+void		print_list(t_cmd *lst)
+{
+	size_t	i;
+	char		**av;
+	size_t	j;
+
+	i = 0;
+	while (lst != NULL)
+	{
+		printf("list number : %zu\n", i);
+		av = lst->av;
+		j = 0;
+		while (av[j])
+		{
+			printf("av[%zu] : #%s#\n", j, av[j]);
+			j++;
+		}
+		printf("sep : %c\n", lst->caractere);
+		i++;
+		lst = lst->next;
+		printf("\n");
+	}
+}
+
+t_cmd	*create_cmd_elem(char *str, int count)
 {
 	t_cmd		*elem;
 	int			sep;
@@ -184,8 +151,13 @@ t_cmd	*create_cmd_elem(char *str, size_t count)
 
 t_cmd *add_cmd_elem(t_cmd *list, t_cmd *elem)
 {
+	t_cmd *tmp;
+
+	tmp = list;
 	if (list == NULL)
 		return (elem);
+	while (list->next != NULL)
+		list = list->next;
 	list->next = elem;
-	return (elem);
+	return (tmp);
 }
