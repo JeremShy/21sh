@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/06 20:02:47 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/06 23:01:57 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,10 @@ int nb_arg(char *av, char **new_av, int *dchev)
 	size_t	i;
 	int			count;
 	char		*suite;
-	char		*actuel;
 	size_t	tmp;
 
 	i = 0;
 	count = 0;
-	actuel = ft_strdup("");
 	if (av[0] == '|')
 	{
 		ft_putstr_fd("21sh: parse error near '|'\n", 2);
@@ -122,5 +120,20 @@ int	main(int ac , char **av)
 	}
 	printf("CA MARCHU\n");
 	print_list(list);
+	t_cmd *tmp;
+	while (list)
+	{
+		tmp = list->next;
+		int j = 0;
+		while (list->av[j] != NULL)
+		{
+			printf("j : %d\n", j);
+			free(list->av[j]);
+			j++;
+		}
+		free(list->av);
+		free(list);
+		list = tmp;
+	}
 	return (1);
 }

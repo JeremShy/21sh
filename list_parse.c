@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 20:12:36 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/06 21:06:10 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/06 23:02:20 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,7 @@ char	**split_cmd(char *str, int count, int *sep)
 	printf("count : %d\n", count);
 	av = (char**)malloc((count + 1) * sizeof(char*));
 	if (!av)
-	{
-		printf("Le malloc a pas marchu\n");
 		exit(0);
-	}
 	printf("on recoit : %s\n", str);
 	i = 0;
 	n_av = 0;
@@ -93,7 +90,12 @@ char	**split_cmd(char *str, int count, int *sep)
 				}
 				if (is_quote_open(str[i]))
 				{
+					printf("avant : %zu\n", i);
 					join_inside_quote(&i, str);
+					printf("apres : %zu /// chaine : =%s=\n", i, str);
+					if (i == tmp)
+						i--;
+//					if (isspace(str[i + 1]) || str[i + 1] == '\0')
 					quote = 1;
 				}
 				i++;
@@ -146,6 +148,7 @@ t_cmd	*create_cmd_elem(char *str, int count)
 	elem->next = NULL;
 	printf("sep : %c\n", (char)sep);
 	elem->caractere = sep;
+	free(str);
 	return (elem);
 }
 
