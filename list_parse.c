@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 20:12:36 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/06 21:05:06 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/06 21:06:10 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	**split_cmd(char *str, int count, int *sep)
 	size_t 		start;
 
 	printf("count : %d\n", count);
-	av = malloc((count + 1) * sizeof(char*));
+	av = (char**)malloc((count + 1) * sizeof(char*));
 	if (!av)
 	{
 		printf("Le malloc a pas marchu\n");
