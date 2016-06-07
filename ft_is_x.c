@@ -6,14 +6,16 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/23 13:44:33 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/06 19:37:24 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/07 16:46:42 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh21.h"
 
-int is_special(char *str)
+int is_special(char *str, int quote)
 {
+	if (quote == 1)
+		str++;
 	if (ft_strnstr(str, ">>", 2) || ft_strnstr(str, "<<", 2) || ft_strnstr(str, "&&", 2) || str[0] == '|' || str[0] == '>' || str[0] == '<' || str[0] == ';')
 		return (1);
 	return (0);
@@ -66,7 +68,7 @@ int		is_quote_end(t_data *data)
 			if (is_quote_open(data->cmd[i]))
 				data->c = data->cmd[i];
 		}
-		else if (is_quote_close(data->cmd[i], data->c))
+		else if (is_quote_close(data->c, data->cmd[i]))
 			data->c = '\0';
 		i++;
 	}

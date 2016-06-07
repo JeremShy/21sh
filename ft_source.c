@@ -6,7 +6,7 @@
 /*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/12 14:53:20 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/06/02 18:29:07 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/07 15:34:36 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ int	ft_source(char **scmd, t_env **env)
 	if (fd == -1)
 		return (0);
 	while (get_next_line(fd, &cmd))
-		handle_line(cmd, env);
+		exec_cmd(cmd, env);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/07 13:09:12 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/07 16:48:01 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char				*delete_char(char *str, int index);
 char				*print_prompt(t_env *env, t_data *data);
 void				move_left(t_data *data);
 void				move_right(t_data *data);
-int 				is_special(char *str);
+int 				is_special(char *str, int quote);
 int 				is_quote(char car);
 int 				is_quote_open(char car);
 int 				is_quote_close(char car, char open);
@@ -115,4 +115,5 @@ t_cmd				*create_cmd_elem(char *str, int count);
 t_cmd				*add_cmd_elem(t_cmd *list, t_cmd *elem);
 char*				pos_quote_end(char en_cours, char *str);
 void				print_list(t_cmd *lst);
+t_cmd				*parse(char	*str);
 #endif

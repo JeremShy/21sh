@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/03 20:25:18 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/07 15:38:38 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,24 @@ char	*print_prompt(t_env *env, t_data *data)
 
 void		exec_cmd(char *cmd, t_env **env)
 {
-	char **scmd;
+	t_cmd *command;
 
-	scmd = ft_special_split(cmd);
-	free(cmd);
-	if (scmd[0])
-	{
-		if (is_builtin(scmd[0]))
-			exec_builtin(scmd, env);
-		else
-			exec_file(scmd, *env);
-	}
+	env = NULL;
+	command = parse(cmd);
+	print_list(command);
 }
+// char **scmd;
+//
+// scmd = ft_special_split(cmd);
+// free(cmd);
+// if (scmd[0])
+// {
+// 	if (is_builtin(scmd[0]))
+// 		exec_builtin(scmd, env);
+// 	else
+// 		exec_file(scmd, *env);
+// }
+
 /*
 static void	exec_mshrc(t_env **env)
 {
@@ -82,27 +88,27 @@ static void	exec_mshrc(t_env **env)
 	free(scmd[2]);
 	free(scmd);
 }*/
-
-void		handle_line(char *line, t_env **env)
-{
-	char	**cmd_tab;
-	int		i;
-
-	if (line)
-	{
-		cmd_tab = ft_strsplit(line, ';');
-		i = 0;
-		while (cmd_tab[i])
-		{
-			exec_cmd(cmd_tab[i], env);
-			i++;
-		}
-		free(cmd_tab);
-		free(line);
-	}
-	else
-		ft_putchar('\n');
-}
+//
+// void		handle_line(char *line, t_env **env)
+// {
+// 	char	**cmd_tab;
+// 	int		i;
+//
+// 	if (line)
+// 	{
+// 		cmd_tab = ft_strsplit(line, ';');
+// 		i = 0;
+// 		while (cmd_tab[i])
+// 		{
+// 			exec_cmd(cmd_tab[i], env);
+// 			i++;
+// 		}
+// 		free(cmd_tab);
+// 		free(line);
+// 	}
+// 	else
+// 		ft_putchar('\n');
+// }
 
 int			main(int ac, char **av, char **env)
 {

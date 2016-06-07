@@ -6,7 +6,7 @@
 #    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/06/06 22:53:52 by jcamhi           ###   ########.fr        #
+#    Updated: 2016/06/07 15:32:50 by jcamhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ SRC_NAME = main.c \
 		 line.c \
 		 ft_is_x.c \
 		 history.c\
-		 list_parse.c
+		 list_parse.c \
+		 parse.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes
@@ -71,8 +72,5 @@ fclean: clean
 #	@rmdir lib 2> /dev/null || true
 
 re: fclean all
-
-parsing:
-	gcc -Wall -Werror -Wextra -g -I includes parse.c ft_is_x.c list_parse.c lib/libft.a
 
 .PHONY : all clean fclean re

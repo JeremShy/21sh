@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 20:12:36 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/06 23:36:18 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/07 16:59:15 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	join_inside_quote(size_t *i, char *str)
 	char	open;
 
 	open = str[*i];
-	while (is_quote_close(open, str[*i + 1]) == 0)
+	// printf("open : %c\n", open);
+	while (is_quote_close(open, str[*i + 1]) == 0 && str[*i + 1])
 	{
 		str[*i] = str[*i + 1];
 		(*i)++;
@@ -49,10 +50,25 @@ void	join_inside_quote(size_t *i, char *str)
 		tmp++;
 	}
 	str[tmp] = '\0';
-	if (*i == 0)
+	// printf("str : =%s=\n", str);
+	if (*i == 0 || is_quote_open(str[0]))
 		return ;
 	(*i)--;
 }
+
+// void replace_backslash(char *str, size_t *i)
+// {
+// 	size_t tmp;
+//
+// 	if (!(str[i] == '\\'))
+// 		return ;
+// 	tmp = *i;
+// 	while (str[tmp])
+// 	{
+// 		str[tmp] = str[tmp + 1];
+// 		tmp++;
+// 	}
+// }
 
 char	**split_cmd(char *str, int count, int *sep)
 {
@@ -62,12 +78,13 @@ char	**split_cmd(char *str, int count, int *sep)
 	size_t		tmp;
 	int			quote;
 	size_t 		start;
+	// int			backslash;
 
-	printf("count : %d\n", count);
+	// printf("count : %d\n", count);
 	av = (char**)malloc((count + 1) * sizeof(char*));
 	if (!av)
 		exit(0);
-	printf("on recoit : %s\n", str);
+	// printf("on recoit : %s\n", str);
 	i = 0;
 	n_av = 0;
 	while (str[i])
@@ -80,7 +97,25 @@ char	**split_cmd(char *str, int count, int *sep)
 			start = i;
 			while (!ft_isspace2(str[i]) && str[i] != '\0')
 			{
-				if (is_special(str + i) == 1)
+				// replace_backslash(str, &i);
+				// if (str[i] == '\\')
+				// 	backslash = 1;
+				quote = 0;
+				if (is_quote_open(str[i]))
+				{
+					// printf("avant : %zu\n", i);
+					join_inside_quote(&i, str);
+					// printf("apres : %zu\n", i);
+					//if (!str[i])
+					//break ;
+					if (i == tmp)
+						i--;
+					// if (isspace(str[i + 1]) || str[i + 1] == '\0')
+					quote = 1;
+				}
+				// if (i + 1 == tmp)
+				// 	i++;
+				if (is_special(str + i, quote) == 1)
 				{
 					av[n_av] = ft_strsub(str, start, i - start);
 					n_av++;
@@ -88,16 +123,8 @@ char	**split_cmd(char *str, int count, int *sep)
 					av[count] = NULL;
 					return (av);
 				}
-				if (is_quote_open(str[i]))
-				{
-					printf("avant : %zu\n", i);
-					join_inside_quote(&i, str);
-					printf("apres : %zu /// chaine : =%s=\n", i, str);
-					if (i == tmp)
-						i--;
-//					if (isspace(str[i + 1]) || str[i + 1] == '\0')
-					quote = 1;
-				}
+				// if (i == tmp)
+				// 	i--;
 				i++;
 			}
 			if (ft_isspace2(str[i]) || str[i] == '\0')
@@ -143,10 +170,10 @@ t_cmd	*create_cmd_elem(char *str, int count)
 
 	sep = 0;
 	elem = (t_cmd*)malloc(sizeof(t_cmd));
-	printf("str: %s\n", str);
+	// printf("str: %s\n", str);
 	elem->av = split_cmd(str, count, &sep);
 	elem->next = NULL;
-	printf("sep : %c\n", (char)sep);
+	// printf("sep : %c\n", (char)sep);
 	elem->caractere = sep;
 	free(str);
 	return (elem);

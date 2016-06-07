@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/06 23:01:57 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/07 15:30:18 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,23 +90,15 @@ int nb_arg(char *av, char **new_av, int *dchev)
 	return (count);
 }
 
-int	main(int ac , char **av)
+t_cmd		*parse(char	*str)
 {
 	int			count;
 	char		*new_av;
-	char		*str;
 	size_t	i;
 	t_cmd		*list;
 	int			dchev;
 
-	if (ac == 1)
-	{
-		printf("KAKA\n");
-		return (0);
-	}
 	list = NULL;
-	str = av[1];
-	printf("On reçoit : #%s#\n", str);
 	i = 0;
 	while (str[i])
 	{
@@ -118,22 +110,21 @@ int	main(int ac , char **av)
 		if (str[0])
 			str++;
 	}
-	printf("CA MARCHU\n");
-	print_list(list);
-	t_cmd *tmp;
-	while (list)
-	{
-		tmp = list->next;
-		int j = 0;
-		while (list->av[j] != NULL)
-		{
-			printf("j : %d\n", j);
-			free(list->av[j]);
-			j++;
-		}
-		free(list->av);
-		free(list);
-		list = tmp;
-	}
-	return (1);
+	return (list);
 }
+//
+// t_cmd *tmp;
+// while (list)
+// {
+// 	tmp = list->next;
+// 	int j = 0;
+// 	while (list->av[j] != NULL)
+// 	{
+// 		printf("j : %d\n", j);
+// 		free(list->av[j]);
+// 		j++;
+// 	}
+// 	free(list->av);
+// 	free(list);
+// 	list = tmp;
+// }
