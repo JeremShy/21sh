@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/07 16:48:01 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/07 17:17:35 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@
 # include <term.h>
 # include <sys/ioctl.h>
 # include <curses.h>
+# define	NONE (char)0
 #	define	POINT_VIRGULE ';'
-#	define	ETET 'a'
+#	define	ETET (char)1
 #	define	PIPE '['
 #	define	CHEV_GAUCHE '<'
 #	define	DCHEV_GAUCHE 'l'

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/07 15:38:38 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/07 17:19:58 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,19 @@ void		exec_cmd(char *cmd, t_env **env)
 {
 	t_cmd *command;
 
-	env = NULL;
 	command = parse(cmd);
-	print_list(command);
+	// print_list(command);
+	while (command)
+	{
+		if (command->caractere == NONE || command->caractere == POINT_VIRGULE || command->caractere == ETET)
+		{
+			if (is_builtin(command->av[0]))
+				exec_builtin(command->av, env);
+			else
+				exec_file(command->av, *env);
+		}
+		command = command->next;
+	}
 }
 // char **scmd;
 //
