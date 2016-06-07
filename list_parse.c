@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 20:12:36 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/07 16:59:15 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/07 17:42:23 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void		print_list(t_cmd *lst)
 			printf("av[%zu] : #%s#\n", j, av[j]);
 			j++;
 		}
-		printf("sep : %c\n", lst->caractere);
+		printf("sep : %c\n", lst->sep);
 		i++;
 		lst = lst->next;
 		printf("\n");
@@ -174,7 +174,7 @@ t_cmd	*create_cmd_elem(char *str, int count)
 	elem->av = split_cmd(str, count, &sep);
 	elem->next = NULL;
 	// printf("sep : %c\n", (char)sep);
-	elem->caractere = sep;
+	elem->sep= sep;
 	free(str);
 	return (elem);
 }

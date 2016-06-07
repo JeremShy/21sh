@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/07 15:30:18 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/07 17:31:24 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int nb_arg(char *av, char **new_av, int *dchev)
 			tmp = i;
 			while (!ft_isspace2(av[i]) && av[i] != '\0')
 			{
-				if (is_special(av + i))
+				if (is_special(av + i, 0))
 				{
 					if (ft_strnstr(av + i, "&&", 2) || ft_strnstr(av + i, "<<", 2) || ft_strnstr(av + i, ">>", 2))
 					{

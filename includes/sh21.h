@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/07 17:17:35 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/07 21:01:02 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <term.h>
 # include <sys/ioctl.h>
 # include <curses.h>
-# define	NONE (char)0
+#	define	NONE (char)0
 #	define	POINT_VIRGULE ';'
 #	define	ETET (char)1
 #	define	PIPE '['
@@ -34,6 +34,14 @@
 #	define	DCHEV_GAUCHE 'l'
 #	define	CHEV_DROITE '>'
 #	define	DCHEV_DROITE 'r'
+#	define	ERR_OUT (char)2 // 2>&1
+#	define	OUT_OUT (char)3 // >&1
+#	define	OUT_ERR (char)4 // >&2
+#	define	OUT_ERR_L (char)5 // 1>&2
+#	define	ERR_ERR (char)6 // 2>&2
+#	define	OUT_OUT_L (char)7 // 1>&1
+
+
 # undef tab
 
 typedef struct dirent		t_dirent;
@@ -48,10 +56,11 @@ typedef struct	s_env {
 typedef	struct		s_cmd {
 	char					**av;
 //	int						ac;
-	int						caractere;
+	int						sep;
 	struct s_cmd	*next;
 	char					*cmd_path;
 	int						is_valid;
+	int						fd_out;
 }									t_cmd;
 
 typedef struct	s_history {

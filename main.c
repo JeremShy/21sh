@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/07 17:19:58 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/07 19:12:10 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,27 @@ char	*print_prompt(t_env *env, t_data *data)
 void		exec_cmd(char *cmd, t_env **env)
 {
 	t_cmd *command;
+	t_cmd	*next;
 
 	command = parse(cmd);
 	// print_list(command);
 	while (command)
 	{
-		if (command->caractere == NONE || command->caractere == POINT_VIRGULE || command->caractere == ETET)
+		if ((command->sep == NONE || command->sep == POINT_VIRGULE || command->sep == ETET) && command->av[0])
 		{
 			if (is_builtin(command->av[0]))
 				exec_builtin(command->av, env);
 			else
 				exec_file(command->av, *env);
+		}
+		if (command->sep == CHEV_DROITE)
+		{
+			if (command->next == NULL)
+			{
+				ft_putstr_fd("21sh: parse error near '\\n'\n", 2);
+				return ;
+			}
+			next = command->next;
 		}
 		command = command->next;
 	}

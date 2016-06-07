@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/23 13:44:33 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/07 16:46:42 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/07 21:05:38 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,16 @@ int is_special(char *str, int quote)
 {
 	if (quote == 1)
 		str++;
-	if (ft_strnstr(str, ">>", 2) || ft_strnstr(str, "<<", 2) || ft_strnstr(str, "&&", 2) || str[0] == '|' || str[0] == '>' || str[0] == '<' || str[0] == ';')
+	if (ft_strnstr(str, ">>", 2) || ft_strnstr(str, "<<", 2) || ft_strnstr(str, "&&", 2) || ft_strnstr(str, "2>", 2) || ft_strnstr(str, "2>>", 3) || str[0] == '|' || str[0] == '>' || str[0] == '<' || str[0] == ';')
+		return (1);
+	return (0);
+}
+
+int	is_aggr(char *str, int quote)
+{
+	if (quote == 1)
+		str++;
+	if (ft_strnstr(str, "2>&1", 4) || ft_strnstr(str, "1>&2", 4) || ft_strnstr(str, ">&1", 3) || ft_strnstr(str, ">&2", 3) || ft_strnstr(str, "2>&2", 4) || ft_strnstr(str, "1>&1", 4))
 		return (1);
 	return (0);
 }

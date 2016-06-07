@@ -1,0 +1,32 @@
+OH MON DIEU C'EST TOUT DOUX
+
+-	Fermer stdout et stderr (>&-, 2>&-, 1>&-).
+-	ls > ""
+-	ls a b c e 2>&1 f g h i-> ls a b c f g h i > e
+-	historique mulitiligne
+-	depassement taille terminal
+-	BNF ?
+
+{
+	commande -> {
+		nom du programme
+		arguments
+	} (av)
+
+	redirections -> {
+		> >> 2> 2>>
+		aggregation fd
+		}
+}
+
+ls 2> truc 2>&1 penis
+
+{
+	av;
+	file_out; 1>&1
+	file_in;
+	file_err; 2>&1
+	fd_out; 1
+	fd_in; 0
+	fd_err; open(truc) - 1
+}
