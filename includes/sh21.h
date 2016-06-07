@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/06 20:02:34 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/07 13:09:12 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef	struct		s_cmd {
 //	int						ac;
 	int						caractere;
 	struct s_cmd	*next;
+	char					*cmd_path;
+	int						is_valid;
 }									t_cmd;
 
 typedef struct	s_history {
