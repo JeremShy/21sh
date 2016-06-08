@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/07 17:31:24 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/08 18:21:02 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,15 @@ int nb_arg(char *av, char **new_av, int *dchev)
 	{
 		while (ft_isspace2(av[i]))
 			i++;
-		if (!ft_isspace2(av[i]) && av[i] != '\0')
+		if(is_aggr(&i, str))
+		{
+			printf("IT'S ALIVE\n");
+		}
+		else if (is_redir(*i, str))
+		{
+			printf("TYPICAL PENIS\n");
+		}
+		else if (!ft_isspace2(av[i]) && av[i] != '\0')
 		{
 			count++;
 			tmp = i;
