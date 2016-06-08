@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/08 22:47:42 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/08 23:54:23 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,10 @@ typedef	struct		s_cmd {
 	struct s_cmd	*next;
 	char					*cmd_path;
 	int						is_valid;
-	int						fd_out;
-}									t_cmd;
+	int						*fd_out;
+	int						*fd_err;
+	int						*fd_in;
+}								t_cmd;
 
 typedef struct	s_history {
 	char							*line;
@@ -131,5 +133,6 @@ t_cmd				*parse(char	*str);
 void				join_inside_quote(size_t *i, char *str);
 int					is_aggr(size_t *i, char *str);
 int					is_redir(size_t *i, char *str);
-char				*skip_quotes(char *str, size_t i);
+char				*skip_quotes(char *str, size_t *i);
+int					is_sep(size_t *i, char *str);
 #endif
