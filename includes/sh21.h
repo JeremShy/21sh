@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/07 21:01:02 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/08 22:47:42 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@
 #	define	CHEV_GAUCHE '<'
 #	define	DCHEV_GAUCHE 'l'
 #	define	CHEV_DROITE '>'
+# define	ERR_SIMPLE 8 // 2>
 #	define	DCHEV_DROITE 'r'
+#	define	ERR_LONG
 #	define	ERR_OUT (char)2 // 2>&1
 #	define	OUT_OUT (char)3 // >&1
 #	define	OUT_ERR (char)4 // >&2
@@ -126,4 +128,8 @@ t_cmd				*add_cmd_elem(t_cmd *list, t_cmd *elem);
 char*				pos_quote_end(char en_cours, char *str);
 void				print_list(t_cmd *lst);
 t_cmd				*parse(char	*str);
+void				join_inside_quote(size_t *i, char *str);
+int					is_aggr(size_t *i, char *str);
+int					is_redir(size_t *i, char *str);
+char				*skip_quotes(char *str, size_t i);
 #endif

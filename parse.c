@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/08 18:21:02 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/08 22:46:12 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,17 @@ t_cmd		*parse(char	*str)
 			str++;
 	}
 	return (list);
+}
+
+int main(int ac, char **av)
+{
+	if (ac == 1)
+	{
+		printf("KAKA\n");
+		return (0);
+	}
+	t_cmd *cmd = parse(av[1]);
+	print_list(cmd);
 }
 //
 // t_cmd *tmp;
