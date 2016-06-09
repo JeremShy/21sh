@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/06 20:02:34 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/09 19:47:00 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,24 @@
 # include <term.h>
 # include <sys/ioctl.h>
 # include <curses.h>
+#	define	NONE (char)0
 #	define	POINT_VIRGULE ';'
-#	define	ETET 'a'
+#	define	ETET (char)1
 #	define	PIPE '['
 #	define	CHEV_GAUCHE '<'
 #	define	DCHEV_GAUCHE 'l'
 #	define	CHEV_DROITE '>'
+# define	ERR_SIMPLE 8 // 2>
 #	define	DCHEV_DROITE 'r'
+#	define	ERR_LONG
+#	define	ERR_OUT (char)2 // 2>&1
+#	define	OUT_OUT (char)3 // >&1
+#	define	OUT_ERR (char)4 // >&2
+#	define	OUT_ERR_L (char)5 // 1>&2
+#	define	ERR_ERR (char)6 // 2>&2
+#	define	OUT_OUT_L (char)7 // 1>&1
+
+
 # undef tab
 
 typedef struct dirent		t_dirent;
@@ -44,12 +55,23 @@ typedef struct	s_env {
 	struct s_env	*next;
 }				t_env;
 
+typedef struct		s_fd {
+	int					fd;
+	struct s_fd	*next;
+}								t_fd;
+
 typedef	struct		s_cmd {
 	char					**av;
 //	int						ac;
-	int						caractere;
+	int						sep;
 	struct s_cmd	*next;
-}									t_cmd;
+	char					*cmd_path;
+	int						is_valid;
+	t_fd					*fd_in;		//0
+	t_fd					*fd_out;	//1
+	t_fd					*fd_err;	//2
+	int						p_error;
+}								t_cmd;
 
 typedef struct	s_history {
 	char							*line;
@@ -100,7 +122,7 @@ char				*delete_char(char *str, int index);
 char				*print_prompt(t_env *env, t_data *data);
 void				move_left(t_data *data);
 void				move_right(t_data *data);
-int 				is_special(char *str);
+int 				is_special(char *str, int quote);
 int 				is_quote(char car);
 int 				is_quote_open(char car);
 int 				is_quote_close(char car, char open);
@@ -113,4 +135,13 @@ t_cmd				*create_cmd_elem(char *str, int count);
 t_cmd				*add_cmd_elem(t_cmd *list, t_cmd *elem);
 char*				pos_quote_end(char en_cours, char *str);
 void				print_list(t_cmd *lst);
+t_cmd				*parse(char	*str);
+void				join_inside_quote(size_t *i, char *str);
+int					is_aggr(size_t *i, char *str, int jump);
+char				*is_redir(size_t *i, char *str, int jump, t_cmd *cmd);
+char				*skip_quotes(char *str, size_t *i, t_cmd *cmd);
+int					is_sep(size_t *i, char *str, int jump);
+t_fd				*add_fd_elem(t_fd *list, t_fd *elem);
+t_fd				*create_fd(int fd);
+void				split_cmd(int count, char *str, t_cmd *cmd);
 #endif

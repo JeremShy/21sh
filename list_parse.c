@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 20:12:36 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/06 23:02:20 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/09 19:55:00 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	join_inside_quote(size_t *i, char *str)
 	char	open;
 
 	open = str[*i];
-	while (is_quote_close(open, str[*i + 1]) == 0)
+	// printf("open : %c\n", open);
+	while (is_quote_close(open, str[*i + 1]) == 0 && str[*i + 1])
 	{
 		str[*i] = str[*i + 1];
 		(*i)++;
@@ -49,68 +50,26 @@ void	join_inside_quote(size_t *i, char *str)
 		tmp++;
 	}
 	str[tmp] = '\0';
-	if (*i == 0)
+	// printf("str : =%s=\n", str);
+	if (*i == 0 || is_quote_open(str[0]))
 		return ;
 	(*i)--;
 }
 
-char	**split_cmd(char *str, int count, int *sep)
-{
-	char		**av;
-	size_t		i;
-	size_t		n_av;
-	size_t		tmp;
-	int			quote;
-	size_t 		start;
+// void replace_backslash(char *str, size_t *i)
+// {
+// 	size_t tmp;
+//
+// 	if (!(str[i] == '\\'))
+// 		return ;
+// 	tmp = *i;
+// 	while (str[tmp])
+// 	{
+// 		str[tmp] = str[tmp + 1];
+// 		tmp++;
+// 	}
+// }
 
-	printf("count : %d\n", count);
-	av = (char**)malloc((count + 1) * sizeof(char*));
-	if (!av)
-		exit(0);
-	printf("on recoit : %s\n", str);
-	i = 0;
-	n_av = 0;
-	while (str[i])
-	{
-		while (ft_isspace2(str[i]))
-			i++;
-		if (str[i] != '\0')
-		{
-			tmp = i;
-			start = i;
-			while (!ft_isspace2(str[i]) && str[i] != '\0')
-			{
-				if (is_special(str + i) == 1)
-				{
-					av[n_av] = ft_strsub(str, start, i - start);
-					n_av++;
-					*sep = def_sep(str + i);
-					av[count] = NULL;
-					return (av);
-				}
-				if (is_quote_open(str[i]))
-				{
-					printf("avant : %zu\n", i);
-					join_inside_quote(&i, str);
-					printf("apres : %zu /// chaine : =%s=\n", i, str);
-					if (i == tmp)
-						i--;
-//					if (isspace(str[i + 1]) || str[i + 1] == '\0')
-					quote = 1;
-				}
-				i++;
-			}
-			if (ft_isspace2(str[i]) || str[i] == '\0')
- 			{
-				av[n_av] = ft_strsub(str, start, i - start);
-				n_av++;
-			}
-		}
-	}
-	av[count] = NULL;
-	*sep = 0;
-	return (av);
-}
 
 void		print_list(t_cmd *lst)
 {
@@ -129,10 +88,49 @@ void		print_list(t_cmd *lst)
 			printf("av[%zu] : #%s#\n", j, av[j]);
 			j++;
 		}
-		printf("sep : %c\n", lst->caractere);
+		printf("sep : %c\n", lst->sep);
 		i++;
 		lst = lst->next;
 		printf("\n");
+	}
+}
+void		split_cmd(int count, char *str, t_cmd *cmd)
+{
+	size_t 	tmp_i;
+	char		*tmp;
+	size_t	i;
+	//char 		*sub_ret;
+
+	i = 0;
+	while (str[i])
+	{
+		while (ft_isspace2(str[i]))
+			i++;
+		tmp_i = i;
+		if(is_aggr(&i, str, 1))
+		{
+			printf("IT'S ALIVE\n");
+			// printf("i = %zu (current char = [%c])\n", *i, str[*i]);
+		}
+		else if (is_redir(&i, str, 1, cmd))
+		{
+			printf("TYPICAL PENIS\n");
+		}
+		else if (is_sep(&i, str, 1))
+		{
+			printf("RIP ORIGINALITE\n");
+			// (*i)++;
+			return ;
+		}
+		else if ((tmp = skip_quotes(str, &i, cmd)) != NULL)
+		{
+			printf("J'AIME LE CACA\n");
+			printf("str = [%c] with i = %zu\n", str[i], i);
+			if (tmp_i != i )
+			{
+				count++;
+			}
+		}
 	}
 }
 
@@ -143,11 +141,11 @@ t_cmd	*create_cmd_elem(char *str, int count)
 
 	sep = 0;
 	elem = (t_cmd*)malloc(sizeof(t_cmd));
-	printf("str: %s\n", str);
-	elem->av = split_cmd(str, count, &sep);
+	// printf("str: %s\n", str);
+	split_cmd(count, str, elem);
 	elem->next = NULL;
-	printf("sep : %c\n", (char)sep);
-	elem->caractere = sep;
+	// printf("sep : %c\n", (char)sep);
+	elem->sep= sep;
 	free(str);
 	return (elem);
 }

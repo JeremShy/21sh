@@ -1,0 +1,15 @@
+programme  a b c 2>&1 > /dev/null
+
+stderr > stdout
+stdout > /dev/null
+
+programme >/dev/null 2>&1
+
+stdout > /dev/null
+stderr > stdout
+
+ls wefwfw 2>&1 2>&2 2>&2
+
+stdin : -1
+stdout : -1
+stderr : 1 - 1 - 1 - 1
