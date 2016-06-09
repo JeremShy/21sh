@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/09 17:57:36 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/09 19:59:09 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*quote_mgmt(char *str, int taille)
 	return(ret);
 }
 
-int nb_arg(size_t *i, char *str)
+int nb_arg(size_t *i, char *str, t_cmd *cmd)
 {
 	int			count;
 	size_t 	tmp_i;
@@ -62,7 +62,7 @@ int nb_arg(size_t *i, char *str)
 			printf("IT'S ALIVE\n");
 			// printf("i = %zu (current char = [%c])\n", *i, str[*i]);
 		}
-		else if (is_redir(i, str, 1))
+		else if (is_redir(i, str, 1, cmd))
 		{
 			printf("TYPICAL PENIS\n");
 		}
@@ -72,48 +72,20 @@ int nb_arg(size_t *i, char *str)
 			// (*i)++;
 			return (count);
 		}
-		else if ((tmp = skip_quotes(str, i)) != NULL)
+		else if ((tmp = skip_quotes(str, i, cmd)) != NULL)
 		{
 			printf("J'AIME LE CACA\n");
 			if (tmp_i != *i)
 			{
-				// printf("	i = %zu (before = [%c]) //// str = [%s]\n", *i, str[tmp_i], str);
 				count++;
 			}
-			// printf("str[%zu] : %c\n", *i, str[*i]);
-			//POUR L INSTANT FROMAGE av[n_av] == sub_ret;
+		}
+		if (cmd->p_error)
+		{
+			ft_putstr_fd("21sh: parse error\n", 2);
+			return (-1);
 		}
 	}
-		/*else if (!ft_isspace2(av[i]) && av[i] != '\0')
-		{
-			count++;
-			tmp = i;
-			while (!ft_isspace2(av[i]) && av[i] != '\0')
-			{
-				if (is_special(av + i, 0))
-				{
-					if (ft_strnstr(av + i, "&&", 2) || ft_strnstr(av + i, "<<", 2) || ft_strnstr(av + i, ">>", 2))
-					{
-						*dchev = 1;
-						*new_av = av + i + 1;
-					}
-					else
-					{
-						*dchev = 0;
-						*new_av = av + i;
-					}
-					return (tmp == i ? count - 1 : count);
-				}
-				if (is_quote_open(av[i]))
-				{
-					suite = pos_quote_end(av[i], av + i + 1);
-					i = suite - av;
-				}
-				i++;
-			}
-		}
-		*/
-	//*new_av = av + i;
 	return (count);
 }
 
@@ -149,6 +121,7 @@ int main(int ac, char **av)
 	size_t	i;
 	size_t	old_i;
 	t_cmd		*cmd;
+	t_cmd		fake_cmd;
 
 	if (ac == 1)
 	{
@@ -160,14 +133,18 @@ int main(int ac, char **av)
 	i = 0;
 	while (str[i])
 	{
+		fake_cmd.p_error = 0;
 		old_i = i;
-		count = nb_arg(&i, str);
+		count = nb_arg(&i, str, &fake_cmd);
 		// printf("str : %s\n", str + i);
 		if (count == -1)
+		{
+			//free cmd.
 			return(0);
+		}
 		printf("RESULTAT DE COUNT = [%d]\n", count);
-//		cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i + 1), count));
-		//t_cmd *cmd; // = parse(av[1]);
+		// cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i + 1), count));
+		// t_cmd *cmd; // = parse(av[1]);
 	}
 	print_list(cmd);
 	return (1);

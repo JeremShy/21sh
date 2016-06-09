@@ -6,15 +6,25 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/23 13:44:33 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/09 17:57:09 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/09 19:47:39 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh21.h"
 
-void	get_aggr(size_t start, size_t end)
-{
 
+int		is_empty(char *str, size_t *i)
+{
+	size_t tmp;
+
+	tmp = *i;
+	while(str[tmp] != '\0')
+	{
+		if(!ft_isspace2(str[tmp]))
+			return(0);
+		tmp++;
+	}
+	return(1);
 }
 
 int		is_aggr(size_t *i, char *str, int jump)
@@ -52,7 +62,7 @@ int		is_aggr(size_t *i, char *str, int jump)
 	return (0);
 }
 
-char	*is_redir(size_t *i, char *str, int jump) // vers un fichier
+char	*is_redir(size_t *i, char *str, int jump, t_cmd	*cmd) // vers un fichier
 {
 	size_t	tmp;
 	char		*quote;
@@ -75,7 +85,12 @@ char	*is_redir(size_t *i, char *str, int jump) // vers un fichier
 	{
 		while (ft_isspace2(str[tmp]))
 			tmp++;
-		quote = skip_quotes(str, i);
+		if (is_empty(str, &tmp))
+		{
+			cmd->p_error = 1;
+			return(NULL);
+		}
+		quote = skip_quotes(str, &tmp, cmd);
 		if (!quote)
 			quote = ft_strdup("");
 		if (jump)

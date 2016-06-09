@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/07 18:07:04 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/09 15:58:21 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/09 18:33:36 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,34 +35,33 @@ int main()
 	// dup2(2, 1);
 	// dup2(2, 1);
 //	close(1);
-// dup2(1, j);
-// dup2(1, i);
-	int p = fork();
-
-	if (p != 0)
-		wait(NULL);
-	else
-	{
-		dup2(0, 2);
-		dup2(1, 0);
-
-		// i = open("a", O_CREAT | O_WRONLY);
-		// j = open("b", O_CREAT | O_WRONLY);
-		// close(1);
-		// dup(i);
-		// dup2(i, j);
-		write(1, "poulet\n", sizeof("poulet\n"));
-		i = 0;
-		tab = {2>&1, >a, 1>&0}
-		while (tab_redir[i])
-		{
-			close(1);
-			dup(fd);
-			dup2(fd, &1);
-			i++;
-		}
-		//write(2, "poulet\n", sizeof("poulet\n"));
-		exit(0);
-	}
+// // dup2(1, j);
+// // dup2(1, i);
+// 	int p = fork();
+//
+// 	if (p != 0)
+// 		wait(NULL);
+// 	else
+// 	{
+// 		dup2(0, 2);
+// 		dup2(1, 0);
+//
+// 		// i = open("a", O_CREAT | O_WRONLY);
+// 		// j = open("b", O_CREAT | O_WRONLY);
+// 		// close(1);
+// 		// dup(i);
+// 		// dup2(i, j);
+// 		write(1, "poulet\n", sizeof("poulet\n"));
+// 		i = 0;
+// 		tab = {2>&1, >a, 1>&0}
+// 		while (tab_redir[i])
+// 		{
+// 			close(1);
+// 			dup(fd);
+// 			dup2(fd, &1);
+// 			i++;
+// 		}
+// 		//write(2, "poulet\n", sizeof("poulet\n"));
+// 		exit(0);
 	return (0);
 }

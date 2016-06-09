@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 22:10:43 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/09 17:56:57 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/09 20:09:15 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,28 @@ int verif_empty_quote(char *str, size_t *i) // ne supprime pas les quotes, si pa
 			return(1);
 		tmp++;
 	}
-	// printf("tmp = %zu and current char = [%c]\n", tmp, str[tmp]);
-	*i = tmp + 1;
+	//  printf("tmp = %zu and current char = [%c]\n", tmp, str[tmp]);
+	if (str[tmp])
+		*i = tmp + 1;
 	return (0);
 }
 
-char *skip_quotes(char *str, size_t *i)
+char *skip_quotes(char *str, size_t *i, t_cmd *cmd)
 {
 	size_t		start;
 
+	// printf("str = [%c] with i = %zu /// str = [%s]\n", str[*i], *i, str);
 	if (!verif_empty_quote(str, i))
 		return (NULL);
  	start = *i;
-	while(str[*i] && !ft_isspace2(str[*i]) && !is_redir(i, str, 0) && !is_aggr(i, str, 0) && !is_sep(i, str, 0))
+	while(str[*i] && !ft_isspace2(str[*i]) && !is_redir(i, str, 0, cmd) && !is_aggr(i, str, 0) && !is_sep(i, str, 0))
 	{
 		// printf("char actuel = [%c]\n", str[*i]);
 		if (is_quote_open(str[*i]))
+		{
 			join_inside_quote(i, str);
+				// printf(" ---------  str = [%c] with i = %zu /// str = [%s]\n", str[*i], *i, str);
+		}
 		(*i)++;
 		// printf("char actuel = [%c]\n", str[*i]);
 	}
