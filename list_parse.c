@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 20:12:36 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/09 21:55:35 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/09 23:20:30 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void		split_cmd(int count, char *str, t_cmd *cmd)
 		{
 			printf("IT'S ALIVE\n");
 		}
-		else if (is_redir(&i, str, 1, cmd))
+		else if (handle_redir(&i, str, 1, cmd))
 		{
 			printf("TYPICAL PENIS\n");
 		}
@@ -127,9 +127,9 @@ void		split_cmd(int count, char *str, t_cmd *cmd)
 		{
 			if (tmp_i != i )
 			{
-				printf("str : %s, i : %zu, tmp_i : %zu\n", str, i, tmp_i);
+				// printf("str : %s, i : %zu, tmp_i : %zu\n", str, i, tmp_i);
 				cmd->av[n_av] = ft_strsub(str, tmp_i, i - tmp_i);
-				printf("on ecrit : %s\n", cmd->av[n_av]);
+				printf("on ecrit : [%s]\n", cmd->av[n_av]);
 				n_av++;
 			}
 		}
@@ -143,6 +143,9 @@ t_cmd	*create_cmd_elem(char *str, int count)
 
 	sep = 0;
 	elem = (t_cmd*)malloc(sizeof(t_cmd));
+	elem->fd_in = create_fd(-1);
+	elem->fd_out = create_fd(-1);
+	elem->fd_err = create_fd(-1);
 	// printf("str: %s\n", str);
 	printf("str : [%s]\n", str);
 	split_cmd(count, str, elem);

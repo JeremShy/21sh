@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 22:10:43 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/09 22:00:47 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/09 22:20:47 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	get_pos_after_quote(size_t *i, char *str)
 		(*i)++;
 	if (str[*i])
 		(*i)++;
-}
+	}
 
 char *skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd)
 {
@@ -55,7 +55,7 @@ char *skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd)
 		if (is_quote_open(str[*i]))
 		{
 			get_pos_after_quote(i, str);
-				printf(" ---------  str = [%c] with i = %zu /// str = [%s]\n", str[*i], *i, str);
+				// printf(" ---------  str = [%c] with i = %zu /// str = [%s]\n", str[*i], *i, str);
 		}
 		(*i)++;
 		// printf("char actuel = [%c]\n", str[*i]);
