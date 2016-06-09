@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/09 19:59:09 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/09 21:54:06 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 			// (*i)++;
 			return (count);
 		}
-		else if ((tmp = skip_quotes(str, i, cmd)) != NULL)
+		else if ((tmp = skip_quotes_nb_arg(str, i, cmd)) != NULL)
 		{
 			printf("J'AIME LE CACA\n");
 			if (tmp_i != *i)
@@ -143,10 +143,10 @@ int main(int ac, char **av)
 			return(0);
 		}
 		printf("RESULTAT DE COUNT = [%d]\n", count);
-		// cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i + 1), count));
+		cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i + 1), count));
 		// t_cmd *cmd; // = parse(av[1]);
 	}
-	print_list(cmd);
+	// print_list(cmd);
 	return (1);
 }
 //
