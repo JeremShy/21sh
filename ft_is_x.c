@@ -6,34 +6,56 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/23 13:44:33 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/09 00:18:41 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/09 17:57:09 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh21.h"
 
-int		is_aggr(size_t *i, char *str)
+void	get_aggr(size_t start, size_t end)
 {
+
+}
+
+int		is_aggr(size_t *i, char *str, int jump)
+{
+	size_t tmp;
+	int			avant;
+	int			apres;
+
+	tmp = *i;
+	avant = 1;
 	if (str[*i] == '>' && str[*i + 1] == '&' && (ft_isdigit(str[*i + 2]) || str[*i + 2] == '-'))
 	{
 		(*i) += 2;
 		while (ft_isdigit(str[*i]) || str[*i] == '-')
 			(*i)++;
+		if (!jump)
+			*i = tmp;
 		return (1);
+		// if (str[tmp + 2] == 0)
+		// 	fd = cmd->fd_in->fd;
+		// else if (str[tmp + 2] == 1)
+		// 	fd = cmd->fd_out->fd;
+		// else if (str[tmp + 2] == 2)
+		// 	fd = cmd->fd_err->fd;
 	}
 	else if (ft_isdigit(str[*i]) && str[*i + 1] == '>' && str[*i + 2] == '&' && (ft_isdigit(str[*i + 3]) || str[*i + 3] == '-'))
 	{
 		(*i) += 3;
 		while (ft_isdigit(str[*i]) || str[*i] == '-')
 			(*i)++;
+		if (!jump)
+			*i = tmp;
 		return (1);
 	}
 	return (0);
 }
 
-int		is_redir(size_t *i, char *str) // vers un fichier
+char	*is_redir(size_t *i, char *str, int jump) // vers un fichier
 {
-	size_t tmp;
+	size_t	tmp;
+	char		*quote;
 
 	tmp = *i;
 	if ((str[tmp] == '<' && str[tmp + 1] == '<') || (str[tmp] == '>' && str[tmp + 1] == '>'))
@@ -47,27 +69,41 @@ int		is_redir(size_t *i, char *str) // vers un fichier
 		else if (str[tmp + 1] == '>' || str[tmp + 1] == '<')
 			tmp += 2;
 		else
-			return (0);
+			return (NULL);
 	}
 	if (tmp != *i)
 	{
 		while (ft_isspace2(str[tmp]))
 			tmp++;
+		quote = skip_quotes(str, i);
+		if (!quote)
+			quote = ft_strdup("");
+		if (jump)
+			*i = tmp;
+		return (quote);
 	}
-	return (0);
+	return (NULL);
 }
 
-int		is_sep(size_t *i, char *str)
+int		is_sep(size_t *i, char *str, int jump)
 {
+	size_t	ret;
+
+	ret = *i;
 	if (str[*i] == ';')
+		ret++;
+	else if (str[*i] == '|')
+		ret++;
+	else if (ft_strnstr(str + *i, "&&", 2))
+		ret += 2;
+	if (ret != *i)
 	{
-		(*i)++;
-		return (1);
-	}
-	if (str[*i] == '|')
-	{
-		(*i)++;
-		return (1);
+		if (jump)
+		{
+			// printf("on saute (comme...)\n");
+			*i = ret;
+		}
+		return(1);
 	}
 	return (0);
 }

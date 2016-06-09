@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/07 18:07:04 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/08 16:46:15 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/09 15:58:21 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,15 @@ int main()
 		// dup(i);
 		// dup2(i, j);
 		write(1, "poulet\n", sizeof("poulet\n"));
+		i = 0;
+		tab = {2>&1, >a, 1>&0}
+		while (tab_redir[i])
+		{
+			close(1);
+			dup(fd);
+			dup2(fd, &1);
+			i++;
+		}
 		//write(2, "poulet\n", sizeof("poulet\n"));
 		exit(0);
 	}

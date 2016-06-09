@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/09 00:27:42 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/09 17:57:36 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int nb_arg(size_t *i, char *str)
 {
 	int			count;
 	size_t 	tmp_i;
+	char		*tmp;
 	//char 		*sub_ret;
 
 	count = 0;
@@ -56,29 +57,31 @@ int nb_arg(size_t *i, char *str)
 		while (ft_isspace2(str[*i]))
 			(*i)++;
 		tmp_i = *i;
-		if(is_aggr(i, str))
+		if(is_aggr(i, str, 1))
 		{
 			printf("IT'S ALIVE\n");
-			printf("	i = %zu (current char = [%c])\n", *i, str[*i]);
+			// printf("i = %zu (current char = [%c])\n", *i, str[*i]);
 		}
-		else if (is_redir(i, str))
+		else if (is_redir(i, str, 1))
 		{
 			printf("TYPICAL PENIS\n");
 		}
-		else if (skip_quotes(str, i) != NULL)
+		else if (is_sep(i, str, 1))
+		{
+			printf("RIP ORIGINALITE\n");
+			// (*i)++;
+			return (count);
+		}
+		else if ((tmp = skip_quotes(str, i)) != NULL)
 		{
 			printf("J'AIME LE CACA\n");
 			if (tmp_i != *i)
 			{
-				printf("	i = %zu (before = [%c]) //// str = [%s]\n", *i, str[tmp_i], str);
+				// printf("	i = %zu (before = [%c]) //// str = [%s]\n", *i, str[tmp_i], str);
 				count++;
 			}
+			// printf("str[%zu] : %c\n", *i, str[*i]);
 			//POUR L INSTANT FROMAGE av[n_av] == sub_ret;
-		}
-		else if (is_sep(i, str))
-		{
-			printf("RIP ORIGINALITE\n");
-
 		}
 	}
 		/*else if (!ft_isspace2(av[i]) && av[i] != '\0')
@@ -143,7 +146,9 @@ int main(int ac, char **av)
 {
 	int		count;
 	char 	*str;
-	size_t i;
+	size_t	i;
+	size_t	old_i;
+	t_cmd		*cmd;
 
 	if (ac == 1)
 	{
@@ -151,16 +156,21 @@ int main(int ac, char **av)
 		return (0);
 	}
 	str = av[1];
+	printf("on recoit : [%s]\n", str);
 	i = 0;
 	while (str[i])
 	{
+		old_i = i;
 		count = nb_arg(&i, str);
+		// printf("str : %s\n", str + i);
 		if (count == -1)
 			return(0);
 		printf("RESULTAT DE COUNT = [%d]\n", count);
+//		cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i + 1), count));
 		//t_cmd *cmd; // = parse(av[1]);
 	}
-	//print_list(cmd);
+	print_list(cmd);
+	return (1);
 }
 //
 // t_cmd *tmp;

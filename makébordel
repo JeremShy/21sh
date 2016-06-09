@@ -8,8 +8,8 @@ programme >/dev/null 2>&1
 stdout > /dev/null
 stderr > stdout
 
-ls -G >&1 >&1 >&2 2> error > standard
+ls wefwfw 2>&1 2>&2 2>&2
 
 stdin : 0
-stdout : 1 - 1 - standard
-stderr : 2 - error
+stdout : 1
+stderr : 1 - 1 - 1 - 1

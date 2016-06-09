@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/08 23:54:23 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/09 17:46:40 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ typedef struct	s_env {
 	struct s_env	*next;
 }				t_env;
 
+typedef struct		s_fd {
+	int					fd;
+	struct s_fd	*next;
+}								t_fd;
+
 typedef	struct		s_cmd {
 	char					**av;
 //	int						ac;
@@ -62,9 +67,9 @@ typedef	struct		s_cmd {
 	struct s_cmd	*next;
 	char					*cmd_path;
 	int						is_valid;
-	int						*fd_out;
-	int						*fd_err;
-	int						*fd_in;
+	t_fd					*fd_in;		//0
+	t_fd					*fd_out;	//1
+	t_fd					*fd_err;	//2
 }								t_cmd;
 
 typedef struct	s_history {
@@ -131,8 +136,10 @@ char*				pos_quote_end(char en_cours, char *str);
 void				print_list(t_cmd *lst);
 t_cmd				*parse(char	*str);
 void				join_inside_quote(size_t *i, char *str);
-int					is_aggr(size_t *i, char *str);
-int					is_redir(size_t *i, char *str);
+int					is_aggr(size_t *i, char *str, int jump);
+char				*is_redir(size_t *i, char *str, int jump);
 char				*skip_quotes(char *str, size_t *i);
-int					is_sep(size_t *i, char *str);
+int					is_sep(size_t *i, char *str, int jump);
+t_fd				*add_fd_elem(t_fd *list, t_fd *elem);
+t_fd				*create_fd(int fd);
 #endif
