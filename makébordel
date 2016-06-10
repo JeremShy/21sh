@@ -12,4 +12,10 @@ ls 1>&1 1>&1 1>&1
 
 stdin : -1
 stdout : 1 - 1 - 1 - 1
-stderr : -1
+stderr : 1 - 1 - 1 - 1
+
+2>&1
+cmd-> stdin ->> -1
+elem1
+elem1, elem2
+elem1, elem2

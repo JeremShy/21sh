@@ -76,9 +76,7 @@ char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd)
 		if (jump)
 			*i = tmp;
 		printf("redir_type : %d\n", redir_type);
-		close(fd	);
-		dup(fd_file);
-		// dup2(fd, fd_file);
+		// dup2(fd_file, fd);
 		// write(fd, "a\n", 2);
 		return (quote);
 	}

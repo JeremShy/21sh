@@ -59,22 +59,22 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 		tmp_i = *i;
 		if(is_aggr(i, str, 1))
 		{
-			// printf("IT'S ALIVE\n");
+			printf("IT'S ALIVE\n");
 			// printf("i = %zu (current char = [%c])\n", *i, str[*i]);
 		}
 		else if (is_redir(i, str, 1, cmd))
 		{
-			// printf("TYPICAL PENIS\n");
+			printf("TYPICAL PENIS\n");
 		}
 		else if (is_sep(i, str, 1))
 		{
-			// printf("RIP ORIGINALITE\n");
+			printf("RIP ORIGINALITE\n");
 			// (*i)++;
 			return (count);
 		}
 		else if ((tmp = skip_quotes_nb_arg(str, i, cmd)) != NULL)
 		{
-			// printf("J'AIME LE CACA\n");
+			printf("J'AIME LE CACA\n");
 			if (tmp_i != *i)
 			{
 				count++;

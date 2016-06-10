@@ -146,4 +146,5 @@ void				split_cmd(int count, char *str, t_cmd *cmd);
 char				*skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd);
 int					is_empty(char *str, size_t *i);
 char				*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd);
+t_fd				*copy_list_fd(t_fd *list);
 #endif

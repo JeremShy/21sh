@@ -72,8 +72,9 @@ char *skip_quotes(char *str, size_t *i, t_cmd *cmd)
 	size_t		start;
 
 	// printf("str = [%c] with i = %zu /// str = [%s]\n", str[*i], *i, str);
-	if (!verif_empty_quote(str, i))
+	if (is_quote_open(str[*i]) && !verif_empty_quote(str, i))
 		return (NULL);
+
  	start = *i;
 	// printf("str[%c]\n", str[*i]);
 	while(str[*i] && !ft_isspace2(str[*i]) && !is_redir(i, str, 0, cmd) && !is_aggr(i, str, 0) && !is_sep(i, str, 0))
