@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/09 19:47:00 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/09 22:49:02 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@
 #	define	OUT_ERR_L (char)5 // 1>&2
 #	define	ERR_ERR (char)6 // 2>&2
 #	define	OUT_OUT_L (char)7 // 1>&1
-
 
 # undef tab
 
@@ -144,4 +143,7 @@ int					is_sep(size_t *i, char *str, int jump);
 t_fd				*add_fd_elem(t_fd *list, t_fd *elem);
 t_fd				*create_fd(int fd);
 void				split_cmd(int count, char *str, t_cmd *cmd);
+char				*skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd);
+int					is_empty(char *str, size_t *i);
+char				*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd);
 #endif

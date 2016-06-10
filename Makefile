@@ -6,7 +6,7 @@
 #    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/06/09 18:30:01 by jcamhi           ###   ########.fr        #
+#    Updated: 2016/06/09 23:07:24 by jcamhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ SRC_NAME = main.c \
 		 list_parse.c \
 		 parse.c \
 		 parse_function.c \
-		 fd_functions.c
+		 fd_functions.c \
+		 real_parse.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes
@@ -48,6 +49,9 @@ OBJ_NAME = $(SRC_NAME:.c=.o)
 SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
 INC = $(addprefix -I,$(INC_PATH))
+
+parsing:
+	gcc -I includes ft_is_x.c list_parse.c parse_function.c fd_functions.c lib/libft.a parse.c real_parse.c
 
 all : $(NAME)
 
@@ -74,8 +78,5 @@ fclean: clean
 #	@rmdir lib 2> /dev/null || true
 
 re: fclean all
-
-parsing:
-	gcc -I includes ft_is_x.c list_parse.c parse_function.c fd_functions.c lib/libft.a parse.c
 
 .PHONY : all clean fclean re

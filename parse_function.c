@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 22:10:43 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/09 20:09:15 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/09 22:20:47 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,44 @@ int verif_empty_quote(char *str, size_t *i) // ne supprime pas les quotes, si pa
 	return (0);
 }
 
+void	get_pos_after_quote(size_t *i, char *str)
+{
+	char open;
+
+	open = str[*i];
+	while (is_quote_close(open, str[*i + 1]) == 0 && str[*i + 1])
+		(*i)++;
+	if (str[*i])
+		(*i)++;
+	}
+
+char *skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd)
+{
+	size_t		start;
+
+	// printf("str = [%c] with i = %zu /// str = [%s]\n", str[*i], *i, str);
+	if (!verif_empty_quote(str, i))
+		return (NULL);
+ 	start = *i;
+	// printf("str[%c]\n", str[*i]);
+	while(str[*i] && !ft_isspace2(str[*i]) && !is_redir(i, str, 0, cmd) && !is_aggr(i, str, 0) && !is_sep(i, str, 0))
+	{
+		// printf("char actuel = [%c]\n", str[*i]);
+		if (is_quote_open(str[*i]))
+		{
+			get_pos_after_quote(i, str);
+				// printf(" ---------  str = [%c] with i = %zu /// str = [%s]\n", str[*i], *i, str);
+		}
+		(*i)++;
+		// printf("char actuel = [%c]\n", str[*i]);
+	}
+	// printf("-------END-------- char actuel = [%c]\n", str[*i]);
+	//printf("END OF WORD WITH i = %zu\n", *i);
+	if (start != *i)
+		return(ft_strsub(str, start, *i - start));
+	return(NULL);
+}
+
 char *skip_quotes(char *str, size_t *i, t_cmd *cmd)
 {
 	size_t		start;
@@ -37,6 +75,7 @@ char *skip_quotes(char *str, size_t *i, t_cmd *cmd)
 	if (!verif_empty_quote(str, i))
 		return (NULL);
  	start = *i;
+	// printf("str[%c]\n", str[*i]);
 	while(str[*i] && !ft_isspace2(str[*i]) && !is_redir(i, str, 0, cmd) && !is_aggr(i, str, 0) && !is_sep(i, str, 0))
 	{
 		// printf("char actuel = [%c]\n", str[*i]);
