@@ -1,6 +1,6 @@
-OH MON DIEU C'EST TOUT DOUX *Tu fais flipper Jerem*
+OH MON DIEU C'EST TOUT DOUX
 
--	Fermer stdout et stderr (>&-, 2>&-, 1>&-).
+-	Fermer stdout et stderr (>&-, 2>&-, 1>&-).,.
 -	ls > ""
 -	ls a b c e 2>&1 f g h i-> ls a b c f g h i > e
 -	historique mulitiligne
@@ -8,6 +8,7 @@ OH MON DIEU C'EST TOUT DOUX *Tu fais flipper Jerem*
 -	BNF ?
 - yank paste
 - leaks parsing
+- heredoc
 
 {
 	commande -> {
@@ -21,7 +22,7 @@ OH MON DIEU C'EST TOUT DOUX *Tu fais flipper Jerem*
 		}
 }
 
-ls 2> truc 2>&1 penis *un peu de creativite quand meme !*
+ls 2> truc 2>&1 penis
 
 ls > a > b > c
 

@@ -1,9 +1,12 @@
 #include <stddef.h>
+#include <sh21.h>
 
 int main()
 {
-	int *truc = NULL;
-
-	if (1 == 1 && truc[0])
-	{}
+	while(1)
+	{
+		int i = open("a", O_RDONLY);
+		printf("%d\n", i);
+		sleep(10);
+	}
 }

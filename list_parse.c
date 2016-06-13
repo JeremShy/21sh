@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 20:12:36 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/09 23:20:30 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/13 22:30:19 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	join_inside_quote(size_t *i, char *str)
 // 	}
 // }
 
-
 void		print_list(t_cmd *lst)
 {
 	size_t	i;
@@ -94,6 +93,7 @@ void		print_list(t_cmd *lst)
 		printf("\n");
 	}
 }
+
 void		split_cmd(int count, char *str, t_cmd *cmd)
 {
 	size_t 	tmp_i;
@@ -109,7 +109,7 @@ void		split_cmd(int count, char *str, t_cmd *cmd)
 		while (ft_isspace2(str[i]))
 			i++;
 		tmp_i = i;
-		if(is_aggr(&i, str, 1))
+		if(handle_aggr(&i, str, 1, cmd))
 		{
 			printf("IT'S ALIVE\n");
 		}

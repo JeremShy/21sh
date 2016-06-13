@@ -8,7 +8,7 @@ programme >/dev/null 2>&1
 stdout > /dev/null
 stderr > stdout
 
-ls 1>&1 1>&1 1>&1
+ls > a 1>&1 1>&1
 
 stdin : -1
 stdout : 1 - 1 - 1 - 1
