@@ -123,9 +123,10 @@ char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd)
 		if (jump)
 			*i = tmp;
 		printf("redir_type : %d\n", redir_type);
-		close(fd);
+		close(fd	);
 		dup(fd_file);
-		write(fd, "a\n", 2);
+		// dup2(fd, fd_file);
+		// write(fd, "a\n", 2);
 		return (quote);
 	}
 	return (NULL);
