@@ -6,11 +6,58 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 22:47:34 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/09 23:17:42 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/10 00:08:39 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+// void	fd_mgmt(t_cmd *cmd, int fd)
+// {
+// 	if (fd == 0)
+// 		cmd->fd_in = add_fd_elem(cmd->fd_in, create_fd(fd_file));
+// 	else if (fd == 1)
+// 		cmd->fd_out = add_fd_elem(cmd->fd_out, create_fd(fd_file));
+// 	else if (fd == 2)
+// 		cmd->fd_err = add_fd_elem(cmd->fd_err, create_fd(fd_file));
+// }
+
+int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
+{
+	size_t 	tmp;
+	int			avant;
+	int			apres;
+	int			fd;
+
+	tmp = *i;
+	avant = 1;
+	// fd = (str[tmp] == '>' ? 1 : 0);
+	if (str[*i] == '>' && str[*i + 1] == '&' && (ft_isdigit(str[*i + 2]) || str[*i + 2] == '-'))
+	{
+		(*i) += 2;
+		while (ft_isdigit(str[*i]) || str[*i] == '-')
+			(*i)++;
+		if (!jump)
+			*i = tmp;
+		return (1);
+		// if (str[tmp + 2] == 0)
+		// 	fd = cmd->fd_in->fd;
+		// else if (str[tmp + 2] == 1)
+		// 	fd = cmd->fd_out->fd;
+		// else if (str[tmp + 2] == 2)
+		// 	fd = cmd->fd_err->fd;
+	}
+	else if (ft_isdigit(str[*i]) && str[*i + 1] == '>' && str[*i + 2] == '&' && (ft_isdigit(str[*i + 3]) || str[*i + 3] == '-'))
+	{
+		(*i) += 3;
+		while (ft_isdigit(str[*i]) || str[*i] == '-')
+			(*i)++;
+		if (!jump)
+			*i = tmp;
+		return (1);
+	}
+	return (0);
+}
 
 char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd)
 {
