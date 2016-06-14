@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/09 22:49:02 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/13 23:25:53 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,4 +147,8 @@ char				*skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd);
 int					is_empty(char *str, size_t *i);
 char				*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd);
 t_fd				*copy_list_fd(t_fd *list);
+t_fd				*copy_fd(t_fd *list);
+int					handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd);
+void 				print_fd_list(t_cmd *list);
+void 				print_fd(t_fd *list);
 #endif

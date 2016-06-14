@@ -6,11 +6,75 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 22:47:34 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/09 23:17:42 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/13 23:23:49 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+// void	fd_mgmt(t_cmd *cmd, int fd)
+// {
+// 	if (fd == 0)
+// 		cmd->fd_in = add_fd_elem(cmd->fd_in, create_fd(fd_file));
+// 	else if (fd == 1)
+// 		cmd->fd_out = add_fd_elem(cmd->fd_out, create_fd(fd_file));
+// 	else if (fd == 2)
+// 		cmd->fd_err = add_fd_elem(cmd->fd_err, create_fd(fd_file));
+// }
+
+int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
+{
+	size_t 	tmp;
+	int			avant;
+	int			apres;
+	int			fd;
+
+	tmp = *i;
+	avant = 1;
+	if (str[*i] == '>' && str[*i + 1] == '&' && (ft_isdigit(str[*i + 2]) || str[*i + 2] == '-'))
+	{
+		(*i) += 2;
+		apres = ft_atoi(str + *i);
+		while (ft_isdigit(str[*i]) || str[*i] == '-')
+			(*i)++;
+		if (!jump)
+			*i = tmp;
+	}
+	else if (ft_isdigit(str[*i]) && str[*i + 1] == '>' && str[*i + 2] == '&' && (ft_isdigit(str[*i + 3]) || str[*i + 3] == '-'))
+	{
+		avant = str[*i] - '0';
+		(*i) += 3;
+		apres = ft_atoi(str + *i);
+		while (ft_isdigit(str[*i]) || str[*i] == '-')
+			(*i)++;
+		if (!jump)
+			*i = tmp;
+	}
+	else
+		return (0);
+	if (avant == 1)
+	{
+		if (cmd->fd_out->fd == -1)
+			cmd->fd_out = add_fd_elem(cmd->fd_out, create_fd(apres));
+		else
+			cmd->fd_out = add_fd_elem(cmd->fd_out, copy_fd(cmd->fd_out));
+	}
+	else if (avant == 2)
+	{
+		if (cmd->fd_err->fd == -1)
+			cmd->fd_err = add_fd_elem(cmd->fd_err, create_fd(apres));
+		else
+			cmd->fd_err = add_fd_elem(cmd->fd_err, copy_fd(cmd->fd_err));
+	}
+	else if (avant == 0)
+	{
+		if (cmd->fd_in->fd == -1)
+			cmd->fd_in = add_fd_elem(cmd->fd_in, create_fd(apres));
+		else
+			cmd->fd_in = add_fd_elem(cmd->fd_in, copy_fd(cmd->fd_in));
+	}
+	return (1);
+}
 
 char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd)
 {
@@ -62,7 +126,7 @@ char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd)
 			quote = ft_strdup("");
 		if (fd > 2)
 			return(quote);
-		printf("Quote : [%s]. fd : %d\n", quote, fd);
+		// printf("Quote : [%s]. fd : %d\n", quote, fd);
 		if (redir_type == 0)
 			fd_file = open(quote, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else
@@ -75,8 +139,10 @@ char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd)
 			cmd->fd_err = add_fd_elem(cmd->fd_err, create_fd(fd_file));
 		if (jump)
 			*i = tmp;
-		printf("redir_type : %d\n", redir_type);
-		// dup2(fd_file, fd);
+		// printf("redir_type : %d\n", redir_type);
+		// close(fd);
+		// dup(fd_file);
+		// dup2(fd, fd_file);
 		// write(fd, "a\n", 2);
 		return (quote);
 	}

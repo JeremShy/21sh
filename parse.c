@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/09 23:10:12 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/14 00:04:43 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 		while (ft_isspace2(str[*i]))
 			(*i)++;
 		tmp_i = *i;
+		printf("ACTUEL CHAR [%c] - *i = [%zu]\n", str[*i], *i);
 		if(is_aggr(i, str, 1))
 		{
 			printf("IT'S ALIVE\n");
@@ -85,33 +86,9 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 			ft_putstr_fd("21sh: parse error\n", 2);
 			return (-1);
 		}
+		// printf("%zu - [%c]\n", *i, str[*i]);
 	}
 	return (count);
-}
-
-t_cmd		*parse(char	*str)
-{
-	// int			count;
-	char		*new_av;
-	size_t	i;
-	t_cmd		*list;
-	int			dchev;
-
-	list = NULL;
-	i = 0;
-	while (str[i])
-	{
-		dchev = 0; // --> kaka
-		//count = nb_arg(str, &new_av, &dchev);
-		// if (count == -1)
-		// 	return(0);
-		new_av = NULL; // --> KAKA
-		//list = add_cmd_elem(list, create_cmd_elem(ft_strsub(str, 0, new_av - str + 1), count));
-		str = new_av;
-		if (str[0])
-			str++;
-	}
-	return (list);
 }
 
 int main(int ac, char **av)
@@ -146,6 +123,7 @@ int main(int ac, char **av)
 		cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i + 1), count));
 		// t_cmd *cmd; // = parse(av[1]);
 	}
+		print_fd_list(cmd);
 	// print_list(cmd);
 	return (1);
 }
