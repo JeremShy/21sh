@@ -6,30 +6,11 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 20:12:36 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/14 20:17:39 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/14 21:55:48 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
-
-int		def_sep(char *str)
-{
-	if (ft_strnstr(str, ">>", 2))
-		return (DCHEV_DROITE);
-	else if (ft_strnstr(str, "<<", 2))
-		return (DCHEV_GAUCHE);
-	else if (ft_strnstr(str, "&&", 2))
-		return (ETET);
-	else if (str[0] == '|')
-		return (str[0]);
-	else if (str[0] == '>')
-		return (str[0]);
-	else if (str[0] == '<')
-		return (str[0]);
-	else if (str[0] == ';')
-		return(str[0]);
-	return (0);
-}
 
 void		print_list(t_cmd *lst)
 {
@@ -66,7 +47,7 @@ t_cmd	*create_cmd_elem(char *str, int count)
 	elem->fd_in = create_fd(-1);
 	elem->fd_out = create_fd(-1);
 	elem->fd_err = create_fd(-1);
-	printf("str : [%s]\n", str);
+	// printf("str : [%s]\n", str);
 	elem->p_error	= 0;
 	elem->error = 0;
 	if (split_cmd(count, str, elem) == -1)
@@ -75,10 +56,11 @@ t_cmd	*create_cmd_elem(char *str, int count)
 		printf("ARGH\n");
 		exit(0);
 	}
-	printf("on cree une liste.\n");
+	printf("sep : %d\n", elem->sep);
+	// printf("on cree une liste.\n");
 	elem->next = NULL;
 	free(str);
-	print_fd_list(elem);
+	// print_fd_list(elem);
 	return (elem);
 }
 

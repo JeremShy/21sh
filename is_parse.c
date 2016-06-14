@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/14 16:17:58 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/14 18:19:10 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/14 20:23:11 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,8 @@
 int		is_aggr(size_t *i, char *str, int jump)
 {
 	size_t tmp;
-	int			avant;
-	int			apres;
 
 	tmp = *i;
-	avant = 1;
 	if (str[*i] == '>' && str[*i + 1] == '&' && (ft_isdigit(str[*i + 2]) || str[*i + 2] == '-'))
 	{
 		(*i) += 2;

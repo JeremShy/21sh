@@ -6,11 +6,22 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/14 20:05:29 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/14 22:39:42 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+int		def_sep(char *str)
+{
+	if (ft_strnstr(str, "&&", 2))
+		return (ETET);
+	else if (str[0] == '|')
+		return (str[0]);
+	else if (str[0] == ';')
+		return(str[0]);
+	return (0);
+}
 
 int		split_cmd(int count, char *str, t_cmd *cmd)
 {
@@ -22,6 +33,7 @@ int		split_cmd(int count, char *str, t_cmd *cmd)
 	i = 0;
 	cmd->av = (char**)malloc((count + 1) * sizeof(char*));
 	n_av = 0;
+	printf("[%s]\n", str);
 	while (str[i])
 	{
 		while (ft_isspace2(str[i]))
@@ -35,6 +47,10 @@ int		split_cmd(int count, char *str, t_cmd *cmd)
 		}
 		else if (is_sep(&i, str, 1))
 		{
+			if (i == 0)
+				cmd->sep = NONE;
+			else
+				cmd->sep = def_sep(str + i - 1);
 			return (1);
 		}
 		else if ((tmp = skip_quotes(str, &i, cmd)) != NULL)
@@ -49,6 +65,7 @@ int		split_cmd(int count, char *str, t_cmd *cmd)
 		if (cmd->error)
 			return (0);
 	}
+	cmd->sep = NONE;
 	return (1);
 }
 
@@ -99,22 +116,15 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 	return (count);
 }
 
-int main(int ac, char **av)
+t_cmd	*parse(char *str)
 {
 	int		count;
-	char 	*str;
 	size_t	i;
 	size_t	old_i;
 	t_cmd		*cmd;
 	t_cmd		fake_cmd; //Important.
 
-	if (ac == 1)
-	{
-		printf("KAKA\n");
-		return (0);
-	}
-	str = av[1];
-	printf("on recoit : [%s]\n", str);
+	// printf("on recoit : [%s]\n", str);
 	i = 0;
 	cmd = NULL;
 	while (str[i])
@@ -129,15 +139,54 @@ int main(int ac, char **av)
 			//free cmd.
 			return (0);
 		}
-		printf("RESULTAT DE COUNT = [%d]\n", count);
-		cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i + 1), count));
+		// printf("RESULTAT DE COUNT = [%d]\n", count);
+		cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count));
 		// t_cmd *cmd; // = parse(av[1]);
 
 
 	}
-	print_list(cmd);
-	return (1);
+	// print_list(cmd);
+	return (cmd);
 }
+// int main(int ac, char **av)
+// {
+// 	int		count;
+// 	char 	*str;
+// 	size_t	i;
+// 	size_t	old_i;
+// 	t_cmd		*cmd;
+// 	t_cmd		fake_cmd; //Important.
+//
+// 	if (ac == 1)
+// 	{
+// 		printf("KAKA\n");
+// 		return (0);
+// 	}
+// 	str = av[1];
+// 	printf("on recoit : [%s]\n", str);
+// 	i = 0;
+// 	cmd = NULL;
+// 	while (str[i])
+// 	{
+// 		fake_cmd.p_error = 0;
+// 		fake_cmd.error = 0;
+// 		old_i = i;
+// 		count = nb_arg(&i, str, &fake_cmd);
+// 		// printf("str : %s\n", str + i);
+// 		if (count == -1)
+// 		{
+// 			//free cmd.
+// 			return (0);
+// 		}
+// 		printf("RESULTAT DE COUNT = [%d]\n", count);
+// 		cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i + 1), count));
+// 		// t_cmd *cmd; // = parse(av[1]);
+//
+//
+// 	}
+// 	print_list(cmd);
+// 	return (1);
+// }
 //
 // t_cmd *tmp;
 // while (list)

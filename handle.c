@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 22:47:34 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/14 18:15:50 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/14 20:22:49 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 	size_t 	tmp;
 	int			avant;
 	int			apres;
-	int			fd;
 	t_fd		**fd_avant;
 	t_fd		**fd_apres;
 
@@ -60,7 +59,7 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 		fd_apres = &cmd->fd_in;
 	else if (apres == 1)
 		fd_apres = &cmd->fd_out;
-	else if (apres == 2)
+	else
 		fd_apres = &cmd->fd_err;
 
 	if ((*fd_apres)->fd == -1 && apres != -2)
