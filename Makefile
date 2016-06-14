@@ -6,7 +6,7 @@
 #    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/06/09 23:07:24 by jcamhi           ###   ########.fr        #
+#    Updated: 2016/06/14 14:25:27 by jcamhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
 INC = $(addprefix -I,$(INC_PATH))
 
 parsing:
-	gcc -I includes ft_is_x.c list_parse.c parse_function.c fd_functions.c lib/libft.a parse.c real_parse.c
+	gcc -g -I includes ft_is_x.c list_parse.c parse_function.c fd_functions.c lib/libft.a parse.c real_parse.c
 
 all : $(NAME)
 

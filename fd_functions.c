@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 15:41:35 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/13 23:30:58 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/14 14:29:30 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_fd	*create_fd(int fd)
 	elem = (t_fd*)malloc(sizeof(t_fd));
 	elem->next = NULL;
 	elem->fd = fd; //
+	printf("fd : %d\n", fd);
 	return (elem);
 }
 
@@ -66,6 +67,7 @@ t_fd	*copy_fd(t_fd *list)
 	t_fd *copy;
 
 	copy = NULL;
+	printf("on passe\n");
 	while (list)
 	{
 		copy = add_fd_elem(copy, create_fd(list->fd));

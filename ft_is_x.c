@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/23 13:44:33 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/13 18:42:13 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/14 14:27:13 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ int 	is_quote_close(char car, char open)
 int		is_quote_end(t_data *data)
 {
 	size_t	i;
-
+	
 //	printf("\ncmd : [%s]\n", data->cmd);
 //	printf("data->c : %c\n", data->c);
 	i = ft_strlen(data->cmd) - data->real_len_cmd;

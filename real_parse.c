@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 22:47:34 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/13 23:23:49 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/14 14:31:58 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 	int			avant;
 	int			apres;
 	int			fd;
-	t_fd		*fd_avant;
-	t_fd		*fd_apres;
+	t_fd		**fd_avant;
+	t_fd		**fd_apres;
 
 	tmp = *i;
 	avant = 1;
@@ -76,21 +76,21 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 	// 		cmd->fd_err = add_fd_elem(cmd->fd_err, copy_fd(cmd->fd_err));
 	// }
 	if (avant == 0)
-		fd_avant = cmd->fd_in;
+		fd_avant = &cmd->fd_in;
 	else if (avant == 1)
-		fd_avant = cmd->fd_out;
+		fd_avant = &cmd->fd_out;
 	else if (avant == 2)
-		fd_avant = cmd->fd_err;
+		fd_avant = &cmd->fd_err;
 	if (apres == 0)
-		fd_apres = cmd->fd_in;
+		fd_apres = &cmd->fd_in;
 	else if (apres == 1)
-		fd_apres = cmd->fd_out;
+		fd_apres = &cmd->fd_out;
 	else if (apres == 2)
-		fd_apres = cmd->fd_err;
-	if (fd_apres->fd == -1)
-		fd_avant = add_fd_elem(fd_avant, create_fd(apres));
+		fd_apres = &cmd->fd_err;
+	if ((*fd_apres)->fd == -1)
+		*fd_avant = add_fd_elem(*fd_avant, create_fd(apres));
 	else
-		fd_avant = add_fd_elem(fd_avant, copy_fd(fd_apres));
+		*fd_avant = add_fd_elem(*fd_avant, copy_fd(*fd_apres));
 	return (1);
 }
 
