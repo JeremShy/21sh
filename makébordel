@@ -8,11 +8,11 @@ programme >/dev/null 2>&1
 stdout > /dev/null
 stderr > stdout
 
-ls > a 1>&1 1>&1
+ls 1>&1 1>&1 1>&1
 
 stdin : -1
 stdout : 1 - 1 - 1 - 1
-stderr : 1 - 1 - 1 - 1
+stderr : -1
 
 2>&1
 cmd-> stdin ->> -1

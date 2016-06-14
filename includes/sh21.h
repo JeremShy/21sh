@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/13 23:25:53 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/14 18:10:16 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef	struct		s_cmd {
 	t_fd					*fd_out;	//1
 	t_fd					*fd_err;	//2
 	int						p_error;
+	int						error;
 }								t_cmd;
 
 typedef struct	s_history {
@@ -142,7 +143,7 @@ char				*skip_quotes(char *str, size_t *i, t_cmd *cmd);
 int					is_sep(size_t *i, char *str, int jump);
 t_fd				*add_fd_elem(t_fd *list, t_fd *elem);
 t_fd				*create_fd(int fd);
-void				split_cmd(int count, char *str, t_cmd *cmd);
+int					split_cmd(int count, char *str, t_cmd *cmd);
 char				*skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd);
 int					is_empty(char *str, size_t *i);
 char				*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd);
