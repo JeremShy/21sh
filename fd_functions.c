@@ -53,25 +53,12 @@ t_fd 	*add_fd_elem(t_fd *list, t_fd *elem)
 	while (list->next != NULL)
   		list = list->next;
 	list->next = elem;
-	if (list->fd == -1)
+	if (list->fd < 0)
 	{
 		free(list);
 		return(elem);
 	}
 	return (tmp);
-}
-
-t_fd	*copy_list_fd(t_fd *list)
-{
-	t_fd	*new_list;
-
-	new_list = NULL;
-	while (list)
-	{
-		new_list = add_fd_elem(new_list, create_fd(list->fd));
-		list = list->next;
-	}
-	return (new_list);
 }
 
 t_fd	*copy_fd(t_fd *list)

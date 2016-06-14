@@ -144,8 +144,8 @@ t_cmd	*create_cmd_elem(char *str, int count)
 	sep = 0;
 	elem = (t_cmd*)malloc(sizeof(t_cmd));
 	elem->fd_in = create_fd(-1);
-	elem->fd_out = create_fd(-2);
-	elem->fd_err = create_fd(-3);
+	elem->fd_out = create_fd(-1);
+	elem->fd_err = create_fd(-1);
 	// printf("str: %s\n", str);
 	printf("str : [%s]\n", str);
 	split_cmd(count, str, elem);

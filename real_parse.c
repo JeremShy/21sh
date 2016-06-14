@@ -28,6 +28,8 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 	int			avant;
 	int			apres;
 	int			fd;
+	t_fd		*fd_avant;
+	t_fd		*fd_apres;
 
 	tmp = *i;
 	avant = 1;
@@ -52,27 +54,43 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 	}
 	else
 		return (0);
-	if (avant == 1)
-	{
-		if (cmd->fd_out->fd == -1)
-			cmd->fd_out = add_fd_elem(cmd->fd_out, create_fd(apres));
-		else
-			cmd->fd_out = add_fd_elem(cmd->fd_out, copy_fd(cmd->fd_out));
-	}
+	// if (avant == 0)
+	// {
+	// 	if (cmd->fd_in->fd < 0)
+	// 	cmd->fd_in = add_fd_elem(cmd->fd_in, create_fd(apres));
+	// 	else
+	// 	cmd->fd_in = add_fd_elem(cmd->fd_in, copy_fd(cmd->fd_in));
+	// }
+	// else if (avant == 1)
+	// {
+	// 	if (cmd->fd_out->fd < 0)
+	// 		cmd->fd_out = add_fd_elem(cmd->fd_out, create_fd(apres));
+	// 	else
+	// 		cmd->fd_out = add_fd_elem(cmd->fd_out, copy_fd(cmd->fd_out));
+	// }
+	// else if (avant == 2)
+	// {
+	// 	if (cmd->fd_err->fd < 0)
+	// 		cmd->fd_err = add_fd_elem(cmd->fd_err, create_fd(apres));
+	// 	else
+	// 		cmd->fd_err = add_fd_elem(cmd->fd_err, copy_fd(cmd->fd_err));
+	// }
+	if (avant == 0)
+		fd_avant = cmd->fd_in;
+	else if (avant == 1)
+		fd_avant = cmd->fd_out;
 	else if (avant == 2)
-	{
-		if (cmd->fd_err->fd == -1)
-			cmd->fd_err = add_fd_elem(cmd->fd_err, create_fd(apres));
-		else
-			cmd->fd_err = add_fd_elem(cmd->fd_err, copy_fd(cmd->fd_err));
-	}
-	else if (avant == 0)
-	{
-		if (cmd->fd_in->fd == -1)
-			cmd->fd_in = add_fd_elem(cmd->fd_in, create_fd(apres));
-		else
-			cmd->fd_in = add_fd_elem(cmd->fd_in, copy_fd(cmd->fd_in));
-	}
+		fd_avant = cmd->fd_err;
+	if (apres == 0)
+		fd_apres = cmd->fd_in;
+	else if (apres == 1)
+		fd_apres = cmd->fd_out;
+	else if (apres == 2)
+		fd_apres = cmd->fd_err;
+	if (fd_apres->fd == -1)
+		fd_avant = add_fd_elem(fd_avant, create_fd(apres));
+	else
+		fd_avant = add_fd_elem(fd_avant, copy_fd(fd_apres));
 	return (1);
 }
 
