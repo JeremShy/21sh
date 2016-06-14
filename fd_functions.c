@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 15:41:35 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/14 18:44:48 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/14 19:35:25 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void print_fd(t_fd *list)
 
 void print_fd_list(t_cmd *list)
 {
-	printf("fd_in : \n");
+	printf("fd_in : ");
 	print_fd(list->fd_in);
-	printf("fd_out : \n");
+	printf("fd_out : ");
 	print_fd(list->fd_out);
-	printf("fd_err : \n");
+	printf("fd_err : ");
 	print_fd(list->fd_err);
 	printf("\n");
 }

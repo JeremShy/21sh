@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/14 18:50:48 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/14 20:05:29 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int main(int ac, char **av)
 	str = av[1];
 	printf("on recoit : [%s]\n", str);
 	i = 0;
+	cmd = NULL;
 	while (str[i])
 	{
 		fake_cmd.p_error = 0;
@@ -131,8 +132,9 @@ int main(int ac, char **av)
 		printf("RESULTAT DE COUNT = [%d]\n", count);
 		cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i + 1), count));
 		// t_cmd *cmd; // = parse(av[1]);
+
+
 	}
-		// print_fd_list(cmd);
 	print_list(cmd);
 	return (1);
 }
