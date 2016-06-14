@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 20:12:36 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/14 20:04:57 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/14 20:17:39 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void		print_list(t_cmd *lst)
 		}
 		// printf("sep : %c\n", lst->sep);
 		i++;
-		lst = lst->next;
 		print_fd_list(lst);
+		lst = lst->next;
 		printf("\n");
 	}
 }
