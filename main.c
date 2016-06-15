@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/15 14:56:59 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/15 19:31:21 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*print_prompt(t_env *env, t_data *data)
 	}
 	else
 //		prompt = ft_strjoinaf1(new, "");
-		prompt = new;
+	prompt = new;
 	ft_putstr(prompt);
 	ft_putstr("\e[39m");
 	return(prompt);
@@ -57,11 +57,11 @@ void		exec_cmd(char *cmd, t_env **env)
 	t_cmd *command;
 	t_cmd	*next;
 
-	command = parse(cmd);
+	command = parse(cmd); // On appelle notre fonction de parsing.
 	// print_list(command);
 	while (command)
 	{
-		if ((command->sep == NONE || command->sep == POINT_VIRGULE || command->sep == ETET) && command->av[0])
+		if (command->av[0] && (command->sep == NONE || command->sep == POINT_VIRGULE || command->sep == ETET))
 		{
 			if (is_builtin(command->av[0]))
 				exec_builtin(command->av, env);
@@ -156,7 +156,7 @@ int			main(int ac, char **av, char **env)
 	data.real_len_cmd = 0;
 	data.history = NULL;
 	data.history_en_cours = NULL;
-	boucle(list, &data);
+	boucle(list, &data); // Entre dans la boucle principale du programme.
 	return (0);
 }
 

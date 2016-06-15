@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/15 14:59:26 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/15 18:56:48 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		split_cmd(int count, char *str, t_cmd *cmd)
 
 	i = 0;
 	cmd->av = (char**)malloc((count + 1) * sizeof(char*));
+	cmd->av[count] = 0;
 	n_av = 0;
 	printf("[%s]\n", str);
 	while (str[i])
@@ -45,12 +46,8 @@ int		split_cmd(int count, char *str, t_cmd *cmd)
 		else if (handle_redir(&i, str, 1, cmd))
 		{
 		}
-		else if (is_sep(&i, str, 1))
+		else if (is_sep(&i, str, 1, cmd))
 		{
-			if (i == 0)
-				cmd->sep = NONE;
-			else
-				cmd->sep = def_sep(str + i - 1);
 			return (1);
 		}
 		else if ((tmp = skip_quotes(str, &i, cmd)) != NULL)
@@ -58,14 +55,12 @@ int		split_cmd(int count, char *str, t_cmd *cmd)
 			if (tmp_i != i )
 			{
 				cmd->av[n_av] = ft_strsub(str, tmp_i, i - tmp_i);
-				cmd->av[n_av + 1] = 0;
 				n_av++;
 			}
 		}
 		if (cmd->error)
 			return (0);
 	}
-	cmd->sep = NONE;
 	return (1);
 }
 
@@ -76,30 +71,30 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 	char		*tmp;
 
 	count = 0;
-	if (str[0] == '|')
+	if (str[0] == '|') // On regarde si on commence par un pipe.
 	{
 		ft_putstr_fd("21sh: parse error near '|'\n", 2);
 		return (-1);
 	}
 	while (str[*i])
 	{
-		while (ft_isspace2(str[*i]))
+		while (ft_isspace2(str[*i])) // On saute les espaces
 			(*i)++;
 		tmp_i = *i;
-		if(is_aggr(i, str, 1))
+		if(is_aggr(i, str, 1)) // Si il y a un aggregateur, on le saute.
 		{
 			// printf("IT'S ALIVE\n");
 		}
-		else if (is_redir(i, str, 1, cmd))
+		else if (is_redir(i, str, 1, cmd)) // Si il y a une redirection, on la saute (comme la mere de vivien).
 		{
 			// printf("TYPICAL PENIS\n");
 		}
-		else if (is_sep(i, str, 1))
+		else if (is_sep(i, str, 1, cmd)) // Si il y a un separateur, on return
 		{
 			// printf("RIP ORIGINALITE\n");
 			return (count);
 		}
-		else if ((tmp = skip_quotes_nb_arg(str, i, cmd)) != NULL)
+		else if ((tmp = skip_quotes_nb_arg(str, i, cmd)) != NULL) // Sinon  on augment notre count.
 		{
 			// printf("J'AIME LE CACA\n");
 			if (tmp_i != *i)
@@ -107,7 +102,7 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 				count++;
 			}
 		}
-		if (cmd->p_error)
+		if (cmd->p_error) // Si il y a une parse_error on return.
 		{
 			ft_putstr_fd("21sh: parse error\n", 2);
 			return (-1);
@@ -123,39 +118,21 @@ t_cmd	*parse(char *str)
 	size_t	old_i;
 	t_cmd		*cmd;
 	t_cmd		fake_cmd; //Important.
-	t_cmd		*tmp;
 
-	// printf("on recoit : [%s]\n", str);
 	i = 0;
-	cmd = NULL;
+	cmd = NULL; // On initialiase notre retour.
 	while (str[i])
 	{
-		fake_cmd.p_error = 0;
+		fake_cmd.p_error = 0; // On mets le error et le p_error du fake_cmd à 0.
 		fake_cmd.error = 0;
-		old_i = i;
-		count = nb_arg(&i, str, &fake_cmd);
-		// printf("str : %s\n", str + i);
+		old_i = i; // On retient le i d'avant.
+		count = nb_arg(&i, str, &fake_cmd); // On compte le nombre d'elements
 		if (count == -1)
 		{
 			//free cmd.
 			return (0);
 		}
-		// printf("RESULTAT DE COUNT = [%d]\n", count);
-		cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count));
-		// t_cmd *cmd; // = parse(av[1]);
+		cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count)); //count a bouge i, du coup i - old_i donne le taille de la chaine a envoyer à create cmd_elem.
 	}
-
-	// print_list(cmd);
-	tmp = cmd;
-	while (cmd)
-	{
-		if (cmd->fd_in->fd == -1)
-			cmd->fd_in->fd = 0;
-		if (cmd->fd_out->fd == -1)
-			cmd->fd_out->fd = 1;
-		if (cmd->fd_err->fd == -1)
-			cmd->fd_err->fd = 2;
-		cmd = cmd->next;
-	}
-	return (tmp);
+	return (cmd);
 }

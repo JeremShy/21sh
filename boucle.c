@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/03 20:03:05 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/15 20:27:16 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	prompt_quote(t_data *data)
 		data->prompt = ft_strdup("crochet> ");
 	else if (data->c == '{')
 		data->prompt = ft_strdup("cursh> ");
+	else if (data->c == '<')
+		data->prompt = ft_strdup("heredoc> ");
 	ft_putstr(data->prompt);
 }
 
@@ -89,15 +91,18 @@ void	move_down_history(t_data *data, t_env *env)
 void	create_history(t_data *data, t_env *env)
 {
 	ft_putstr("\n");
-	if (!is_quote_end(data) && data->cmd[0] != '\0')
+	if (!is_quote_end(data) && data->cmd[0] != '\0') // Si la quote est terminée..
 	{
-		data->history = add_history_elem(data->history, create_history_elem(data->cmd));
-		data->history_en_cours = data->history;
-		exec_cmd(data->cmd, &env);
+		data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
+		data->history_en_cours = data->history; // On avance dans l'historique
+		exec_cmd(data->cmd, &env); // On execute la commande.
 	}
 	else
 	{
-		data->cmd = ft_strjoinaf1(data->cmd, "\n");
+		if (data->c == '<')
+
+		else
+			data->cmd = ft_strjoinaf1(data->cmd, "\n");
 		data->index++;
 	}
 	free(data->prompt);

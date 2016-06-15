@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 22:47:34 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/15 15:26:33 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/15 19:34:01 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 
 	tmp = *i;
 	avant = 1;
-	if (str[*i] == '>' && str[*i + 1] == '&' && (ft_isdigit(str[*i + 2]) || str[*i + 2] == '-'))
+	if (str[*i] == '>' && str[*i + 1] == '&' && (ft_isdigit(str[*i + 2]) || str[*i + 2] == '-')) // On check si le truc est valide.
 	{
 		(*i) += 2;
 		if (str[*i + 2] == '-')
@@ -34,7 +34,7 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 		if (!jump)
 			*i = tmp;
 	}
-	else if (ft_isdigit(str[*i]) && str[*i + 1] == '>' && str[*i + 2] == '&' && (ft_isdigit(str[*i + 3]) || str[*i + 3] == '-'))
+	else if (ft_isdigit(str[*i]) && str[*i + 1] == '>' && str[*i + 2] == '&' && (ft_isdigit(str[*i + 3]) || str[*i + 3] == '-')) // La meme
 	{
 		avant = str[*i] - '0';
 		(*i) += 3;
@@ -49,7 +49,7 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 	}
 	else
 		return (0);
-	if (avant == 0)
+	if (avant == 0) // On mets des pointeurs sur le fd_avant et le fd_apres (format fd_avant>&fd_apres).
 		fd_avant = &cmd->fd_in;
 	else if (avant == 1)
 		fd_avant = &cmd->fd_out;
@@ -61,13 +61,12 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 		fd_apres = &cmd->fd_out;
 	else
 		fd_apres = &cmd->fd_err;
-
-	if ((*fd_apres)->fd == -1 && apres != -2)
+	if ((*fd_apres)->fd == -1 && apres != -2) // Si c'est le premier fd qu'on redefinit, on remplace.
 		*fd_avant = add_fd_elem(*fd_avant, create_fd(dup(apres)));
 	else if (apres != -2)
-		*fd_avant = add_fd_elem(*fd_avant, copy_fd(*fd_apres));
+		*fd_avant = add_fd_elem(*fd_avant, copy_fd(*fd_apres)); // Si on le close pas, on ajoute a la liste.
 	else
-		*fd_avant = add_fd_elem(*fd_avant, create_fd(-2));
+		*fd_avant = add_fd_elem(*fd_avant, create_fd(-2)); // Sinon, on le close. (tout ce bordel etait pour ne pas faire un dup(-2))
 	return (1);
 }
 
@@ -81,7 +80,7 @@ char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd)
 
 	tmp = *i;
 	fd = (str[tmp] == '>' ? 1 : 0);
-	if ((str[tmp] == '<' && str[tmp + 1] == '<') || (str[tmp] == '>' && str[tmp + 1] == '>'))
+	if ((str[tmp] == '<' && str[tmp + 1] == '<') || (str[tmp] == '>' && str[tmp + 1] == '>')) // on check si la redirection est valide.
 	{
 		redir_type = 1;
 		tmp += 2;
@@ -93,7 +92,6 @@ char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd)
 	}
 	else if (ft_isdigit(str[*i]))
 	{
-		// fd = (str[tmp + 1] == '>' ? ft_atoi(str + *i) : 0);
 		fd = str[*i] - '0';
 		if (str[tmp + 1] == '>' && str[tmp + 2] == '>')
 		{
@@ -107,40 +105,39 @@ char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd)
 		}
 		else
 			return (NULL);
-		printf("str[%c] : %d\n", str[tmp + 1],  fd);
 	}
-	if (tmp != *i)
+	if (tmp != *i) // Si on a bouge tmp, alors :
 	{
-		while (ft_isspace2(str[tmp]))
+		while (ft_isspace2(str[tmp])) // on saute les espaces
 			tmp++;
-		if (is_empty(str, &tmp))
+		if (is_empty(str, &tmp)) // on check si c'est empty
 		{
 			cmd->p_error = 1;
 			return(NULL);
 		}
-		quote = skip_quotes(str, &tmp, cmd);
+		quote = skip_quotes(str, &tmp, cmd); // on vire les quotes
 		if (!quote)
 			quote = ft_strdup("");
 		if (fd > 2)
-			return(quote);
+			return(quote); // si le fd est pourri, on se barre
 		// printf("Quote : [%s]. fd : %d\n", quote, fd);
-		if (redir_type == 0)
+		if (redir_type == 0) // on open avec les bons flags selon si c'est  > ou >> ou <
 			fd_file = open(quote, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (redir_type == 1)
 			fd_file = open(quote, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else if (redir_type == 2)
 		{
-			if ((fd_file = open(quote, O_RDONLY)) < 0)
+			if ((fd_file = open(quote, O_RDONLY)) < 0) // si on peut pas open en read, on affiche une erreur et on termine le parsing.
 			{
 				ft_putstr_fd("zsh: error while opening file: ", 2);
 				ft_putstr_fd(quote, 2);
 				ft_putstr_fd("\n", 2);
 				cmd->error = 1;
+				free(quote);
 				return(NULL);
 			}
-			printf("redir inverse WIFBOURVVOU\n");
 		}
-		if (fd == 0)
+		if (fd == 0) // on ajoute ce truc au bon fd.
 			cmd->fd_in = add_fd_elem(cmd->fd_in, create_fd(fd_file));
 		else if (fd == 1)
 			cmd->fd_out = add_fd_elem(cmd->fd_out, create_fd(fd_file));

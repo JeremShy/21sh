@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/15 14:56:38 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/15 20:34:35 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ typedef struct s_data {
 	t_history	*history;
 	t_history	*history_en_cours;
 	char			*nouveau;
+	size_t		end_here;
+	char 			*key_here;
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
@@ -140,7 +142,7 @@ void				join_inside_quote(size_t *i, char *str);
 int					is_aggr(size_t *i, char *str, int jump);
 char				*is_redir(size_t *i, char *str, int jump, t_cmd *cmd);
 char				*skip_quotes(char *str, size_t *i, t_cmd *cmd);
-int					is_sep(size_t *i, char *str, int jump);
+int					is_sep(size_t *i, char *str, int jump, t_cmd *cmd);
 t_fd				*add_fd_elem(t_fd *list, t_fd *elem);
 t_fd				*create_fd(int fd);
 int					split_cmd(int count, char *str, t_cmd *cmd);
@@ -152,4 +154,5 @@ t_fd				*copy_fd(t_fd *list);
 int					handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd);
 void 				print_fd_list(t_cmd *list);
 void 				print_fd(t_fd *list);
+int					def_sep(char *str);
 #endif

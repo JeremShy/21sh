@@ -6,7 +6,7 @@
 /*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/11 14:53:03 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/06/15 15:22:48 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/15 16:38:07 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int			exec_file(t_cmd *cmd, t_env *list)
 			ft_putchar_fd('\n', 2);
 			exit(EXIT_FAILURE);
 		}
+		exit(EXIT_SUCCESS);
 	}
 	free_char_tab(env);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 20:12:36 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/14 21:55:48 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/15 18:57:38 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,15 @@ void		print_list(t_cmd *lst)
 t_cmd	*create_cmd_elem(char *str, int count)
 {
 	t_cmd		*elem;
-	int			sep;
 
-	sep = 0;
-	elem = (t_cmd*)malloc(sizeof(t_cmd));
-	elem->fd_in = create_fd(-1);
+	elem = (t_cmd*)malloc(sizeof(t_cmd)); // On alloue l'espace necessaire à la contiendance de notre élément.
+	elem->fd_in = create_fd(-1); // On initialise les trois fds.
 	elem->fd_out = create_fd(-1);
 	elem->fd_err = create_fd(-1);
 	// printf("str : [%s]\n", str);
 	elem->p_error	= 0;
 	elem->error = 0;
+	elem->sep = NONE;
 	if (split_cmd(count, str, elem) == -1)
 	{
 		//faire quelque
@@ -59,12 +58,18 @@ t_cmd	*create_cmd_elem(char *str, int count)
 	printf("sep : %d\n", elem->sep);
 	// printf("on cree une liste.\n");
 	elem->next = NULL;
+	if (elem->fd_in->fd == -1)
+		elem->fd_in->fd = 0;
+	if (elem->fd_out->fd == -1)
+		elem->fd_out->fd = 1;
+	if (elem->fd_err->fd == -1)
+		elem->fd_err->fd = 2;
 	free(str);
 	// print_fd_list(elem);
 	return (elem);
 }
 
-t_cmd *add_cmd_elem(t_cmd *list, t_cmd *elem)
+t_cmd *add_cmd_elem(t_cmd *list, t_cmd *elem) //Ça add.
 {
 	t_cmd *tmp;
 

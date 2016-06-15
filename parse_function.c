@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 22:10:43 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/14 18:22:33 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/15 17:46:02 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,13 @@ char *skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd)
 		return (NULL);
 	}
  	start = *i;
-	while(str[*i] && !ft_isspace2(str[*i]) && !is_redir(i, str, 0, cmd) && !is_aggr(i, str, 0) && !is_sep(i, str, 0))
+	while(str[*i] && !ft_isspace2(str[*i]) && !is_sep(i, str, 0, cmd))
 	{
+		if (is_redir(i, str, 0, cmd) && ft_isdigit(str[*i]))
+		{
+			// printf("CHAR ACTUEL : [%c] avec i = %zu (after %c)\n", str[*i], *i, str[*i + 1]);
+			break ;
+		}
 		if (is_quote_open(str[*i]))
 		{
 			get_pos_after_quote(i, str);
@@ -75,8 +80,15 @@ char *skip_quotes(char *str, size_t *i, t_cmd *cmd)
 		return (NULL);
 
  	start = *i;
-	while(str[*i] && !ft_isspace2(str[*i]) && !is_redir(i, str, 0, cmd) && !is_aggr(i, str, 0) && !is_sep(i, str, 0))
+	// printf("glblblbl %s\n", str + *i);
+	while(str[*i] && !ft_isspace2(str[*i]) && !is_sep(i, str, 0, cmd))
 	{
+		if ((is_redir(i, str, 0, cmd) || is_aggr(i, str, 0)) && ft_isdigit(str[*i]))
+		{
+			printf("CHAR ACTUEL : [%c] avec i = %zu (after %c)\n", str[*i], *i, str[*i + 1]);
+			(*i)++;
+			break ;
+		}
 		if (is_quote_open(str[*i]))
 		{
 			join_inside_quote(i, str);
@@ -84,6 +96,9 @@ char *skip_quotes(char *str, size_t *i, t_cmd *cmd)
 		(*i)++;
 	}
 	if (start != *i)
+	//{
+		// printf("popo\n");
 		return(ft_strsub(str, start, *i - start));
+	// }
 	return(NULL);
 }
