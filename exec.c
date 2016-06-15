@@ -6,7 +6,7 @@
 /*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/11 14:53:03 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/06/07 17:23:05 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/15 15:22:48 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,20 @@ char		*find_exec(char *scmd, t_env *list)
 	return (ret);
 }
 
-int			exec_file(char **scmd, t_env *list)
+int			exec_file(t_cmd *cmd, t_env *list)
 {
 	char	*file;
 	char	**env;
 	pid_t	process;
 	int		retour;
 
-	file = find_exec(scmd[0], list);
+	file = find_exec(cmd->av[0], list);
 	if (!file)
 		return (0);
 	if (access(file, X_OK) == -1)
 	{
 		ft_putstr_fd("21sh: permission denied: ", 2);
-		ft_putstr_fd(scmd[0], 2);
+		ft_putstr_fd(cmd->av[0], 2);
 		ft_putchar_fd('\n', 2);
 		free(file);
 		return (0);
@@ -90,15 +90,18 @@ int			exec_file(char **scmd, t_env *list)
 		wait(NULL);
 	else
 	{
-		retour = execve(file, scmd, env);
+		dup2(cmd->fd_in->fd, 0);
+		dup2(cmd->fd_out->fd, 1);
+		dup2(cmd->fd_err->fd, 2);
+		retour = execve(file, cmd->av, env);
 		if (retour == -1)
 		{
 			ft_putstr_fd("21sh: exec format error: ", 2);
-			ft_putstr_fd(scmd[0], 2);
+			ft_putstr_fd(cmd->av[0], 2);
 			ft_putchar_fd('\n', 2);
 			exit(EXIT_FAILURE);
 		}
 	}
 	free_char_tab(env);
 	return (1);
-}
+	}

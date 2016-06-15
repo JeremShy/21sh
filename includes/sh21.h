@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/14 21:54:10 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/15 14:56:38 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int					ft_cd(char **scmd, t_env *env);
 int					isset_arg(t_env *list, char *name);
 void				delete_elem(t_env **list, char *name);
 void				delete_list(t_env *list);
-int					exec_file(char **scmd, t_env *list);
+int					exec_file(t_cmd *cmd, t_env *list);
 char				**make_env_char(t_env *list);
 int					ft_source(char **scmd, t_env **env);
 void				exec_cmd(char *cmd, t_env **env);

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 22:47:34 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/14 20:22:49 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/15 15:26:33 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd)
 	}
 	else if (ft_isdigit(str[*i]))
 	{
+		// fd = (str[tmp + 1] == '>' ? ft_atoi(str + *i) : 0);
+		fd = str[*i] - '0';
 		if (str[tmp + 1] == '>' && str[tmp + 2] == '>')
 		{
 			redir_type = 1;
@@ -105,7 +107,7 @@ char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd)
 		}
 		else
 			return (NULL);
-		fd = (str[tmp + 1] == '>' ? ft_atoi(str + *i) : 0);
+		printf("str[%c] : %d\n", str[tmp + 1],  fd);
 	}
 	if (tmp != *i)
 	{

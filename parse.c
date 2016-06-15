@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/14 22:39:42 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/15 14:59:26 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ t_cmd	*parse(char *str)
 	size_t	old_i;
 	t_cmd		*cmd;
 	t_cmd		fake_cmd; //Important.
+	t_cmd		*tmp;
 
 	// printf("on recoit : [%s]\n", str);
 	i = 0;
@@ -142,64 +143,19 @@ t_cmd	*parse(char *str)
 		// printf("RESULTAT DE COUNT = [%d]\n", count);
 		cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count));
 		// t_cmd *cmd; // = parse(av[1]);
-
-
 	}
+
 	// print_list(cmd);
-	return (cmd);
+	tmp = cmd;
+	while (cmd)
+	{
+		if (cmd->fd_in->fd == -1)
+			cmd->fd_in->fd = 0;
+		if (cmd->fd_out->fd == -1)
+			cmd->fd_out->fd = 1;
+		if (cmd->fd_err->fd == -1)
+			cmd->fd_err->fd = 2;
+		cmd = cmd->next;
+	}
+	return (tmp);
 }
-// int main(int ac, char **av)
-// {
-// 	int		count;
-// 	char 	*str;
-// 	size_t	i;
-// 	size_t	old_i;
-// 	t_cmd		*cmd;
-// 	t_cmd		fake_cmd; //Important.
-//
-// 	if (ac == 1)
-// 	{
-// 		printf("KAKA\n");
-// 		return (0);
-// 	}
-// 	str = av[1];
-// 	printf("on recoit : [%s]\n", str);
-// 	i = 0;
-// 	cmd = NULL;
-// 	while (str[i])
-// 	{
-// 		fake_cmd.p_error = 0;
-// 		fake_cmd.error = 0;
-// 		old_i = i;
-// 		count = nb_arg(&i, str, &fake_cmd);
-// 		// printf("str : %s\n", str + i);
-// 		if (count == -1)
-// 		{
-// 			//free cmd.
-// 			return (0);
-// 		}
-// 		printf("RESULTAT DE COUNT = [%d]\n", count);
-// 		cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i + 1), count));
-// 		// t_cmd *cmd; // = parse(av[1]);
-//
-//
-// 	}
-// 	print_list(cmd);
-// 	return (1);
-// }
-//
-// t_cmd *tmp;
-// while (list)
-// {
-// 	tmp = list->next;
-// 	int j = 0;
-// 	while (list->av[j] != NULL)
-// 	{
-// 		printf("j : %d\n", j);
-// 		free(list->av[j]);
-// 		j++;
-// 	}
-// 	free(list->av);
-// 	free(list);
-// 	list = tmp;
-// }

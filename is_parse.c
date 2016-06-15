@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/14 16:17:58 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/14 20:23:11 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/15 15:22:47 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,6 @@ char	*is_redir(size_t *i, char *str, int jump, t_cmd	*cmd)
 			tmp += 3;
 		else if (str[tmp + 1] == '>')
 			tmp += 2;
-		else
-		{
-			cmd->p_error = 1;
-			// return (NULL);
-		}
 	}
 	if (tmp != *i)
 	{
