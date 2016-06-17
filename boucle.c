@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   boucle.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/15 20:27:16 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/17 02:41:23 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,68 +31,26 @@ void	prompt_quote(t_data *data)
 	ft_putstr(data->prompt);
 }
 
-void	move_up_history(t_data *data, t_env *env)
+int	check_empty_str(char *s)
 {
-	if (data->c == '\0')
+	int	tmp;
+
+	tmp = 0;
+	while(s[tmp])
 	{
-		if (data->history != NULL)
-		{
-			exec_tcap("dl");
-			exec_tcap("cr");
-			data->prompt = print_prompt(env, data);
-			data->len_prompt = ft_strlen(data->prompt);
-			free(data->cmd);
-			if (data->history_en_cours == NULL)
-				data->history_en_cours = data->history;
-			ft_putstr((data->history_en_cours)->line);
-			data->cmd = ft_strdup((data->history_en_cours)->line);
-			data->real_len_cmd = ft_strlen(data->cmd);
-			data->index = ft_strlen(data->cmd);
-			data->curs_x = data->len_prompt + data->real_len_cmd + 1;
-			if ((data->history_en_cours)->prec)
-				data->history_en_cours = (data->history_en_cours)->prec;
-		}
+		if(!ft_isspace2(s[tmp]))
+			return(0);
+		tmp++;
 	}
-	else
-	{
-		//On fait des trucs. (important).
-	}
+	return(1);
 }
 
-void	move_down_history(t_data *data, t_env *env)
-{
-	if (data->c == '\0')
-	{
-		if (data->history != NULL)
-		{
-			exec_tcap("dl");
-			exec_tcap("cr");
-			data->prompt = print_prompt(env, data);
-			data->len_prompt = ft_strlen(data->prompt);
-			if (data->history_en_cours == NULL)
-				data->history_en_cours = data->history;
-			if (!(data->history_en_cours)->next)
-			{
-				data->cmd = ft_strdup("");
-				return ;
-			}
-			free(data->cmd);
-			if ((data->history_en_cours)->next)
-				data->history_en_cours = (data->history_en_cours)->next;
-			ft_putstr((data->history_en_cours)->line);
-			data->cmd = ft_strdup((data->history_en_cours)->line);
-			data->real_len_cmd = ft_strlen(data->cmd);
-			data->index = ft_strlen(data->cmd);
-			data->curs_x = data->len_prompt + data->real_len_cmd;
-		}
-	}
-}
-
-void	create_history(t_data *data, t_env *env)
+void	after_eof(t_data *data, t_env *env, int *flag)
 {
 	ft_putstr("\n");
-	if (!is_quote_end(data) && data->cmd[0] != '\0') // Si la quote est terminée..
+	if (!is_quote_end(data) && data->cmd[0] != '\0' && !check_empty_str(data->cmd)) // Si la quote est terminée..
 	{
+		*flag = 0;
 		data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
 		data->history_en_cours = data->history; // On avance dans l'historique
 		exec_cmd(data->cmd, &env); // On execute la commande.
@@ -100,14 +58,16 @@ void	create_history(t_data *data, t_env *env)
 	else
 	{
 		if (data->c == '<')
+		{
 
+		}
 		else
 			data->cmd = ft_strjoinaf1(data->cmd, "\n");
-		data->index++;
+			data->index++;
 	}
 	free(data->prompt);
 	data->prompt = print_prompt(env, data);
-	data->len_prompt = ft_strlen(data->prompt);
+	data->len_prompt = ft_strlen(data->prompt) + 1;
 	data->real_len_cmd = 0;
 	data->curs_x = data->len_prompt + 1;
 	data->curs_y = -1;
@@ -165,7 +125,9 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == 127 && buf[1] == 0)
 		{
-			if (data->curs_x > data->len_prompt + 1 && data->curs_x > 0)
+			data->len_prompt = ft_strlen(data->prompt) + 1;
+			// printf("data->curs_x = %d, data->len_prompt = %d", data->curs_x, data->len_prompt);
+			if (data->curs_x > data->len_prompt && data->curs_x > 0)
 			{
 				exec_tcap("le");
 				data->curs_x--;
@@ -178,7 +140,7 @@ void	boucle(t_env *env, t_data *data)
 			}
 		}
 		else if (buf[0] == 10 && buf[1] == 0)
-			create_history(data, env);
+			after_eof(data, env, &flag);
 		else if (buf[0] == 27	&&	buf[1] == 91	&&	buf[2] == 72 && buf[3] == 0)
 			while(data->curs_x > data->len_prompt + 1 && data->curs_x > 0)
 				move_left(data);
@@ -192,13 +154,17 @@ void	boucle(t_env *env, t_data *data)
 				flag++;
 				first = ft_strdup(data->cmd);
 			}
-			move_up_history(data, env);
+			if (data->history != NULL)
+				move_up_history(data, env, first);
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66 && buf[3] == 0)
-			move_down_history(data, env);
+		{
+			if (data->history != NULL)
+				move_down_history(data, env, first);
+		}
 		else
 		{
-//				ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
+			// ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
 		}
 		ft_bzero(buf, 6);
 	}

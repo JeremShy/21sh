@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/15 19:31:21 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/16 22:08:50 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int			main(int ac, char **av, char **env)
 	singleton_termios(init_term(), 1); // Mets le term en mode non canonique et tout le bordel
 	data.c = '\0';
 	data.prompt = print_prompt(list, &data); // On mets le prompt dans data.prompt
-	data.len_prompt = ft_strlen(data.prompt); // On mets la longueur dans...
+	data.len_prompt = ft_strlen(data.prompt) + 1; // On mets la longueur dans...
 	data.curs_x = data.len_prompt + 1;
 	data.curs_y = -1;
 	data.cmd = ft_strdup("");

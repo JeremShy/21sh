@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/14 16:22:40 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/15 20:35:34 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/16 15:26:22 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int 	is_quote_close(char car, char open)
 int		is_quote_end(t_data *data)
 {
 	size_t	i;
+
 //	printf("\ncmd : [%s]\n", data->cmd);
 //	printf("data->c : %c\n", data->c);
 	i = ft_strlen(data->cmd) - data->real_len_cmd;
@@ -88,7 +89,7 @@ int		is_quote_end(t_data *data)
 				data->end_hd = i - (ft_strlen(data->cmd) - data->real_len_cmd);
 				while (ft_isspace2(data->cmd[i]))
 					i++;
-				data->key_here = skip_quotes(data->cmd, &tmp, NULL); // On enleve les quotes.
+				data->key_here = skip_quotes(data->cmd, &i, NULL); // On enleve les quotes.
 			}
 		}
 		else if (is_quote_close(data->c, data->cmd[i]))

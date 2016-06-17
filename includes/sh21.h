@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh21.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/15 20:34:35 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/17 00:23:40 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ typedef struct s_data {
 	t_history	*history;
 	t_history	*history_en_cours;
 	char			*nouveau;
-	size_t		end_here;
+	size_t		end_hd;
 	char 			*key_here;
 }				t_data;
 
@@ -155,4 +155,7 @@ int					handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd);
 void 				print_fd_list(t_cmd *list);
 void 				print_fd(t_fd *list);
 int					def_sep(char *str);
+void				move_down_history(t_data *data, t_env *env, char *cp);
+void				move_up_history(t_data *data, t_env *env, char *cp);
+
 #endif
