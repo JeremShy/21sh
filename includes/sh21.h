@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh21.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/17 00:23:40 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/06/17 18:40:02 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,16 +121,10 @@ int					my_putchar(int c);
 void				exec_tcap(char *tcap);
 char				*insert_char(char *str, int index, char c);
 char				*delete_char(char *str, int index);
-char				*print_prompt(t_env *env, t_data *data);
 void				move_left(t_data *data);
 void				move_right(t_data *data);
 int 				is_special(char *str, int quote);
-int 				is_quote(char car);
-int 				is_quote_open(char car);
-int 				is_quote_close(char car, char open);
-int					is_quote_end(t_data *data);
 int					ft_isspace2(char car);
-void				prompt_quote(t_data *data);
 t_history		*add_history_elem(t_history *list, t_history *elem);
 t_history		*create_history_elem(char *content);
 t_cmd				*create_cmd_elem(char *str, int count);
@@ -155,7 +149,25 @@ int					handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd);
 void 				print_fd_list(t_cmd *list);
 void 				print_fd(t_fd *list);
 int					def_sep(char *str);
+
+/*move_history.c*/
 void				move_down_history(t_data *data, t_env *env, char *cp);
 void				move_up_history(t_data *data, t_env *env, char *cp);
+
+/*tools_prompt.c*/
+void				prompt_quote(t_data *data);
+char  			*create_prompt(t_env *env, char *tmp, char *new);
+char				*print_prompt(t_env *env, t_data *data);
+
+/*is_quotes.c*/
+int 				is_quote(char car);
+int 				is_quote_open(char car);
+int 				is_quote_close(char car, char open);
+int					is_quote_end(t_data *data);
+
+/*line.c*/
+void delete_use(t_data *data);
+void move_right(t_data *data);
+void move_left(t_data *data);
 
 #endif

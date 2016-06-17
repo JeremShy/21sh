@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+         #
+#    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/06/16 19:58:45 by adomingu         ###   ########.fr        #
+#    Updated: 2016/06/17 18:14:55 by adomingu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,8 @@ SRC_NAME = main.c \
 		 handle.c \
 		 is_parse.c \
 		 quote.c \
-		 move_history.c
+		 move_history.c \
+		 tools_prompt.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes

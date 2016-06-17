@@ -3,54 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/16 22:08:50 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/06/17 18:44:26 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
-
-char	*print_prompt(t_env *env, t_data *data)
-{
-	char	*new;
-	char	*tmp;
-	char	*prompt;
-
-	ft_putstr("\e[38;5;208m");
-	if (data->c != '\0')
-	{
-		prompt_quote(data);
-		ft_putstr("\e[39m");
-		return (data->prompt);
-	}
-	new = find_arg(env, "PROMPT");
-	if (ft_strequ(new, ""))
-	{
-		free(new);
-		new = getcwd(NULL, 0);
-		if (!new)
-		{
-			tmp = find_arg(env, "HOME");
-			if (ft_strequ(tmp, ""))
-				tmp = ft_strjoinaf1(tmp, "/");
-			change_arg(env, "PWD", tmp);
-			chdir(tmp);
-			new = getcwd(NULL, 0);
-			free(tmp);
-		}
- 		prompt = ft_strdup("<");
-		prompt = ft_strjoinaf12(prompt, new);
-		prompt = ft_strjoinaf1(prompt, ">% ");
-	}
-	else
-//		prompt = ft_strjoinaf1(new, "");
-	prompt = new;
-	ft_putstr(prompt);
-	ft_putstr("\e[39m");
-	return(prompt);
-}
 
 void		exec_cmd(char *cmd, t_env **env)
 {
@@ -149,7 +109,7 @@ int			main(int ac, char **av, char **env)
 	data.c = '\0';
 	data.prompt = print_prompt(list, &data); // On mets le prompt dans data.prompt
 	data.len_prompt = ft_strlen(data.prompt) + 1; // On mets la longueur dans...
-	data.curs_x = data.len_prompt + 1;
+	data.curs_x = data.len_prompt;
 	data.curs_y = -1;
 	data.cmd = ft_strdup("");
 	data.index = 0;

@@ -3,33 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   boucle.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/17 02:41:23 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/06/17 18:42:41 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
-
-void	prompt_quote(t_data *data)
-{
-	if (data->c == '\'')
-		data->prompt = ft_strdup("quote> ");
-	else if (data->c == '"')
-		data->prompt = ft_strdup("dquote> ");
-	else if (data->c == '`')
-		data->prompt = ft_strdup("bquote> ");
-	else if (data->c == '(')
-		data->prompt = ft_strdup("subsh> ");
-	else if (data->c == '[')
-		data->prompt = ft_strdup("crochet> ");
-	else if (data->c == '{')
-		data->prompt = ft_strdup("cursh> ");
-	else if (data->c == '<')
-		data->prompt = ft_strdup("heredoc> ");
-	ft_putstr(data->prompt);
-}
 
 int	check_empty_str(char *s)
 {
@@ -111,41 +92,20 @@ void	boucle(t_env *env, t_data *data)
 		else if (buf[0] == 4 && buf[1] == 0)
 			exit(0);
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 68 && buf[3] == 0)
-		{
-			if (data->curs_x > data->len_prompt + 1 && data->curs_x > 0)
 				move_left(data);
 //			else
 //				exec_tcap("bl");
-		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 67 )
-		{
-			if (data->curs_x < data->len_prompt +
-					1 + (int)data->real_len_cmd)
 				move_right(data);
-		}
 		else if (buf[0] == 127 && buf[1] == 0)
-		{
-			data->len_prompt = ft_strlen(data->prompt) + 1;
-			// printf("data->curs_x = %d, data->len_prompt = %d", data->curs_x, data->len_prompt);
-			if (data->curs_x > data->len_prompt && data->curs_x > 0)
-			{
-				exec_tcap("le");
-				data->curs_x--;
-				data->cmd = delete_char(data->cmd, data->index);
-				data->index--;
-				data->real_len_cmd--;
-				exec_tcap("dm");
-				exec_tcap("dc");
-				exec_tcap("ed");
-			}
-		}
+				delete_use(data);
 		else if (buf[0] == 10 && buf[1] == 0)
 			after_eof(data, env, &flag);
 		else if (buf[0] == 27	&&	buf[1] == 91	&&	buf[2] == 72 && buf[3] == 0)
-			while(data->curs_x > data->len_prompt + 1 && data->curs_x > 0)
+			while (data->curs_x > data->len_prompt + 1 && data->curs_x > 0)
 				move_left(data);
 		else if (buf[0] == 27 && buf[1] == 91	&& buf[2] == 70 && buf[3] == 0)
-			while(data->curs_x < data->len_prompt + 1 + (int)data->real_len_cmd)
+			while (data->curs_x < data->len_prompt + 1 + (int)data->real_len_cmd)
 				move_right(data);
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65 && buf[3] == 0)
 		{
