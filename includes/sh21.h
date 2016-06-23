@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/23 14:40:49 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/23 20:28:49 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,12 @@ typedef struct	s_history {
 
 }								t_history;
 
-typedef struct s_data {
+typedef struct	s_hc {
+	struct s_hc	*next;
+	char				*content;
+}								t_hc;
+
+typedef struct	s_data {
 	int				curs_x;
 	int				curs_y;
 	char			*prompt;
@@ -90,6 +95,7 @@ typedef struct s_data {
 	char			*ancienne_cmd;
 	char			c;
 	int				index;
+	int				old_index;
 	int				real_len_cmd;
 	t_history	*history;
 	t_history	*history_en_cours;
@@ -97,6 +103,7 @@ typedef struct s_data {
 	size_t		end_here;
 	char 			*key_here;
 	size_t		end_hd;
+	t_hc			*heredocs;
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
@@ -158,4 +165,6 @@ void 				print_fd_list(t_cmd *list);
 void 				print_fd(t_fd *list);
 int					def_sep(char *str);
 int					is_key(t_data *data);
+t_hc				*create_hc_elem(char *content);
+t_hc				*add_hc_elem(t_hc *list, t_hc *elem);
 #endif

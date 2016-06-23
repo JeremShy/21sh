@@ -7,6 +7,7 @@ OH MON DIEU C'EST TOUT DOUX
 - leaks parsing
 - heredoc
 -	segfault bizarre dans le parsing si il y a un sep en premiere position.
+- SE SOUVENIR QU'ON A FAIT UN +1 AU MOMEN DE CREER LE NOUVEL HEREDOC ET QU'IL FAUDRA FAIRE -1 POUR FREE
 
 {
 	commande -> {

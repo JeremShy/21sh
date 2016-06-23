@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/15 20:37:13 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/23 14:57:42 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/23 19:56:43 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ int	is_key(t_data *data)
 	while (j != 0 && data->cmd[j] != '\n')
 		j--;
 	if (ft_strequ(data->cmd + j + 1, data->key_here))
+	{
+		data->cmd[j] = '\0';
 		return (1);
+	}
 	return(0);
 }

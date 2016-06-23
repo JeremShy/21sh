@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/23 14:53:26 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/23 23:11:39 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	prompt_quote(t_data *data)
 	else if (data->c == '<')
 		data->prompt = ft_strdup("heredoc> ");
 	ft_putstr(data->prompt);
+	printf("------- data->cmd = [%s]\n", data->cmd);
 }
 
 void	move_up_history(t_data *data, t_env *env)
@@ -88,7 +89,7 @@ void	move_down_history(t_data *data, t_env *env)
 	}
 }
 
-void	create_history(t_data *data, t_env *env)
+int	create_history(t_data *data, t_env *env)
 {
 	ft_putstr("\n");
 	if (data->c != '<' && !is_quote_end(data) && data->cmd[0] != '\0') // Si la quote est terminée..
@@ -96,15 +97,28 @@ void	create_history(t_data *data, t_env *env)
 		data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
 		data->history_en_cours = data->history; // On avance dans l'historique
 		exec_cmd(data->cmd, &env); // On execute la commande.
+		data->c = '\0';
+		data->end_hd = 0;
+		data->heredocs = NULL;
 	}
 	else
 	{
+
 		if (data->c == '<')
 		{
 			printf("data->cmd : %s\n", data->cmd);
 			if (is_key(data))
 			{
-				printf("on key de la mort\n");
+				printf("on key de la mort [%s]\n", data->cmd + 1);
+				add_hc_elem(data->heredocs, create_hc_elem(data->cmd + 1));
+				data->cmd = data->ancienne_cmd;
+				data->index = data->old_index;
+				free(data->key_here);
+				data->key_here = NULL;
+				printf("[%s]\n", data->cmd + data->index);
+				data->c = '\0';
+				return (create_history(data, env));
+				// create_history(data, env);
 			}
 			data->cmd = ft_strjoinaf1(data->cmd, "\n");
 		}
@@ -123,6 +137,7 @@ void	create_history(t_data *data, t_env *env)
 		data->cmd = ft_strdup("");
 		data->index = 0;
 	}
+	return (0);
 }
 
 void	boucle(t_env *env, t_data *data)

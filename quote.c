@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/14 16:22:40 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/23 17:07:24 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/23 23:02:58 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,13 @@ int		is_quote_end(t_data *data)
 	{
 			if (ft_strnstr(data->cmd + i, "<<", 2))
 			{
+				data->old_index = data->index;
 				i += 2;
 				data->c = '<';
-				data->end_hd = i - tmp;
 				while (ft_isspace2(data->cmd[i]))
 					i++;
 				data->key_here = skip_quotes(data->cmd, &i, NULL); // On enleve les quotes.
+				data->end_hd = i;
 				data->ancienne_cmd = data->cmd;
 				data->cmd = ft_strdup("");
 				data->index = 0;
