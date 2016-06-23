@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/23 14:21:10 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/23 14:53:26 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	move_down_history(t_data *data, t_env *env)
 void	create_history(t_data *data, t_env *env)
 {
 	ft_putstr("\n");
-	if (!is_quote_end(data) && data->cmd[0] != '\0') // Si la quote est terminée..
+	if (data->c != '<' && !is_quote_end(data) && data->cmd[0] != '\0') // Si la quote est terminée..
 	{
 		data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
 		data->history_en_cours = data->history; // On avance dans l'historique
@@ -101,8 +101,12 @@ void	create_history(t_data *data, t_env *env)
 	{
 		if (data->c == '<')
 		{
-			printf("on est dans un heredoc\n");
-			
+			printf("data->cmd : %s\n", data->cmd);
+			if (is_key(data))
+			{
+				printf("on key de la mort\n");
+			}
+			data->cmd = ft_strjoinaf1(data->cmd, "\n");
 		}
 		else
 			data->cmd = ft_strjoinaf1(data->cmd, "\n");

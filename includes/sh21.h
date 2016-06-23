@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/23 14:14:54 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/23 14:40:49 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_data {
 	char			*prompt;
 	int				len_prompt;
 	char			*cmd;
+	char			*ancienne_cmd;
 	char			c;
 	int				index;
 	int				real_len_cmd;
@@ -156,4 +157,5 @@ int					handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd);
 void 				print_fd_list(t_cmd *list);
 void 				print_fd(t_fd *list);
 int					def_sep(char *str);
+int					is_key(t_data *data);
 #endif

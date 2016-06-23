@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/14 16:22:40 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/23 14:18:22 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/23 14:38:28 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ int		is_quote_end(t_data *data)
 				while (ft_isspace2(data->cmd[i]))
 					i++;
 				data->key_here = skip_quotes(data->cmd, &i, NULL); // On enleve les quotes.
+				data->ancienne_cmd = data->cmd;
+				data->cmd = ft_strdup("");
+				data->index = 0;
 				printf("heredoc detected. key : %s\n", data->key_here);
 			}
 		}
