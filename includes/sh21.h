@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/15 20:34:35 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/23 14:14:54 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_data {
 	char			*nouveau;
 	size_t		end_here;
 	char 			*key_here;
+	size_t		end_hd;
 }				t_data;
 
 t_env				*ft_parse_env(char **env);

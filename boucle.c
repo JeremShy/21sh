@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/15 20:27:16 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/23 14:21:10 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,10 @@ void	create_history(t_data *data, t_env *env)
 	else
 	{
 		if (data->c == '<')
-
+		{
+			printf("on est dans un heredoc\n");
+			
+		}
 		else
 			data->cmd = ft_strjoinaf1(data->cmd, "\n");
 		data->index++;
