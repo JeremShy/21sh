@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/14 16:22:40 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/23 23:02:58 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/23 23:59:20 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,22 +78,31 @@ int		is_quote_end(t_data *data)
 //	printf("data->c : %c\n", data->c);
 	i = ft_strlen(data->cmd) - data->real_len_cmd;
 	tmp = i;
-	printf("JE SUIS PASSER PAR ICI WESH\n");
+	// printf("AVANT VERIF QUOTE OPEN i vaut [%zu]\n", i);
 	while(data->cmd[i])
 	{
 		if (data->c == '\0')
 		{
 			if (is_quote_open(data->cmd[i]))
+			{
+				// printf("-- QUOTE OPEN // data->c = [%c] /// i = [%zu]\n", data->c, i);
 				data->c = data->cmd[i];
+			}
 		}
 		else if (is_quote_close(data->c, data->cmd[i]))
+		{
+			// printf("-- QUOTE CLOSE\n");
 			data->c = '\0';
+		}
 		i++;
 	}
 	if (data->c)
+	{
+		// printf("--- QUOTE NON TERMINE /// data->c = [%c]\n", data->c);
 		return (1);
+	}
 	i = data->end_hd;
-	printf("RIP LE HEREDOC [%s]\n", data->cmd + i);
+	printf("TRY TO DETECT HEREDOC [%s]\n", data->cmd + i);
 	while (data->c == '\0' && data->cmd[i])
 	{
 			if (ft_strnstr(data->cmd + i, "<<", 2))

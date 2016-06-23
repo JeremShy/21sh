@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/23 23:11:39 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/23 23:59:19 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	create_history(t_data *data, t_env *env)
 		data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
 		data->history_en_cours = data->history; // On avance dans l'historique
 		exec_cmd(data->cmd, &env); // On execute la commande.
+		display_heredoc(data->heredocs);
 		data->c = '\0';
 		data->end_hd = 0;
 		data->heredocs = NULL;
@@ -106,17 +107,18 @@ int	create_history(t_data *data, t_env *env)
 
 		if (data->c == '<')
 		{
-			printf("data->cmd : %s\n", data->cmd);
+			printf("--------  data->cmd : %s\n", data->cmd);
 			if (is_key(data))
 			{
-				printf("on key de la mort [%s]\n", data->cmd + 1);
+				// printf("on key de la mort [%s]\n", data->cmd + 1);
 				add_hc_elem(data->heredocs, create_hc_elem(data->cmd + 1));
 				data->cmd = data->ancienne_cmd;
 				data->index = data->old_index;
 				free(data->key_here);
 				data->key_here = NULL;
-				printf("[%s]\n", data->cmd + data->index);
+				// printf("[%s]\n", data->cmd + data->index);
 				data->c = '\0';
+				data->real_len_cmd = 0;
 				return (create_history(data, env));
 				// create_history(data, env);
 			}

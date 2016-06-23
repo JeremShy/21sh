@@ -6,11 +6,26 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 19:30:33 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/23 19:54:02 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/24 00:00:01 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+void	display_heredoc(t_hc *elem)
+{
+	int	i;
+
+	i = 0;
+	printf("--- LIST HEREDOC ---\n");
+	while (elem)
+	{
+		printf("N° %d --> [%s]\n", i, elem->content);
+		i++;
+		elem = elem->next;
+	}
+	printf("--- END HEREDOC  ---\n");
+}
 
 t_hc *create_hc_elem (char *content)
 {
