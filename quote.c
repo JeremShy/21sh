@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/14 16:22:40 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/23 23:59:20 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/24 15:15:28 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,14 @@ int		is_quote_end(t_data *data)
 				data->c = '<';
 				while (ft_isspace2(data->cmd[i]))
 					i++;
+				if (!data->cmd[i])
+				{
+					ft_putstr_fd("21sh: parse error near '\\n'\n", 2);
+					return (-1);
+				}
 				data->key_here = skip_quotes(data->cmd, &i, NULL); // On enleve les quotes.
+				if (data->key_here == NULL)
+					data->key_here = ft_strdup("");
 				data->end_hd = i;
 				data->ancienne_cmd = data->cmd;
 				data->cmd = ft_strdup("");

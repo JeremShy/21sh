@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/23 23:59:19 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/24 15:14:35 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,11 @@ void	move_down_history(t_data *data, t_env *env)
 
 int	create_history(t_data *data, t_env *env)
 {
+	int i;
+
+	i = 0;
 	ft_putstr("\n");
-	if (data->c != '<' && !is_quote_end(data) && data->cmd[0] != '\0') // Si la quote est terminée..
+	if (data->c != '<' && (i = is_quote_end(data)) == 0 && data->cmd[0] != '\0') // Si la quote est terminée..
 	{
 		data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
 		data->history_en_cours = data->history; // On avance dans l'historique
@@ -100,18 +103,25 @@ int	create_history(t_data *data, t_env *env)
 		display_heredoc(data->heredocs);
 		data->c = '\0';
 		data->end_hd = 0;
+		//FREE HEREDOCS
 		data->heredocs = NULL;
 	}
 	else
 	{
-
-		if (data->c == '<')
+		if (i == -1)
+		{
+			//Parse error
+			data->c = '\0'; // Pour tout reinitialiser par la suite.
+			//FREE HEREDOCS
+			free(data->cmd);
+		}
+		else if (data->c == '<')
 		{
 			printf("--------  data->cmd : %s\n", data->cmd);
 			if (is_key(data))
 			{
-				// printf("on key de la mort [%s]\n", data->cmd + 1);
-				add_hc_elem(data->heredocs, create_hc_elem(data->cmd + 1));
+				// printf("on ajoute [%s]\n", data->cmd + 1);
+				data->heredocs = add_hc_elem(data->heredocs, create_hc_elem(data->cmd + 1));
 				data->cmd = data->ancienne_cmd;
 				data->index = data->old_index;
 				free(data->key_here);
