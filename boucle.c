@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/24 15:14:35 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/24 15:24:27 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	create_history(t_data *data, t_env *env)
 		display_heredoc(data->heredocs);
 		data->c = '\0';
 		data->end_hd = 0;
-		//FREE HEREDOCS
+		free_heredoc(data->heredocs);
 		data->heredocs = NULL;
 	}
 	else
@@ -113,6 +113,8 @@ int	create_history(t_data *data, t_env *env)
 			//Parse error
 			data->c = '\0'; // Pour tout reinitialiser par la suite.
 			//FREE HEREDOCS
+			free_heredoc(data->heredocs);
+			data->heredocs = NULL;
 			free(data->cmd);
 		}
 		else if (data->c == '<')

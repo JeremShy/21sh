@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/23 23:59:18 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/24 15:22:38 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,4 +168,5 @@ int					is_key(t_data *data);
 t_hc				*create_hc_elem(char *content);
 t_hc				*add_hc_elem(t_hc *list, t_hc *elem);
 void				display_heredoc (t_hc *elem);
+void				free_heredoc(t_hc *list);
 #endif
