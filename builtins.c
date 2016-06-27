@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 16:57:59 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/13 18:31:49 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/27 22:27:18 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int			exec_builtin(char **scmd, t_env **env)
 		return (ft_unsetenv(scmd, env));
 	else if (ft_strequ(scmd[0], "exit"))
 		return (ft_exit_bi(*env));
-	else if (ft_strequ(scmd[0], "source"))
-		return (ft_source(scmd, env));
+	// else if (ft_strequ(sc	md[0], "source"))
+		// return (ft_source(scmd, env));
 	return (0);
 }

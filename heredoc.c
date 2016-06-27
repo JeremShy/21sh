@@ -6,30 +6,28 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/15 20:37:13 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/15 20:45:37 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/24 15:15:31 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-char *get_key_heredoc(char *str, size_t i)
+int	is_key(t_data *data)
 {
-	size_t		start;
+	size_t	i;
+	size_t	j;
 
-	if (is_quote_open(str[*i]) && !verif_empty_quote(str, i))
-		return (NULL);
-
- 	start = *i;
-	while(str[*i] && !ft_isspace2(str[*i])
+	i = ft_strlen(data->cmd);
+	if (i == 0)
+		return (0);
+	i--;
+	j = i;
+	while (j != 0 && data->cmd[j] != '\n')
+		j--;
+	if (ft_strequ(data->cmd + j + 1, data->key_here))
 	{
-		if (is_quote_open(str[*i]))
-		{
-			join_inside_quote(i, str);
-		}
-		(*i)++;
+		data->cmd[j] = '\0';
+		return (1);
 	}
-	if (start != *i)
-		return(ft_strsub(str, start, *i - start));
-	// }
-	return(ft_strdup("");
+	return(0);
 }

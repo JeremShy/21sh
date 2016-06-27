@@ -7,6 +7,8 @@ OH MON DIEU C'EST TOUT DOUX
 - leaks parsing
 - heredoc
 -	segfault bizarre dans le parsing si il y a un sep en premiere position.
+- segfault pour ls << a;
+
 
 {
 	commande -> {
@@ -33,3 +35,9 @@ ls > a > b > c
 	fd_in; 0
 	fd_err; 2 - b
 }
+
+pipe -> in : 3 out : 4
+
+on ecrit dans le in
+on ferme le in
+on lit dans le out

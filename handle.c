@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 22:47:34 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/15 19:34:01 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/27 18:42:20 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,20 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 	return (1);
 }
 
-char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd)
+char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd, t_hc **heredocs)
 {
 	size_t	tmp;
 	char		*quote;
 	int			fd;
 	int			fd_file;
-	int			redir_type; //0 : >, 1 : >>, 2 <
+	int			pipe_tab[2];
+	int			redir_type; //0 : >, 1 : >>, 2 <, 3 <<
 
 	tmp = *i;
 	fd = (str[tmp] == '>' ? 1 : 0);
 	if ((str[tmp] == '<' && str[tmp + 1] == '<') || (str[tmp] == '>' && str[tmp + 1] == '>')) // on check si la redirection est valide.
 	{
-		redir_type = 1;
+		redir_type = (str[tmp] == '<' ? 3 : 1);
 		tmp += 2;
 	}
 	else if (str[tmp] == '<' || str[tmp] == '>')
@@ -136,6 +137,21 @@ char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd)
 				free(quote);
 				return(NULL);
 			}
+		}
+		else if (redir_type == 3)
+		{
+			if (pipe(pipe_tab) == -1)
+			{
+				ft_putstr_fd("zsh: error while handling heredoc. \n", 2);
+				cmd->error = 1;
+				free(quote);
+				return(NULL);
+			}
+			write(pipe_tab[1], (*heredocs)->content, ft_strlen((*heredocs)->content));
+			printf("We write in heredocs : %s\n", (*heredocs)->content);
+			close(pipe_tab[1]);
+			fd_file = pipe_tab[0];
+			*heredocs = (*heredocs)->next;
 		}
 		if (fd == 0) // on ajoute ce truc au bon fd.
 			cmd->fd_in = add_fd_elem(cmd->fd_in, create_fd(fd_file));

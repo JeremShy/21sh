@@ -6,18 +6,62 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/18 20:05:53 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/06/27 23:17:53 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
+<<<<<<< HEAD
 void		exec_cmd(char *cmd, t_env **env)
+=======
+char	*print_prompt(t_env *env, t_data *data)
+{
+	char	*new;
+	char	*tmp;
+	char	*prompt;
+
+	ft_putstr("\e[38;5;208m");
+	if (data->c != '\0')
+	{
+		prompt_quote(data);
+		ft_putstr("\e[39m");
+		return (data->prompt);
+	}
+	new = find_arg(env, "PROMPT");
+	if (ft_strequ(new, ""))
+	{
+		free(new);
+		new = getcwd(NULL, 0);
+		if (!new)
+		{
+			tmp = find_arg(env, "HOME");
+			if (ft_strequ(tmp, ""))
+				tmp = ft_strjoinaf1(tmp, "/");
+			change_arg(env, "PWD", tmp);
+			chdir(tmp);
+			new = getcwd(NULL, 0);
+			free(tmp);
+		}
+ 		prompt = ft_strdup("<");
+		prompt = ft_strjoinaf12(prompt, new);
+		prompt = ft_strjoinaf1(prompt, ">% ");
+	}
+	else
+//		prompt = ft_strjoinaf1(new, "");
+	prompt = new;
+	ft_putstr(prompt);
+	ft_putstr("\e[39m");
+	return(prompt);
+}
+
+void		exec_cmd(t_data *data, t_env **env)
+>>>>>>> origin/vsteffen
 {
 	t_cmd *command;
 	t_cmd	*next;
 
-	command = parse(cmd); // On appelle notre fonction de parsing.
+	command = parse(data->cmd, data->heredocs); // On appelle notre fonction de parsing.
 	// print_list(command);
 	while (command)
 	{
@@ -27,6 +71,7 @@ void		exec_cmd(char *cmd, t_env **env)
 				exec_builtin(command->av, env);
 			else
 				exec_file(command, *env);
+			// printf("\nend of command.\n");
 		}
 		if (command->sep == CHEV_DROITE)
 		{
@@ -116,6 +161,8 @@ int			main(int ac, char **av, char **env)
 	data.real_len_cmd = 0;
 	data.history = NULL;
 	data.history_en_cours = NULL;
+	data.end_hd = 0;
+	data.heredocs = NULL;
 	boucle(list, &data); // Entre dans la boucle principale du programme.
 	return (0);
 }
