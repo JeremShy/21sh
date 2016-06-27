@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/15 18:56:48 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/27 18:30:12 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		def_sep(char *str)
 	return (0);
 }
 
-int		split_cmd(int count, char *str, t_cmd *cmd)
+int		split_cmd(int count, char *str, t_cmd *cmd, t_hc **heredocs)
 {
 	size_t 	tmp_i;
 	char		*tmp;
@@ -43,7 +43,7 @@ int		split_cmd(int count, char *str, t_cmd *cmd)
 		if(handle_aggr(&i, str, 1, cmd))
 		{
 		}
-		else if (handle_redir(&i, str, 1, cmd))
+		else if (handle_redir(&i, str, 1, cmd, heredocs))
 		{
 		}
 		else if (is_sep(&i, str, 1, cmd))
@@ -111,7 +111,7 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 	return (count);
 }
 
-t_cmd	*parse(char *str)
+t_cmd	*parse(char *str, t_hc *heredocs)
 {
 	int		count;
 	size_t	i;
@@ -132,7 +132,7 @@ t_cmd	*parse(char *str)
 			//free cmd.
 			return (0);
 		}
-		cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count)); //count a bouge i, du coup i - old_i donne le taille de la chaine a envoyer à create cmd_elem.
+		cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs)); //count a bouge i, du coup i - old_i donne le taille de la chaine a envoyer à create cmd_elem.
 	}
 	return (cmd);
 }

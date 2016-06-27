@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/24 15:24:27 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/27 18:59:00 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,9 @@ int	create_history(t_data *data, t_env *env)
 	{
 		data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
 		data->history_en_cours = data->history; // On avance dans l'historique
-		exec_cmd(data->cmd, &env); // On execute la commande.
+		printf("\nexecuting command now...\n");
+		exec_cmd(data, &env); // On execute la commande.
+		printf("\nthe command has been executed\n");
 		display_heredoc(data->heredocs);
 		data->c = '\0';
 		data->end_hd = 0;

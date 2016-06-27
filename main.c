@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/23 23:59:20 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/27 18:48:35 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ char	*print_prompt(t_env *env, t_data *data)
 	return(prompt);
 }
 
-void		exec_cmd(char *cmd, t_env **env)
+void		exec_cmd(t_data *data, t_env **env)
 {
 	t_cmd *command;
 	t_cmd	*next;
 
-	command = parse(cmd); // On appelle notre fonction de parsing.
+	command = parse(data->cmd, data->heredocs); // On appelle notre fonction de parsing.
 	// print_list(command);
 	while (command)
 	{
@@ -67,6 +67,7 @@ void		exec_cmd(char *cmd, t_env **env)
 				exec_builtin(command->av, env);
 			else
 				exec_file(command, *env);
+			// printf("\nend of command.\n");
 		}
 		if (command->sep == CHEV_DROITE)
 		{

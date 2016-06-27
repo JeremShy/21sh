@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/24 15:22:38 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/27 20:57:23 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,22 @@
 # include <term.h>
 # include <sys/ioctl.h>
 # include <curses.h>
-#	define	NONE (char)0
-#	define	POINT_VIRGULE ';'
-#	define	ETET (char)1
-#	define	PIPE '['
-#	define	CHEV_GAUCHE '<'
-#	define	DCHEV_GAUCHE 'l'
-#	define	CHEV_DROITE '>'
+# define	NONE (char)0
+# define	POINT_VIRGULE ';'
+# define	ETET (char)1
+# define	PIPE '['
+# define	CHEV_GAUCHE '<'
+# define	DCHEV_GAUCHE 'l'
+# define	CHEV_DROITE '>'
 # define	ERR_SIMPLE 8 // 2>
-#	define	DCHEV_DROITE 'r'
-#	define	ERR_LONG
-#	define	ERR_OUT (char)2 // 2>&1
-#	define	OUT_OUT (char)3 // >&1
-#	define	OUT_ERR (char)4 // >&2
-#	define	OUT_ERR_L (char)5 // 1>&2
-#	define	ERR_ERR (char)6 // 2>&2
-#	define	OUT_OUT_L (char)7 // 1>&1
+# define	DCHEV_DROITE 'r'
+# define	ERR_LONG
+# define	ERR_OUT (char)2 // 2>&1
+# define	OUT_OUT (char)3 // >&1
+# define	OUT_ERR (char)4 // >&2
+# define	OUT_ERR_L (char)5 // 1>&2
+# define	ERR_ERR (char)6 // 2>&2
+# define	OUT_OUT_L (char)7 // 1>&1
 
 # undef tab
 
@@ -120,7 +120,7 @@ void				delete_list(t_env *list);
 int					exec_file(t_cmd *cmd, t_env *list);
 char				**make_env_char(t_env *list);
 int					ft_source(char **scmd, t_env **env);
-void				exec_cmd(char *cmd, t_env **env);
+void				exec_cmd(t_data *data, t_env **env);
 void				handle_line(char *line, t_env **env);
 void				free_char_tab(char **tab);
 t_termios		*singleton_termios(t_termios *termios, int i);
@@ -142,11 +142,11 @@ int					ft_isspace2(char car);
 void				prompt_quote(t_data *data);
 t_history		*add_history_elem(t_history *list, t_history *elem);
 t_history		*create_history_elem(char *content);
-t_cmd				*create_cmd_elem(char *str, int count);
+t_cmd				*create_cmd_elem(char *str, int count, t_hc **heredocs);
 t_cmd				*add_cmd_elem(t_cmd *list, t_cmd *elem);
 char*				pos_quote_end(char en_cours, char *str);
 void				print_list(t_cmd *lst);
-t_cmd				*parse(char	*str);
+t_cmd				*parse(char	*str, t_hc *heredocs);
 void				join_inside_quote(size_t *i, char *str);
 int					is_aggr(size_t *i, char *str, int jump);
 char				*is_redir(size_t *i, char *str, int jump, t_cmd *cmd);
@@ -154,10 +154,10 @@ char				*skip_quotes(char *str, size_t *i, t_cmd *cmd);
 int					is_sep(size_t *i, char *str, int jump, t_cmd *cmd);
 t_fd				*add_fd_elem(t_fd *list, t_fd *elem);
 t_fd				*create_fd(int fd);
-int					split_cmd(int count, char *str, t_cmd *cmd);
+int					split_cmd(int count, char *str, t_cmd *cmd, t_hc **heredocs);
 char				*skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd);
 int					is_empty(char *str, size_t *i);
-char				*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd);
+char				*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd, t_hc **heredocs);
 t_fd				*copy_list_fd(t_fd *list);
 t_fd				*copy_fd(t_fd *list);
 int					handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd);
