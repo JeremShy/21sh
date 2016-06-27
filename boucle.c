@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/27 18:59:00 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/27 22:43:04 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ void	move_down_history(t_data *data, t_env *env)
 			if (!(data->history_en_cours)->next)
 			{
 				data->cmd = ft_strdup("");
+				data->real_len_cmd = 0;
+				data->index = 0;
+				data->curs_x = data->len_prompt + data->real_len_cmd;
 				return ;
 			}
 			free(data->cmd);

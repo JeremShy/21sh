@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/08 22:10:43 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/27 21:36:59 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/27 22:21:55 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ char *skip_quotes(char *str, size_t *i, t_cmd *cmd)
 		{
 			join_inside_quote(i, str);
 		}
+
 		(*i)++;
 	}
 	if (start != *i)

@@ -6,9 +6,12 @@
 #    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/06/23 19:30:50 by jcamhi           ###   ########.fr        #
+#    Updated: 2016/06/27 22:26:00 by jcamhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# ft_source.c
+
 
 SRC_NAME = main.c \
 	   env.c \
@@ -19,7 +22,6 @@ SRC_NAME = main.c \
 	   ft_cd.c \
 	   list2.c \
 	   exec.c \
-	   ft_source.c \
 	   singelton.c \
 	   term.c \
 	   boucle.c \
