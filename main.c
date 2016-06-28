@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/27 22:25:24 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/28 15:24:55 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,11 @@ char	*print_prompt(t_env *env, t_data *data)
 void		exec_cmd(t_data *data, t_env **env)
 {
 	t_cmd *command;
-	t_cmd	*next;
+	t_cmd *temp;
+	pid_t pid;
 
 	command = parse(data->cmd, data->heredocs); // On appelle notre fonction de parsing.
+	temp = command;
 	// print_list(command);
 	while (command)
 	{
@@ -69,17 +71,17 @@ void		exec_cmd(t_data *data, t_env **env)
 				exec_file(command, *env);
 			// printf("\nend of command.\n");
 		}
-		if (command->sep == CHEV_DROITE)
+		else if (command->sep == '|')
 		{
-			if (command->next == NULL)
-			{
-				ft_putstr_fd("21sh: parse error near '\\n'\n", 2);
-				return ;
-			}
-			next = command->next;
+			pid = fork();
+			if (pid != 0)
+				wait(NULL);
+			else
+				command = fork_pipes(command, *env);
 		}
 		command = command->next;
 	}
+	//free temp.
 }
 // char **scmd;
 //

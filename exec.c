@@ -6,7 +6,7 @@
 /*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/11 14:53:03 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/06/27 18:44:07 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/28 15:14:59 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char		*find_exec(char *scmd, t_env *list)
 	free_char_tab(split);
 	return (ret);
 }
+
 
 int			exec_file(t_cmd *cmd, t_env *list)
 {
