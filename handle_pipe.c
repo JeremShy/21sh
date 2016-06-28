@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/28 14:37:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/28 15:25:17 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/28 16:01:16 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int spawn_proc (t_cmd *cmd, t_env *env)
   return pid;
 }
 
-t_cmd	*fork_pipes(t_cmd *cmd, t_env *env)
+int	fork_pipes(t_cmd *cmd, t_env *env)
 {
   int i;
 	int fd[2];
@@ -88,8 +88,7 @@ t_cmd	*fork_pipes(t_cmd *cmd, t_env *env)
   /* Execute the last stage with the current process. */
 	file = find_exec(cmd->av[0], env);
 	environ = make_env_char(env);
-	execve(file, cmd->av, environ);
-	return (cmd->next);
+	return (execve(file, cmd->av, environ));
 }
 //
 // int	main ()

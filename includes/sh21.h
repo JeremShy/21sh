@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/28 15:25:36 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/28 16:01:17 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,6 @@ t_hc				*add_hc_elem(t_hc *list, t_hc *elem);
 void				display_heredoc (t_hc *elem);
 void				free_heredoc(t_hc *list);
 char				*find_exec(char *scmd, t_env *list);
-t_cmd				*fork_pipes (t_cmd *cmd, t_env *env);
+int					fork_pipes(t_cmd *cmd, t_env *env);
 int					spawn_proc (t_cmd *cmd, t_env *env);
 #endif
