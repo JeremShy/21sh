@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/28 14:37:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/28 16:03:52 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/29 17:06:11 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int spawn_proc (t_cmd *cmd, t_env *env)
 			environ = make_env_char(env);
       return execve(file, cmd->av, environ);
   }
+	if (in != 0)
+		close(in);
   return pid;
 }
 

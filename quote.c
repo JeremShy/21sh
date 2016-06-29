@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/14 16:22:40 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/27 22:22:06 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/29 17:07:26 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int		is_quote_end(t_data *data)
 		return (1);
 	}
 	i = data->end_hd;
-	printf("TRY TO DETECT HEREDOC [%s]\n", data->cmd + i);
+	// printf("TRY TO DETECT HEREDOC [%s]\n", data->cmd + i);
 	while (data->c == '\0' && data->cmd[i])
 	{
 			if (ft_strnstr(data->cmd + i, "<<", 2))

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/28 16:01:17 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/29 18:44:01 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct	s_env {
 
 typedef struct		s_fd {
 	int					fd;
+	char				*name;
 	struct s_fd	*next;
 }								t_fd;
 
@@ -172,4 +173,5 @@ void				free_heredoc(t_hc *list);
 char				*find_exec(char *scmd, t_env *list);
 int					fork_pipes(t_cmd *cmd, t_env *env);
 int					spawn_proc (t_cmd *cmd, t_env *env);
+char				*get_pb(void);
 #endif
