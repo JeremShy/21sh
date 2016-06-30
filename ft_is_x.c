@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/23 13:44:33 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/30 18:05:58 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/30 19:06:55 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,13 @@ int	is_parse_error(char *str)
 	{
 		while (ft_isspace2(str[i]))
 			i++;
-		if (str[i] == ';' || str[i] == '|' || str[i] == '\0')
+		if (str[i] == '|' || str[i] == '\0')
 		{
-			printf("i = %zu\n", i);
 			printf("21sh: parse error near '|'\n");
 			return (1);
 		}
-		while (str[i] != ';' && str[i] != '|' && str[i] != '\0')
+		while (str[i] != '|' && str[i] != '\0')
 		{
-			printf("i = %zu and char is [%c]\n", i,	 str[i]);
 			if (is_quote_open(str[i]))
 				get_pos_after_quote(&i, str);
 			else
