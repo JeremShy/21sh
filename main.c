@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/30 17:18:16 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/30 19:46:31 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ void		exec_cmd(t_env **env, t_cmd *command)
 			if (pid != 0)
 				wait(NULL);
 			else
-				fork_pipes(command, *env);
+			{
+				if (fork_pipes(command, *env) == -1)
+					exit(0);
+			}
 			while (command && command->sep == '|')
 				command = command->next;
 		}
@@ -85,6 +88,7 @@ void		exec_cmd(t_env **env, t_cmd *command)
 			command = command->next;
 	}
 	//free temp.
+	close_fd_cmd(temp);
 }
 // char **scmd;
 //

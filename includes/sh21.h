@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/30 17:55:59 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/30 19:35:09 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ typedef struct	s_env {
 
 typedef struct		s_fd {
 	int					fd;
-	char				*name;
 	struct s_fd	*next;
 }								t_fd;
 
@@ -177,4 +176,6 @@ char				*get_pb(void);
 int					is_empty_border(char *str, size_t beg, size_t end);
 int					is_parse_error(char *str);
 void				get_pos_after_quote(size_t *i, char *str);
+void				close_fd_cmd(t_cmd *cmd);
+void				close_fd(t_fd *fd);
 #endif

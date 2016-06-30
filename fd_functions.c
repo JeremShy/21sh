@@ -6,11 +6,35 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 15:41:35 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/29 18:52:19 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/06/30 19:37:10 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+void	close_fd(t_fd *fd)
+{
+	t_fd	*next;
+
+	while (fd)
+	{
+		next = fd->next;
+		if (fd->fd > 2)
+			close(fd->fd);
+		free(fd);
+		fd = next;
+	}
+}
+void	close_fd_cmd(t_cmd *cmd)
+{
+	while (cmd)
+	{
+		close_fd(cmd->fd_in);
+		close_fd(cmd->fd_out);
+		close_fd(cmd->fd_err);
+		cmd = cmd->next;
+	}
+}
 
 void print_fd(t_fd *list)
 {
