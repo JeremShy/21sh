@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/28 14:51:02 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/28 16:19:26 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	prompt_quote(t_data *data)
 	else if (data->c == '<')
 		data->prompt = ft_strdup("heredoc> ");
 	ft_putstr(data->prompt);
-	printf("------- data->cmd = [%s]\n", data->cmd);
+	// printf("------- data->cmd = [%s]\n", data->cmd);
 }
 
 void	move_up_history(t_data *data, t_env *env)
@@ -105,7 +105,7 @@ int	create_history(t_data *data, t_env *env)
 		printf("\nexecuting command now...\n");
 		exec_cmd(data, &env); // On execute la commande.
 		printf("\nthe command has been executed\n");
-		display_heredoc(data->heredocs);
+		// display_heredoc(data->heredocs);
 		data->c = '\0';
 		data->end_hd = 0;
 		free_heredoc(data->heredocs);
@@ -124,7 +124,7 @@ int	create_history(t_data *data, t_env *env)
 		}
 		else if (data->c == '<')
 		{
-			printf("--------  data->cmd : %s\n", data->cmd);
+			// printf("--------  data->cmd : %s\n", data->cmd);
 			if (is_key(data))
 			{
 				// printf("on ajoute [%s]\n", data->cmd + 1);

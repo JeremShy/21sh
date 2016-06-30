@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/28 14:37:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/28 16:03:52 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/30 15:27:14 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,19 +90,3 @@ int	fork_pipes(t_cmd *cmd, t_env *env)
 	environ = make_env_char(env);
 	return (execve(file, cmd->av, environ));
 }
-//
-// int	main ()
-// {
-//   const char *ls[] = { "ls", "-l", 0 };
-//   const char *awk[] = { "awk", "{print $1}", 0 };
-//   const char *sort[] = { "sort", 0 };
-//   const char *uniq[] = { "uniq", 0 };
-//
-//   struct command cmd [] = { {ls}, {awk}, {sort}, {uniq} };
-// 	int truc = fork();
-// 	if (truc != 0)
-// 		wait(NULL);
-// 	else
-// 		return fork_pipes (4, cmd);
-// 	return (0);
-// }

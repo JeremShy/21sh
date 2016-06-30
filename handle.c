@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 22:47:34 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/27 18:42:20 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/28 22:57:26 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd, t_hc **heredocs)
 				return(NULL);
 			}
 			write(pipe_tab[1], (*heredocs)->content, ft_strlen((*heredocs)->content));
-			printf("We write in heredocs : %s\n", (*heredocs)->content);
+			// printf("We write in heredocs : %s\n", (*heredocs)->content);
 			close(pipe_tab[1]);
 			fd_file = pipe_tab[0];
 			*heredocs = (*heredocs)->next;
