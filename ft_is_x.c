@@ -6,11 +6,54 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/23 13:44:33 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/14 16:24:16 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/30 18:05:58 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+int		is_empty_border(char *str, size_t beg, size_t end)
+{
+	size_t i;
+
+	// printf("coord : %zu et %zu. Chaine : [%s]\n", beg, end, str);
+	i = beg;
+	while(str[i] != '\0' && i <= end)
+	{
+		if (!ft_isspace2(str[i]))
+			return(0);
+		i++;
+	}
+	return (1);
+}
+
+int	is_parse_error(char *str)
+{
+	size_t i;
+
+	i = 0;
+	while (str[i])
+	{
+		while (ft_isspace2(str[i]))
+			i++;
+		if (str[i] == ';' || str[i] == '|' || str[i] == '\0')
+		{
+			printf("i = %zu\n", i);
+			printf("21sh: parse error near '|'\n");
+			return (1);
+		}
+		while (str[i] != ';' && str[i] != '|' && str[i] != '\0')
+		{
+			printf("i = %zu and char is [%c]\n", i,	 str[i]);
+			if (is_quote_open(str[i]))
+				get_pos_after_quote(&i, str);
+			else
+				i++;
+		}
+		i++;
+	}
+	return (0);
+}
 
 int		is_empty(char *str, size_t *i)
 {

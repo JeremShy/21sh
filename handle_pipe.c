@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/28 14:37:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/30 15:29:52 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/30 16:56:16 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	fork_pipes(t_cmd *cmd, t_env *env)
   /* Note the loop bound, we spawn here all, but the last stage of the pipeline.  */
 	i = 0;
 	n = find_number(cmd);
-	printf("n : %d\n", n);
+	// printf("n : %d\n", n);
 	while (i < n - 1)
   {
     pipe(fd);
@@ -80,6 +80,11 @@ int	fork_pipes(t_cmd *cmd, t_env *env)
     close(fd[1]);
     /* Keep the read end of the pipe, the next child will read from there.  */
 		cmd = cmd->next;
+		if (cmd == NULL)
+		{
+			ft_putstr_fd("21sh: parse error near '|'\n", 2);
+			return (-1);
+		}
 		cmd->fd_in->fd = fd[0];
 		i++;
   }

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/30 15:46:56 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/30 17:56:29 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		split_cmd(int count, char *str, t_cmd *cmd, t_hc **heredocs)
 	cmd->av = (char**)malloc((count + 1) * sizeof(char*));
 	cmd->av[count] = 0;
 	n_av = 0;
-	printf("[%s]\n", str);
+	// printf("[%s]\n", str);
 	while (str[i])
 	{
 		while (ft_isspace2(str[i]))
@@ -121,6 +121,8 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env)
 
 	i = 0;
 	cmd = NULL; // On initialiase notre retour.
+	if (is_parse_error(str))
+		return (NULL);
 	while (str[i])
 	{
 		fake_cmd.p_error = 0; // On mets le error et le p_error du fake_cmd à 0.
@@ -134,13 +136,26 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env)
 		}
 		if (str[i - 1] == ';')
 		{
-			cmd = create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs);
+			cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));
 			exec_cmd(env, cmd);
 			//FAUDRA FREE CMD.
 			cmd = NULL;
 		}
 		else
-			cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs)); //count a bouge i, du coup i - old_i donne le taille de la chaine a envoyer à create cmd_elem.
+		{
+			// if (!(i != 0 && str[i] == '\0' && str[i - 1] == '|')
+			// 		&& ((str[i - 1] != '|'
+			// 				|| (i >= 2 && !is_empty_border(str, old_i, i - 2)))
+			// 			|| (i == 1 && str[1] != '|' && str[0] != '|') || (i == 0 && str[0] != '|')))
+				cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs)); //count a bouge i, du coup i - old_i donne le taille de la chaine a envoyer à create cmd_elem.
+			// else
+			// {
+			// 	ft_putstr_fd("21sh: parse error near '|'\n", 2);
+			// 	// printf("old_i : %zu - i : %zu - %s\n", old_i, i, str + old_i  + 1);
+			// 	//Free tout le bordel
+			// 	return (NULL);
+			// }
+		}
 	}
 	return (cmd);
 }

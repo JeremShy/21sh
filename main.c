@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/30 15:43:19 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/30 17:18:16 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void		exec_cmd(t_env **env, t_cmd *command)
 	t_cmd *temp;
 	pid_t pid;
 
+	if (!command)
+		return;
 	temp = command;
 	// print_list(command);
 	while (command)
@@ -76,10 +78,11 @@ void		exec_cmd(t_env **env, t_cmd *command)
 				wait(NULL);
 			else
 				fork_pipes(command, *env);
-			while (command->sep == '|')
+			while (command && command->sep == '|')
 				command = command->next;
 		}
-		command = command->next;
+		if (command)
+			command = command->next;
 	}
 	//free temp.
 }
@@ -153,7 +156,7 @@ int			main(int ac, char **av, char **env)
 	data.prompt = print_prompt(list, &data); // On mets le prompt dans data.prompt
 	data.len_prompt = ft_strlen(data.prompt); // On mets la longueur dans...
 	data.curs_x = data.len_prompt + 1;
-	data.curs_y = -1;
+	data.curs_y = 0;
 	data.cmd = ft_strdup("");
 	data.index = 0;
 	data.real_len_cmd = 0;

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/30 15:42:41 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/30 17:55:59 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,4 +174,7 @@ char				*find_exec(char *scmd, t_env *list);
 int					fork_pipes(t_cmd *cmd, t_env *env);
 int					spawn_proc (t_cmd *cmd, t_env *env);
 char				*get_pb(void);
+int					is_empty_border(char *str, size_t beg, size_t end);
+int					is_parse_error(char *str);
+void				get_pos_after_quote(size_t *i, char *str);
 #endif
