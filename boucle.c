@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/01 19:52:28 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/28 16:19:26 by jcamhi           ###   ########.fr       */
+/*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/06/30 15:30:13 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,9 +237,18 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66 && buf[3] == 0)
 			move_down_history(data, env);
+		else if (buf[0] == -30 && buf[1] == -120 && buf[2] == -102 && buf[3] == 0)
+		{
+			char *pb = get_pb();
+			data->curs_x += ft_strlen(pb);
+			data->real_len_cmd += ft_strlen(pb);
+			data->index += ft_strlen(pb);
+			ft_putstr(pb);
+			data->cmd = ft_strjoinaf12(data->cmd, pb);
+		}
 		else
 		{
-//				ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
+				// ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
 		}
 		ft_bzero(buf, 6);
 	}
