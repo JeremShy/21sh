@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/30 15:27:06 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/30 15:46:56 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 	return (count);
 }
 
-t_cmd	*parse(char *str, t_hc *heredocs)
+t_cmd	*parse(char *str, t_hc *heredocs, t_env **env)
 {
 	int		count;
 	size_t	i;
@@ -132,8 +132,15 @@ t_cmd	*parse(char *str, t_hc *heredocs)
 			//free cmd.
 			return (0);
 		}
-		printf("blblblblblblbl[%s]\n", str + i);
-		cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs)); //count a bouge i, du coup i - old_i donne le taille de la chaine a envoyer à create cmd_elem.
+		if (str[i - 1] == ';')
+		{
+			cmd = create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs);
+			exec_cmd(env, cmd);
+			//FAUDRA FREE CMD.
+			cmd = NULL;
+		}
+		else
+			cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs)); //count a bouge i, du coup i - old_i donne le taille de la chaine a envoyer à create cmd_elem.
 	}
 	return (cmd);
 }

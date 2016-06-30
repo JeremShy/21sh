@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/28 16:01:14 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/30 15:43:19 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,11 @@ char	*print_prompt(t_env *env, t_data *data)
 	return(prompt);
 }
 
-void		exec_cmd(t_data *data, t_env **env)
+void		exec_cmd(t_env **env, t_cmd *command)
 {
-	t_cmd *command;
 	t_cmd *temp;
 	pid_t pid;
 
-	command = parse(data->cmd, data->heredocs); // On appelle notre fonction de parsing.
 	temp = command;
 	// print_list(command);
 	while (command)

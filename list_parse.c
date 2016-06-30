@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 20:12:36 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/27 18:25:39 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/30 15:45:23 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 		printf("ARGH\n");
 		exit(0);
 	}
-	printf("sep : %d\n", elem->sep);
+	// printf("sep : %d\n", elem->sep);
 	// printf("on cree une liste.\n");
 	elem->next = NULL;
 	if (elem->fd_in->fd == -1)

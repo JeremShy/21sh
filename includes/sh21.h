@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/29 18:44:01 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/06/30 15:42:41 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void				delete_list(t_env *list);
 int					exec_file(t_cmd *cmd, t_env *list);
 char				**make_env_char(t_env *list);
 int					ft_source(char **scmd, t_env **env);
-void				exec_cmd(t_data *data, t_env **env);
+void				exec_cmd(t_env **env, t_cmd *command);
 void				handle_line(char *line, t_env **env);
 void				free_char_tab(char **tab);
 t_termios		*singleton_termios(t_termios *termios, int i);
@@ -147,7 +147,7 @@ t_cmd				*create_cmd_elem(char *str, int count, t_hc **heredocs);
 t_cmd				*add_cmd_elem(t_cmd *list, t_cmd *elem);
 char*				pos_quote_end(char en_cours, char *str);
 void				print_list(t_cmd *lst);
-t_cmd				*parse(char	*str, t_hc *heredocs);
+t_cmd				*parse(char	*str, t_hc *heredocs, t_env **env);
 void				join_inside_quote(size_t *i, char *str);
 int					is_aggr(size_t *i, char *str, int jump);
 char				*is_redir(size_t *i, char *str, int jump, t_cmd *cmd);

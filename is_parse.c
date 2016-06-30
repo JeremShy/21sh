@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/14 16:17:58 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/27 19:01:32 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/30 15:46:00 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,6 @@ int		is_sep(size_t *i, char *str, int jump, t_cmd *cmd)
 		cmd->sep = def_sep(str + *i); // On mets le bon sep.
 	if (jump) // Si le troisieme parametre est a un, on saute le sep.
 		*i = ret;
-	printf("on renvoit 1\n");
+	// printf("on renvoie 1\n");
 	return (1);
 }
