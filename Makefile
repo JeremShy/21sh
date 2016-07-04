@@ -6,9 +6,12 @@
 #    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/06/17 18:14:55 by adomingu         ###   ########.fr        #
+#    Updated: 2016/06/27 23:05:21 by adomingu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# ft_source.c
+
 
 SRC_NAME = main.c \
 	   env.c \
@@ -19,7 +22,6 @@ SRC_NAME = main.c \
 	   ft_cd.c \
 	   list2.c \
 	   exec.c \
-	   ft_source.c \
 	   singelton.c \
 	   term.c \
 	   boucle.c \
@@ -35,7 +37,9 @@ SRC_NAME = main.c \
 		 is_parse.c \
 		 quote.c \
 		 move_history.c \
-		 tools_prompt.c
+		 tools_prompt.c \
+		 heredoc.c \
+		 list_heredoc.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes

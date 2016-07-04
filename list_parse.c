@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 20:12:36 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/15 18:57:38 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/06/27 18:25:39 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void		print_list(t_cmd *lst)
 	}
 }
 
-t_cmd	*create_cmd_elem(char *str, int count)
+t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 {
 	t_cmd		*elem;
 
@@ -49,7 +49,7 @@ t_cmd	*create_cmd_elem(char *str, int count)
 	elem->p_error	= 0;
 	elem->error = 0;
 	elem->sep = NONE;
-	if (split_cmd(count, str, elem) == -1)
+	if (split_cmd(count, str, elem, heredocs) == -1)
 	{
 		//faire quelque
 		printf("ARGH\n");
