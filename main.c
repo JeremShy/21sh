@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/04 17:37:12 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/07/04 19:04:02 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int			main(int ac, char **av, char **env)
 	data.end_hd = 0;
 	data.heredocs = NULL;
 	data.first = NULL;
+	data.first_search = 1;
 	boucle(list, &data); // Entre dans la boucle principale du programme.
 	return (0);
 }

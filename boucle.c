@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/04 17:46:13 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/07/04 19:21:08 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,11 @@ void	move_up_history(t_data *data, t_env *env)
 	{
 		if (data->history != NULL)
 		{
-			if (!data->first && !ft_strequ(data->cmd, ""))
+			if (!data->first && data->first_search)
 			{
-				data->first = ft_strdup(data->cmd);
+				data->first_search = 0;
+				if (!ft_strequ(data->cmd, ""))
+					data->first = ft_strdup(data->cmd);
 			}
 			free(data->cmd);
 			if (data->history_en_cours == NULL)
@@ -88,23 +90,33 @@ void	move_down_history(t_data *data, t_env *env)
 			data->len_prompt = ft_strlen(data->prompt);
 			if (data->history_en_cours == NULL)
 				data->history_en_cours = data->history;
-			if (!(data->history_en_cours)->next)
+			free(data->cmd);
+			if (data->first)
+			{
+				while (data->history_en_cours->next &&
+					!ft_strnequ(data->history_en_cours->next->line, data->first, ft_strlen(data->first)))
+				{
+					data->history_en_cours = data->history_en_cours->next;
+				}
+				if (!data->history_en_cours->next)
+					data->cmd = ft_strdup(data->first);
+				else
+					data->cmd = ft_strdup(data->history_en_cours->line);
+			}
+			else if ((data->history_en_cours)->next)
+			{
+				data->history_en_cours = (data->history_en_cours)->next;
+				data->cmd = ft_strdup(data->history_en_cours->line);
+			}
+			else
 			{
 				data->cmd = ft_strdup("");
-				data->real_len_cmd = 0;
-				data->index = 0;
-				data->curs_x = data->len_prompt + 1;
-				data->curs_y = 0;
-				return ;
 			}
-			free(data->cmd);
-			if ((data->history_en_cours)->next)
-				data->history_en_cours = (data->history_en_cours)->next;
-			ft_putstr((data->history_en_cours)->line);
-			data->cmd = ft_strdup((data->history_en_cours)->line);
+			ft_putstr(data->cmd);
 			data->real_len_cmd = ft_strlen(data->cmd);
 			data->index = ft_strlen(data->cmd);
-			data->curs_x = data->len_prompt + data->real_len_cmd;
+			data->curs_x = data->len_prompt + data->real_len_cmd + 1;
+			data->curs_y = 0;
 		}
 	}
 }
@@ -132,6 +144,8 @@ int	create_history(t_data *data, t_env *env)
 			free(data->first);
 			data->first = NULL;
 		}
+		data->first_search = 1;
+		data->history_en_cours = data->history;
 	}
 	else
 	{
