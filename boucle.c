@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/04 15:39:23 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/07/04 17:46:13 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,36 @@ void	move_up_history(t_data *data, t_env *env)
 	{
 		if (data->history != NULL)
 		{
+			if (!data->first && !ft_strequ(data->cmd, ""))
+			{
+				data->first = ft_strdup(data->cmd);
+			}
+			free(data->cmd);
+			if (data->history_en_cours == NULL)
+				data->history_en_cours = data->history;
+			if (data->first)
+			{
+				while(data->history_en_cours->prec &&
+					ft_strnequ(data->history_en_cours->prec->line, data->first, ft_strlen(data->first)))
+					data->history_en_cours = data->history_en_cours->prec;
+				if (!data->history_en_cours)
+					return;
+			}
 			exec_tcap("dl");
 			exec_tcap("cr");
 			data->prompt = print_prompt(env, data);
 			data->len_prompt = ft_strlen(data->prompt);
-			free(data->cmd);
-			if (data->history_en_cours == NULL)
-				data->history_en_cours = data->history;
 			ft_putstr((data->history_en_cours)->line);
 			data->cmd = ft_strdup((data->history_en_cours)->line);
 			data->real_len_cmd = ft_strlen(data->cmd);
 			data->index = ft_strlen(data->cmd);
 			data->curs_x = data->len_prompt + data->real_len_cmd + 1;
-			if ((data->history_en_cours)->prec)
+			if (!data->first && (data->history_en_cours)->prec)
 				data->history_en_cours = (data->history_en_cours)->prec;
+			else
+				while(data->history_en_cours->prec &&
+					ft_strnequ(data->history_en_cours->prec->line, data->first, ft_strlen(data->first)))
+					data->history_en_cours = data->history_en_cours->prec;
 		}
 	}
 	else
@@ -110,6 +126,12 @@ int	create_history(t_data *data, t_env *env)
 		data->end_hd = 0;
 		free_heredoc(data->heredocs);
 		data->heredocs = NULL;
+		if (data->first)
+		{
+			printf("GROS CACA QUI PUE\n");
+			free(data->first);
+			data->first = NULL;
+		}
 	}
 	else
 	{

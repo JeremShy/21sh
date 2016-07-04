@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/04 13:53:51 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/07/04 17:37:12 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,55 +90,6 @@ void		exec_cmd(t_env **env, t_cmd *command)
 	//free temp.
 	close_fd_cmd(temp);
 }
-// char **scmd;
-//
-// scmd = ft_special_split(cmd);
-// free(cmd);
-// if (scmd[0])
-// {
-// 	if (is_builtin(scmd[0]))
-// 		exec_builtin(scmd, env);
-// 	else
-// 		exec_file(scmd, *env);
-// }
-
-/*
-static void	exec_mshrc(t_env **env)
-{
-	char **scmd;
-
-	scmd = malloc(3 * sizeof(char*));
-	scmd[0] = ft_strdup("source");
-	scmd[1] = ft_strjoinaf1(ft_strjoinaf1(find_arg(*env, "HOME"), "/"),
-		".mshrc");
-	scmd[2] = ft_strdup("");
-	ft_source(scmd, env);
-	free(scmd[0]);
-	free(scmd[1]);
-	free(scmd[2]);
-	free(scmd);
-}*/
-//
-// void		handle_line(char *line, t_env **env)
-// {
-// 	char	**cmd_tab;
-// 	int		i;
-//
-// 	if (line)
-// 	{
-// 		cmd_tab = ft_strsplit(line, ';');
-// 		i = 0;
-// 		while (cmd_tab[i])
-// 		{
-// 			exec_cmd(cmd_tab[i], env);
-// 			i++;
-// 		}
-// 		free(cmd_tab);
-// 		free(line);
-// 	}
-// 	else
-// 		ft_putchar('\n');
-// }
 
 int			main(int ac, char **av, char **env)
 {
@@ -168,15 +119,7 @@ int			main(int ac, char **av, char **env)
 	data.history_en_cours = NULL;
 	data.end_hd = 0;
 	data.heredocs = NULL;
+	data.first = NULL;
 	boucle(list, &data); // Entre dans la boucle principale du programme.
 	return (0);
 }
-
-/*
-	print_prompt(list);
-	while (get_next_line(0, &cmd))
-	{
-		handle_line(cmd, &list);
-		print_prompt(list);
-	}
-*/

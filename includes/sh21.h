@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/30 19:35:09 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/04 17:28:06 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,23 +87,23 @@ typedef struct	s_hc {
 }								t_hc;
 
 typedef struct	s_data {
-	int				curs_x;
-	int				curs_y;
-	char			*prompt;
-	int				len_prompt;
-	char			*cmd;
-	char			*ancienne_cmd;
-	char			c;
-	int				index;
-	int				old_index;
-	int				real_len_cmd;
-	t_history	*history;
-	t_history	*history_en_cours;
-	char			*nouveau;
-	size_t		end_here;
-	char 			*key_here;
-	size_t		end_hd;
-	t_hc			*heredocs;
+	int				curs_x; //emplacement du cuurseur en x (absolu)
+	int				curs_y; // emplacement curseur y (relatif)
+	char			*prompt; //prompt
+	int				len_prompt; //longueur prompt
+	char			*cmd; //commande en cours
+	char			*ancienne_cmd; //truc de heredoc (ca marche)
+	char			c; //caractere si on est dans une quote ou autre
+	int				index; //la ou on ecrit
+	int				old_index; //Ancien index
+	int				real_len_cmd; //longueur reelle de la commande
+	t_history	*history; //Dernier element historique
+	t_history	*history_en_cours; //Emplacement en cours dans l;historique
+	char			*nouveau; //Chais pu
+	char 			*key_here; //Cle du heredoc
+	size_t		end_hd; //fin du heredoc
+	t_hc			*heredocs; //Liste avec les heredocs par ordre d'apparition
+	char			*first; // Key pour la recherche vers le haut
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
