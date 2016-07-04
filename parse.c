@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/30 18:46:54 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/04 10:50:22 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ int		split_cmd(int count, char *str, t_cmd *cmd, t_hc **heredocs)
 			}
 		}
 		if (cmd->error)
-			return (0);
+		{
+			return (-1);
+		}
 	}
 	return (1);
 }

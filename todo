@@ -5,10 +5,7 @@ OH MON DIEU C'EST TOUT DOUX
 -	depassement taille terminal
 - yank paste
 - leaks parsing
-- heredoc
--	segfault bizarre dans le parsing si il y a un sep en premiere position.
 - segfault pour ls << a;
-- segfault pour ls | cat |
 -	bug pour few |fwe
 
 

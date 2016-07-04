@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 22:47:34 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/28 22:57:26 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/04 11:04:46 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd, t_hc **heredocs)
 	int			pipe_tab[2];
 	int			redir_type; //0 : >, 1 : >>, 2 <, 3 <<
 
+	fd_file = -1;
 	tmp = *i;
 	fd = (str[tmp] == '>' ? 1 : 0);
 	if ((str[tmp] == '<' && str[tmp + 1] == '<') || (str[tmp] == '>' && str[tmp + 1] == '>')) // on check si la redirection est valide.
@@ -152,6 +153,31 @@ char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd, t_hc **heredocs)
 			close(pipe_tab[1]);
 			fd_file = pipe_tab[0];
 			*heredocs = (*heredocs)->next;
+		}
+		if (fd_file == -1)
+		{
+			if (access(quote, F_OK) == -1)
+			{
+				ft_putstr_fd("21sh: no such file or directory: ", 2);
+				ft_putendl_fd(quote, 2);
+			}
+			else if ((redir_type == 0 || redir_type == 1) && access(quote, W_OK) == -1)
+			{
+				ft_putstr_fd("21sh: permission denied: ",2);
+				ft_putendl_fd(quote, 2);
+			}
+			else if (redir_type == 1 && access(quote, R_OK) == -1)
+			{
+				ft_putstr_fd("21sh: permission denied: ",2);
+				ft_putendl_fd(quote, 2);
+			}
+			else
+			{
+				ft_putendl_fd("21sh: Error while opening the file: ", 2);
+				ft_putendl_fd(quote, 2);
+			}
+			cmd->error = 1;
+			return (NULL);
 		}
 		if (fd == 0) // on ajoute ce truc au bon fd.
 			cmd->fd_in = add_fd_elem(cmd->fd_in, create_fd(fd_file));

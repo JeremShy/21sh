@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 20:12:36 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/30 15:45:23 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/04 10:51:33 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 	{
 		//faire quelque
 		printf("ARGH\n");
-		exit(0);
+		return (NULL);
 	}
 	// printf("sep : %d\n", elem->sep);
 	// printf("on cree une liste.\n");
