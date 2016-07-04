@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/30 19:36:18 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/04 15:39:23 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ int	create_history(t_data *data, t_env *env)
 	if (data->c != '<' && (i = is_quote_end(data)) == 0 && data->cmd[0] != '\0') // Si la quote est terminée..
 	{
 		data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
-		data->history_en_cours = data->history; // On avance dans l'historique
 		// printf("\nexecuting command now...\n");
 		exec_cmd(&env, parse(data->cmd, data->heredocs, &env)); // On execute la commande.
 		// printf("\nthe command has been executed\n");
@@ -152,6 +151,7 @@ int	create_history(t_data *data, t_env *env)
 	data->real_len_cmd = 0;
 	data->curs_x = data->len_prompt + 1;
 	data->curs_y = -1;
+	data->history_en_cours = data->history; // On avance dans l'historique
 	if (!(data->c))
 	{
 		data->cmd = ft_strdup("");
