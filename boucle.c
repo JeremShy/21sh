@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/04 19:21:08 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/07/05 14:30:09 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,45 +32,65 @@ void	prompt_quote(t_data *data)
 	// printf("------- data->cmd = [%s]\n", data->cmd);
 }
 
+// data->history_en_cours = data->history_en_cours->prec;
+// while(data->history_en_cours &&
+// 	!ft_strnequ(data->history_en_cours->line, data->first, ft_strlen(data->first)))
+// {
+// 	printf("data->history en cours : %s\n", data->history_en_cours->line);
+// 	data->history_en_cours = data->history_en_cours->prec;
+// }
+// if (!data->history_en_cours)
+// 	return;
+
 void	move_up_history(t_data *data, t_env *env)
 {
-	if (data->c == '\0')
+	t_history	*temp;
+
+	if (data->c == '\0' && data->history != NULL)
 	{
-		if (data->history != NULL)
+		if (!data->first && data->first_search) // Si c'est la premiere fois qu'on appuie sur haut..
 		{
-			if (!data->first && data->first_search)
-			{
-				data->first_search = 0;
-				if (!ft_strequ(data->cmd, ""))
-					data->first = ft_strdup(data->cmd);
-			}
-			free(data->cmd);
-			if (data->history_en_cours == NULL)
-				data->history_en_cours = data->history;
-			if (data->first)
-			{
-				while(data->history_en_cours->prec &&
-					ft_strnequ(data->history_en_cours->prec->line, data->first, ft_strlen(data->first)))
-					data->history_en_cours = data->history_en_cours->prec;
-				if (!data->history_en_cours)
-					return;
-			}
-			exec_tcap("dl");
-			exec_tcap("cr");
-			data->prompt = print_prompt(env, data);
-			data->len_prompt = ft_strlen(data->prompt);
-			ft_putstr((data->history_en_cours)->line);
-			data->cmd = ft_strdup((data->history_en_cours)->line);
-			data->real_len_cmd = ft_strlen(data->cmd);
-			data->index = ft_strlen(data->cmd);
-			data->curs_x = data->len_prompt + data->real_len_cmd + 1;
-			if (!data->first && (data->history_en_cours)->prec)
-				data->history_en_cours = (data->history_en_cours)->prec;
-			else
-				while(data->history_en_cours->prec &&
-					ft_strnequ(data->history_en_cours->prec->line, data->first, ft_strlen(data->first)))
-					data->history_en_cours = data->history_en_cours->prec;
+			data->first_search = 0; // On change le fait que c'est la premiere fois
+			if (!ft_strequ(data->cmd, "")) // Et si y a qqc dans notre commande, on s'en sert pour notre recherche future.
+				data->first = ft_strdup(data->cmd);
 		}
+		if (!data->first && data->history_en_cours == NULL) //Si on est sorti de l'historique et qu'on a pas de recherche a faire, on part du depart (empeche de sauter le 1er element)
+			data->history_en_cours = data->history;
+		else if (data->first) // Sinon si on a une recherche a faire..
+		{
+			temp = data->history_en_cours; // On sauvegarde l'historique, au cas où on doive sortir plus tard
+			if (!data->history_en_cours) // Si on est sorti, on part du premier
+				data->history_en_cours = data->history;
+			else if (data->history_en_cours->prec) // Sinon on part de celui d'avant(pour eviter de stagner sur le meme element)
+				data->history_en_cours = data->history_en_cours->prec;
+			while(!ft_strnequ(data->history_en_cours->line, data->first, ft_strlen(data->first)) //Tant que celui sur lequel on est ne correspond pas à notre recherche, et qu'il y en a un avant..
+				&& data->history_en_cours->prec)
+			{
+				data->history_en_cours = data->history_en_cours->prec; // On recule dans notre historique
+			}
+			if (!ft_strnequ(data->history_en_cours->line, data->first, ft_strlen(data->first))) // Si on s'est pas arrete parce que le truc correspond, alors c'est qu'on s'est arrete parce qu'on etait a la fin. auquel cas, on fait comme si on avait rien fait.
+			{
+				data->history_en_cours = temp;
+				return ;
+			}
+		}
+		else
+		{
+			if (data->history_en_cours->prec)
+				data->history_en_cours = data->history_en_cours->prec;
+			else
+				return ;
+		}
+		exec_tcap("dl");
+		exec_tcap("cr");
+		data->prompt = print_prompt(env, data);
+		data->len_prompt = ft_strlen(data->prompt);
+		ft_putstr((data->history_en_cours)->line);
+		free(data->cmd);
+		data->cmd = ft_strdup((data->history_en_cours)->line);
+		data->real_len_cmd = ft_strlen(data->cmd);
+		data->index = ft_strlen(data->cmd);
+		data->curs_x = data->len_prompt + data->real_len_cmd + 1;
 	}
 	else
 	{
@@ -145,7 +165,7 @@ int	create_history(t_data *data, t_env *env)
 			data->first = NULL;
 		}
 		data->first_search = 1;
-		data->history_en_cours = data->history;
+		data->history_en_cours = NULL;
 	}
 	else
 	{
@@ -187,7 +207,6 @@ int	create_history(t_data *data, t_env *env)
 	data->real_len_cmd = 0;
 	data->curs_x = data->len_prompt + 1;
 	data->curs_y = -1;
-	data->history_en_cours = data->history; // On avance dans l'historique
 	if (!(data->c))
 	{
 		data->cmd = ft_strdup("");

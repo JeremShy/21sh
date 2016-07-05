@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/04 19:04:02 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/07/04 21:43:15 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char	*print_prompt(t_env *env, t_data *data)
 	else
 //		prompt = ft_strjoinaf1(new, "");
 	prompt = new;
+	// printf("[%s]\n", data->first);
 	ft_putstr(prompt);
 	ft_putstr("\e[39m");
 	return(prompt);
