@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/05 14:30:09 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/07/05 16:07:48 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,26 +100,30 @@ void	move_up_history(t_data *data, t_env *env)
 
 void	move_down_history(t_data *data, t_env *env)
 {
+	char *old_cmd;
+
 	if (data->c == '\0')
 	{
 		if (data->history != NULL)
 		{
-			exec_tcap("dl");
-			exec_tcap("cr");
-			data->prompt = print_prompt(env, data);
-			data->len_prompt = ft_strlen(data->prompt);
 			if (data->history_en_cours == NULL)
-				data->history_en_cours = data->history;
+			{
+				return ;
+			}
+			old_cmd = ft_strdup(data->cmd);
 			free(data->cmd);
 			if (data->first)
 			{
-				while (data->history_en_cours->next &&
-					!ft_strnequ(data->history_en_cours->next->line, data->first, ft_strlen(data->first)))
+				data->history_en_cours = data->history_en_cours->next;
+				while (data->history_en_cours &&
+					!ft_strnequ(data->history_en_cours->line, data->first, ft_strlen(data->first)))
 				{
 					data->history_en_cours = data->history_en_cours->next;
 				}
-				if (!data->history_en_cours->next)
+				if (!data->history_en_cours)
+				{
 					data->cmd = ft_strdup(data->first);
+				}
 				else
 					data->cmd = ft_strdup(data->history_en_cours->line);
 			}
@@ -130,8 +134,15 @@ void	move_down_history(t_data *data, t_env *env)
 			}
 			else
 			{
-				data->cmd = ft_strdup("");
+				data->history_en_cours = NULL;
+				data->cmd = old_cmd;
+				return ;
 			}
+			free(old_cmd);
+			exec_tcap("dl");
+			exec_tcap("cr");
+			data->prompt = print_prompt(env, data);
+			data->len_prompt = ft_strlen(data->prompt);
 			ft_putstr(data->cmd);
 			data->real_len_cmd = ft_strlen(data->cmd);
 			data->index = ft_strlen(data->cmd);
@@ -157,15 +168,6 @@ int	create_history(t_data *data, t_env *env)
 		data->c = '\0';
 		data->end_hd = 0;
 		free_heredoc(data->heredocs);
-		data->heredocs = NULL;
-		if (data->first)
-		{
-			printf("GROS CACA QUI PUE\n");
-			free(data->first);
-			data->first = NULL;
-		}
-		data->first_search = 1;
-		data->history_en_cours = NULL;
 	}
 	else
 	{
@@ -207,6 +209,16 @@ int	create_history(t_data *data, t_env *env)
 	data->real_len_cmd = 0;
 	data->curs_x = data->len_prompt + 1;
 	data->curs_y = -1;
+	data->heredocs = NULL;
+	if (data->first)
+	{
+		// printf("GROS CACA QUI PUE\n");
+		free(data->first);
+		data->first = NULL;
+	}
+	data->first_search = 1;
+	data->history_en_cours = NULL;
+
 	if (!(data->c))
 	{
 		data->cmd = ft_strdup("");
