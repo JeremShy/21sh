@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/05 16:07:48 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/07/05 16:20:15 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,6 +284,17 @@ void	boucle(t_env *env, t_data *data)
 				exec_tcap("dm");
 				exec_tcap("dc");
 				exec_tcap("ed");
+				if (ft_strequ(data->cmd, ""))
+				{
+					data->first_search = 1;
+					printf("here !\n");
+					if (data->first)
+					{
+						free(data->first);
+						data->first = NULL;
+					}
+					// data->history_en_cours = NULL; // Voir si on veut le mettre
+				}
 			}
 		}
 		else if (buf[0] == 10 && buf[1] == 0)
