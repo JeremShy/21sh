@@ -19,3 +19,12 @@ cmd-> stdin ->> -1
 elem1
 elem1, elem2
 elem1, elem2
+
+MORE THAN ONE FD
+{
+	on execute notre commande
+	on regarde si y a plusieurs fds
+	si oui
+		on lit depuis le premier fd
+		on copie dans les autres fds
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/04 10:50:22 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/07/06 19:02:50 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,18 +145,7 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env)
 		}
 		else
 		{
-			// if (!(i != 0 && str[i] == '\0' && str[i - 1] == '|')
-			// 		&& ((str[i - 1] != '|'
-			// 				|| (i >= 2 && !is_empty_border(str, old_i, i - 2)))
-			// 			|| (i == 1 && str[1] != '|' && str[0] != '|') || (i == 0 && str[0] != '|')))
-				cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs)); //count a bouge i, du coup i - old_i donne le taille de la chaine a envoyer à create cmd_elem.
-			// else
-			// {
-			// 	ft_putstr_fd("21sh: parse error near '|'\n", 2);
-			// 	// printf("old_i : %zu - i : %zu - %s\n", old_i, i, str + old_i  + 1);
-			// 	//Free tout le bordel
-			// 	return (NULL);
-			// }
+			cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs)); //count a bouge i, du coup i - old_i donne le taille de la chaine a envoyer à create cmd_elem.
 		}
 	}
 	return (cmd);
