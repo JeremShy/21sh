@@ -6,7 +6,7 @@
 /*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/11 14:53:03 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/07/06 20:38:23 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/06 21:17:19 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void		exec_cmd(t_env **env, t_cmd *command)
 	{
 		if (command->av[0] && (command->sep == NONE || command->sep == POINT_VIRGULE || command->sep == ETET))
 		{
+			printf("1\n");
 			if (is_builtin(command->av[0]))
 				exec_builtin(command->av, env);
 			else
@@ -160,6 +161,7 @@ void		exec_cmd(t_env **env, t_cmd *command)
 		}
 		else if (command->sep == '|')
 		{
+			printf("2\n");
 			pid = fork();
 			if (pid != 0)
 				wait(NULL);
@@ -191,6 +193,7 @@ void		exec_cmd(t_env **env, t_cmd *command)
 						free(command->fd_in);
 						command->fd_in = tmp;
 					}
+					break;
 				}
 				else
 					command = command->next;
