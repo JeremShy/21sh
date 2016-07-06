@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/05 16:20:15 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/07/06 18:37:41 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,6 @@ void	move_up_history(t_data *data, t_env *env)
 
 void	move_down_history(t_data *data, t_env *env)
 {
-	char *old_cmd;
-
 	if (data->c == '\0')
 	{
 		if (data->history != NULL)
@@ -110,7 +108,6 @@ void	move_down_history(t_data *data, t_env *env)
 			{
 				return ;
 			}
-			old_cmd = ft_strdup(data->cmd);
 			free(data->cmd);
 			if (data->first)
 			{
@@ -135,10 +132,10 @@ void	move_down_history(t_data *data, t_env *env)
 			else
 			{
 				data->history_en_cours = NULL;
-				data->cmd = old_cmd;
-				return ;
+				// data->cmd = old_cmd;
+				data->cmd = ft_strdup("");
+				// return ;
 			}
-			free(old_cmd);
 			exec_tcap("dl");
 			exec_tcap("cr");
 			data->prompt = print_prompt(env, data);
@@ -256,6 +253,13 @@ void	boucle(t_env *env, t_data *data)
 			}
 			data->real_len_cmd++;
 			data->index++;
+			data->first_search = 1;
+			if (data->first)
+			{
+				free(data->first);
+				data->first = NULL;
+			}
+
 		}
 		else if (buf[0] == 4 && buf[1] == 0)
 			exit(0);
@@ -284,17 +288,17 @@ void	boucle(t_env *env, t_data *data)
 				exec_tcap("dm");
 				exec_tcap("dc");
 				exec_tcap("ed");
-				if (ft_strequ(data->cmd, ""))
+				// if (ft_strequ(data->cmd, ""))
+				// {
+				data->first_search = 1;
+				if (data->first)
 				{
-					data->first_search = 1;
-					printf("here !\n");
-					if (data->first)
-					{
-						free(data->first);
-						data->first = NULL;
-					}
-					// data->history_en_cours = NULL; // Voir si on veut le mettre
+					free(data->first);
+					data->first = NULL;
 				}
+				if (ft_strequ(data->cmd, ""))
+					data->history_en_cours = NULL; // Voir si on veut le mettre
+				// }
 			}
 		}
 		else if (buf[0] == 10 && buf[1] == 0)
