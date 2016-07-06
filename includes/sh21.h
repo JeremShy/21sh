@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/04 19:01:39 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/07/06 19:41:51 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,4 +179,5 @@ int					is_parse_error(char *str);
 void				get_pos_after_quote(size_t *i, char *str);
 void				close_fd_cmd(t_cmd *cmd);
 void				close_fd(t_fd *fd);
+void				multi_redir_cmd_out(t_cmd	*cmd);
 #endif
