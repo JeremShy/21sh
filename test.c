@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/07 18:07:04 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/06 21:10:25 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/07 14:42:26 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int main()
 {
 	char truc[1001];
 	printf("on entre dans le programme\n");
-	while  (read(0, truc, 1001));
+	while  (read(0, truc, 1000));
 	printf("on sort du programme\n");
 // 		exit(0);
 	return (0);

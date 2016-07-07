@@ -6,7 +6,7 @@
 /*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/11 14:53:03 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/07/07 14:13:02 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/07 16:17:10 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ void		exec_cmd(t_env **env, t_cmd *command)
 	{
 		if (command->av[0] && (command->sep == NONE || command->sep == POINT_VIRGULE || command->sep == ETET))
 		{
-			printf("1\n");
 			if (is_builtin(command->av[0]))
 				exec_builtin(command->av, env);
 			else
@@ -161,7 +160,6 @@ void		exec_cmd(t_env **env, t_cmd *command)
 		}
 		else if (command->sep == '|')
 		{
-			printf("2\n");
 			pid = fork();
 			if (pid != 0)
 				wait(NULL);
@@ -172,32 +170,33 @@ void		exec_cmd(t_env **env, t_cmd *command)
 			}
 			while (command && command->sep == '|')
 			{
-				//Ici
-				if (command->fd_out || command->fd_in || command->fd_err)
-				{
-					if (command->fd_out)
-					{
-						tmp = command->fd_out->next;
-						free(command->fd_out);
-						command->fd_out = tmp;
-					}
-					if (command->fd_err)
-					{
-						tmp = command->fd_err->next;
-						free(command->fd_err);
-						command->fd_err = tmp;
-					}
-					if (command->fd_in)
-					{
-						tmp = command->fd_in->next;
-						free(command->fd_in);
-						command->fd_in = tmp;
-					}
-					break;
-				}
-				else
+				// if (command->fd_out || command->fd_in || command->fd_err)
+				// {
+				// 	if (command->fd_out)
+				// 	{
+				// 		tmp = command->fd_out->next;
+				// 		free(command->fd_out);
+				// 		command->fd_out = tmp;
+				// 	}
+				// 	if (command->fd_err)
+				// 	{
+				// 		tmp = command->fd_err->next;
+				// 		free(command->fd_err);
+				// 		command->fd_err = tmp;
+				// 	}
+				// 	if (command->fd_in)
+				// 	{
+				// 		tmp = command->fd_in->next;
+				// 		free(command->fd_in);
+				// 		command->fd_in = tmp;
+				// 	}
+				// 	break;
+				// }
+				// else
 					command = command->next;
 			}
+			if (command)
+				command = command->next;
 		}
 		// if (command && !(command->fd_in || command->fd_out || command->fd_err))
 		// {

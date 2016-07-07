@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/28 14:37:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/06 21:26:36 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/07 16:33:56 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int spawn_proc (t_cmd *cmd, t_env *env)
 	out = cmd->fd_out->fd;
 	if ((pid = fork ()) == 0)
 	{
+		printf("XX on execute : %s\n", cmd->av[0]);
 		if (in != 0)
 		{
 			dup2(in, 0);
@@ -75,7 +76,7 @@ int	fork_pipes(t_cmd *cmd, t_env *env)
 	// cmd->fd_in->fd = 0;
 	i = 0;
 	n = find_number(cmd);
-	// printf("n : %d\n", n);
+	printf("n : %d\n", n);
 	while (i < n - 1)
 	{
 		pipe(fd);
@@ -88,12 +89,13 @@ int	fork_pipes(t_cmd *cmd, t_env *env)
 		cmd = cmd->next;
 		if (cmd == NULL)
 		{
-			ft_putstr_fd("21sh: parse error near '|'\n", 2);
+			ft_putstr_fd("221sh: parse error near '|'\n", 2);
 			return (-1);
 		}
 		cmd->fd_in->fd = fd[0];
 		i++;
 	}
+	printf("on execute : %s\n", cmd->av[0]);
 	if (cmd->fd_in->fd != 0)
 		dup2(cmd->fd_in->fd, 0);
 	file = find_exec(cmd->av[0], env);
