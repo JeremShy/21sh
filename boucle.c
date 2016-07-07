@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/06 18:37:41 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/07 19:07:17 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -329,9 +329,23 @@ void	boucle(t_env *env, t_data *data)
 			ft_putstr(pb);
 			data->cmd = ft_strjoinaf12(data->cmd, pb);
 		}
+		else if (buf[0] == 12 && buf[1] == 0  &&buf[2] == 0)
+		{
+			exec_tcap("cl");
+			ft_putstr("\e[38;5;208m");
+			ft_putstr(data->prompt);
+			ft_putstr("\e[39m");
+			ft_putstr(data->cmd);
+			int ind_act = ft_strlen(data->cmd);
+			while (ind_act > data->index)
+			{
+				exec_tcap("le");
+				ind_act--;
+			}
+		}
 		else
 		{
-				// ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
+				ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
 		}
 		ft_bzero(buf, 6);
 	}

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/23 13:44:33 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/07 17:20:36 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/07 18:54:58 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ int	is_parse_error(char *str)
 	printf("ON ENVOIE [%s]\n", str);
 	while (str[i])
 	{
-		printf("avant : %c\n", str[i]);
 		while (ft_isspace2(str[i]))
 			i++;
-		printf("apres : %c\n", str[i]);
 		if (str[i] == '|' || str[i] == '\0')
 		{
 			printf("121sh: parse error near '|'\n");

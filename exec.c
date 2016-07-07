@@ -6,7 +6,7 @@
 /*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/11 14:53:03 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/07/07 16:17:10 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/07 18:59:12 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,16 +115,53 @@ int			exec_file(t_cmd *cmd, t_env *list)
 	return (1);
 }
 
+t_cmd		*cmd_not_found(t_env *list, t_cmd *command)
+{
+	t_cmd		*last_found;
+	char		*exec;
+	int			ok;
+	int			was_ok;
+
+	last_found = NULL;
+	ok = 0;
+	was_ok = 1;
+	if (command->sep != '|')
+		return (command);
+	while (command && (command->sep == '|' || was_ok))
+	{
+		if (command->sep != '|')
+			was_ok = 0;
+		if (!(exec = find_exec(command->av[0], list)))
+		{
+			ok = 0;
+			printf("COMMAND NOT FOUND CONNARD\n");
+			last_found = NULL;
+		}
+		else if (!ok)
+		{
+			ok = 1;
+			last_found = command;
+			free(exec);
+		}
+		command = command->next;
+	}
+	if (last_found)
+		printf("on renvoit : %s\n", last_found->av[0]);
+	else
+		printf("on renvoit rien;");
+	return (last_found);
+}
+
 void		exec_cmd(t_env **env, t_cmd *command)
 {
 	t_cmd *temp;
 	pid_t pid;
-	t_fd *tmp;
 
 	if (!command)
 		return;
 	temp = command;
 	// print_list(command);
+	command = cmd_not_found(*env, command);
 	while (command && (command->fd_in || command->fd_out || command->fd_err))
 	{
 		if (command->av[0] && (command->sep == NONE || command->sep == POINT_VIRGULE || command->sep == ETET))
@@ -137,23 +174,11 @@ void		exec_cmd(t_env **env, t_cmd *command)
 			if (command->fd_out || command->fd_in || command->fd_err)
 			{
 				if (command->fd_out)
-				{
-					tmp = command->fd_out->next;
-					free(command->fd_out);
-					command->fd_out = tmp;
-				}
+					command->fd_out = command->fd_out->next;
 				if (command->fd_err)
-				{
-					tmp = command->fd_err->next;
-					free(command->fd_err);
-					command->fd_err = tmp;
-				}
+					command->fd_err = command->fd_err->next;
 				if (command->fd_in)
-				{
-					tmp = command->fd_in->next;
-					free(command->fd_in);
-					command->fd_in = tmp;
-				}
+					command->fd_in = command->fd_in->next;
 			}
 			else
 				command = command->next;
@@ -169,34 +194,12 @@ void		exec_cmd(t_env **env, t_cmd *command)
 					exit(0);
 			}
 			while (command && command->sep == '|')
-			{
-				// if (command->fd_out || command->fd_in || command->fd_err)
-				// {
-				// 	if (command->fd_out)
-				// 	{
-				// 		tmp = command->fd_out->next;
-				// 		free(command->fd_out);
-				// 		command->fd_out = tmp;
-				// 	}
-				// 	if (command->fd_err)
-				// 	{
-				// 		tmp = command->fd_err->next;
-				// 		free(command->fd_err);
-				// 		command->fd_err = tmp;
-				// 	}
-				// 	if (command->fd_in)
-				// 	{
-				// 		tmp = command->fd_in->next;
-				// 		free(command->fd_in);
-				// 		command->fd_in = tmp;
-				// 	}
-				// 	break;
-				// }
-				// else
 					command = command->next;
-			}
 			if (command)
 				command = command->next;
+			if (command)
+				command = cmd_not_found(*env, command);
+
 		}
 		// if (command && !(command->fd_in || command->fd_out || command->fd_err))
 		// {
