@@ -19,3 +19,9 @@ cmd-> stdin ->> -1
 elem1
 elem1, elem2
 elem1, elem2
+
+MORE THAN ONE FD
+{
+	on fait ls dans le premier
+	on fait ls dans le deuxieme
+}

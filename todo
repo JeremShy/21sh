@@ -1,12 +1,12 @@
 OH MON DIEU C'EST TOUT DOUX
 
--	ls > ""
 -	historique mulitiligne
 -	depassement taille terminal
 - yank paste
 - leaks parsing
-- segfault pour ls << a;
--	bug pour few |fwe
+-	bug pour few |fwe	
+- dquote bug parfois quand on modifie un des trucs avec les fleches
+- Tout un tas de trucs avec les pipes et les sorties d'erreurs et tout un tas de bordel
 
 
 {

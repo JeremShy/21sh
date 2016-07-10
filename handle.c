@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 22:47:34 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/04 11:07:02 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/07/06 20:20:52 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 	if (str[*i] == '>' && str[*i + 1] == '&' && (ft_isdigit(str[*i + 2]) || str[*i + 2] == '-')) // On check si le truc est valide.
 	{
 		(*i) += 2;
-		if (str[*i + 2] == '-')
+		if (str[*i] == '-')
 			apres = -2;
 		else
 			apres = ft_atoi(str + *i);
@@ -38,7 +38,7 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 	{
 		avant = str[*i] - '0';
 		(*i) += 3;
-		if (str[*i + 3] == '-')
+		if (str[*i] == '-')
 			apres = -2;
 		else
 			apres = ft_atoi(str + *i);
@@ -66,7 +66,7 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 	else if (apres != -2)
 		*fd_avant = add_fd_elem(*fd_avant, copy_fd(*fd_apres)); // Si on le close pas, on ajoute a la liste.
 	else
-		*fd_avant = add_fd_elem(*fd_avant, create_fd(-2)); // Sinon, on le close. (tout ce bordel etait pour ne pas faire un dup(-2))
+		*fd_avant = add_fd_elem(*fd_avant, create_fd(-2)); // Sinon, on le close. (tout ce bordel etait pour ne pas faire un dup(-2) !)
 	return (1);
 }
 

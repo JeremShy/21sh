@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/04 21:43:15 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/07/07 19:38:52 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,44 +53,6 @@ char	*print_prompt(t_env *env, t_data *data)
 	return(prompt);
 }
 
-void		exec_cmd(t_env **env, t_cmd *command)
-{
-	t_cmd *temp;
-	pid_t pid;
-
-	if (!command)
-		return;
-	temp = command;
-	// print_list(command);
-	while (command)
-	{
-		if (command->av[0] && (command->sep == NONE || command->sep == POINT_VIRGULE || command->sep == ETET))
-		{
-			if (is_builtin(command->av[0]))
-				exec_builtin(command->av, env);
-			else
-				exec_file(command, *env);
-			// printf("\nend of command.\n");
-		}
-		else if (command->sep == '|')
-		{
-			pid = fork();
-			if (pid != 0)
-				wait(NULL);
-			else
-			{
-				if (fork_pipes(command, *env) == -1)
-					exit(0);
-			}
-			while (command && command->sep == '|')
-				command = command->next;
-		}
-		if (command)
-			command = command->next;
-	}
-	//free temp.
-	close_fd_cmd(temp);
-}
 
 int			main(int ac, char **av, char **env)
 {
