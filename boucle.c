@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/07 22:46:54 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/11 15:26:07 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,9 @@ int	create_history(t_data *data, t_env *env)
 		data->c = '\0';
 		data->end_hd = 0;
 		free_heredoc(data->heredocs);
+		data->heredocs = NULL;
+		free(data->key_here);
+		data->key_here = NULL;
 	}
 	else
 	{
@@ -175,6 +178,9 @@ int	create_history(t_data *data, t_env *env)
 			//FREE HEREDOCS
 			free_heredoc(data->heredocs);
 			data->heredocs = NULL;
+			if (data->key_here)
+				free(data->key_here);
+			data->key_here = NULL;
 			free(data->cmd);
 		}
 		else if (data->c == '<')
@@ -262,6 +268,7 @@ void	boucle(t_env *env, t_data *data)
 
 		}
 		else if (buf[0] == 4 && buf[1] == 0)
+		// FREE DATA;
 			exit(0);
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 68 && buf[3] == 0)
 		{
@@ -347,6 +354,8 @@ void	boucle(t_env *env, t_data *data)
 		{
 				ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
 		}
+		data->env = env;
+		singleton_data(data, 1);
 		ft_bzero(buf, 6);
 	}
 }

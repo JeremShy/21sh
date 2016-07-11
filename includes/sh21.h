@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/06 19:41:51 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/11 15:13:22 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct	s_data {
 	t_hc			*heredocs; //Liste avec les heredocs par ordre d'apparition
 	char			*first; // Key pour la recherche vers le haut
 	int				first_search; // Permet d'eviter le soucis quand on appuie plusieurs fois sur haut et que ca se chevauche.
+	t_env			*env; // l'env.
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
@@ -180,4 +181,6 @@ void				get_pos_after_quote(size_t *i, char *str);
 void				close_fd_cmd(t_cmd *cmd);
 void				close_fd(t_fd *fd);
 void				multi_redir_cmd_out(t_cmd	*cmd);
+void				sigint(int sig);
+t_data			*singleton_data(t_data *termios, int i);
 #endif
