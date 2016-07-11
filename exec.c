@@ -6,7 +6,7 @@
 /*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/11 14:53:03 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/07/11 18:34:32 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/11 22:48:04 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,10 +201,11 @@ void		exec_cmd(t_env **env, t_cmd *command)
 			while (command && command->sep == '|')
 					command = command->next;
 			if (command)
+			{
 				command = command->next;
-			if (command)
-				command = cmd_not_found(*env, command);
-
+				if (command)
+					command = cmd_not_found(*env, command);
+			}
 		}
 		// if (command && !(command->fd_in || command->fd_out || command->fd_err))
 		// {
