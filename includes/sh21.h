@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/11 15:13:22 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/11 17:33:22 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void				exec_cmd(t_env **env, t_cmd *command);
 void				handle_line(char *line, t_env **env);
 void				free_char_tab(char **tab);
 t_termios		*singleton_termios(t_termios *termios, int i);
-t_termios		*init_term(void);
+t_termios		*init_term(t_env *env);
 void				boucle(t_env *env, t_data *data);
 int					my_putchar(int c);
 void				exec_tcap(char *tcap);
@@ -183,4 +183,5 @@ void				close_fd(t_fd *fd);
 void				multi_redir_cmd_out(t_cmd	*cmd);
 void				sigint(int sig);
 t_data			*singleton_data(t_data *termios, int i);
+void				invert_term(void);
 #endif

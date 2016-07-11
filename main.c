@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/11 15:23:20 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/11 17:35:12 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int			main(int ac, char **av, char **env)
 	}
 	list = ft_parse_env(env);
 //	exec_mshrc(&list);
-	singleton_termios(init_term(), 1); // Mets le term en mode non canonique et tout le bordel
+	singleton_termios(init_term(list), 1); // Mets le term en mode non canonique et tout le bordel
 	data.c = '\0';
 	data.prompt = print_prompt(list, &data); // On mets le prompt dans data.prompt
 	data.len_prompt = ft_strlen(data.prompt); // On mets la longueur dans...
@@ -86,6 +86,7 @@ int			main(int ac, char **av, char **env)
 	data.first_search = 1;
 	data.env = list;
 	data.key_here = NULL;
+	singleton_data(&data, 1);
 	signal(SIGINT, sigint);
 	boucle(list, &data); // Entre dans la boucle principale du programme.
 	return (0);

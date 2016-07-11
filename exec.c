@@ -6,7 +6,7 @@
 /*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/11 14:53:03 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/07/11 15:31:12 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/11 18:34:32 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int			exec_file(t_cmd *cmd, t_env *list)
 			close(2);
 		else if (cmd->fd_err->fd != 2)
 			dup2(cmd->fd_err->fd, 2);
+		signal(SIGINT, SIG_DFL);
 		retour = execve(file, cmd->av, env);
 		if (retour == -1)
 		{
@@ -193,6 +194,7 @@ void		exec_cmd(t_env **env, t_cmd *command)
 				wait(NULL);
 			else
 			{
+				signal(SIGINT, SIG_DFL);
 				if (fork_pipes(command, *env) == -1)
 					exit(0);
 			}

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/11 15:26:07 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/11 17:40:00 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void	move_down_history(t_data *data, t_env *env)
 	}
 }
 
-int	create_history(t_data *data, t_env *env)
+int	create_history(t_data *data, t_env **env)
 {
 	int i;
 
@@ -159,7 +159,11 @@ int	create_history(t_data *data, t_env *env)
 	{
 		data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
 		// printf("\nexecuting command now...\n");
-		exec_cmd(&env, parse(data->cmd, data->heredocs, &env)); // On execute la commande.
+		invert_term();
+		signal(SIGINT, SIG_IGN);
+		exec_cmd(env, parse(data->cmd, data->heredocs, env)); // On execute la commande.
+		signal(SIGINT, sigint);
+		invert_term();
 		// printf("\nthe command has been executed\n");
 		// display_heredoc(data->heredocs);
 		data->c = '\0';
@@ -207,7 +211,7 @@ int	create_history(t_data *data, t_env *env)
 		data->index++;
 	}
 	free(data->prompt);
-	data->prompt = print_prompt(env, data);
+	data->prompt = print_prompt(*env, data);
 	data->len_prompt = ft_strlen(data->prompt);
 	data->real_len_cmd = 0;
 	data->curs_x = data->len_prompt + 1;
@@ -309,7 +313,7 @@ void	boucle(t_env *env, t_data *data)
 			}
 		}
 		else if (buf[0] == 10 && buf[1] == 0)
-			create_history(data, env);
+			create_history(data, &env);
 		else if (buf[0] == 27	&&	buf[1] == 91	&&	buf[2] == 72 && buf[3] == 0)
 			while(data->curs_x > data->len_prompt + 1 && data->curs_x > 0)
 				move_left(data);
@@ -352,7 +356,7 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else
 		{
-				ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
+				// ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
 		}
 		data->env = env;
 		singleton_data(data, 1);

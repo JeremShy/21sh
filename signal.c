@@ -6,7 +6,7 @@
 /*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 14:57:58 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/07/11 15:19:53 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/11 18:02:24 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ void sigint(int sig)
   sig = 0;
   ft_putstr("\n");
   data = singleton_data(NULL, 0);
-  data->len_prompt = ft_strlen(data->prompt);
   data->real_len_cmd = 0;
-  data->curs_x = data->len_prompt + 1;
   data->curs_y = -1;
   data->heredocs = NULL;
   if (data->first)
@@ -36,6 +34,8 @@ void sigint(int sig)
   data->index = 0;
   data->c = 0;
   data->prompt = print_prompt(data->env, data);
+  data->len_prompt = ft_strlen(data->prompt);
+  data->curs_x = data->len_prompt + 1;
   data->end_hd = 0;
   if (data->heredocs)
     free_heredoc(data->heredocs);
