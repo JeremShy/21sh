@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/07 18:59:14 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/12 16:06:16 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 		}
 		if (cmd->p_error) // Si il y a une parse_error on return.
 		{
-			ft_putstr_fd("21sh: parse error\n", 2);
+			ft_putstr_fd("100021sh: parse error\n", 2);
 			return (-1);
 		}
 	}
@@ -143,13 +143,16 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env)
 			if (str[i - 1] == ';')
 			{
 				cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));
-				last = cmd;
-				while (last && last->av[0])
-					last = last->next;
-				if (!last)
-					ft_putendl_fd("21sh: parse error", 2);
+				// last = cmd;
+				// while (last && last->av[0])
+				// {
+				// 	printf ("command : %s\n", last->av[0]);
+				// 	last = last->next;
+				// }
+				// if (!last)
+				// 	ft_putendl_fd("21sh: parse error", 2);
 				// else
-					exec_cmd(env, cmd);
+				exec_cmd(env, cmd);
 				//FAUDRA FREE CMD.
 				cmd = NULL;
 			}
@@ -157,7 +160,6 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env)
 			{
 				cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs)); //count a bouge i, du coup i - old_i donne le taille de la chaine a envoyer à create cmd_elem.
 			}
-
 		}
 	}
 	if (!cmd)

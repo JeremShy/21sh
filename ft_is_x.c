@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/23 13:44:33 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/07 18:54:58 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/12 16:11:59 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,22 @@ int		is_empty_border(char *str, size_t beg, size_t end)
 int	is_parse_error(char *str)
 {
 	size_t i;
+	int			there_is_a_pipe;
 
 	i = 0;
+	there_is_a_pipe = 0;
 	printf("ON ENVOIE [%s]\n", str);
 	while (str[i])
 	{
 		while (ft_isspace2(str[i]))
 			i++;
-		if (str[i] == '|' || str[i] == '\0')
+		if (str[i] == '|' || (str[i] == '\0' && there_is_a_pipe))
 		{
 			printf("121sh: parse error near '|'\n");
 			printf("str[i] = %c\n\n", str[i]);
 			return (1);
 		}
+		there_is_a_pipe = 1;
 		while (str[i] != '|' && str[i] != '\0')
 		{
 			if (is_quote_open(str[i]))
