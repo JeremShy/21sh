@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/14 21:34:37 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/14 22:05:24 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,7 @@ void	boucle(t_env *env, t_data *data)
 					exec_tcap("do");
 					exec_tcap("cr");
 				}
+				data->index++;
 			}
 			else
 			{
@@ -274,7 +275,6 @@ void	boucle(t_env *env, t_data *data)
 				// data->cmd = insert_char(data->cmd, data->index, buf[0]);
 			}
 			data->real_len_cmd++;
-			data->index++;
 			data->first_search = 1;
 			if (data->first)
 			{
