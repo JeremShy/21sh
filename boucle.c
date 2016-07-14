@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/11 22:48:07 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/14 21:34:37 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,8 @@ int	create_history(t_data *data, t_env **env)
 	int i;
 
 	i = 0;
+	printf("DATA->INDEX = %d\n", data->index);
+	// printf("CURSEUR = [%d] /// INDEX  = [%d] /// DATA->WIN_X = [%d]\n", get_actual_cursor(data), data->index, data->win_x);
 	ft_putstr("\n");
 	if (data->c != '<' && (i = is_quote_end(data)) == 0 && data->cmd[0] != '\0') // Si la quote est terminée..
 	{
@@ -236,14 +238,14 @@ int	create_history(t_data *data, t_env **env)
 
 void	boucle(t_env *env, t_data *data)
 {
-	char	buf[6];
+	char	buf[11];
 	int		r;
 	int		flag;
 	char	*first;
 
 	flag = 0;
-	ft_bzero(buf, 6);
-	while ((r = read(0, buf, 5)))
+	ft_bzero(buf, 11);
+	while ((r = read(0, buf, 10)))
 	{
 		if ((ft_isalpha(buf[0]) || (buf[0] >= 32 && buf[0] <= 64) || (buf[0] >= 123 && buf[0] <= 126) || (buf[0] >= 91 && buf[0] <= 96)) && buf[1] == '\0')
 		{
@@ -252,14 +254,24 @@ void	boucle(t_env *env, t_data *data)
 			{
 				data->cmd = ft_strjoinaf1(data->cmd, buf);
 				ft_putchar(buf[0]);
+				// printf("DATA->INDEX = %d /// get_actual_line = %d /// DATA->win_x = %d\n", data->index, get_actual_cursor(data), data->win_x);
+				if (get_actual_cursor(data) + 1 == data->win_x)
+				{
+					// ft_putchar(' ');
+					exec_tcap("vb");
+					exec_tcap("do");
+					exec_tcap("cr");
+				}
 			}
 			else
 			{
-				exec_tcap("im");
-				exec_tcap("ic");
-				tputs(buf, 1, my_putchar);
-				exec_tcap("ei");
-				data->cmd = insert_char(data->cmd, data->index, buf[0]);
+				// exec_tcap("vb");
+				insert_mode(data, buf[0]);
+				// exec_tcap("im");
+				// exec_tcap("ic");
+				// tputs(buf, 1, my_putchar);
+				// exec_tcap("ei");
+				// data->cmd = insert_char(data->cmd, data->index, buf[0]);
 			}
 			data->real_len_cmd++;
 			data->index++;
@@ -269,24 +281,14 @@ void	boucle(t_env *env, t_data *data)
 				free(data->first);
 				data->first = NULL;
 			}
-
 		}
 		else if (buf[0] == 4 && buf[1] == 0)
 		// FREE DATA;
 			exit(0);
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 68 && buf[3] == 0)
-		{
-			if (data->curs_x > data->len_prompt + 1 && data->curs_x > 0)
 				move_left(data);
-//			else
-//				exec_tcap("bl");
-		}
-		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 67 )
-		{
-			if (data->curs_x < data->len_prompt +
-					1 + (int)data->real_len_cmd)
+		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 67 && buf[3] == 0)
 				move_right(data);
-		}
 		else if (buf[0] == 127 && buf[1] == 0)
 		{
 			if (data->curs_x > data->len_prompt + 1 && data->curs_x > 0)
@@ -360,6 +362,6 @@ void	boucle(t_env *env, t_data *data)
 		}
 		data->env = env;
 		singleton_data(data, 1);
-		ft_bzero(buf, 6);
+		ft_bzero(buf, 11);
 	}
 }

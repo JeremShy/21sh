@@ -6,6 +6,7 @@ OH MON DIEU C'EST TOUT DOUX
 - leaks parsing
 -	bug pour few |fwe
 - dquote bug parfois quand on modifie un des trucs avec les fleches
+-	ls << a << b segfault
 
 {
 	commande -> {

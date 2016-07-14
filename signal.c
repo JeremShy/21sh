@@ -6,7 +6,7 @@
 /*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 14:57:58 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/07/11 18:02:24 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/14 16:53:02 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,23 @@ void sigint(int sig)
     free_heredoc(data->heredocs);
   if (data->key_here)
     free(data->key_here);
+}
+
+void get_winsize(t_data *data)
+{
+  struct winsize w;
+
+  ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+  data->win_y = w.ws_row;
+  data->win_x = w.ws_col;
+	data->after_prompt = (data->len_prompt + 1) % data->win_x;
+}
+
+void sigwinch(int sig)
+{
+  t_data  *data;
+
+  data = singleton_data(NULL, 0);
+  sig = 0;
+  get_winsize(data);
 }
