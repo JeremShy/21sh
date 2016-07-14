@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/12 17:39:55 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/11 22:48:07 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -358,7 +358,6 @@ void	boucle(t_env *env, t_data *data)
 		{
 				// ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
 		}
-		printf("data->curs_y [%d]", data->curs_y);
 		data->env = env;
 		singleton_data(data, 1);
 		ft_bzero(buf, 6);

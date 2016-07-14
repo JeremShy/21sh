@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/12 17:22:00 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/11 17:33:22 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,5 +184,4 @@ void				multi_redir_cmd_out(t_cmd	*cmd);
 void				sigint(int sig);
 t_data			*singleton_data(t_data *termios, int i);
 void				invert_term(void);
-void				sigwinch(int sig);
 #endif

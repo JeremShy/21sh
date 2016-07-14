@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/12 17:31:27 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/11 17:35:12 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int			main(int ac, char **av, char **env)
 	data.key_here = NULL;
 	singleton_data(&data, 1);
 	signal(SIGINT, sigint);
-	signal(SIGWINCH, sigwinch);
 	boucle(list, &data); // Entre dans la boucle principale du programme.
 	return (0);
 }

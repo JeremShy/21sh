@@ -6,7 +6,7 @@
 /*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 14:57:58 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/07/12 17:43:50 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/11 18:02:24 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,4 @@ void sigint(int sig)
     free_heredoc(data->heredocs);
   if (data->key_here)
     free(data->key_here);
-}
-
-void sigwinch(int sig)
-{
-  struct winsize w;
-  ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-
-  sig = 0;
-  printf ("lines %d\n", w.ws_row);
-  printf ("columns %d\n", w.ws_col);
 }
