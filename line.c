@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:19:00 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/14 22:03:55 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/15 16:36:25 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	insert_mode(t_data *data, char c)
 {
 	int	old_index;
 
-	old_index = data->index;
+	old_index = data->index + 1;
 	data->cmd = insert_char(data->cmd, data->index, c);
 	ft_putstr(data->cmd + data->index);
 	data->index = (int)ft_strlen(data->cmd) - 1;
@@ -76,6 +76,7 @@ void	insert_mode(t_data *data, char c)
 	{
 		move_left(data);
 	}
+	// data->index = old_index;
 }
 
 void move_r2l(t_data *data)

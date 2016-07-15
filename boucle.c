@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/14 22:05:24 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/15 16:12:26 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,14 +254,14 @@ void	boucle(t_env *env, t_data *data)
 			{
 				data->cmd = ft_strjoinaf1(data->cmd, buf);
 				ft_putchar(buf[0]);
-				// printf("DATA->INDEX = %d /// get_actual_line = %d /// DATA->win_x = %d\n", data->index, get_actual_cursor(data), data->win_x);
-				if (get_actual_cursor(data) + 1 == data->win_x)
-				{
-					// ft_putchar(' ');
-					exec_tcap("vb");
-					exec_tcap("do");
-					exec_tcap("cr");
-				}
+			// 	// printf("DATA->INDEX = %d /// get_actual_line = %d /// DATA->win_x = %d\n", data->index, get_actual_cursor(data), data->win_x);
+			// 	if (get_actual_cursor(data) + 1 == data->win_x)
+			// 	{
+			// 		// ft_putchar(' ');
+			// 		exec_tcap("vb");
+			// 		exec_tcap("do");
+			// 		exec_tcap("cr");
+			// 	}
 				data->index++;
 			}
 			else

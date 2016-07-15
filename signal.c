@@ -6,7 +6,7 @@
 /*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 14:57:58 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/07/14 16:53:02 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/15 16:07:37 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,66 @@ void get_winsize(t_data *data)
 	data->after_prompt = (data->len_prompt + 1) % data->win_x;
 }
 
+void clear_cmd(t_data	*data)
+{
+	int	j;
+	int	old_index;
+	int	i;
+
+	old_index = data->index;
+	exec_tcap("cr");
+	i = get_actual_line(data);
+	j = get_line_max(data);
+	while(i < j)
+	{
+		exec_tcap("do");
+		i++;
+	}
+	// sleep(3);
+	j = get_line_max(data);
+	while (j >= 0)
+	{
+		// exec_tcap("vb");
+		exec_tcap("cd");
+		exec_tcap("up");
+		j--;
+	}
+	// sleep(3);
+	j = 0;
+	data->index = 0;
+	i = 0;
+	// ft_putstr("\e[38;5;208m");
+	// while (i < (int)ft_strlen(data->prompt))
+	// {
+	// 	ft_putchar(data->prompt[i]);
+	// 	if (get_actual_cursor(data) + 1 == data->win_x)
+	// 	{
+	// 		// exec_tcap("vb");
+	// 		exec_tcap("do");
+	// 		exec_tcap("cr");
+	// 	}
+	// 	i++;
+	// }
+	// ft_putstr("\e[39m");
+	// ft_putchar('\n');
+	print_prompt(data->env, data);
+	i = 0;
+	while (i < (int)ft_strlen(data->cmd))
+	{
+		ft_putchar(data->cmd[i]);
+		// printf("DATA->INDEX = %d /// get_actual_line = %d /// DATA->win_x = %d\n", data->index, get_actual_cursor(data), data->win_x);
+		if (get_actual_cursor(data) + 1 == data->win_x)
+		{
+			// ft_putchar(' ');
+			// exec_tcap("vb");
+			exec_tcap("do");
+			exec_tcap("cr");
+		}
+		data->index++;
+		i++;
+	}
+}
+
 void sigwinch(int sig)
 {
   t_data  *data;
@@ -60,4 +120,9 @@ void sigwinch(int sig)
   data = singleton_data(NULL, 0);
   sig = 0;
   get_winsize(data);
+	// if (i == 0)
+	// 	return;
+	// i = 0;
+	// clear_cmd(data);
+	// i = 1;
 }
