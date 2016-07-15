@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/28 14:37:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/07 16:33:56 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/11 18:25:38 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int spawn_proc (t_cmd *cmd, t_env *env)
 	out = cmd->fd_out->fd;
 	if ((pid = fork ()) == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		printf("XX on execute : %s\n", cmd->av[0]);
 		if (in != 0)
 		{

@@ -4,10 +4,9 @@ OH MON DIEU C'EST TOUT DOUX
 -	depassement taille terminal
 - yank paste
 - leaks parsing
--	bug pour few |fwe	
+-	bug pour few |fwe
 - dquote bug parfois quand on modifie un des trucs avec les fleches
-- Tout un tas de trucs avec les pipes et les sorties d'erreurs et tout un tas de bordel
-
+-	ls << a << b segfault
 
 {
 	commande -> {
@@ -23,7 +22,7 @@ OH MON DIEU C'EST TOUT DOUX
 
 ls 2> truc 2>&1 penis
 
-ls > a > b > c
+ls > a > b
 
 {
 	av;

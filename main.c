@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/07 19:38:52 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/15 15:33:54 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*print_prompt(t_env *env, t_data *data)
 		}
  		prompt = ft_strdup("<");
 		prompt = ft_strjoinaf12(prompt, new);
-		prompt = ft_strjoinaf1(prompt, ">% ");
+		prompt = ft_strjoinaf1(prompt, ">$ ");
 	}
 	else
 //		prompt = ft_strjoinaf1(new, "");
@@ -50,6 +50,13 @@ char	*print_prompt(t_env *env, t_data *data)
 	// printf("[%s]\n", data->first);
 	ft_putstr(prompt);
 	ft_putstr("\e[39m");
+	// printf("------------  %d --------------- %d ---------\n", (int)ft_strlen(prompt), data->win_x);
+	if ((int)ft_strlen(prompt) == data->win_x)
+	{
+		data->index = 0;
+		move_r2l(data);
+		data->index--;
+	}
 	return(prompt);
 }
 
@@ -69,7 +76,10 @@ int			main(int ac, char **av, char **env)
 	}
 	list = ft_parse_env(env);
 //	exec_mshrc(&list);
-	singleton_termios(init_term(), 1); // Mets le term en mode non canonique et tout le bordel
+	singleton_termios(init_term(list), 1); // Mets le term en mode non canonique et tout le bordel
+	signal(SIGINT, sigint);
+	signal(SIGWINCH, sigwinch);
+	get_winsize(&data);
 	data.c = '\0';
 	data.prompt = print_prompt(list, &data); // On mets le prompt dans data.prompt
 	data.len_prompt = ft_strlen(data.prompt); // On mets la longueur dans...
@@ -84,6 +94,9 @@ int			main(int ac, char **av, char **env)
 	data.heredocs = NULL;
 	data.first = NULL;
 	data.first_search = 1;
+	data.env = list;
+	data.key_here = NULL;
+	singleton_data(&data, 1);
 	boucle(list, &data); // Entre dans la boucle principale du programme.
 	return (0);
 }

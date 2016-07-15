@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/06 19:41:51 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/15 15:03:56 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,10 @@ typedef struct	s_data {
 	t_hc			*heredocs; //Liste avec les heredocs par ordre d'apparition
 	char			*first; // Key pour la recherche vers le haut
 	int				first_search; // Permet d'eviter le soucis quand on appuie plusieurs fois sur haut et que ca se chevauche.
+	t_env			*env; // l'env.
+	int		win_y;
+	int		win_x;
+	int				after_prompt; // Position curseur apres prompt
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
@@ -125,7 +129,7 @@ void				exec_cmd(t_env **env, t_cmd *command);
 void				handle_line(char *line, t_env **env);
 void				free_char_tab(char **tab);
 t_termios		*singleton_termios(t_termios *termios, int i);
-t_termios		*init_term(void);
+t_termios		*init_term(t_env *env);
 void				boucle(t_env *env, t_data *data);
 int					my_putchar(int c);
 void				exec_tcap(char *tcap);
@@ -133,7 +137,9 @@ char				*insert_char(char *str, int index, char c);
 char				*delete_char(char *str, int index);
 char				*print_prompt(t_env *env, t_data *data);
 void				move_left(t_data *data);
+void				move_left_simple(t_data *data);
 void				move_right(t_data *data);
+void				move_right_simple(t_data *data);
 int 				is_special(char *str, int quote);
 int 				is_quote(char car);
 int 				is_quote_open(char car);
@@ -180,4 +186,18 @@ void				get_pos_after_quote(size_t *i, char *str);
 void				close_fd_cmd(t_cmd *cmd);
 void				close_fd(t_fd *fd);
 void				multi_redir_cmd_out(t_cmd	*cmd);
+void				sigint(int sig);
+t_data			*singleton_data(t_data *termios, int i);
+void				invert_term(void);
+void				sigwinch(int sig);
+void				get_winsize(t_data *data);
+int					get_actual_line(t_data *data);
+int					get_actual_cursor(t_data *data);
+int					get_prompt_line(t_data *data);
+int					can_move_down(t_data *data);
+int					can_move_up(t_data	*data);
+int					get_line_max(t_data *data);
+void				move_r2l(t_data *data);
+void				insert_mode(t_data *data, char c);
+int					get_actual_cursor(t_data *data);
 #endif

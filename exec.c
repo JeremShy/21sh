@@ -6,7 +6,7 @@
 /*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/11 14:53:03 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/07/07 18:59:12 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/11 22:48:04 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int			exec_file(t_cmd *cmd, t_env *list)
 		return (0);
 	}
 	env = make_env_char(list);
+	// printf("in : %d - out : %d - err - %d - command : %s\n", cmd->fd_in->fd, cmd->fd_out->fd, cmd->fd_err->fd, file);
 	process = fork();
 	if (process != 0)
 		wait(NULL);
@@ -92,16 +93,17 @@ int			exec_file(t_cmd *cmd, t_env *list)
 	{
 		if (!cmd->fd_in || cmd->fd_in->fd == -2)
 			close(0);
-		else
+		else if (cmd->fd_in->fd != 0)
 			dup2(cmd->fd_in->fd, 0);
 		if (!cmd->fd_out || cmd->fd_out->fd == -2)
 			close(1);
-		else
+		else if (cmd->fd_out->fd != 1)
 			dup2(cmd->fd_out->fd, 1);
 		if (!cmd->fd_err || cmd->fd_err->fd == -2)
 			close(2);
-		else
+		else if (cmd->fd_err->fd != 2)
 			dup2(cmd->fd_err->fd, 2);
+		signal(SIGINT, SIG_DFL);
 		retour = execve(file, cmd->av, env);
 		if (retour == -1)
 		{
@@ -169,7 +171,9 @@ void		exec_cmd(t_env **env, t_cmd *command)
 			if (is_builtin(command->av[0]))
 				exec_builtin(command->av, env);
 			else
+			{
 				exec_file(command, *env);
+			}
 			// printf("\nend of command.\n");
 			if (command->fd_out || command->fd_in || command->fd_err)
 			{
@@ -190,16 +194,18 @@ void		exec_cmd(t_env **env, t_cmd *command)
 				wait(NULL);
 			else
 			{
+				signal(SIGINT, SIG_DFL);
 				if (fork_pipes(command, *env) == -1)
 					exit(0);
 			}
 			while (command && command->sep == '|')
 					command = command->next;
 			if (command)
+			{
 				command = command->next;
-			if (command)
-				command = cmd_not_found(*env, command);
-
+				if (command)
+					command = cmd_not_found(*env, command);
+			}
 		}
 		// if (command && !(command->fd_in || command->fd_out || command->fd_err))
 		// {

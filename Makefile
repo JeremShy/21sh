@@ -6,7 +6,7 @@
 #    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#*   Updated: 2016/07/10 17:24:58 by jcamhi           ###   ########.fr       *#
+#    Updated: 2016/07/15 17:05:42 by JeremShy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ SRC_NAME = main.c \
 		 heredoc.c \
 		 list_heredoc.c \
 		 handle_pipe.c \
-		 get_pb.c 
+		 get_pb.c \
+		 signal.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes
