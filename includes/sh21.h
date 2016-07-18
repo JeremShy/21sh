@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/15 15:03:56 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/18 18:20:09 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@
 # define	NONE (char)0
 # define	POINT_VIRGULE ';'
 # define	ETET (char)1
-# define	PIPE '['
-# define	CHEV_GAUCHE '<'
-# define	DCHEV_GAUCHE 'l'
-# define	CHEV_DROITE '>'
-# define	ERR_SIMPLE 8 // 2>
-# define	DCHEV_DROITE 'r'
-# define	ERR_LONG
-# define	ERR_OUT (char)2 // 2>&1
-# define	OUT_OUT (char)3 // >&1
-# define	OUT_ERR (char)4 // >&2
-# define	OUT_ERR_L (char)5 // 1>&2
-# define	ERR_ERR (char)6 // 2>&2
-# define	OUT_OUT_L (char)7 // 1>&1
+// # define	PIPE '['
+// # define	CHEV_GAUCHE '<'
+// # define	DCHEV_GAUCHE 'l'
+// # define	CHEV_DROITE '>'
+// # define	ERR_SIMPLE 8 // 2>
+// # define	DCHEV_DROITE 'r'
+// # define	ERR_LONG
+// # define	ERR_OUT (char)2 // 2>&1
+// # define	OUT_OUT (char)3 // >&1
+// # define	OUT_ERR (char)4 // >&2
+// # define	OUT_ERR_L (char)5 // 1>&2
+// # define	ERR_ERR (char)6 // 2>&2
+// # define	OUT_OUT_L (char)7 // 1>&1
 
 # undef tab
 
@@ -109,23 +109,24 @@ typedef struct	s_data {
 	int		win_y;
 	int		win_x;
 	int				after_prompt; // Position curseur apres prompt
+	int		in_env_i;
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
 t_env				*add_elem_end(t_env *list, char *name, char *arg);
 char				**ft_special_split(char const *s);
 int					is_builtin(char *cmd);
-int					exec_builtin(char **scmd, t_env **env);
+int					exec_builtin(char **scmd, t_env **env, t_data *data);
 void				change_arg(t_env *list, char *name, char *new_arg);
 char				*find_arg(t_env *list, char *name);
 int					ft_cd(char **scmd, t_env *env);
 int					isset_arg(t_env *list, char *name);
 void				delete_elem(t_env **list, char *name);
 void				delete_list(t_env *list);
-int					exec_file(t_cmd *cmd, t_env *list);
+int					exec_file(t_cmd *cmd, t_env *list, int in_env_i);
 char				**make_env_char(t_env *list);
 int					ft_source(char **scmd, t_env **env);
-void				exec_cmd(t_env **env, t_cmd *command);
+void				exec_cmd(t_env **env, t_cmd *command, t_data *data);
 void				handle_line(char *line, t_env **env);
 void				free_char_tab(char **tab);
 t_termios		*singleton_termios(t_termios *termios, int i);
@@ -153,7 +154,7 @@ t_cmd				*create_cmd_elem(char *str, int count, t_hc **heredocs);
 t_cmd				*add_cmd_elem(t_cmd *list, t_cmd *elem);
 char*				pos_quote_end(char en_cours, char *str);
 void				print_list(t_cmd *lst);
-t_cmd				*parse(char	*str, t_hc *heredocs, t_env **env);
+t_cmd				*parse(char	*str, t_hc *heredocs, t_env **env, t_data *data);
 void				join_inside_quote(size_t *i, char *str);
 int					is_aggr(size_t *i, char *str, int jump);
 char				*is_redir(size_t *i, char *str, int jump, t_cmd *cmd);
@@ -200,4 +201,5 @@ int					get_line_max(t_data *data);
 void				move_r2l(t_data *data);
 void				insert_mode(t_data *data, char c);
 int					get_actual_cursor(t_data *data);
+void				delete_mode(t_data *data);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/15 16:12:26 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/18 18:20:31 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int	create_history(t_data *data, t_env **env)
 	int i;
 
 	i = 0;
-	printf("DATA->INDEX = %d\n", data->index);
+	// printf("DATA->INDEX = %d\n", data->index);
 	// printf("CURSEUR = [%d] /// INDEX  = [%d] /// DATA->WIN_X = [%d]\n", get_actual_cursor(data), data->index, data->win_x);
 	ft_putstr("\n");
 	if (data->c != '<' && (i = is_quote_end(data)) == 0 && data->cmd[0] != '\0') // Si la quote est terminée..
@@ -163,7 +163,7 @@ int	create_history(t_data *data, t_env **env)
 		// printf("\nexecuting command now...\n");
 		invert_term();
 		signal(SIGINT, SIG_IGN);
-		exec_cmd(env, parse(data->cmd, data->heredocs, env)); // On execute la commande.
+		exec_cmd(env, parse(data->cmd, data->heredocs, env, data), data); // On execute la commande.
 		signal(SIGINT, sigint);
 		invert_term();
 		// printf("\nthe command has been executed\n");
@@ -247,6 +247,7 @@ void	boucle(t_env *env, t_data *data)
 	ft_bzero(buf, 11);
 	while ((r = read(0, buf, 10)))
 	{
+		data->in_env_i = 0;
 		if ((ft_isalpha(buf[0]) || (buf[0] >= 32 && buf[0] <= 64) || (buf[0] >= 123 && buf[0] <= 126) || (buf[0] >= 91 && buf[0] <= 96)) && buf[1] == '\0')
 		{
 			data->curs_x++;
@@ -254,6 +255,12 @@ void	boucle(t_env *env, t_data *data)
 			{
 				data->cmd = ft_strjoinaf1(data->cmd, buf);
 				ft_putchar(buf[0]);
+				if (data->win_x == get_actual_cursor(data) + 1)
+				{
+					ft_putchar(' ');
+					move_left(data);
+					data->index++;
+				}
 			// 	// printf("DATA->INDEX = %d /// get_actual_line = %d /// DATA->win_x = %d\n", data->index, get_actual_cursor(data), data->win_x);
 			// 	if (get_actual_cursor(data) + 1 == data->win_x)
 			// 	{
@@ -263,6 +270,7 @@ void	boucle(t_env *env, t_data *data)
 			// 		exec_tcap("cr");
 			// 	}
 				data->index++;
+				// printf("RESULT 1 = %d /// RES 2 = %d\n", data->win_x, get_actual_cursor(data));
 			}
 			else
 			{
@@ -291,18 +299,19 @@ void	boucle(t_env *env, t_data *data)
 				move_right(data);
 		else if (buf[0] == 127 && buf[1] == 0)
 		{
-			if (data->curs_x > data->len_prompt + 1 && data->curs_x > 0)
+			if (data->index > 0)
 			{
-				exec_tcap("le");
-				data->curs_x--;
-				data->cmd = delete_char(data->cmd, data->index);
-				data->index--;
-				data->real_len_cmd--;
-				exec_tcap("dm");
-				exec_tcap("dc");
-				exec_tcap("ed");
-				// if (ft_strequ(data->cmd, ""))
-				// {
+				// exec_tcap("le");
+				// data->curs_x--;
+				// data->cmd = delete_char(data->cmd, data->index);
+				// data->index--;
+				// data->real_len_cmd--;
+				// exec_tcap("dm");
+				// exec_tcap("dc");
+				// exec_tcap("ed");
+				// // if (ft_strequ(data->cmd, ""))
+				// // {
+				delete_mode(data);
 				data->first_search = 1;
 				if (data->first)
 				{

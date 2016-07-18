@@ -6,7 +6,7 @@
 /*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/11 14:53:03 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/07/11 22:48:04 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/18 18:27:40 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char		*find_exec(char *scmd, t_env *list)
 }
 
 
-int			exec_file(t_cmd *cmd, t_env *list)
+int			exec_file(t_cmd *cmd, t_env *list, int in_env_i)
 {
 	char	*file;
 	char	**env;
@@ -79,12 +79,18 @@ int			exec_file(t_cmd *cmd, t_env *list)
 		return (0);
 	if (access(file, X_OK) == -1)
 	{
-		ft_putstr_fd("21sh: permission denied: ", 2);
+		if (in_env_i)
+			ft_putstr_fd("env: permission denied: ", 2);
+		else
+			ft_putstr_fd("21sh: permission denied: ", 2);
 		ft_putendl_fd(cmd->av[0], 2);
 		free(file);
 		return (0);
 	}
-	env = make_env_char(list);
+	if (in_env_i)
+		env = make_env_char(NULL);
+	else
+		env = make_env_char(list);
 	// printf("in : %d - out : %d - err - %d - command : %s\n", cmd->fd_in->fd, cmd->fd_out->fd, cmd->fd_err->fd, file);
 	process = fork();
 	if (process != 0)
@@ -107,7 +113,10 @@ int			exec_file(t_cmd *cmd, t_env *list)
 		retour = execve(file, cmd->av, env);
 		if (retour == -1)
 		{
-			ft_putstr_fd("21sh: exec format error: ", 2);
+			if (in_env_i)
+				ft_putstr_fd("env: exec format error: ", 2);
+			else
+				ft_putstr_fd("21sh: exec format error: ", 2);
 			ft_putendl_fd(cmd->av[0], 2);
 			exit(EXIT_FAILURE);
 		}
@@ -154,7 +163,7 @@ t_cmd		*cmd_not_found(t_env *list, t_cmd *command)
 	return (last_found);
 }
 
-void		exec_cmd(t_env **env, t_cmd *command)
+void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 {
 	t_cmd *temp;
 	pid_t pid;
@@ -169,10 +178,10 @@ void		exec_cmd(t_env **env, t_cmd *command)
 		if (command->av[0] && (command->sep == NONE || command->sep == POINT_VIRGULE || command->sep == ETET))
 		{
 			if (is_builtin(command->av[0]))
-				exec_builtin(command->av, env);
+				exec_builtin(command->av, env, data);
 			else
 			{
-				exec_file(command, *env);
+				exec_file(command, *env, data->in_env_i);
 			}
 			// printf("\nend of command.\n");
 			if (command->fd_out || command->fd_in || command->fd_err)

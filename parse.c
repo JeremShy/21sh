@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/14 18:45:22 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/18 18:24:02 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 	return (count);
 }
 
-t_cmd	*parse(char *str, t_hc *heredocs, t_env **env)
+t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 {
 	int		count;
 	size_t	i;
@@ -163,7 +163,7 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env)
 				// 	ft_putendl_fd("21sh: parse error", 2);
 				// else
 				cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));
-				exec_cmd(env, cmd);
+				exec_cmd(env, cmd, data);
 				//FAUDRA FREE CMD.
 				cmd = NULL;
 			}

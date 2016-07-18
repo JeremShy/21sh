@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:19:00 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/15 16:36:25 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/18 14:48:37 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int get_actual_line(t_data *data)
 
 int	get_actual_cursor(t_data *data)
 {
-	return ((data->len_prompt + data->index) % data->win_x);
+	return ((data->len_prompt + data->index) % (data->win_x));
 }
 
 int	get_line_max(t_data *data)
@@ -65,18 +65,40 @@ int get_prompt_line(t_data *data)
 
 void	insert_mode(t_data *data, char c)
 {
-	int	old_index;
+	int	new_index;
 
-	old_index = data->index + 1;
-	data->cmd = insert_char(data->cmd, data->index, c);
+	new_index = data->index + 1;
+ 	data->cmd = insert_char(data->cmd, data->index, c);
 	ft_putstr(data->cmd + data->index);
-	data->index = (int)ft_strlen(data->cmd) - 1;
+	data->index = (int)ft_strlen(data->cmd);
 	//FAIRE LES MOVES LEFTS
-	while(data->index > old_index)
+	while(data->index > new_index)
 	{
 		move_left(data);
 	}
+	if (get_line_max(data) == get_actual_line(data) && get_actual_cursor(data) == data->win_x)
+		ft_putchar(' ');
 	// data->index = old_index;
+}
+
+void delete_mode(t_data *data)
+{
+	int	index;
+
+	move_left(data);
+	// printf("CALCUL CHELOU = %d\n", (data->len_prompt + data->index + 1) % (data->win_x));
+	// exec_tcap("vb");
+	// sleep(3);
+	if ((data->len_prompt + data->index + 1) % (data->win_x) == 0)
+		exec_tcap("ce");
+	// sleep(3);
+	index = data->index;
+	ft_putstr(data->cmd + data->index + 1);
+	data->cmd = delete_char(data->cmd, data->index + 1);
+	exec_tcap("dc");
+	data->index = ft_strlen(data->cmd);
+	while (data->index > index)
+		move_left(data);
 }
 
 void move_r2l(t_data *data)

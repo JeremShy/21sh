@@ -6,7 +6,7 @@
 #    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/07/15 17:05:42 by JeremShy         ###   ########.fr        #
+#    Updated: 2016/07/18 13:08:26 by jcamhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,8 +66,8 @@ all : $(NAME)
 
 $(NAME) : $(OBJ)
 	@mkdir ./lib 2> /dev/null || true
-	make -C libsrcs/libft
-	make -C libsrcs/ft_printf
+#	make -C libsrcs/libft
+#	make -C libsrcs/ft_printf
 	$(CC) $(CFLAGS) $(LFLAGS) $(INC) -o $@ $^
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
@@ -77,18 +77,18 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 clean:
 	/bin/rm -fv $(OBJ)
 	@rmdir $(OBJ_PATH) 2> /dev/null || true
-	make -C libsrcs/libft clean
-	make -C libsrcs/ft_printf clean
+#	make -C libsrcs/libft clean
+#	make -C libsrcs/ft_printf clean
 
 fclean: clean
 	rm -fv $(NAME)
-	make -C libsrcs/libft fclean
-	make -C libsrcs/ft_printf fclean
-	@rmdir lib 2> /dev/null || true
+#	make -C libsrcs/libft fclean
+#	make -C libsrcs/ft_printf fclean
+#	@rmdir lib 2> /dev/null || true
 
 re: fclean all
 
 script:
-	gcc -I includes lib/libft.a script.c script.h -g
+	gcc -I includes lib/libft.a script.c -g
 
 .PHONY : all clean fclean re
