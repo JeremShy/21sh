@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/18 18:20:09 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/18 19:20:53 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,4 +202,5 @@ void				move_r2l(t_data *data);
 void				insert_mode(t_data *data, char c);
 int					get_actual_cursor(t_data *data);
 void				delete_mode(t_data *data);
+int					ft_echo(char **scmd, t_env *env);
 #endif
