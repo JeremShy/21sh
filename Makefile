@@ -88,4 +88,7 @@ fclean: clean
 
 re: fclean all
 
+script:
+	gcc -I includes lib/libft.a script.c script.h -g
+
 .PHONY : all clean fclean re
