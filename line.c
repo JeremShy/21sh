@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:19:00 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/18 14:48:37 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/20 00:10:02 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,17 @@ void	insert_mode(t_data *data, char c)
 	new_index = data->index + 1;
  	data->cmd = insert_char(data->cmd, data->index, c);
 	ft_putstr(data->cmd + data->index);
+	// if (data->win_x == get_actual_cursor(data) + (int)ft_strlen(data->cmd + data->index))
+	// 	ft_putchar(' ');
 	data->index = (int)ft_strlen(data->cmd);
 	//FAIRE LES MOVES LEFTS
 	while(data->index > new_index)
 	{
+		// sleep(1);
 		move_left(data);
 	}
-	if (get_line_max(data) == get_actual_line(data) && get_actual_cursor(data) == data->win_x)
-		ft_putchar(' ');
+	// if (get_line_max(data) == get_actual_line(data) && get_actual_cursor(data) == data->win_x)
+	// 	ft_putchar(' ');
 	// data->index = old_index;
 }
 
@@ -85,20 +88,40 @@ void delete_mode(t_data *data)
 {
 	int	index;
 
+//abcdefghijklmnopqrstuvwxyz
 	move_left(data);
 	// printf("CALCUL CHELOU = %d\n", (data->len_prompt + data->index + 1) % (data->win_x));
 	// exec_tcap("vb");
-	// sleep(3);
 	if ((data->len_prompt + data->index + 1) % (data->win_x) == 0)
 		exec_tcap("ce");
-	// sleep(3);
-	index = data->index;
+	index = data->index + 1;
+	exec_tcap("cd");
 	ft_putstr(data->cmd + data->index + 1);
 	data->cmd = delete_char(data->cmd, data->index + 1);
-	exec_tcap("dc");
+	// exec_tcap("cd");
 	data->index = ft_strlen(data->cmd);
+	// printf("FIRST COND = %d ///// SECOND = %d\n", get_actual_cursor(data), (int)ft_strlen(data->cmd));
+	if (get_actual_cursor(data) == 0 && data->index == (int)ft_strlen(data->cmd))
+	{
+		move_left_simple(data);
+		move_right_simple(data);
+	}
+	// data->index = data->index - 1;// HOTFIX DEGUEU
+	// printf("get_actual_cursor(data) = %d\n", get_actual_cursor(data));
+	// if (data->win_x == get_actual_cursor(data) + (int)ft_strlen(data->cmd + index))
+		// ft_putchar(' ');
+	// data->index = data->index + 1; // TOUJOURS DEGUEU
 	while (data->index > index)
+	{
 		move_left(data);
+	}
+	if (data->index != (int)ft_strlen(data->cmd))
+		move_left(data);
+	if (index == (int)ft_strlen(data->cmd))
+	{
+		// printf("caca\n");
+		move_left(data);
+	}
 }
 
 void move_r2l(t_data *data)
@@ -138,6 +161,12 @@ void	move_left(t_data *data)
 	{
 		if (get_actual_cursor(data) > 0)
 			move_left_simple(data);
+		else if (get_actual_cursor(data) == 0 && data->index == (int)ft_strlen(data->cmd))
+		{
+			move_left_simple(data);
+			// move_right_simple(data);
+			exec_tcap("nd");
+		}
 		else
 			// move_left_simple(data);
 			// exec_tcap("vb");
@@ -145,7 +174,8 @@ void	move_left(t_data *data)
 	}
 	else
 	{
-		if (get_actual_cursor(data) > (data->len_prompt) % data->win_x)
+		if (data->index > 0)
+		// if (get_actual_cursor(data) > (data->len_prompt) % data->win_x)
 		{
 			move_left_simple(data);
 		}

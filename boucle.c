@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/18 18:20:31 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/19 19:58:53 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,12 +255,13 @@ void	boucle(t_env *env, t_data *data)
 			{
 				data->cmd = ft_strjoinaf1(data->cmd, buf);
 				ft_putchar(buf[0]);
-				if (data->win_x == get_actual_cursor(data) + 1)
-				{
-					ft_putchar(' ');
-					move_left(data);
-					data->index++;
-				}
+				// if (data->win_x == get_actual_cursor(data) + 1)
+				// {
+				// 	// printf("get_actual_cursor(data) + 1 = %d\n", get_actual_cursor(data));
+				// 	ft_putchar(' ');
+				// 	move_left(data);
+				// 	data->index++;
+				// }
 			// 	// printf("DATA->INDEX = %d /// get_actual_line = %d /// DATA->win_x = %d\n", data->index, get_actual_cursor(data), data->win_x);
 			// 	if (get_actual_cursor(data) + 1 == data->win_x)
 			// 	{
