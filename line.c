@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:19:00 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/20 00:10:02 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/20 15:34:12 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,9 @@ void delete_mode(t_data *data)
 	if (get_actual_cursor(data) == 0 && data->index == (int)ft_strlen(data->cmd))
 	{
 		move_left_simple(data);
-		move_right_simple(data);
+		// move_right_simple(data);
+		ft_putchar(data->cmd[data->index - 1]);
+		data->index++;
 	}
 	// data->index = data->index - 1;// HOTFIX DEGUEU
 	// printf("get_actual_cursor(data) = %d\n", get_actual_cursor(data));
@@ -189,7 +191,20 @@ void move_right(t_data *data)
 {
 	// if (data->curs_x < data->len_prompt + 1 + (int)data->real_len_cmd)
 	// 	move_right(data);
-	if (data->index < (int)ft_strlen(data->cmd))
+	// printf("RES 1 = %d /// RES 2 = %d\n", data->win_x, get_actual_cursor(data));
+	// if (get_actual_line(data) == get_line_max(data) && get_actual_cursor(data) == 0)
+	// {// printf("C DE LA MERDE\n");
+	// 	// move_r2l(data);
+	// 	ft_putchar(' ');
+	// }
+	if (get_actual_cursor(data) + 1 == data->win_x && data->index == (int)ft_strlen(data->cmd) - 1)
+	{
+		// move_r2l(data);
+		// move_right(data);
+		ft_putchar(data->cmd[data->index]);
+		data->index++;
+	}
+	else if (data->index < (int)ft_strlen(data->cmd))
 	{
 		if (get_actual_cursor(data) + 1 == data->win_x)
 		{
