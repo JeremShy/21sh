@@ -6,7 +6,7 @@
 /*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 14:57:58 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/07/19 16:58:50 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/21 00:38:21 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,16 @@ void sigint(int sig)
   data->len_prompt = ft_strlen(data->prompt);
   data->curs_x = data->len_prompt + 1;
   data->end_hd = 0;
+	data->quote_or_hd = 0;
+	data->first_line_of_hd = 1;
+	if (data->cmd_tmp) // TEST DE TRUC CHELOU
+	{
+		if (data->cmd_tmp[0])
+		{
+			free(data->cmd_tmp);
+			data->cmd_tmp = ft_strdup("");
+		}
+	}
   if (data->heredocs)
     free_heredoc(data->heredocs);
   if (data->key_here)

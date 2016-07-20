@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/14 16:22:40 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/14 15:58:09 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/21 00:37:35 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int		is_quote_end(t_data *data)
 	// printf("TRY TO DETECT HEREDOC [%s]\n", data->cmd + i);
 	while (data->c == '\0' && data->cmd[i])
 	{
+			// printf("CHEKC 2 /// data->index = %d\n", data->index);
 			if (ft_strnstr(data->cmd + i, "<<", 2))
 			{
 				data->old_index = data->index;
@@ -123,7 +124,7 @@ int		is_quote_end(t_data *data)
 				data->end_hd = i;
 				data->ancienne_cmd = data->cmd;
 				data->cmd = ft_strdup("");
-				data->index = 0;
+				data->index = -1;
 				printf("heredoc detected. key : %s\n", data->key_here);
 			}
 			i++;

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/20 22:03:24 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/21 00:29:55 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ typedef struct	s_data {
 	int		in_env_i;
 
 	char	*cmd_tmp;
+	int		quote_or_hd;
+	int		first_line_of_hd;
 }				t_data;
 
 t_env				*ft_parse_env(char **env);

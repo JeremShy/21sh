@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/20 22:12:40 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/21 00:35:27 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,8 @@ int	create_history(t_data *data, t_env **env)
 			free(data->cmd_tmp);
 		else
 		{
-			data->cmd = ft_strjoinaf1(data->cmd_tmp, data->cmd);
+			if (data->quote_or_hd == 0)
+				data->cmd = ft_strjoinaf1(data->cmd_tmp, data->cmd);
 		}
 		data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
 		// printf("\nexecuting command now...\n");
@@ -181,6 +182,8 @@ int	create_history(t_data *data, t_env **env)
 		free(data->key_here);
 		data->key_here = NULL;
 		data->cmd_tmp = ft_strdup("");
+		data->quote_or_hd = 0;
+		data->first_line_of_hd = 1;
 	}
 	else
 	{
@@ -199,6 +202,7 @@ int	create_history(t_data *data, t_env **env)
 		else if (data->c == '<')
 		{
 			// printf("--------  data->cmd : %s\n", data->cmd);
+			// printf("index = %d\n", data->index);
 			if (is_key(data))
 			{
 				// printf("on ajoute [%s]\n", data->cmd + 1);
@@ -210,10 +214,14 @@ int	create_history(t_data *data, t_env **env)
 				// printf("[%s]\n", data->cmd + data->index);
 				data->c = '\0';
 				data->real_len_cmd = 0;
+				data->quote_or_hd = 1;
 				return (create_history(data, env));
 				// create_history(data, env);
 			}
-			data->cmd = ft_strjoinaf1(data->cmd, "\n");
+			if (data->first_line_of_hd == 1) // Fix pour que la premiere fois data->cmd = ""
+				data->first_line_of_hd = 0;
+			else
+				data->cmd = ft_strjoinaf1(data->cmd, "\n");
 		}
 		else
 		{
