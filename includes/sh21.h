@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/20 00:32:17 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/20 22:03:24 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ typedef struct	s_data {
 	int		win_x;
 	int				after_prompt; // Position curseur apres prompt
 	int		in_env_i;
+
+	char	*cmd_tmp;
 }				t_data;
 
 t_env				*ft_parse_env(char **env);

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/20 00:31:47 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/20 22:12:40 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,12 @@ int	create_history(t_data *data, t_env **env)
 	ft_putstr("\n");
 	if (data->c != '<' && (i = is_quote_end(data)) == 0 && data->cmd[0] != '\0') // Si la quote est terminée..
 	{
+		if (data->cmd_tmp[0] == '\0')
+			free(data->cmd_tmp);
+		else
+		{
+			data->cmd = ft_strjoinaf1(data->cmd_tmp, data->cmd);
+		}
 		data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
 		// printf("\nexecuting command now...\n");
 		invert_term();
@@ -174,6 +180,7 @@ int	create_history(t_data *data, t_env **env)
 		data->heredocs = NULL;
 		free(data->key_here);
 		data->key_here = NULL;
+		data->cmd_tmp = ft_strdup("");
 	}
 	else
 	{
@@ -209,7 +216,13 @@ int	create_history(t_data *data, t_env **env)
 			data->cmd = ft_strjoinaf1(data->cmd, "\n");
 		}
 		else
-			data->cmd = ft_strjoinaf1(data->cmd, "\n");
+		{
+			data->cmd_tmp = ft_strjoinaf2(data->cmd_tmp, data->cmd);
+			data->cmd_tmp = ft_strjoin(data->cmd_tmp, "\n");
+			data->cmd = ft_strdup("");
+			data->index = -1;
+			// data->cmd = ft_strjoinaf1(data->cmd, "\n");
+		}
 		data->index++;
 	}
 	free(data->prompt);
@@ -227,7 +240,6 @@ int	create_history(t_data *data, t_env **env)
 	}
 	data->first_search = 1;
 	data->history_en_cours = NULL;
-
 	if (!(data->c))
 	{
 		data->cmd = ft_strdup("");
