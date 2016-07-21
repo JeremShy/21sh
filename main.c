@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/21 00:30:41 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/21 15:58:31 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int			main(int ac, char **av, char **env)
 	data.env = list;
 	data.key_here = NULL;
 	data.cmd_tmp = ft_strdup("");
+	data.heredocs_tmp = ft_strdup("");
 	data.quote_or_hd = 0;
 	data.first_line_of_hd = 1;
 	singleton_data(&data, 1);

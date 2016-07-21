@@ -10,6 +10,7 @@ OH MON DIEU C'EST TOUT DOUX
 - echo "blblb\n" | cat -e
 -	historique et fleche gauche qui kaput
 - reinitialiser chaque valeur utile lors d'un probleme (Ctrl-C, parse error, etc, ...)
+-	le prompt qui disparait
 
 {
 	commande -> {

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/23 19:30:33 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/24 15:25:44 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/21 15:56:21 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	free_heredoc(t_hc *list)
 	while(list)
 	{
 		tmp = list->next;
-		free(list->content - 1);	//	Car on a fait un +1 au moment de la creation
-															//	afin de sauter le \n du debut.
+		free(list->content);
 		free(list);
 		list = tmp;
 	}

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/21 00:29:55 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/21 15:42:06 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,10 @@ typedef struct	s_data {
 	int		win_x;
 	int				after_prompt; // Position curseur apres prompt
 	int		in_env_i;
-
-	char	*cmd_tmp;
-	int		quote_or_hd;
-	int		first_line_of_hd;
+	char	*cmd_tmp; // comme ancienne_cmd, permet de conserver une ligne ou plusieurs de la commande lors des quotes ou heredoc
+	int		quote_or_hd; // definir si on est dans une quote ou hd
+	int		first_line_of_hd; // pour eviter que l'on se retrouve avec le \n du strjoin
+	char	*heredocs_tmp; // Pour se souvenir des heredocs. (La pince téton ?)
 }				t_data;
 
 t_env				*ft_parse_env(char **env);

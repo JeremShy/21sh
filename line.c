@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:19:00 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/21 00:25:17 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/21 15:30:57 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void	move_left(t_data *data)
 {
 	if (get_actual_line(data) > get_prompt_line(data)) // Si on est pas sur la premiere ligne
 	{
-		printf("CHEKC 1\n");
+		// printf("CHEKC 1\n");
 		if (get_actual_cursor(data) > 0)
 			move_left_simple(data);
 		else if (get_actual_cursor(data) == 0 && data->index == (int)ft_strlen(data->cmd))

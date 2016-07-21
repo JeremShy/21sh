@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/21 00:35:27 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/21 18:43:50 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,17 +157,20 @@ int	create_history(t_data *data, t_env **env)
 	// printf("DATA->INDEX = %d\n", data->index);
 	// printf("CURSEUR = [%d] /// INDEX  = [%d] /// DATA->WIN_X = [%d]\n", get_actual_cursor(data), data->index, data->win_x);
 	ft_putstr("\n");
-	if (data->c != '<' && (i = is_quote_end(data)) == 0 && data->cmd[0] != '\0') // Si la quote est terminée..
+	if (data->c != '<' && (i = is_quote_end(data)) == 0 && data->cmd[0] != '\0') // Si la quote est terminée...
 	{
 		if (data->cmd_tmp[0] == '\0')
 			free(data->cmd_tmp);
 		else
 		{
-			if (data->quote_or_hd == 0)
+			if (data->quote_or_hd == 0) // Il ne faut pas jindre les heredocs à la commande.
 				data->cmd = ft_strjoinaf1(data->cmd_tmp, data->cmd);
 		}
 		data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
 		// printf("\nexecuting command now...\n");
+		printf("list heredoc : \n");
+		display_heredoc(data->heredocs);
+		data->index = 0;
 		invert_term();
 		signal(SIGINT, SIG_IGN);
 		exec_cmd(env, parse(data->cmd, data->heredocs, env, data), data); // On execute la commande.
@@ -178,6 +181,7 @@ int	create_history(t_data *data, t_env **env)
 		data->c = '\0';
 		data->end_hd = 0;
 		free_heredoc(data->heredocs);
+		data->heredocs_tmp = ft_strdup("");
 		data->heredocs = NULL;
 		free(data->key_here);
 		data->key_here = NULL;
@@ -206,8 +210,13 @@ int	create_history(t_data *data, t_env **env)
 			if (is_key(data))
 			{
 				// printf("on ajoute [%s]\n", data->cmd + 1);
-				data->heredocs = add_hc_elem(data->heredocs, create_hc_elem(data->cmd + 1));
-				data->cmd = data->ancienne_cmd;
+				printf("on passe ici\n");
+				data->heredocs_tmp = ft_strjoinaf2(data->heredocs_tmp, data->cmd);
+				data->heredocs_tmp = ft_strjoinaf1(data->heredocs_tmp, "\n"); // Parce qu'il faut rajouter un \n à la toute fin
+				data->heredocs = add_hc_elem(data->heredocs, create_hc_elem(data->heredocs_tmp));
+				data->cmd = ft_strdup(data->cmd_tmp);
+				// free(data->cmd_tmp);
+				// data->cmd_tmp = ft_strdup("");
 				data->index = data->old_index;
 				free(data->key_here);
 				data->key_here = NULL;
@@ -218,18 +227,23 @@ int	create_history(t_data *data, t_env **env)
 				return (create_history(data, env));
 				// create_history(data, env);
 			}
-			if (data->first_line_of_hd == 1) // Fix pour que la premiere fois data->cmd = ""
-				data->first_line_of_hd = 0;
 			else
-				data->cmd = ft_strjoinaf1(data->cmd, "\n");
+			{
+				data->heredocs_tmp = ft_strjoinaf1(data->heredocs_tmp, data->cmd);
+				data->cmd = ft_strdup("");
+			}
+		}
+		else if (data->c == '\0')
+		{
+			free(data->cmd_tmp);
+			data->cmd_tmp = ft_strdup("");
+			free(data->cmd);
 		}
 		else
 		{
 			data->cmd_tmp = ft_strjoinaf2(data->cmd_tmp, data->cmd);
 			data->cmd_tmp = ft_strjoin(data->cmd_tmp, "\n");
 			data->cmd = ft_strdup("");
-			data->index = -1;
-			// data->cmd = ft_strjoinaf1(data->cmd, "\n");
 		}
 		data->index++;
 	}
@@ -242,17 +256,13 @@ int	create_history(t_data *data, t_env **env)
 	data->heredocs = NULL;
 	if (data->first)
 	{
-		// printf("GROS CACA QUI PUE\n");
 		free(data->first);
 		data->first = NULL;
 	}
 	data->first_search = 1;
 	data->history_en_cours = NULL;
-	if (!(data->c))
-	{
-		data->cmd = ft_strdup("");
-		data->index = 0;
-	}
+	data->cmd = ft_strdup("");
+	data->index = 0;
 	return (0);
 }
 

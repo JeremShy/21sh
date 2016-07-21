@@ -6,20 +6,11 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/10 01:33:56 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/10 01:36:43 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/21 15:58:01 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int pow(int nbr, puissance)
-{
-	int i;
-	int result;
+#include <stdlib.h>
 
-	i = 0;
-	result = 1;
-	while (i < puissance)
-	{
-		result = result * nbr;
-		i = i + 1;
-	}
+int main () {
 }
