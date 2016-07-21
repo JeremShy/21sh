@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/21 15:58:31 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/21 18:59:33 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int			main(int ac, char **av, char **env)
 	data.heredocs_tmp = ft_strdup("");
 	data.quote_or_hd = 0;
 	data.first_line_of_hd = 1;
+	data.quote_old_index = 0;
 	singleton_data(&data, 1);
 	boucle(list, &data); // Entre dans la boucle principale du programme.
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/21 15:42:06 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/21 19:20:06 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct	s_data {
 	char			c; //caractere si on est dans une quote ou autre
 	int				index; //la ou on ecrit
 	int				old_index; //Ancien index
+	int				quote_old_index;
 	int				real_len_cmd; //longueur reelle de la commande
 	t_history	*history; //Dernier element historique
 	t_history	*history_en_cours; //Emplacement en cours dans l;historique
@@ -114,6 +115,7 @@ typedef struct	s_data {
 	int		quote_or_hd; // definir si on est dans une quote ou hd
 	int		first_line_of_hd; // pour eviter que l'on se retrouve avec le \n du strjoin
 	char	*heredocs_tmp; // Pour se souvenir des heredocs. (La pince téton ?)
+	char	*command_save; // Pour se souvenir dans la commande quand on arrive dans des heredocs.
 }				t_data;
 
 t_env				*ft_parse_env(char **env);

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/14 16:22:40 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/21 18:26:28 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/21 19:51:59 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,32 +75,37 @@ int		is_quote_end(t_data *data)
 	size_t	i;
 	char		*boucle_cmd;
 
+	printf("nous arrivons dans is_quote_end, et data->cmd=[%s]\n", data->cmd);
 	// i = ft_strlen(data->cmd) - data->real_len_cmd;
-	i = 0;
-	while(data->cmd[i])
+	i = data->quote_old_index;
+	boucle_cmd = ft_strjoin(data->cmd_tmp, data->cmd);
+	while(boucle_cmd[i])
 	{
 		if (data->c == '\0')
 		{
-			if (is_quote_open(data->cmd[i]))
-			{
-				data->c = data->cmd[i];
-			}
+			if (is_quote_open(boucle_cmd[i]))
+				data->c = boucle_cmd[i];
 		}
-		else if (is_quote_close(data->c, data->cmd[i]))
+		else if (is_quote_close(data->c, boucle_cmd[i]))
 		{
 			data->c = '\0';
 		}
 		i++;
 	}
+	data->quote_old_index = i;
+	free(boucle_cmd);
 	if (data->c)
+	{
+		data->quote_or_hd = 0;
 		return (1);
+	}
 	i = data->end_hd;
 	boucle_cmd = ft_strjoin(data->cmd_tmp, data->cmd);
 	while (data->c == '\0' && boucle_cmd[i])
 	{
-		printf("here - %zu - [%s]\n", i, boucle_cmd);
 		if (ft_strnstr(boucle_cmd + i, "<<", 2))
 		{
+			data->command_save = ft_strdup(boucle_cmd);
 			data->old_index = data->index;
 			i += 2;
 			data->c = '<';
@@ -113,16 +118,23 @@ int		is_quote_end(t_data *data)
 			}
 			data->key_here = skip_quotes(boucle_cmd, &i, NULL); // On enleve les quotes.
 			if (data->key_here == NULL)
+			{
+				free(boucle_cmd);
 				data->key_here = ft_strdup("");
+			}
 			data->end_hd = i;
 			data->cmd_tmp = data->cmd;
 			data->cmd = ft_strdup("");
 			data->index = -1;
+			data->first_line_of_hd = 1;
 			printf("heredoc detected. key : %s\n", data->key_here);
 		}
 		i++;
 	}
+	free(boucle_cmd);
 	if (data->c)
+	{
 		return (1);
+	}
 	return (0);
 }

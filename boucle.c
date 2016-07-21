@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/21 18:43:50 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/21 19:52:48 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,11 +160,19 @@ int	create_history(t_data *data, t_env **env)
 	if (data->c != '<' && (i = is_quote_end(data)) == 0 && data->cmd[0] != '\0') // Si la quote est terminée...
 	{
 		if (data->cmd_tmp[0] == '\0')
+		{
+			printf("MAIS ENFIN\n");
 			free(data->cmd_tmp);
+		}
 		else
 		{
 			if (data->quote_or_hd == 0) // Il ne faut pas jindre les heredocs à la commande.
+			{
 				data->cmd = ft_strjoinaf1(data->cmd_tmp, data->cmd);
+				printf("here\n");
+			}
+			else
+				printf("caca\n");
 		}
 		data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
 		// printf("\nexecuting command now...\n");
@@ -188,6 +196,7 @@ int	create_history(t_data *data, t_env **env)
 		data->cmd_tmp = ft_strdup("");
 		data->quote_or_hd = 0;
 		data->first_line_of_hd = 1;
+		data->quote_old_index = 0;
 	}
 	else
 	{
@@ -211,12 +220,13 @@ int	create_history(t_data *data, t_env **env)
 			{
 				// printf("on ajoute [%s]\n", data->cmd + 1);
 				printf("on passe ici\n");
-				data->heredocs_tmp = ft_strjoinaf2(data->heredocs_tmp, data->cmd);
-				data->heredocs_tmp = ft_strjoinaf1(data->heredocs_tmp, "\n"); // Parce qu'il faut rajouter un \n à la toute fin
+				// data->heredocs_tmp = ft_strjoinaf2(data->heredocs_tmp, data->cmd);
+				free(data->cmd);
+				// data->heredocs_tmp = ft_strjoinaf1(data->heredocs_tmp, "\n"); // Parce qu'il faut rajouter un \n à la toute fin
 				data->heredocs = add_hc_elem(data->heredocs, create_hc_elem(data->heredocs_tmp));
 				data->cmd = ft_strdup(data->cmd_tmp);
-				// free(data->cmd_tmp);
-				// data->cmd_tmp = ft_strdup("");
+				free(data->cmd_tmp);
+				data->cmd_tmp = ft_strdup("");
 				data->index = data->old_index;
 				free(data->key_here);
 				data->key_here = NULL;
@@ -224,12 +234,18 @@ int	create_history(t_data *data, t_env **env)
 				data->c = '\0';
 				data->real_len_cmd = 0;
 				data->quote_or_hd = 1;
+				data->cmd = data->command_save;
 				return (create_history(data, env));
 				// create_history(data, env);
 			}
 			else
 			{
-				data->heredocs_tmp = ft_strjoinaf1(data->heredocs_tmp, data->cmd);
+				if (data->first_line_of_hd == 0)
+				{
+					data->heredocs_tmp = ft_strjoinaf1(data->heredocs_tmp, data->cmd);
+					data->heredocs_tmp = ft_strjoinaf1(data->heredocs_tmp, "\n");
+				}
+				data->first_line_of_hd = 0;
 				data->cmd = ft_strdup("");
 			}
 		}
