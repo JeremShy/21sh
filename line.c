@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:19:00 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/21 15:30:57 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/21 23:30:26 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void delete_mode(t_data *data)
 	int	index;
 
 //abcdefghijklmnopqrstuvwxyz
+	if (data->index == 0 || data->cmd[data->index - 1] == '\n')
+		return ;
 	move_left(data);
 	// printf("CALCUL CHELOU = %d\n", (data->len_prompt + data->index + 1) % (data->win_x));
 	// exec_tcap("vb");
@@ -159,6 +161,13 @@ void	move_l2r(t_data *data)
 
 void	move_left(t_data *data)
 {
+	if (data->index == 0 || data->cmd[data->index - 1] == '\n')
+		return ;
+	// printf("data->index_min_win = %d /// data->index = %d\n", data->index_min_win, data->index);
+	if (data->index_min_win == data->index)
+	{
+		exec_tcap("vb");
+	}
 	if (get_actual_line(data) > get_prompt_line(data)) // Si on est pas sur la premiere ligne
 	{
 		// printf("CHEKC 1\n");

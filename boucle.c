@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/21 19:52:48 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/21 20:00:53 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,23 +161,15 @@ int	create_history(t_data *data, t_env **env)
 	{
 		if (data->cmd_tmp[0] == '\0')
 		{
-			printf("MAIS ENFIN\n");
 			free(data->cmd_tmp);
 		}
 		else
 		{
 			if (data->quote_or_hd == 0) // Il ne faut pas jindre les heredocs à la commande.
-			{
 				data->cmd = ft_strjoinaf1(data->cmd_tmp, data->cmd);
-				printf("here\n");
-			}
-			else
-				printf("caca\n");
 		}
 		data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
 		// printf("\nexecuting command now...\n");
-		printf("list heredoc : \n");
-		display_heredoc(data->heredocs);
 		data->index = 0;
 		invert_term();
 		signal(SIGINT, SIG_IGN);
@@ -219,7 +211,6 @@ int	create_history(t_data *data, t_env **env)
 			if (is_key(data))
 			{
 				// printf("on ajoute [%s]\n", data->cmd + 1);
-				printf("on passe ici\n");
 				// data->heredocs_tmp = ft_strjoinaf2(data->heredocs_tmp, data->cmd);
 				free(data->cmd);
 				// data->heredocs_tmp = ft_strjoinaf1(data->heredocs_tmp, "\n"); // Parce qu'il faut rajouter un \n à la toute fin
@@ -301,33 +292,11 @@ void	boucle(t_env *env, t_data *data)
 			{
 				data->cmd = ft_strjoinaf1(data->cmd, buf);
 				ft_putchar(buf[0]);
-				// if (data->win_x == get_actual_cursor(data) + 1)
-				// {
-				// 	// printf("get_actual_cursor(data) + 1 = %d\n", get_actual_cursor(data));
-				// 	ft_putchar(' ');
-				// 	move_left(data);
-				// 	data->index++;
-				// }
-			// 	// printf("DATA->INDEX = %d /// get_actual_line = %d /// DATA->win_x = %d\n", data->index, get_actual_cursor(data), data->win_x);
-			// 	if (get_actual_cursor(data) + 1 == data->win_x)
-			// 	{
-			// 		// ft_putchar(' ');
-			// 		exec_tcap("vb");
-			// 		exec_tcap("do");
-			// 		exec_tcap("cr");
-			// 	}
 				data->index++;
-				// printf("RESULT 1 = %d /// RES 2 = %d\n", data->win_x, get_actual_cursor(data));
 			}
 			else
 			{
-				// exec_tcap("vb");
 				insert_mode(data, buf[0]);
-				// exec_tcap("im");
-				// exec_tcap("ic");
-				// tputs(buf, 1, my_putchar);
-				// exec_tcap("ei");
-				// data->cmd = insert_char(data->cmd, data->index, buf[0]);
 			}
 			data->real_len_cmd++;
 			data->first_search = 1;
@@ -348,16 +317,6 @@ void	boucle(t_env *env, t_data *data)
 		{
 			if (data->index > 0)
 			{
-				// exec_tcap("le");
-				// data->curs_x--;
-				// data->cmd = delete_char(data->cmd, data->index);
-				// data->index--;
-				// data->real_len_cmd--;
-				// exec_tcap("dm");
-				// exec_tcap("dc");
-				// exec_tcap("ed");
-				// // if (ft_strequ(data->cmd, ""))
-				// // {
 				delete_mode(data);
 				data->first_search = 1;
 				if (data->first)
@@ -367,7 +326,6 @@ void	boucle(t_env *env, t_data *data)
 				}
 				if (ft_strequ(data->cmd, ""))
 					data->history_en_cours = NULL; // Voir si on veut le mettre
-				// }
 			}
 		}
 		else if (buf[0] == 10 && buf[1] == 0)

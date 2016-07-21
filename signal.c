@@ -6,7 +6,7 @@
 /*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 14:57:58 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/07/21 00:38:21 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/21 23:54:29 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void sigint(int sig)
   ft_putstr("\n");
   data = singleton_data(NULL, 0);
   data->real_len_cmd = 0;
-  data->curs_y = -1;
   data->heredocs = NULL;
   if (data->first)
   {
@@ -35,10 +34,6 @@ void sigint(int sig)
   data->c = 0;
   data->prompt = print_prompt(data->env, data);
   data->len_prompt = ft_strlen(data->prompt);
-  data->curs_x = data->len_prompt + 1;
-  data->end_hd = 0;
-	data->quote_or_hd = 0;
-	data->first_line_of_hd = 1;
 	if (data->cmd_tmp) // TEST DE TRUC CHELOU
 	{
 		if (data->cmd_tmp[0])
@@ -51,6 +46,15 @@ void sigint(int sig)
     free_heredoc(data->heredocs);
   if (data->key_here)
     free(data->key_here);
+  free(data->command_save);
+  data->command_save = ft_strdup("");
+  free(data->heredocs_tmp);
+  data->heredocs_tmp = ft_strdup("");
+  free(data->cmd_tmp);
+  data->cmd_tmp = ft_strdup("");
+  data->end_hd = 0;
+  data->quote_or_hd = 0;
+  data->first_line_of_hd = 1;
 }
 
 void get_winsize(t_data *data)
@@ -126,10 +130,21 @@ void clear_cmd(t_data	*data)
 void sigwinch(int sig)
 {
   t_data  *data;
+  int     rectangle;
 
   data = singleton_data(NULL, 0);
   sig = 0;
   get_winsize(data);
+  if ((data->len_prompt + (int)ft_strlen(data->cmd)) >= (rectangle = (data->win_x * data->win_y)))
+  {
+    // exec_tcap("cl");
+//  A FAIRE  ------------------>    data->index_min_win = rectangle - (data->win_x * ();
+    // ft_putstr(data->cmd + len_cmd - rectangle);
+    // printf("strlen = %d /// L AIRE DU CARRE = %d\n", (int)ft_strlen(data->cmd), data->win_y);
+    // ft_putstr(data->prompt);
+    // ft_putstr(data->cmd);
+  }
+
 	// if (i == 0)
 	// 	return;
 	// i = 0;

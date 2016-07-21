@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/14 16:22:40 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/21 19:51:59 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/21 19:58:45 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int		is_quote_end(t_data *data)
 	size_t	i;
 	char		*boucle_cmd;
 
-	printf("nous arrivons dans is_quote_end, et data->cmd=[%s]\n", data->cmd);
 	// i = ft_strlen(data->cmd) - data->real_len_cmd;
 	i = data->quote_old_index;
 	boucle_cmd = ft_strjoin(data->cmd_tmp, data->cmd);
@@ -127,7 +126,6 @@ int		is_quote_end(t_data *data)
 			data->cmd = ft_strdup("");
 			data->index = -1;
 			data->first_line_of_hd = 1;
-			printf("heredoc detected. key : %s\n", data->key_here);
 		}
 		i++;
 	}

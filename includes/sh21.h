@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/21 19:20:06 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/21 22:34:33 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,15 +107,16 @@ typedef struct	s_data {
 	char			*first; // Key pour la recherche vers le haut
 	int				first_search; // Permet d'eviter le soucis quand on appuie plusieurs fois sur haut et que ca se chevauche.
 	t_env			*env; // l'env.
-	int		win_y;
-	int		win_x;
+	int				win_y;
+	int				win_x;
 	int				after_prompt; // Position curseur apres prompt
-	int		in_env_i;
-	char	*cmd_tmp; // comme ancienne_cmd, permet de conserver une ligne ou plusieurs de la commande lors des quotes ou heredoc
-	int		quote_or_hd; // definir si on est dans une quote ou hd
-	int		first_line_of_hd; // pour eviter que l'on se retrouve avec le \n du strjoin
-	char	*heredocs_tmp; // Pour se souvenir des heredocs. (La pince téton ?)
-	char	*command_save; // Pour se souvenir dans la commande quand on arrive dans des heredocs.
+	int				in_env_i;
+	char			*cmd_tmp; // comme ancienne_cmd, permet de conserver une ligne ou plusieurs de la commande lors des quotes ou heredoc
+	int				quote_or_hd; // definir si on est dans une quote ou hd
+	int				first_line_of_hd; // pour eviter que l'on se retrouve avec le \n du strjoin
+	char			*heredocs_tmp; // Pour se souvenir des heredocs. (La pince téton ?)
+	char			*command_save; // Pour se souvenir dans la commande quand on arrive dans des heredocs.
+	int				index_min_win;
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
