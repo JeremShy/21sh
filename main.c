@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/02 14:51:03 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/21 00:30:41 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ char	*print_prompt(t_env *env, t_data *data)
 	char	*tmp;
 	char	*prompt;
 
+	ft_putstr("\e[38;5;208m");
 	if (data->c != '\0')
 	{
 		prompt_quote(data);
+		ft_putstr("\e[39m");
 		return (data->prompt);
 	}
 	new = find_arg(env, "PROMPT");
@@ -40,66 +42,24 @@ char	*print_prompt(t_env *env, t_data *data)
 		}
  		prompt = ft_strdup("<");
 		prompt = ft_strjoinaf12(prompt, new);
-		prompt = ft_strjoinaf1(prompt, ">% ");
+		prompt = ft_strjoinaf1(prompt, ">$ ");
 	}
 	else
 //		prompt = ft_strjoinaf1(new, "");
-		prompt = new;
+	prompt = new;
+	// printf("[%s]\n", data->first);
 	ft_putstr(prompt);
+	ft_putstr("\e[39m");
+	// printf("------------  %d --------------- %d ---------\n", (int)ft_strlen(prompt), data->win_x);
+	if ((int)ft_strlen(prompt) == data->win_x)
+	{
+		data->index = 0;
+		move_r2l(data);
+		data->index--;
+	}
 	return(prompt);
 }
 
-void		exec_cmd(char *cmd, t_env **env)
-{
-	char **scmd;
-
-	scmd = ft_special_split(cmd);
-	free(cmd);
-	if (scmd[0])
-	{
-		if (is_builtin(scmd[0]))
-			exec_builtin(scmd, env);
-		else
-			exec_file(scmd, *env);
-	}
-}
-/*
-static void	exec_mshrc(t_env **env)
-{
-	char **scmd;
-
-	scmd = malloc(3 * sizeof(char*));
-	scmd[0] = ft_strdup("source");
-	scmd[1] = ft_strjoinaf1(ft_strjoinaf1(find_arg(*env, "HOME"), "/"),
-		".mshrc");
-	scmd[2] = ft_strdup("");
-	ft_source(scmd, env);
-	free(scmd[0]);
-	free(scmd[1]);
-	free(scmd[2]);
-	free(scmd);
-}*/
-
-void		handle_line(char *line, t_env **env)
-{
-	char	**cmd_tab;
-	int		i;
-
-	if (line)
-	{
-		cmd_tab = ft_strsplit(line, ';');
-		i = 0;
-		while (cmd_tab[i])
-		{
-			exec_cmd(cmd_tab[i], env);
-			i++;
-		}
-		free(cmd_tab);
-		free(line);
-	}
-	else
-		ft_putchar('\n');
-}
 
 int			main(int ac, char **av, char **env)
 {
@@ -116,24 +76,30 @@ int			main(int ac, char **av, char **env)
 	}
 	list = ft_parse_env(env);
 //	exec_mshrc(&list);
-	singleton_termios(init_term(), 1); // Mets le term en mode non canonique et tout le bordel
+	singleton_termios(init_term(list), 1); // Mets le term en mode non canonique et tout le bordel
+	signal(SIGINT, sigint);
+	signal(SIGWINCH, sigwinch);
+	get_winsize(&data);
 	data.c = '\0';
 	data.prompt = print_prompt(list, &data); // On mets le prompt dans data.prompt
 	data.len_prompt = ft_strlen(data.prompt); // On mets la longueur dans...
 	data.curs_x = data.len_prompt + 1;
-	data.curs_y = -1;
+	data.curs_y = 0;
 	data.cmd = ft_strdup("");
 	data.index = 0;
 	data.real_len_cmd = 0;
-	boucle(list, &data);
+	data.history = NULL;
+	data.history_en_cours = NULL;
+	data.end_hd = 0;
+	data.heredocs = NULL;
+	data.first = NULL;
+	data.first_search = 1;
+	data.env = list;
+	data.key_here = NULL;
+	data.cmd_tmp = ft_strdup("");
+	data.quote_or_hd = 0;
+	data.first_line_of_hd = 1;
+	singleton_data(&data, 1);
+	boucle(list, &data); // Entre dans la boucle principale du programme.
 	return (0);
 }
-
-/*
-	print_prompt(list);
-	while (get_next_line(0, &cmd))
-	{
-		handle_line(cmd, &list);
-		print_prompt(list);
-	}
-*/

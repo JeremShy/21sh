@@ -6,9 +6,12 @@
 #    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/06/02 16:47:07 by jcamhi           ###   ########.fr        #
+#    Updated: 2016/07/18 19:21:55 by jcamhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# ft_source.c
+
 
 SRC_NAME = main.c \
 	   env.c \
@@ -19,13 +22,26 @@ SRC_NAME = main.c \
 	   ft_cd.c \
 	   list2.c \
 	   exec.c \
-	   ft_source.c \
 	   singelton.c \
 	   term.c \
 	   boucle.c \
 		 ft_string.c \
 		 line.c \
-		 ft_is_x.c
+		 ft_is_x.c \
+		 history.c\
+		 list_parse.c \
+		 parse.c \
+		 parse_function.c \
+		 fd_functions.c \
+		 handle.c \
+		 is_parse.c \
+		 quote.c \
+		 heredoc.c \
+		 list_heredoc.c \
+		 handle_pipe.c \
+		 get_pb.c \
+		 signal.c \
+		 echo.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes
@@ -44,10 +60,13 @@ SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
 INC = $(addprefix -I,$(INC_PATH))
 
+# parsing:
+	# gcc -I includes ft_is_x.c list_parse.c parse_function.c fd_functions.c lib/libft.a parse.c handle.c is_parse.c quote.c -g
+
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-#	@mkdir ./lib 2> /dev/null || true
+	@mkdir ./lib 2> /dev/null || true
 #	make -C libsrcs/libft
 #	make -C libsrcs/ft_printf
 	$(CC) $(CFLAGS) $(LFLAGS) $(INC) -o $@ $^
@@ -69,5 +88,8 @@ fclean: clean
 #	@rmdir lib 2> /dev/null || true
 
 re: fclean all
+
+script:
+	gcc -I includes lib/libft.a script.c -g
 
 .PHONY : all clean fclean re

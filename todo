@@ -1,0 +1,44 @@
+OH MON DIEU C'EST TOUT DOUX
+
+-	historique mulitiligne
+-	depassement taille terminal
+- yank paste
+- leaks parsing
+-	bug pour few |fwe
+- dquote bug parfois quand on modifie un des trucs avec les fleches
+-	ls << a << b segfault
+- echo "blblb\n" | cat -e
+-	historique et fleche gauche qui kaput
+- reinitialiser chaque valeur utile lors d'un probleme (Ctrl-C, parse error, etc, ...)
+
+{
+	commande -> {
+		nom du programme
+		arguments
+	} (av)
+
+	redirections -> {
+		> >> 2> 2>>
+		aggregation fd
+		}
+}
+
+ls 2> truc 2>&1 peni
+
+ls > a > b
+
+{
+	av;
+	file_out; 1>&1
+	file_in;
+	file_err; 2>&1
+	fd_out; 2 - b
+	fd_in; 0
+	fd_err; 2 - b
+}
+
+pipe -> in : 3 out : 4
+
+on ecrit dans le in
+on ferme le in
+on lit dans le out

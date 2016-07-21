@@ -4,7 +4,26 @@ Fleche gauche	: 27	- 91	-	68
 Fleche droite	: 27	- 91	-	67
 Delete				:	127	- 0		-	0
 return				: 10	- 0		-	0
-Home					:	27	-	91	-	72
+Home					:	27	-	91	-
+	72
 End						:	27	-	91	-	70
+Alt + V       : -30 - -120 - -102 - 0 - 0 - 0
+Clear					:	- 12 - 0 - 0 - 0 - 0 - 0
 
-http://stackoverflow.com/questions/2188199/how-to-use-double-or-single-bracket-parentheses-curly-braces
+PIPES :
+http://stackoverflow.com/questions/8082932/connecting-n-commands-with-pipes-in-a-shell
+
+
+TERMCAPS :
+- up : Déplacer le curseur d’une ligne vers le haut
+- UP : Déplacer le curseur de %1 lignes vers le haut
+- ch : Déplacer le curseur horizontalement seulement jusqu’à la colonne %1
+- cv : Déplacer le curseur à la ligne %1, colonne %2 (sur l’écran)
+- LE : Déplacer le curseur vers la gauche de %1 caractères
+- rc : Restaurer la position enregistrée du curseur
+- sc : Sauvegarder la position du curseur
+- cb : Effacer depuis le début de la ligne jusqu’au curseur
+- ce : Effacer jusqu’à la fin de la ligne
+- do : Descendre le curseur d’une ligne
+- hd : Déplacer le curseur d’une ligne vers le bas
+- ho : Remettre le curseur à la positon de début
