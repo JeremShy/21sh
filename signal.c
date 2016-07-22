@@ -6,7 +6,7 @@
 /*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 14:57:58 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/07/22 16:41:26 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/22 17:57:26 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,15 +160,34 @@ void get_index_min_win(t_data *data)
 void sigwinch(int sig)
 {
   t_data  *data;
+	int			old_index;
+	int 		old_line_max;
 
   data = singleton_data(NULL, 0);
   sig = 0;
+	old_line_max = get_line_max(data);
   get_winsize(data);
   get_index_min_win(data);
+	// if (get_line_max(data) > old_line_max)
+	if ((int)ft_strlen(data->cmd) + data->len_prompt > data->win_x)
+	{
+		// sleep(1);
+		exec_tcap("cl");
+		ft_putstr("\e[38;5;208m");
+		ft_putstr(data->prompt);
+		ft_putstr("\e[39m");
+		ft_putstr(data->cmd);
+		old_index = data->index;
+		data->index = (int)ft_strlen(data->cmd);
+		while (old_index < data->index)
+			move_left(data);
+		// sleep(1);
 
-	// if (i == 0)
-	// 	return;
-	// i = 0;
-	// clear_cmd(data);
-	// i = 1;
+		// exec_tcap("sr");
+		// exec_tcap("do");
+	}
+	// if (data->len_prompt + (int)ft_strlen(data->cmd) > data->win_x)
+	// {
+	//
+	// }
 }
