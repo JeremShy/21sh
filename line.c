@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:19:00 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/21 23:30:26 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/22 16:25:28 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,12 @@ void delete_mode(t_data *data)
 //abcdefghijklmnopqrstuvwxyz
 	if (data->index == 0 || data->cmd[data->index - 1] == '\n')
 		return ;
+	if (data->index_min_win != -1 && data->index_min_win == data->index)
+	{
+		// printf("MIN WIN DETECTED\n");
+		exec_tcap("vb");
+		return ;
+	}
 	move_left(data);
 	// printf("CALCUL CHELOU = %d\n", (data->len_prompt + data->index + 1) % (data->win_x));
 	// exec_tcap("vb");
@@ -163,32 +169,26 @@ void	move_left(t_data *data)
 {
 	if (data->index == 0 || data->cmd[data->index - 1] == '\n')
 		return ;
-	// printf("data->index_min_win = %d /// data->index = %d\n", data->index_min_win, data->index);
-	if (data->index_min_win == data->index)
+	if (data->index_min_win != -1 && data->index_min_win == data->index)
 	{
 		exec_tcap("vb");
+		return ;
 	}
 	if (get_actual_line(data) > get_prompt_line(data)) // Si on est pas sur la premiere ligne
 	{
-		// printf("CHEKC 1\n");
 		if (get_actual_cursor(data) > 0)
 			move_left_simple(data);
 		else if (get_actual_cursor(data) == 0 && data->index == (int)ft_strlen(data->cmd))
 		{
 			move_left_simple(data);
-			// move_right_simple(data);
 			exec_tcap("nd");
 		}
 		else
-			// move_left_simple(data);
-			// exec_tcap("vb");
 			move_l2r(data);
 	}
 	else
 	{
-		// printf("CHEKC 2 /// data->index = %d\n", data->index);
 		if (data->index > 0)
-		// if (get_actual_cursor(data) > (data->len_prompt) % data->win_x)
 		{
 			move_left_simple(data);
 		}
@@ -200,19 +200,8 @@ void	move_left(t_data *data)
 
 void move_right(t_data *data)
 {
-	// printf("data->cmd = [%s] /// data->index = %d\n", data->cmd, data->index);
-	// if (data->curs_x < data->len_prompt + 1 + (int)data->real_len_cmd)
-	// 	move_right(data);
-	// printf("RES 1 = %d /// RES 2 = %d\n", data->win_x, get_actual_cursor(data));
-	// if (get_actual_line(data) == get_line_max(data) && get_actual_cursor(data) == 0)
-	// {// printf("C DE LA MERDE\n");
-	// 	// move_r2l(data);
-	// 	ft_putchar(' ');
-	// }
 	if (get_actual_cursor(data) + 1 == data->win_x && data->index == (int)ft_strlen(data->cmd) - 1)
 	{
-		// move_r2l(data);
-		// move_right(data);
 		ft_putchar(data->cmd[data->index]);
 		data->index++;
 	}

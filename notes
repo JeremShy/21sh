@@ -9,6 +9,8 @@ Home					:	27	-	91	-
 End						:	27	-	91	-	70
 Alt + V       : -30 - -120 - -102 - 0 - 0 - 0
 Clear					:	- 12 - 0 - 0 - 0 - 0 - 0
+Ctrl { ou [ 	: 27 - 0
+Ctrl } ou ]		: 29 - 0
 
 PIPES :
 http://stackoverflow.com/questions/8082932/connecting-n-commands-with-pipes-in-a-shell

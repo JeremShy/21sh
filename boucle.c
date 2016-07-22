@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/21 20:00:53 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/22 15:59:07 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -370,11 +370,20 @@ void	boucle(t_env *env, t_data *data)
 				ind_act--;
 			}
 		}
+		else if (buf[0] == 27 && buf[1] == 0) // AFFICHE MESSAGE DE DEBUG 1
+		{
+			printf("data->index_min_win = %d /// data->index = %d\n", data->index_min_win, data->index);
+		}
+		else if (buf[0] == 29 && buf[1] == 0) // AFFICHE MESSAGE DE DEBUG 2
+		{
+//			printf("data->index_min_win = %d\n", data->index_min_win);
+		}
 		else
 		{
 				// ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
 		}
 		data->env = env;
+		get_index_min_win(data);
 		singleton_data(data, 1);
 		ft_bzero(buf, 11);
 	}

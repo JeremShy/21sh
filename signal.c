@@ -6,7 +6,7 @@
 /*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 14:57:58 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/07/21 23:54:29 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/22 16:41:26 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,23 +127,44 @@ void clear_cmd(t_data	*data)
 	}
 }
 
+void get_index_min_win(t_data *data)
+{
+  int     rectangle;
+  int     len_prompt_cmd;
+  const int max_cursor = ((data->len_prompt + (int)ft_strlen(data->cmd)) % data->win_x);
+
+
+  if (max_cursor == 0)
+  {
+    data->index_min_win = (int)ft_strlen(data->cmd) - (data->win_y * data->win_x);
+    return ;
+  }
+  if ((len_prompt_cmd = (data->len_prompt + (int)ft_strlen(data->cmd))) >= (rectangle = (data->win_x * data->win_y)))
+  {
+    data->index_min_win = (int)ft_strlen(data->cmd);
+    rectangle = rectangle - (data->win_x - (len_prompt_cmd % data->win_x));
+    while (rectangle > 0)
+    {
+      data->index_min_win--;
+      rectangle--;
+    }
+    if (data->index_min_win > data->index)
+    {
+      data->index = data->index_min_win;
+    }
+  }
+  else
+    data->index_min_win = -1;
+}
+
 void sigwinch(int sig)
 {
   t_data  *data;
-  int     rectangle;
 
   data = singleton_data(NULL, 0);
   sig = 0;
   get_winsize(data);
-  if ((data->len_prompt + (int)ft_strlen(data->cmd)) >= (rectangle = (data->win_x * data->win_y)))
-  {
-    // exec_tcap("cl");
-//  A FAIRE  ------------------>    data->index_min_win = rectangle - (data->win_x * ();
-    // ft_putstr(data->cmd + len_cmd - rectangle);
-    // printf("strlen = %d /// L AIRE DU CARRE = %d\n", (int)ft_strlen(data->cmd), data->win_y);
-    // ft_putstr(data->prompt);
-    // ft_putstr(data->cmd);
-  }
+  get_index_min_win(data);
 
 	// if (i == 0)
 	// 	return;
