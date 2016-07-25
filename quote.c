@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/14 16:22:40 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/25 15:57:04 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/25 15:59:43 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int		is_quote_end(t_data *data)
 	char		*boucle_cmd;
 
 	// i = ft_strlen(data->cmd) - data->real_len_cmd;
-	printf("[%s] et [%s]\n", data->cmd_tmp, data->cmd);
 	i = data->quote_old_index;
 	boucle_cmd = ft_strjoin(data->cmd_tmp, data->cmd);
 	while(boucle_cmd[i])

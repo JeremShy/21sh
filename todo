@@ -8,9 +8,7 @@ OH MON DIEU C'EST TOUT DOUX
 - dquote bug parfois quand on modifie un des trucs avec les fleches
 -	ls << a << b segfault
 - echo "blblb\n" | cat -e
--	historique et fleche gauche qui kaput
 - reinitialiser chaque valeur utile lors d'un probleme (Ctrl-C, parse error, etc, ...)
--	le prompt qui disparait
 
 {
 	commande -> {

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/25 15:55:51 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/25 18:26:57 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,6 +279,7 @@ void	boucle(t_env *env, t_data *data)
 	int		r;
 	int		flag;
 	char	*first;
+	int		verif_new_line;
 
 	flag = 0;
 	ft_bzero(buf, 11);
@@ -330,12 +331,59 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == 10 && buf[1] == 0)
 			create_history(data, &env);
-		else if (buf[0] == 27	&&	buf[1] == 91	&&	buf[2] == 72 && buf[3] == 0)
-			while(data->curs_x > data->len_prompt + 1 && data->curs_x > 0)
+		else if ((buf[0] == 27	&&	buf[1] == 91	&&	buf[2] == 72 && buf[3] == 0) ||
+							(buf[0] == 1 && buf[1] == 0))
+			while(data->index > 0 && data->cmd[data->index - 1] != '\n')
 				move_left(data);
-		else if (buf[0] == 27 && buf[1] == 91	&& buf[2] == 70 && buf[3] == 0)
-			while(data->curs_x < data->len_prompt + 1 + (int)data->real_len_cmd)
+		else if ((buf[0] == 27 && buf[1] == 91	&& buf[2] == 70 && buf[3] == 0) ||
+							(buf[0] == 5 && buf[1] == 0))
+			while(data->index < (int)ft_strlen(data->cmd))
 				move_right(data);
+		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 53 && buf[3] == 126 && buf[4] == 0) // Page up
+		{
+			if (data->index - data->win_x >= 0 && !(get_actual_cursor(data) == 0 && (int)ft_strlen(data->cmd) == data->index))
+			{
+				verif_new_line = data->win_x;
+				while (verif_new_line > 0)
+				{
+					if (data->cmd[data->index - verif_new_line] == '\n')
+						break ;
+					verif_new_line--;
+				}
+				if (verif_new_line == 0)
+				{
+					verif_new_line = data->win_x;
+					while (verif_new_line > 0)
+					{
+						move_left(data);
+						verif_new_line--;
+					}
+				}
+			}
+		}
+		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 54 && buf[3] == 126 && buf[4] == 0) // Page down
+		{
+			if (data->index + data->win_x < (int)ft_strlen(data->cmd) || (get_actual_cursor(data) != 0 && data->index + data->win_x == (int)ft_strlen(data->cmd)))
+			{
+				// printf("C BO\n");
+				verif_new_line = data->win_x;
+				while (verif_new_line > 0)
+				{
+					if (data->cmd[data->index + verif_new_line] == '\n')
+						break ;
+					verif_new_line--;
+				}
+				if (verif_new_line == 0)
+				{
+					verif_new_line = data->win_x;
+					while (verif_new_line > 0)
+					{
+						move_right(data);
+						verif_new_line--;
+					}
+				}
+			}
+		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65 && buf[3] == 0)
 		{
 			if (flag == 0)
@@ -372,7 +420,6 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == 27 && buf[1] == 0) // AFFICHE MESSAGE DE DEBUG 1
 		{
-			printf("data->index_min_win = %d /// data->index = %d\n", data->index_min_win, data->index);
 		}
 		else if (buf[0] == 29 && buf[1] == 0) // AFFICHE MESSAGE DE DEBUG 2
 		{

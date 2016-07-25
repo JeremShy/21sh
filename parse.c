@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/31 19:25:53 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/18 18:24:02 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/25 16:00:38 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 	t_cmd		fake_cmd; //Important.
 	t_cmd		*last;
 
-	printf("str : [%s]\n", str);
+	// printf("str : [%s]\n", str);
 	i = 0;
 	cmd = NULL; // On initialiase notre retour.
 	if (is_parse_error(str))
@@ -142,26 +142,6 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 		{
 			if (str[i - 1] == ';')
 			{
-					// cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));
-					// last = cmd;
-					// while (last && last->av[0])
-					// 	last = last->next;
-					// if (!last)
-					// 	ft_putendl_fd("21sh: parse error", 2);
-					// // else
-					// 	exec_cmd(env, cmd);
-					// //FAUDRA FREE CMD.
-					// cmd = NULL;
-					// cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));
-				// last = cmd;
-				// while (last && last->av[0])
-				// {
-				// 	printf ("command : %s\n", last->av[0]);
-				// 	last = last->next;
-				// }
-				// if (!last)
-				// 	ft_putendl_fd("21sh: parse error", 2);
-				// else
 				cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));
 				exec_cmd(env, cmd, data);
 				//FAUDRA FREE CMD.

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/22 15:34:19 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/25 17:38:39 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,4 +211,5 @@ int					get_actual_cursor(t_data *data);
 void				delete_mode(t_data *data);
 int					ft_echo(char **scmd, t_env *env);
 void				get_index_min_win(t_data *data);
+int					get_actual_cursor_2(t_data *data);
 #endif

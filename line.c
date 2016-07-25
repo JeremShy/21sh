@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:19:00 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/22 16:25:28 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/25 17:45:34 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ int get_actual_line(t_data *data)
 	return((data->len_prompt + data->index + 1) / data->win_x);
 }
 
-int	get_actual_cursor(t_data *data)
-{
-	return ((data->len_prompt + data->index) % (data->win_x));
-}
+// int	get_actual_cursor(t_data *data)
+// {
+// 	return ((data->len_prompt + data->index) % (data->win_x));
+// }
 
 int	get_line_max(t_data *data)
 {
@@ -116,11 +116,6 @@ void delete_mode(t_data *data)
 		ft_putchar(data->cmd[data->index - 1]);
 		data->index++;
 	}
-	// data->index = data->index - 1;// HOTFIX DEGUEU
-	// printf("get_actual_cursor(data) = %d\n", get_actual_cursor(data));
-	// if (data->win_x == get_actual_cursor(data) + (int)ft_strlen(data->cmd + index))
-		// ft_putchar(' ');
-	// data->index = data->index + 1; // TOUJOURS DEGUEU
 	while (data->index > index)
 	{
 		move_left(data);
@@ -132,6 +127,38 @@ void delete_mode(t_data *data)
 		// printf("caca\n");
 		move_left(data);
 	}
+}
+
+int	get_actual_cursor(t_data *data)
+{
+	int	x;
+	int	i;
+
+	x = 0;
+	i = 0;
+
+	while (data->prompt[i] != '\0')
+	{
+		if (data->prompt[i] == '\n')
+			x = 0;
+		else if (x == data->win_x)
+			x = 0;
+		else
+			x++;
+		i++;
+	}
+	i = 0;
+	while (data->cmd[i] != '\0' && i < data->index)
+	{
+		if (data->cmd[i] == '\n')
+			x = 0;
+		else if (x == data->win_x - 1)
+			x = 0;
+		else
+			x++;
+		i++;
+	}
+	return (x);
 }
 
 void move_r2l(t_data *data)
