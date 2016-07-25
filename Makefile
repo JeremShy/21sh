@@ -6,7 +6,7 @@
 #    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/07/18 19:21:55 by jcamhi           ###   ########.fr        #
+#    Updated: 2016/07/25 18:35:33 by jcamhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ SRC_NAME = main.c \
 		 handle_pipe.c \
 		 get_pb.c \
 		 signal.c \
-		 echo.c
+		 echo.c \
+		 line_2.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes

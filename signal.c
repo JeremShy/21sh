@@ -6,7 +6,7 @@
 /*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 14:57:58 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/07/25 16:21:25 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/25 19:17:19 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void sigint(int sig)
   data->quote_or_hd = 0;
   data->first_line_of_hd = 1;
 	data->quote_old_index = 0;
+	data->mode_copy = 0;
 }
 
 void get_winsize(t_data *data)

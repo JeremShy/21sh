@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/25 18:26:57 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/25 21:31:39 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,7 +279,6 @@ void	boucle(t_env *env, t_data *data)
 	int		r;
 	int		flag;
 	char	*first;
-	int		verif_new_line;
 
 	flag = 0;
 	ft_bzero(buf, 11);
@@ -341,48 +340,11 @@ void	boucle(t_env *env, t_data *data)
 				move_right(data);
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 53 && buf[3] == 126 && buf[4] == 0) // Page up
 		{
-			if (data->index - data->win_x >= 0 && !(get_actual_cursor(data) == 0 && (int)ft_strlen(data->cmd) == data->index))
-			{
-				verif_new_line = data->win_x;
-				while (verif_new_line > 0)
-				{
-					if (data->cmd[data->index - verif_new_line] == '\n')
-						break ;
-					verif_new_line--;
-				}
-				if (verif_new_line == 0)
-				{
-					verif_new_line = data->win_x;
-					while (verif_new_line > 0)
-					{
-						move_left(data);
-						verif_new_line--;
-					}
-				}
-			}
+			page_up(data);
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 54 && buf[3] == 126 && buf[4] == 0) // Page down
 		{
-			if (data->index + data->win_x < (int)ft_strlen(data->cmd) || (get_actual_cursor(data) != 0 && data->index + data->win_x == (int)ft_strlen(data->cmd)))
-			{
-				// printf("C BO\n");
-				verif_new_line = data->win_x;
-				while (verif_new_line > 0)
-				{
-					if (data->cmd[data->index + verif_new_line] == '\n')
-						break ;
-					verif_new_line--;
-				}
-				if (verif_new_line == 0)
-				{
-					verif_new_line = data->win_x;
-					while (verif_new_line > 0)
-					{
-						move_right(data);
-						verif_new_line--;
-					}
-				}
-			}
+			page_down(data);
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65 && buf[3] == 0)
 		{
@@ -416,6 +378,38 @@ void	boucle(t_env *env, t_data *data)
 			{
 				exec_tcap("le");
 				ind_act--;
+			}
+		}
+		else if (buf[0] == -62 && buf[1] == -75 && buf[2] == 0) // MODE COPY
+		{
+			if (data->mode_copy == 0)
+			{
+				data->index_min_copy = data->index;
+				data->index_max_copy = data->index;
+				data->mode_copy = 1;
+			}
+			else
+				data->mode_copy = 0;
+		}
+		else if (buf[0] == 11 && buf[1] == 0) // copie
+		{
+			if (data->mode_copy)
+			{
+				printf("JE COPIE MDR\n");
+			}
+		}
+		else if (buf[0] == 24 && buf[1] == 0) // cut
+		{
+			if (data->mode_copy)
+			{
+				printf("JE CUT LOL\n");
+			}
+		}
+		else if (buf[0] == 16 && buf[1] == 0) // paste
+		{
+			if (data->mode_copy)
+			{
+				printf("JE PASTE XPTDR\n");
 			}
 		}
 		else if (buf[0] == 27 && buf[1] == 0) // AFFICHE MESSAGE DE DEBUG 1

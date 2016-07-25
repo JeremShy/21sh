@@ -15,6 +15,10 @@ Ctrl + A			:	1  - 0
 Ctrl + E			:	5  - 0
 Page up 			: 27 - 91 - 53 - 126 - 0
 Page down			: 27 - 91 - 54 - 126 - 0
+Ctrl - K 			:11 - 0 - 0 - 0 - 0 - 0 // copie
+Ctrl - X			:24 - 0 - 0 - 0 - 0 - 0 // cut
+Ctrl - P			:16 - 0 - 0 - 0 - 0 - 0 // paste
+Alt - M       :-62 - -75 - 0 - 0 - 0 - 0 // Mode copie
 
 PIPES :
 http://stackoverflow.com/questions/8082932/connecting-n-commands-with-pipes-in-a-shell
