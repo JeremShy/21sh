@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/22 15:59:07 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/25 15:55:51 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ int	create_history(t_data *data, t_env **env)
 	// printf("DATA->INDEX = %d\n", data->index);
 	// printf("CURSEUR = [%d] /// INDEX  = [%d] /// DATA->WIN_X = [%d]\n", get_actual_cursor(data), data->index, data->win_x);
 	ft_putstr("\n");
-	if (data->c != '<' && (i = is_quote_end(data)) == 0 && data->cmd[0] != '\0') // Si la quote est terminée...
+	if (data->c != '<' && (i = is_quote_end(data)) == 0 && (data->cmd[0] != '\0')) // Si la quote est terminée...
 	{
 		if (data->cmd_tmp[0] == '\0')
 		{

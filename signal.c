@@ -6,7 +6,7 @@
 /*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 14:57:58 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/07/22 17:57:26 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/07/25 15:56:55 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void sigint(int sig)
   data->end_hd = 0;
   data->quote_or_hd = 0;
   data->first_line_of_hd = 1;
+	data->quote_old_index = 0;
 }
 
 void get_winsize(t_data *data)
@@ -95,20 +96,7 @@ void clear_cmd(t_data	*data)
 	j = 0;
 	data->index = 0;
 	i = 0;
-	// ft_putstr("\e[38;5;208m");
-	// while (i < (int)ft_strlen(data->prompt))
-	// {
-	// 	ft_putchar(data->prompt[i]);
-	// 	if (get_actual_cursor(data) + 1 == data->win_x)
-	// 	{
-	// 		// exec_tcap("vb");
-	// 		exec_tcap("do");
-	// 		exec_tcap("cr");
-	// 	}
-	// 	i++;
-	// }
-	// ft_putstr("\e[39m");
-	// ft_putchar('\n');
+
 	print_prompt(data->env, data);
 	i = 0;
 	while (i < (int)ft_strlen(data->cmd))
@@ -168,8 +156,7 @@ void sigwinch(int sig)
 	old_line_max = get_line_max(data);
   get_winsize(data);
   get_index_min_win(data);
-	// if (get_line_max(data) > old_line_max)
-	if ((int)ft_strlen(data->cmd) + data->len_prompt > data->win_x)
+	if (((data->len_prompt + (int)ft_strlen(data->cmd)) % (data->win_x)) == 0 )
 	{
 		// sleep(1);
 		exec_tcap("cl");
