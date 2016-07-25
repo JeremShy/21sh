@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/25 21:31:39 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/25 23:38:24 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,7 +285,7 @@ void	boucle(t_env *env, t_data *data)
 	while ((r = read(0, buf, 10)))
 	{
 		data->in_env_i = 0;
-		if ((ft_isalpha(buf[0]) || (buf[0] >= 32 && buf[0] <= 64) || (buf[0] >= 123 && buf[0] <= 126) || (buf[0] >= 91 && buf[0] <= 96)) && buf[1] == '\0')
+		if ((ft_isalpha(buf[0]) || (buf[0] >= 32 && buf[0] <= 64) || (buf[0] >= 123 && buf[0] <= 126) || (buf[0] >= 91 && buf[0] <= 96)) && buf[1] == '\0' && !data->mode_copy)
 		{
 			data->curs_x++;
 			if (data->index == (int)data->real_len_cmd)
@@ -313,7 +313,7 @@ void	boucle(t_env *env, t_data *data)
 				move_left(data);
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 67 && buf[3] == 0)
 				move_right(data);
-		else if (buf[0] == 127 && buf[1] == 0)
+		else if (buf[0] == 127 && buf[1] == 0 && !data->mode_copy)
 		{
 			if (data->index > 0)
 			{
@@ -328,9 +328,9 @@ void	boucle(t_env *env, t_data *data)
 					data->history_en_cours = NULL; // Voir si on veut le mettre
 			}
 		}
-		else if (buf[0] == 10 && buf[1] == 0)
+		else if (buf[0] == 10 && buf[1] == 0 && !data->mode_copy)
 			create_history(data, &env);
-		else if ((buf[0] == 27	&&	buf[1] == 91	&&	buf[2] == 72 && buf[3] == 0) ||
+		else if ((buf[0] == 27	&&	buf[1] == 91 && buf[2] == 72 && buf[3] == 0) ||
 							(buf[0] == 1 && buf[1] == 0))
 			while(data->index > 0 && data->cmd[data->index - 1] != '\n')
 				move_left(data);
@@ -346,7 +346,7 @@ void	boucle(t_env *env, t_data *data)
 		{
 			page_down(data);
 		}
-		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65 && buf[3] == 0)
+		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65 && buf[3] == 0 && !data->mode_copy)
 		{
 			if (flag == 0)
 			{
@@ -355,9 +355,9 @@ void	boucle(t_env *env, t_data *data)
 			}
 			move_up_history(data, env);
 		}
-		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66 && buf[3] == 0)
+		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66 && buf[3] == 0 && !data->mode_copy)
 			move_down_history(data, env);
-		else if (buf[0] == -30 && buf[1] == -120 && buf[2] == -102 && buf[3] == 0)
+		else if (buf[0] == -30 && buf[1] == -120 && buf[2] == -102 && buf[3] == 0 && !data->mode_copy)
 		{
 			char *pb = get_pb();
 			data->curs_x += ft_strlen(pb);
@@ -366,7 +366,7 @@ void	boucle(t_env *env, t_data *data)
 			ft_putstr(pb);
 			data->cmd = ft_strjoinaf12(data->cmd, pb);
 		}
-		else if (buf[0] == 12 && buf[1] == 0  &&buf[2] == 0)
+		else if (buf[0] == 12 && buf[1] == 0  && buf[2] == 0 && !data->mode_copy)
 		{
 			exec_tcap("cl");
 			ft_putstr("\e[38;5;208m");
@@ -382,10 +382,22 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == -62 && buf[1] == -75 && buf[2] == 0) // MODE COPY
 		{
-			if (data->mode_copy == 0)
+			if (data->mode_copy == 0 && data->cmd[0] != '\0' && data->index != (int)ft_strlen(data->cmd))
 			{
+				int	origin;
+
 				data->index_min_copy = data->index;
 				data->index_max_copy = data->index;
+				origin = data->index;
+				vi_char(data->cmd[data->index]);
+				data->index++;
+				while (data->cmd[data->index])
+				{
+					ft_putchar(data->cmd[data->index]);
+					data->index++;
+				}
+				while (data->index > origin)
+					move_left(data);
 				data->mode_copy = 1;
 			}
 			else
@@ -393,27 +405,57 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == 11 && buf[1] == 0) // copie
 		{
+			int	index_origine;
 			if (data->mode_copy)
 			{
-				printf("JE COPIE MDR\n");
+				data->mode_copy = 0;
+				index_origine = data->index;
+				while (data->index > data->index_min_copy)
+					move_left(data);
+				while (data->index <= data->index_max_copy)
+				{
+					ft_putchar(data->cmd[data->index]);
+					data->index++;
+				}
+				while (data->index > index_origine)
+					move_left(data);
+				if (data->clipboard)
+					free(data->clipboard);
+				data->clipboard = ft_strsub(data->cmd, data->index_min_copy, data->index_max_copy - data->index_min_copy + 1);
 			}
 		}
 		else if (buf[0] == 24 && buf[1] == 0) // cut
 		{
 			if (data->mode_copy)
 			{
-				printf("JE CUT LOL\n");
+				data->mode_copy = 0;
+				data->clipboard = ft_strsub(data->cmd, data->index_min_copy, data->index_max_copy - data->index_min_copy + 1);
+				while (data->index <= data->index_max_copy)
+					move_right(data);
+				while (data->index > data->index_min_copy)
+					delete_mode(data);
 			}
 		}
 		else if (buf[0] == 16 && buf[1] == 0) // paste
 		{
-			if (data->mode_copy)
+			int	i;
+
+			if (!data->mode_copy)
 			{
-				printf("JE PASTE XPTDR\n");
+				if (data->clipboard)
+				{
+					i = 0;
+					while (data->clipboard[i])
+					{
+						insert_mode(data, data->clipboard[i]);
+						i++;
+					}
+				}
 			}
 		}
 		else if (buf[0] == 27 && buf[1] == 0) // AFFICHE MESSAGE DE DEBUG 1
 		{
+			printf("index_min_copy = %d AND index_max_copy = %d\n", data->index_min_copy, data->index_max_copy);
 		}
 		else if (buf[0] == 29 && buf[1] == 0) // AFFICHE MESSAGE DE DEBUG 2
 		{

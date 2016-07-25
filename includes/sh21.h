@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/25 19:12:29 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/25 22:44:22 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ typedef struct	s_data {
 	int				mode_copy;
 	int				index_min_copy;
 	int				index_max_copy;
+	char			*clipboard;
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
@@ -217,4 +218,7 @@ void				get_index_min_win(t_data *data);
 int					get_actual_cursor_2(t_data *data);
 void				page_up(t_data *data);
 void				page_down(t_data *data);
+void				vi_char(char c);
+void				vi_str(char *s);
+void				vi_str_free(char *s);
 #endif

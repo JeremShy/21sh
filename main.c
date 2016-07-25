@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/25 18:55:29 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/25 22:59:46 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,9 @@ int			main(int ac, char **av, char **env)
 	data.quote_or_hd = 0;
 	data.first_line_of_hd = 1;
 	data.quote_old_index = 0;
+	data.mode_copy = 0;
+	data.command_save = ft_strdup("");
+	data.clipboard = NULL;
 	get_index_min_win(&data);
 	singleton_data(&data, 1);
 	boucle(list, &data); // Entre dans la boucle principale du programme.
