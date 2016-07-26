@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/26 18:41:41 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/27 00:19:15 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,7 +328,7 @@ void	boucle(t_env *env, t_data *data)
 		else if (buf[0] == 10 && buf[1] == 0 && !data->mode_copy)
 			create_history(data, &env);
 		else if ((buf[0] == 27	&&	buf[1] == 91 && buf[2] == 72 && buf[3] == 0) ||
-							(buf[0] == 1 && buf[1] == 0))
+							(buf[0] == 1 && buf[1] == 0)) // HOME
 			{
 				if (data->index > data->index_min_copy)
 					data->index_max_copy = data->index_min_copy;
@@ -351,7 +351,7 @@ void	boucle(t_env *env, t_data *data)
 				}
 			}
 		else if ((buf[0] == 27 && buf[1] == 91	&& buf[2] == 70 && buf[3] == 0) ||
-							(buf[0] == 5 && buf[1] == 0))
+							(buf[0] == 5 && buf[1] == 0)) // END
 		{
 			if (data->mode_copy)
 			{
@@ -378,11 +378,21 @@ void	boucle(t_env *env, t_data *data)
 			// 	move_right(data);
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 53 && buf[3] == 126 && buf[4] == 0) // Page up
 		{
-			page_up(data);
+			// if (data->mode_copy)
+			// {
+			//
+			// }
+			// else
+				page_up(data);
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 54 && buf[3] == 126 && buf[4] == 0) // Page down
 		{
-			page_down(data);
+			// if (data->mode_copy)
+			// {
+			//
+			// }
+			// else
+				page_down(data);
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65 && buf[3] == 0 && !data->mode_copy)
 		{

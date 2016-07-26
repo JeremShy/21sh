@@ -11,6 +11,7 @@ OH MON DIEU C'EST TOUT DOUX
 - reinitialiser chaque valeur utile lors d'un probleme (Ctrl-C, parse error, etc, ...)
 - pour le clipboard, faire le up et down
 - quand le term entier est rempli de bullshit et que l'on remonte tout en haut (le fameux MDR GROS CON)
+- Home + page down kibug
 
 {
 	commande -> {

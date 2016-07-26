@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:19:00 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/26 19:06:09 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/27 00:14:12 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ void	move_left(t_data *data)
 		exec_tcap("vb");
 		return ;
 	}
-	if (data->mode_copy && data->index == data->index_max_copy && data->index_min_copy != data->index_max_copy)
+	if (data->mode_copy && data->index == data->index_max_copy && data->index_min_copy != data->index_max_copy) // Le left quand on est a l'extreme droite (#JMLP)
 	{
 		data->mode_copy = 0;
 		int origin = data->index;
@@ -222,6 +222,8 @@ void	move_left(t_data *data)
 		int origin;
 
 		origin = data->index;
+		if (data->index_min_copy > data->index_max_copy)
+			data->index_max_copy = data->index_min_copy;
 		while (data->cmd[data->index])
 		{
 			if (data->index == data->index_min_copy && data->mode_copy)
@@ -239,6 +241,9 @@ void	move_left(t_data *data)
 		data->mode_copy = 1;
 		if (data->index < data->index_min_copy)
 			data->index_min_copy = data->index;
+		vi_char(data->cmd[data->index]);
+		data->index++;
+		move_left_without_mod(data);
 	}
 }
 
