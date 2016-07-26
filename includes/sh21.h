@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/25 22:44:22 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/26 17:43:16 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,4 +221,7 @@ void				page_down(t_data *data);
 void				vi_char(char c);
 void				vi_str(char *s);
 void				vi_str_free(char *s);
+void				move_left_without_mod(t_data *data);
+void				move_r2l(t_data *data);
+void				move_l2r(t_data *data);
 #endif

@@ -6,7 +6,7 @@
 /*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 14:57:58 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/07/25 23:34:35 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/26 22:47:06 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void sigint(int sig)
   data->cmd = ft_strdup("");
   data->index = 0;
   data->c = 0;
+  exec_tcap("me");
   data->prompt = print_prompt(data->env, data);
   data->len_prompt = ft_strlen(data->prompt);
 	if (data->cmd_tmp) // TEST DE TRUC CHELOU
@@ -56,7 +57,7 @@ void sigint(int sig)
   data->quote_or_hd = 0;
   data->first_line_of_hd = 1;
 	data->quote_old_index = 0;
-	data->mode_copy = 0;
+  data->mode_copy = 0;
 }
 
 void get_winsize(t_data *data)

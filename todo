@@ -9,7 +9,8 @@ OH MON DIEU C'EST TOUT DOUX
 -	ls << a << b segfault
 - echo "blblb\n" | cat -e
 - reinitialiser chaque valeur utile lors d'un probleme (Ctrl-C, parse error, etc, ...)
-- pour le clipboard, faire le ctrl+l, home, end, up et down
+- pour le clipboard, faire le up et down
+- quand le term entier est rempli de bullshit et que l'on remonte tout en haut (le fameux MDR GROS CON)
 
 {
 	commande -> {

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 18:31:23 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/25 18:33:08 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/26 22:46:29 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,23 @@ void	page_up(t_data *data)
 			verif_new_line = data->win_x;
 			while (verif_new_line > 0)
 			{
-				move_left(data);
+				move_left_without_mod(data);
 				verif_new_line--;
+			}
+			if (data->mode_copy)
+			{
+				verif_new_line = data->index;
+				if (data->index_min_copy > data->index_max_copy)
+					data->index_max_copy = data->index_min_copy;
+				while (data->cmd[data->index] && data->index <= data->index_max_copy)
+				{
+					exec_tcap("mr");
+					ft_putchar(data->cmd[data->index]);
+					data->index++;
+				}
+				exec_tcap("me");
+				while (data->index > verif_new_line)
+					move_left_without_mod(data);
 			}
 		}
 	}
@@ -53,12 +68,31 @@ void page_down(t_data *data)
 		}
 		if (verif_new_line == 0)
 		{
-			verif_new_line = data->win_x;
-			while (verif_new_line > 0)
+			if (data->mode_copy == 0)
 			{
-				move_right(data);
-				verif_new_line--;
+				write(1, data->cmd + data->index, data->win_x); // OPTI TU PEUX PAS TEST
+				data->index += data->win_x;
 			}
+			else
+			{
+				if (data->index_min_copy > data->index_max_copy)
+					data->index_max_copy = data->index_min_copy;
+				verif_new_line = data->index + data->win_x;
+				while (data->index < verif_new_line)
+				{
+					if (data->index_min_copy == data->index || data->index_max_copy == data->index)
+						exec_tcap("mr");
+					ft_putchar(data->cmd[data->index]);
+					if (data->index_max_copy == data->index)
+						exec_tcap("me");
+					data->index++;
+				}
+			}
+			// while (verif_new_line > 0)
+			// {
+			// 	move_right(data);
+			// 	verif_new_line--;
+			// }
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:19:00 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/26 00:00:47 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/26 19:06:09 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,21 +91,16 @@ void delete_mode(t_data *data)
 		return ;
 	}
 	move_left(data);
-	// printf("CALCUL CHELOU = %d\n", (data->len_prompt + data->index + 1) % (data->win_x));
-	// exec_tcap("vb");
 	if ((data->len_prompt + data->index + 1) % (data->win_x) == 0)
 		exec_tcap("ce");
 	index = data->index + 1;
 	exec_tcap("cd");
 	ft_putstr(data->cmd + data->index + 1);
 	data->cmd = delete_char(data->cmd, data->index + 1);
-	// exec_tcap("cd");
 	data->index = ft_strlen(data->cmd);
-	// printf("FIRST COND = %d ///// SECOND = %d\n", get_actual_cursor(data), (int)ft_strlen(data->cmd));
 	if (get_actual_cursor(data) == 0 && data->index == (int)ft_strlen(data->cmd))
 	{
 		move_left_simple(data);
-		// move_right_simple(data);
 		ft_putchar(data->cmd[data->index - 1]);
 		data->index++;
 	}
@@ -117,7 +112,6 @@ void delete_mode(t_data *data)
 		move_left(data);
 	if (index == (int)ft_strlen(data->cmd))
 	{
-		// printf("caca\n");
 		move_left(data);
 	}
 }
@@ -191,19 +185,12 @@ void	move_left(t_data *data)
 	}
 	if (data->mode_copy && data->index == data->index_max_copy && data->index_min_copy != data->index_max_copy)
 	{
-		// printf("C KK\n");
 		data->mode_copy = 0;
-		// ft_putchar(data->cmd[data->index]);
-		// data->index++;
-		// move_left(data);
 		int origin = data->index;
 		ft_putchar(data->cmd[data->index]);
 		data->index++;
-		while (data->cmd[data->index])
-		{
-			ft_putchar(data->cmd[data->index]);
-			data->index++;
-		}
+		ft_putstr(data->cmd + data->index);
+		data->index += ft_strlen(data->cmd + data->index);
 		while (data->index > origin)
 			move_left(data);
 		data->index_max_copy--;
@@ -232,21 +219,21 @@ void	move_left(t_data *data)
 	}
 	if (data->mode_copy)
 	{
-		data->mode_copy = 0;
-		// vi_char(data->cmd[data->index]);
-		// data->index++;
-		// move_left(data);
 		int origin;
 
 		origin = data->index;
 		while (data->cmd[data->index])
 		{
-			if (data->index <= data->index_max_copy && data->index >= data->index_min_copy)
-				vi_char(data->cmd[data->index]);
-			else
-				ft_putchar(data->cmd[data->index]);
+			if (data->index == data->index_min_copy && data->mode_copy)
+				exec_tcap("mr");
+			ft_putchar(data->cmd[data->index]);
+			if (data->index == data->index_max_copy && data->mode_copy)
+				exec_tcap("me");
 			data->index++;
 		}
+		if (data->index == data->index_max_copy && data->mode_copy)
+			exec_tcap("me");
+		data->mode_copy = 0;
 		while (data->index > origin)
 			move_left(data);
 		data->mode_copy = 1;
@@ -254,7 +241,6 @@ void	move_left(t_data *data)
 			data->index_min_copy = data->index;
 	}
 }
-
 
 void move_right(t_data *data)
 {
@@ -266,18 +252,16 @@ void move_right(t_data *data)
 	if (data->mode_copy && data->index == data->index_min_copy && data->index_min_copy != data->index_max_copy)
 	{
 		data->mode_copy = 0;
-		// ft_putchar(data->cmd[data->index]);
-		// data->index++;
-		// move_left(data);
 		int origin;
 
 		origin = data->index;
 		while (data->cmd[data->index])
 		{
-			if (data->index <= data->index_max_copy && data->index > data->index_min_copy)
-				vi_char(data->cmd[data->index]);
-			else
-				ft_putchar(data->cmd[data->index]);
+			if (data->index == data->index_min_copy + 1)
+				exec_tcap("mr");
+			ft_putchar(data->cmd[data->index]);
+			if (data->index == data->index_max_copy)
+				exec_tcap("me");
 			data->index++;
 		}
 		while (data->index > origin)
@@ -302,9 +286,6 @@ void move_right(t_data *data)
 	if (data->mode_copy)
 	{
 		data->mode_copy = 0;
-		// vi_char(data->cmd[data->index]);
-		// data->index++;
-		// move_left(data);
 		if (data->index > data->index_max_copy)
 			data->index_max_copy = data->index;
 		int	origin;
@@ -312,12 +293,15 @@ void move_right(t_data *data)
 		origin = data->index;
 		while (data->cmd[data->index])
 		{
-			if (data->index <= data->index_max_copy && data->index >= data->index_min_copy)
-				vi_char(data->cmd[data->index]);
-			else
-				ft_putchar(data->cmd[data->index]);
+			if (data->index == data->index_min_copy || data->index == data->index_max_copy)
+				exec_tcap("mr");
+			ft_putchar(data->cmd[data->index]);
+			if (data->index == data->index_max_copy)
+				exec_tcap("me");
 			data->index++;
 		}
+		if (data->index == data->index_max_copy)
+			exec_tcap("me");
 		while (data->index > origin)
 			move_left(data);
 		data->mode_copy = 1;

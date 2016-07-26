@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/25 23:38:24 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/26 18:41:41 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,10 +210,7 @@ int	create_history(t_data *data, t_env **env)
 			// printf("index = %d\n", data->index);
 			if (is_key(data))
 			{
-				// printf("on ajoute [%s]\n", data->cmd + 1);
-				// data->heredocs_tmp = ft_strjoinaf2(data->heredocs_tmp, data->cmd);
 				free(data->cmd);
-				// data->heredocs_tmp = ft_strjoinaf1(data->heredocs_tmp, "\n"); // Parce qu'il faut rajouter un \n à la toute fin
 				data->heredocs = add_hc_elem(data->heredocs, create_hc_elem(data->heredocs_tmp));
 				data->cmd = ft_strdup(data->cmd_tmp);
 				free(data->cmd_tmp);
@@ -332,12 +329,53 @@ void	boucle(t_env *env, t_data *data)
 			create_history(data, &env);
 		else if ((buf[0] == 27	&&	buf[1] == 91 && buf[2] == 72 && buf[3] == 0) ||
 							(buf[0] == 1 && buf[1] == 0))
-			while(data->index > 0 && data->cmd[data->index - 1] != '\n')
-				move_left(data);
+			{
+				if (data->index > data->index_min_copy)
+					data->index_max_copy = data->index_min_copy;
+				while(data->index > 0 && data->cmd[data->index - 1] != '\n')
+					move_left_without_mod(data);
+				if (data->mode_copy)
+				{
+					data->index_min_copy = data->index;
+					while (data->cmd[data->index])
+					{
+						if (data->index == data->index_min_copy || data->index == data->index_max_copy)
+							exec_tcap("mr");
+						ft_putchar(data->cmd[data->index]);
+						if (data->index == data->index_max_copy)
+							exec_tcap("me");
+						data->index++;
+					}
+					while(data->index > 0 && data->cmd[data->index - 1] != '\n')
+						move_left_without_mod(data);
+				}
+			}
 		else if ((buf[0] == 27 && buf[1] == 91	&& buf[2] == 70 && buf[3] == 0) ||
 							(buf[0] == 5 && buf[1] == 0))
-			while(data->index < (int)ft_strlen(data->cmd))
-				move_right(data);
+		{
+			if (data->mode_copy)
+			{
+				if (data->index < data->index_max_copy)
+					data->index_min_copy = data->index_max_copy;
+				data->index_max_copy = (int)ft_strlen(data->cmd) - 1;
+				while (data->cmd[data->index] && data->cmd[data->index + 1])
+				{
+					if ((data->index == data->index_min_copy || data->index == data->index_max_copy) && data->mode_copy)
+						exec_tcap("mr");
+					ft_putchar(data->cmd[data->index]);
+					if (data->index == data->index_max_copy && data->mode_copy)
+						exec_tcap("me");
+					data->index++;
+				}
+			}
+			else
+			{
+				ft_putstr(data->cmd + data->index);
+				data->index = (int)ft_strlen(data->cmd);
+			}
+		}
+			// while((data->mode_copy == 0 && data->index < (int)ft_strlen(data->cmd)) || (data->mode_copy && data->index < (int)ft_strlen(data->cmd) - 1))
+			// 	move_right(data);
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 53 && buf[3] == 126 && buf[4] == 0) // Page up
 		{
 			page_up(data);
@@ -401,7 +439,17 @@ void	boucle(t_env *env, t_data *data)
 				data->mode_copy = 1;
 			}
 			else
+			{
+				int	origin = data->index;
+
 				data->mode_copy = 0;
+				while (data->index > 0)
+					move_left(data);
+				ft_putstr(data->cmd);
+				data->index = (int)ft_strlen(data->cmd);
+				while (data->index > origin)
+					move_left(data);
+			}
 		}
 		else if (buf[0] == 11 && buf[1] == 0) // copie
 		{
