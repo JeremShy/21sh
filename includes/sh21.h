@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/27 15:46:24 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/27 18:53:45 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ typedef struct	s_data {
 	char			*first; // Key pour la recherche vers le haut
 	int				first_search; // Permet d'eviter le soucis quand on appuie plusieurs fois sur haut et que ca se chevauche.
 	t_env			*env; // l'env.
-	int				win_y;
-	int				win_x;
+	int				win_y; //Taille en y de la fenetre
+	int				win_x; // Taille en x de la fenetre
 	int				after_prompt; // Position curseur apres prompt
 	int				in_env_i;
 	char			*cmd_tmp; // comme ancienne_cmd, permet de conserver une ligne ou plusieurs de la commande lors des quotes ou heredoc
@@ -117,10 +117,10 @@ typedef struct	s_data {
 	char			*heredocs_tmp; // Pour se souvenir des heredocs. (La pince téton ?)
 	char			*command_save; // Pour se souvenir dans la commande quand on arrive dans des heredocs.
 	int				index_min_win;
-	int				mode_copy;
-	int				index_min_copy;
-	int				index_max_copy;
-	char			*clipboard;
+	int				mode_copy; // À 1 si on est en mode de surlignement, à 0 sinon.
+	int				index_min_copy; // premier index surligne
+	int				index_max_copy; // dernier index surligne
+	char			*clipboard; // presse papier
 }				t_data;
 
 t_env				*ft_parse_env(char **env);

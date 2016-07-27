@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/27 15:46:34 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/27 19:13:45 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,6 +279,20 @@ void	boucle(t_env *env, t_data *data)
 
 	flag = 0;
 	ft_bzero(buf, 11);
+	if (!isatty(0)) // Pour les tests fonctionnels
+	{
+		char str[101];
+		data->in_env_i = 0;
+		r = read(0, str, 100);
+		str[r] = '\0';
+		data->cmd = str;
+		//printf ("str : [%s]\n", str);
+		create_history(data, &env);
+		data->env = env;
+		get_index_min_win(data);
+		singleton_data(data, 1);
+		exit(3);
+	}
 	while ((r = read(0, buf, 10)))
 	{
 		data->in_env_i = 0;
@@ -521,7 +535,7 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else
 		{
-				// ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
+							// ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
 		}
 		data->env = env;
 		get_index_min_win(data);

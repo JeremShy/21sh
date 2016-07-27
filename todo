@@ -12,6 +12,7 @@ OH MON DIEU C'EST TOUT DOUX
 - pour le clipboard, faire le up et down
 - quand le term entier est rempli de bullshit et que l'on remonte tout en haut (le fameux MDR GROS CON)
 - Home + page down kibug
+- echo -n + fleche gauche (probleme avec le prompt)
 
 {
 	commande -> {

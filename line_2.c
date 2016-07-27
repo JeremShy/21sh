@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 18:31:23 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/27 16:44:22 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/27 18:53:23 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,14 @@ void	page_up(t_data *data)
 				tmp = data->index_max_copy;
 				if (old_index != data->index_min_copy)
 				{
-					verif_new_line = data->index_min_copy;
-					data->index_min_copy = data->index_max_copy - data->win_x;
-					data->index_max_copy = verif_new_line;
+					if (data->index_max_copy - data->win_x < data->index_min_copy)
+					{
+						verif_new_line = data->index_min_copy;
+						data->index_min_copy = data->index_max_copy - data->win_x;
+						data->index_max_copy = verif_new_line;
+					}
+					else
+						data->index_max_copy -= data->win_x;
 				}
 				else
 				{
@@ -91,7 +96,7 @@ void page_down(t_data *data)
 				exec_tcap("mr");
 			}
 			verif_new_line = data->index + data->win_x;
-			while (data->index < verif_new_line)
+			while (data->index <= verif_new_line)
 			{
 				if (data->index_min_copy == data->index)
 					exec_tcap("mr");
@@ -100,8 +105,9 @@ void page_down(t_data *data)
 					exec_tcap("me");
 				data->index++;
 			}
+			move_left_without_mod(data);
 		}
 	}
 }
 
-//abcdefghijklmnopqrstuvwxyz
+//abcdefghijklmnopqrstuv0wxyz

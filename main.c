@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/25 22:59:46 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/27 18:58:15 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int			main(int ac, char **av, char **env)
 		return (0);
 	}
 	list = ft_parse_env(env);
-//	exec_mshrc(&list);
 	singleton_termios(init_term(list), 1); // Mets le term en mode non canonique et tout le bordel
 	signal(SIGINT, sigint);
 	signal(SIGWINCH, sigwinch);

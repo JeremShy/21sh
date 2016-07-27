@@ -6,7 +6,7 @@
 #    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/07/25 21:42:13 by jcamhi           ###   ########.fr        #
+#    Updated: 2016/07/27 20:34:23 by jcamhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,8 +90,5 @@ fclean: clean
 #	@rmdir lib 2> /dev/null || true
 
 re: fclean all
-
-script:
-	gcc -I includes lib/libft.a script.c -g
 
 .PHONY : all clean fclean re
