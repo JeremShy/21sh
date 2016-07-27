@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:19:00 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/27 00:14:12 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/27 16:08:12 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,130 +185,70 @@ void	move_left(t_data *data)
 	}
 	if (data->mode_copy && data->index == data->index_max_copy && data->index_min_copy != data->index_max_copy) // Le left quand on est a l'extreme droite (#JMLP)
 	{
-		data->mode_copy = 0;
-		int origin = data->index;
 		ft_putchar(data->cmd[data->index]);
 		data->index++;
-		ft_putstr(data->cmd + data->index);
-		data->index += ft_strlen(data->cmd + data->index);
-		while (data->index > origin)
-			move_left(data);
+		move_left_without_mod(data);
 		data->index_max_copy--;
-		data->mode_copy = 1;
 	}
-	if (get_actual_line(data) > get_prompt_line(data)) // Si on est pas sur la premiere ligne
-	{
-		if (get_actual_cursor(data) > 0)
-			move_left_simple(data);
-		else if (get_actual_cursor(data) == 0 && data->index == (int)ft_strlen(data->cmd))
-		{
-			move_left_simple(data);
-			exec_tcap("nd");
-		}
-		else
-			move_l2r(data);
-	}
-	else
-	{
-		if (data->index > 0)
-		{
-			move_left_simple(data);
-		}
-		else
-			exec_tcap("vb");
-	}
+	else if (data->mode_copy && data->index == data->index_min_copy)
+		data->index_min_copy--;
+	move_left_without_mod(data);
 	if (data->mode_copy)
 	{
-		int origin;
-
-		origin = data->index;
-		if (data->index_min_copy > data->index_max_copy)
-			data->index_max_copy = data->index_min_copy;
-		while (data->cmd[data->index])
-		{
-			if (data->index == data->index_min_copy && data->mode_copy)
-				exec_tcap("mr");
-			ft_putchar(data->cmd[data->index]);
-			if (data->index == data->index_max_copy && data->mode_copy)
-				exec_tcap("me");
-			data->index++;
-		}
-		if (data->index == data->index_max_copy && data->mode_copy)
-			exec_tcap("me");
-		data->mode_copy = 0;
-		while (data->index > origin)
-			move_left(data);
-		data->mode_copy = 1;
-		if (data->index < data->index_min_copy)
-			data->index_min_copy = data->index;
 		vi_char(data->cmd[data->index]);
 		data->index++;
-		move_left_without_mod(data);
+		if (get_actual_cursor(data) == 0)
+		{
+			exec_tcap("le");
+			exec_tcap("nd");
+			data->index--;
+		}
+		else
+			move_left_without_mod(data);
 	}
 }
 
 void move_right(t_data *data)
 {
-	if (data->mode_copy && data->index + 1 == (int)ft_strlen(data->cmd))
+	if ((data->mode_copy && data->index + 1 == (int)ft_strlen(data->cmd)) || (data->mode_copy == 0 && data->index == (int)ft_strlen(data->cmd)))
 	{
 		exec_tcap("vb");
 		return ;
 	}
 	if (data->mode_copy && data->index == data->index_min_copy && data->index_min_copy != data->index_max_copy)
 	{
-		data->mode_copy = 0;
-		int origin;
-
-		origin = data->index;
-		while (data->cmd[data->index])
-		{
-			if (data->index == data->index_min_copy + 1)
-				exec_tcap("mr");
-			ft_putchar(data->cmd[data->index]);
-			if (data->index == data->index_max_copy)
-				exec_tcap("me");
-			data->index++;
-		}
-		while (data->index > origin)
-			move_left(data);
-		data->index_min_copy++;
-		data->mode_copy = 1;
-	}
-	if (get_actual_cursor(data) + 1 == data->win_x && data->index == (int)ft_strlen(data->cmd) - 1)
-	{
 		ft_putchar(data->cmd[data->index]);
 		data->index++;
-	}
-	else if (data->index < (int)ft_strlen(data->cmd))
-	{
-		if (get_actual_cursor(data) + 1 == data->win_x)
-			move_r2l(data);
+		if (get_actual_cursor(data) == 0)
+		{
+			ft_putchar(data->cmd[data->index]);
+			data->index++;
+			move_left_without_mod(data);
+			move_left_without_mod(data);
+		}
 		else
-			move_right_simple(data);
+		{
+			move_left_without_mod(data);
+		}
+		data->index_min_copy++;
 	}
 	else
-		exec_tcap("vb");
+		data->index_max_copy++;
+	move_right_without_mod(data);
 	if (data->mode_copy)
 	{
-		data->mode_copy = 0;
-		if (data->index > data->index_max_copy)
-			data->index_max_copy = data->index;
-		int	origin;
-
-		origin = data->index;
-		while (data->cmd[data->index])
+		vi_char(data->cmd[data->index]);
+		data->index++;
+		if (get_actual_cursor(data) == 0)
 		{
-			if (data->index == data->index_min_copy || data->index == data->index_max_copy)
-				exec_tcap("mr");
 			ft_putchar(data->cmd[data->index]);
-			if (data->index == data->index_max_copy)
-				exec_tcap("me");
 			data->index++;
+			move_left_without_mod(data);
+			move_left_without_mod(data);
 		}
-		if (data->index == data->index_max_copy)
-			exec_tcap("me");
-		while (data->index > origin)
-			move_left(data);
-		data->mode_copy = 1;
+		else
+		{
+			move_left_without_mod(data);
+		}
 	}
 }
