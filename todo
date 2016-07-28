@@ -45,3 +45,6 @@ pipe -> in : 3 out : 4
 on ecrit dans le in
 on ferme le in
 on lit dans le out
+
+
+- Penser a supprimer les *.a avant le rendu
