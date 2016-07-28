@@ -6,7 +6,7 @@
 /*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 14:57:58 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/07/26 22:48:46 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/28 18:20:14 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ void sigint(int sig)
   t_data  *data;
 
   sig = 0;
-  ft_putstr("\n");
   data = singleton_data(NULL, 0);
+  while (data->index < (int)ft_strlen(data->cmd))
+    move_right_without_mod(data);
+  ft_putstr("\n");
   data->real_len_cmd = 0;
   data->heredocs = NULL;
   if (data->first)

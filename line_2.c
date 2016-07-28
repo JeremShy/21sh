@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 18:31:23 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/27 18:53:23 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/28 20:17:58 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,32 +71,40 @@ void	page_up(t_data *data)
 
 void page_down(t_data *data)
 {
-	int	verif_new_line;
+	int	tmp;
+	int why;
 
 	if ((data->index + data->win_x < (int)ft_strlen(data->cmd)
 			|| (get_actual_cursor(data) != 0 && data->index + data->win_x == (int)ft_strlen(data->cmd)))
  		&& !(data->mode_copy && data->index + data->win_x == (int)ft_strlen(data->cmd))) // On verifie qu'on peut bien aller vers le bas et que le curseur ne puisse pas aller au bout de la chaine si on est en mode_copy.
 	{
-		if (data->mode_copy == 0)
+		why = 0;
+		if (data->mode_copy == 0) // Si on est pas en mode_copy..
 		{
 			write(1, data->cmd + data->index, data->win_x); // OPTI TU PEUX PAS TEST
 			data->index += data->win_x;
 		}
-		else
+		else // Sinon..
 		{
-			if (data->index == data->index_min_copy && data->index_max_copy != data->index_min_copy)
+			if (data->index == data->index_min_copy && data->index_min_copy + data->win_x <= data->index_max_copy)
 			{
-				verif_new_line = data->index_min_copy;
-				data->index_min_copy = data->index_max_copy;
-				data->index_max_copy = verif_new_line + data->win_x;
+				data->index_min_copy = data->index_min_copy + data->win_x;
+				why = 1;
 			}
-			else
+			else if (data->index == data->index_min_copy && data->index_max_copy != data->index_min_copy) // Si on est dans la situation ou le curseur est en arriere de la position de depart
+			{
+				tmp = data->index_min_copy;
+				data->index_min_copy = data->index_max_copy;
+				data->index_max_copy = tmp + data->win_x;
+			}
+			else // L'autre cas
 			{
 				data->index_max_copy += data->win_x;
-				exec_tcap("mr");
+				if (data->index >= data->index_min_copy && data->index <= data->index_max_copy)
+					exec_tcap("mr");
 			}
-			verif_new_line = data->index + data->win_x;
-			while (data->index <= verif_new_line)
+			tmp = data->index + data->win_x;
+			while (data->index <= tmp)
 			{
 				if (data->index_min_copy == data->index)
 					exec_tcap("mr");
@@ -105,9 +113,10 @@ void page_down(t_data *data)
 					exec_tcap("me");
 				data->index++;
 			}
+			why ? exec_tcap("me") : 0;
 			move_left_without_mod(data);
 		}
 	}
 }
 
-//abcdefghijklmnopqrstuv0wxyz
+//abcdefghijklmnopqrstuvwxyz

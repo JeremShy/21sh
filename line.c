@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:19:00 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/28 16:59:08 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/28 20:14:40 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void delete_mode(t_data *data)
 {
 	int	index;
 
-	if (data->index == 0 || data->cmd[data->index - 1] == '\n') //On verifie que l'on peut bien supprimer
+	if (data->index == 0 || data->cmd[data->index - 1] == '\n' || data->mode_copy) //On verifie que l'on peut bien supprimer
 		return ;
 	if (data->index_min_win != -1 && data->index_min_win == data->index)
 	{
@@ -95,9 +95,7 @@ void delete_mode(t_data *data)
 	data->cmd = delete_char(data->cmd, data->index + 1); // On supprime le caracatere de la chaine
 	data->index = ft_strlen(data->cmd); // On rebouge à gauche
 	while (data->index > index)
-	{
 		move_left_without_mod(data);
-	}
 }
 
 int	get_actual_cursor(t_data *data)
@@ -167,11 +165,18 @@ void	move_left(t_data *data)
 		exec_tcap("vb");
 		return ;
 	}
-	if (data->mode_copy && data->index == data->index_max_copy && data->index_min_copy != data->index_max_copy) // Le left quand on est a l'extreme droite (#JMLP)
+	if (data->mode_copy && data->index == data->index_max_copy && data->index_min_copy != data->index_max_copy) // Le left quand on est à droite (#Nicolas_Sarkozy)
 	{
 		ft_putchar(data->cmd[data->index]);
 		data->index++;
-		move_left_without_mod(data);
+		if (get_actual_cursor(data) == 0)
+		{
+			exec_tcap("le");
+			exec_tcap("nd");
+			data->index--;
+		}
+		else
+			move_left_without_mod(data);
 		data->index_max_copy--;
 	}
 	else if (data->mode_copy && data->index == data->index_min_copy)
