@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/28 20:25:09 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/28 23:15:28 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,7 +344,7 @@ void	boucle(t_env *env, t_data *data)
 		else if ((buf[0] == 27	&&	buf[1] == 91 && buf[2] == 72 && buf[3] == 0) ||
 							(buf[0] == 1 && buf[1] == 0)) // HOME
 			{
-				if (data->index > data->index_min_copy)
+				if (data->index == data->index_max_copy)
 					data->index_max_copy = data->index_min_copy;
 				while(data->index > 0 && data->cmd[data->index - 1] != '\n')
 					move_left_without_mod(data);
@@ -369,18 +369,21 @@ void	boucle(t_env *env, t_data *data)
 		{
 			if (data->mode_copy)
 			{
-				if (data->index < data->index_max_copy)
+				if (data->index_min_copy == data->index)
 					data->index_min_copy = data->index_max_copy;
 				data->index_max_copy = (int)ft_strlen(data->cmd) - 1;
+				if (data->index > data->index_min_copy)
+					exec_tcap("mr");
 				while (data->cmd[data->index] && data->cmd[data->index + 1])
 				{
-					if ((data->index == data->index_min_copy || data->index == data->index_max_copy) && data->mode_copy)
+					if (data->index == data->index_min_copy)
 						exec_tcap("mr");
 					ft_putchar(data->cmd[data->index]);
-					if (data->index == data->index_max_copy && data->mode_copy)
+					if (data->index == data->index_max_copy)
 						exec_tcap("me");
 					data->index++;
 				}
+				exec_tcap("me");
 			}
 			else
 			{
@@ -467,12 +470,14 @@ void	boucle(t_env *env, t_data *data)
 				int	origin = data->index;
 
 				data->mode_copy = 0;
-				while (data->index > 0)
-					move_left(data);
-				ft_putstr(data->cmd);
+				while (data->index > 0 && data->cmd[data->index - 1] != '\n')
+				{
+					move_left_without_mod(data);
+				}
+				ft_putstr(data->cmd + data->index);
 				data->index = (int)ft_strlen(data->cmd);
 				while (data->index > origin)
-					move_left(data);
+					move_left_without_mod(data);
 			}
 		}
 		else if (buf[0] == 11 && buf[1] == 0) // copie

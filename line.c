@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:19:00 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/28 20:14:40 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/28 22:56:23 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,17 +227,15 @@ void move_right(t_data *data)
 	if (data->mode_copy)
 	{
 		vi_char(data->cmd[data->index]);
+		// sleep(1);
 		data->index++;
 		if (get_actual_cursor(data) == 0)
 		{
-			ft_putchar(data->cmd[data->index]);
-			data->index++;
-			move_left_without_mod(data);
-			move_left_without_mod(data);
+			exec_tcap("le");
+			exec_tcap("nd");
+			data->index--;
 		}
 		else
-		{
 			move_left_without_mod(data);
-		}
 	}
 }

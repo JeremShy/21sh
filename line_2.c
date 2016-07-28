@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 18:31:23 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/28 20:17:58 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/28 23:09:41 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,17 @@ void	page_up(t_data *data)
 						data->index_max_copy = verif_new_line;
 					}
 					else
+					{
 						data->index_max_copy -= data->win_x;
+					}
 				}
 				else
 				{
 					data->index_min_copy -= data->win_x;
 				}
 				verif_new_line = data->index;
+				if (data->index > data->index_min_copy && data->index <= data->index_max_copy)
+					exec_tcap("mr");
 				while (data->cmd[data->index] && data->index <= tmp)
 				{
 					if (data->index == data->index_min_copy)
@@ -59,6 +63,18 @@ void	page_up(t_data *data)
 					if (data->index == data->index_max_copy)
 						exec_tcap("me");
 					data->index++;
+				}
+				exec_tcap("me");
+				if (data->index > verif_new_line)
+				{
+					if (get_actual_cursor(data) == 0)
+					{
+						exec_tcap("le");
+						exec_tcap("nd");
+						data->index--;
+					}
+					else
+						move_left_without_mod(data);
 				}
 				while (data->index > verif_new_line)
 					move_left_without_mod(data);
@@ -114,7 +130,14 @@ void page_down(t_data *data)
 				data->index++;
 			}
 			why ? exec_tcap("me") : 0;
-			move_left_without_mod(data);
+			if (get_actual_cursor(data) == 0)
+			{
+				exec_tcap("le");
+				exec_tcap("nd");
+				data->index--;
+			}
+			else
+				move_left_without_mod(data);
 		}
 	}
 }

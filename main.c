@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/27 18:58:15 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/28 20:38:51 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int			main(int ac, char **av, char **env)
 
 	if (ac > 1)
 	{
-		ft_putstr_fd("Usage : ", 2);
+		ft_putstr_fd("Usage: ", 2);
 		ft_putstr_fd(av[0], 2);
 		ft_putstr_fd("\n", 2);
 		return (0);
