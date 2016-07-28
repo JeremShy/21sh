@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/20 12:19:00 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/27 16:08:12 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/28 16:59:08 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,38 +81,22 @@ void delete_mode(t_data *data)
 {
 	int	index;
 
-//abcdefghijklmnopqrstuvwxyz
-	if (data->index == 0 || data->cmd[data->index - 1] == '\n')
+	if (data->index == 0 || data->cmd[data->index - 1] == '\n') //On verifie que l'on peut bien supprimer
 		return ;
 	if (data->index_min_win != -1 && data->index_min_win == data->index)
 	{
-		// printf("MIN WIN DETECTED\n");
 		exec_tcap("vb");
 		return ;
 	}
-	move_left(data);
-	if ((data->len_prompt + data->index + 1) % (data->win_x) == 0)
-		exec_tcap("ce");
-	index = data->index + 1;
+	move_left_without_mod(data); // On bouge vers la gauche
 	exec_tcap("cd");
-	ft_putstr(data->cmd + data->index + 1);
-	data->cmd = delete_char(data->cmd, data->index + 1);
-	data->index = ft_strlen(data->cmd);
-	if (get_actual_cursor(data) == 0 && data->index == (int)ft_strlen(data->cmd))
-	{
-		move_left_simple(data);
-		ft_putchar(data->cmd[data->index - 1]);
-		data->index++;
-	}
+	index = data->index; // on note l'index auquel il faudra retourner
+	ft_putstr(data->cmd + data->index + 1); // on putstr en ecrasant le caractere a l'ecran
+	data->cmd = delete_char(data->cmd, data->index + 1); // On supprime le caracatere de la chaine
+	data->index = ft_strlen(data->cmd); // On rebouge à gauche
 	while (data->index > index)
 	{
-		move_left(data);
-	}
-	if (data->index != (int)ft_strlen(data->cmd))
-		move_left(data);
-	if (index == (int)ft_strlen(data->cmd))
-	{
-		move_left(data);
+		move_left_without_mod(data);
 	}
 }
 
