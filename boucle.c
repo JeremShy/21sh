@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/28 23:47:32 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/29 00:01:12 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -532,6 +532,10 @@ void	boucle(t_env *env, t_data *data)
 				}
 			}
 		}
+		else if (buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 68 && buf[4] == 0) // Previous word
+			previous_word(data);
+		else if (buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 67 && buf[4] == 0) // Next Word
+			next_word(data);
 		else if (buf[0] == 27 && buf[1] == 0) // AFFICHE MESSAGE DE DEBUG 1
 		{
 			printf("index - %d AND index_min_copy = %d AND index_max_copy = %d\n", data->index, data->index_min_copy, data->index_max_copy);

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/25 18:31:23 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/28 23:09:41 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/29 00:30:21 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,32 @@ void page_down(t_data *data)
 				move_left_without_mod(data);
 		}
 	}
+}
+
+void previous_word(t_data *data)
+{
+	if (!(data->mode_copy))
+	{
+		while (data->index > 0 && data->cmd[data->index - 1] != '\n' && ft_isspace2(data->cmd[data->index - 1]))
+			move_left_without_mod(data);
+		while (data->index > 0 && data->cmd[data->index - 1] != '\n' && !(ft_isspace2(data->cmd[data->index - 1])))
+			move_left_without_mod(data);
+	}
+	else
+		(void)data;
+}
+
+void next_word(t_data *data)
+{
+	if (!(data->mode_copy))
+	{
+		while (data->cmd[data->index] && !(ft_isspace2(data->cmd[data->index])))
+			move_right_without_mod(data);
+		while (data->cmd[data->index] && ft_isspace2(data->cmd[data->index]))
+			move_right_without_mod(data);
+	}
+	else
+		(void)data;
 }
 
 //abcdefghijklmnopqrstuvwxyz

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/27 18:53:45 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/29 00:06:42 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,4 +225,6 @@ void				move_left_without_mod(t_data *data);
 void				move_right_without_mod(t_data *data);
 void				move_r2l(t_data *data);
 void				move_l2r(t_data *data);
+void				previous_word(t_data *data);
+void				next_word(t_data *data);
 #endif
