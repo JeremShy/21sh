@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/28 23:24:16 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/28 23:47:32 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -422,7 +422,7 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66 && buf[3] == 0 && !data->mode_copy)
 			move_down_history(data, env);
-		else if (buf[0] == -30 && buf[1] == -120 && buf[2] == -102 && buf[3] == 0 && !data->mode_copy)
+		else if (buf[0] == 16 && buf[1] == 0 && !data->mode_copy)
 		{
 			char *pb = get_pb();
 			data->curs_x += ft_strlen(pb);
@@ -480,7 +480,7 @@ void	boucle(t_env *env, t_data *data)
 					move_left_without_mod(data);
 			}
 		}
-		else if (buf[0] == 11 && buf[1] == 0) // copie
+		else if (buf[0] == -61 && buf[1] == -89 && buf[2] == 0) // copie
 		{
 			int	index_origine;
 			if (data->mode_copy)
@@ -501,19 +501,21 @@ void	boucle(t_env *env, t_data *data)
 				data->clipboard = ft_strsub(data->cmd, data->index_min_copy, data->index_max_copy - data->index_min_copy + 1);
 			}
 		}
-		else if (buf[0] == 24 && buf[1] == 0) // cut
+		else if (buf[0] == -30 && buf[1] == -119 && buf[2] == -120 && buf[3] == 0) // cut
 		{
 			if (data->mode_copy)
 			{
 				data->mode_copy = 0;
+				if (data->clipboard)
+					free(data->clipboard);
 				data->clipboard = ft_strsub(data->cmd, data->index_min_copy, data->index_max_copy - data->index_min_copy + 1);
 				while (data->index <= data->index_max_copy)
-					move_right(data);
+					move_right_without_mod(data);
 				while (data->index > data->index_min_copy)
 					delete_mode(data);
 			}
 		}
-		else if (buf[0] == 16 && buf[1] == 0) // paste
+		else if (buf[0] == -30 && buf[1] == -120 && buf[2] == -102 && buf[3] == 0) // paste
 		{
 			int	i;
 
