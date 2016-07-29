@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 15:12:42 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/03/30 16:22:06 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/27 18:24:20 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static t_env	*init_list_no_env(void)
 	ret = add_elem_end(ret, "OLDPWD", tmp);
 	free(tmp);
 	ret = add_elem_end(ret, "HOME", "/");
+	ret = add_elem_end(ret, "SHLVL", "0");
+	ret = add_elem_end(ret, "TERM", "xterm-256color");
 	return (ret);
 }
 

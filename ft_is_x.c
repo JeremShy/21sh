@@ -6,74 +6,80 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/23 13:44:33 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/02 15:37:00 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/29 00:04:37 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh21.h"
+#include <sh21.h>
 
-int is_special(char car)
+int		is_empty_border(char *str, size_t beg, size_t end)
 {
-	if (car == '|' || car == '>' || car == '<')
-		return (1);
-	return (0);
-}
+	size_t i;
 
-int is_quote(char car)
-{
-	if (car == '\'' || car == '"' || car == '`' ||  car == '(' || car == ')'
-		|| car == '[' || car == ']' || car == '{' || car == '}')
-		return (1);
-	return (0);
-}
-
-int 	is_quote_open(char car)
-{
-	if (car == '\'' || car == '"' || car == '`' || car == '('
-		|| car == '[' || car == '{')
-		return (1);
-	return (0);
-}
-
-int 	is_quote_close(char car, char open)
-{
-	if (open == '\'' && car == '\'')
-		return (1);
-	else if (open == '"' && car == '"')
-		return (1);
-	else if (open == '`' && car == '`')
-		return (1);
-	else if (open == '(' && car == ')')
-		return (1);
-	else if (open == '[' && car == ']')
-		return (1);
-	else if (open == '{' && car == '}')
-		return (1);
-	return (0);
-}
-
-int		is_quote_end(t_data *data)
-{
-	size_t	i;
-
-//	printf("\ncmd : [%s]\n", data->cmd);
-//	printf("data->c : %c\n", data->c);
-	i = ft_strlen(data->cmd) - data->real_len_cmd;
-	while(data->cmd[i])
+	// printf("coord : %zu et %zu. Chaine : [%s]\n", beg, end, str);
+	i = beg;
+	while(str[i] != '\0' && i <= end)
 	{
-		if (data->c == '\0')
-		{
-			if (is_quote_open(data->cmd[i]))
-				data->c = data->cmd[i];
-		}
-		else if (is_quote_close(data->cmd[i], data->c))
-			data->c = '\0';
+		if (!ft_isspace2(str[i]))
+			return(0);
 		i++;
 	}
-	if (data->c)
+	return (1);
+}
+
+int	is_parse_error(char *str)
+{
+	size_t i;
+	int			there_is_a_pipe;
+
+	i = 0;
+	// printf("ON ENVOIE [%s]\n", str);
+	there_is_a_pipe = 0;
+	while (str[i])
+	{
+		while (ft_isspace2(str[i]))
+			i++;
+		if (str[i] == '|' || (str[i] == '\0' && there_is_a_pipe))
+		{
+			printf("121sh: parse error near '|'\n");
+			printf("str[i] = %c\n\n", str[i]);
+			return (1);
+		}
+		there_is_a_pipe = 1;
+		while (str[i] != '|' && str[i] != '\0')
+		{
+			if (is_quote_open(str[i]))
+				get_pos_after_quote(&i, str);
+			else
+				i++;
+		}
+		if (str[i])
+			i++;
+	}
+	return (0);
+}
+
+int		is_empty(char *str, size_t *i)
+{
+	size_t tmp;
+
+	tmp = *i;
+	while(str[tmp] != '\0')
+	{
+		if(!ft_isspace2(str[tmp]))
+			return(0);
+		tmp++;
+	}
+	return(1);
+}
+
+int is_special(char *str, int quote)
+{
+	if (quote == 1)
+		str++;
+	if (ft_strnstr(str, ">>", 2) || ft_strnstr(str, "<<", 2) || ft_strnstr(str, "&&", 2) || ft_strnstr(str, "2>", 2) || ft_strnstr(str, "2>>", 3) || str[0] == '|' || str[0] == '>' || str[0] == '<' || str[0] == ';')
 		return (1);
-	else
-		return (0);
+	return (0);
 }
 
 int	ft_isspace2(char car)

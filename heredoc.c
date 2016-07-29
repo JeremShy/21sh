@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/25 09:02:45 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/26 16:40:39 by vsteffen         ###   ########.fr       */
+/*   Created: 2016/06/15 20:37:13 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/07/21 16:57:41 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <libft.h>
+#include <sh21.h>
 
-void	ft_putstr(char *s)
+int	is_key(t_data *data)
 {
-	int i;
-
-	if (s == NULL)
-	{
-		ft_putstr("(null)");
-		return ;
-	}
-	i = ft_strlen(s);
-	write(1, s, i);
+	if (ft_strequ(data->cmd, data->key_here))
+		return (1);
+	return (0);
 }

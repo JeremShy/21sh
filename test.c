@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/25 09:02:45 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/26 16:40:39 by vsteffen         ###   ########.fr       */
+/*   Created: 2016/06/07 18:07:04 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/07/21 15:57:04 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <libft.h>
+#include <sh21.h>
 
-void	ft_putstr(char *s)
+int main()
 {
-	int i;
-
-	if (s == NULL)
-	{
-		ft_putstr("(null)");
-		return ;
-	}
-	i = ft_strlen(s);
-	write(1, s, i);
+	char truc[1001];
+	printf("on entre dans le programme\n");
+	while  (read(0, truc, 1000));
+	printf("on sort du programme\n");
+// 		exit(0);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 16:51:55 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/03/30 16:22:33 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/18 19:28:18 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int		is_builtin(char *cmd)
 {
 	if (cmd[0] == 'e')
 	{
-		if (ft_strequ(cmd, "exit") || ft_strequ(cmd, "env"))
+		if (ft_strequ(cmd, "exit") || ft_strequ(cmd, "env") ||
+			ft_strequ(cmd, "echo"))
 			return (1);
 		else
 			return (0);
