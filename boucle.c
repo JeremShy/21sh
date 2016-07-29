@@ -283,15 +283,17 @@ void	boucle(t_env *env, t_data *data)
 	{
 		char str[101];
 		data->in_env_i = 0;
-		r = read(0, str, 100);
-		str[r] = '\0';
-		data->cmd = str;
-		//printf ("str : [%s]\n", str);
-		create_history(data, &env);
-		data->env = env;
-		get_index_min_win(data);
-		singleton_data(data, 1);
-		exit(3);
+		if ((r = read(0, str, 100)))
+		{
+			str[r] = '\0';
+			data->cmd = str;
+			//printf ("str : [%s]\n", str);
+			create_history(data, &env);
+			data->env = env;
+			get_index_min_win(data);
+			singleton_data(data, 1);
+			exit(3);
+		}
 	}
 	while ((r = read(0, buf, 10)))
 	{
