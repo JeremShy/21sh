@@ -100,4 +100,4 @@ int			exec_builtin(char **scmd, t_env **env, t_data *data)
 	// else if (ft_strequ(scmd[0], "source"))
 		// return (ft_source(scmd, env));
 	return (0);
-}	
+}

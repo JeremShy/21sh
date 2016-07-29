@@ -6,7 +6,7 @@
 #    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/07/27 20:34:23 by jcamhi           ###   ########.fr        #
+#*   Updated: 2016/07/29 16:08:29 by jcamhi           ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,7 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 
 clean:
 	/bin/rm -fv $(OBJ)
-	@rmdir -p $(OBJ_PATH)
+	@rmdir  $(OBJ_PATH) || true
 #	make -C libsrcs/libft clean
 #	make -C libsrcs/ft_printf clean
 

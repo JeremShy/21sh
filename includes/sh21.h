@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/29 00:06:42 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/29 15:57:03 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <term.h>
 # include <sys/ioctl.h>
 # include <curses.h>
+# include <limits.h>
+# include <sys/stat.h>
 # define	NONE (char)0
 # define	POINT_VIRGULE ';'
 # define	ETET (char)1
@@ -47,6 +49,7 @@
 
 typedef struct dirent		t_dirent;
 typedef struct termios	t_termios;
+typedef struct stat			t_stat;
 
 typedef struct	s_env {
 	char			*name;
