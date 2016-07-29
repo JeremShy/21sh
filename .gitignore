@@ -2,6 +2,6 @@
 21sh
 *.dSYM
 a.out
-
-# Later
-# *.a
+*.a
+/lib
+/obj
