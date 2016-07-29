@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/27 19:13:45 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/29 00:01:12 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,7 +344,7 @@ void	boucle(t_env *env, t_data *data)
 		else if ((buf[0] == 27	&&	buf[1] == 91 && buf[2] == 72 && buf[3] == 0) ||
 							(buf[0] == 1 && buf[1] == 0)) // HOME
 			{
-				if (data->index > data->index_min_copy)
+				if (data->index == data->index_max_copy)
 					data->index_max_copy = data->index_min_copy;
 				while(data->index > 0 && data->cmd[data->index - 1] != '\n')
 					move_left_without_mod(data);
@@ -369,18 +369,21 @@ void	boucle(t_env *env, t_data *data)
 		{
 			if (data->mode_copy)
 			{
-				if (data->index < data->index_max_copy)
+				if (data->index_min_copy == data->index)
 					data->index_min_copy = data->index_max_copy;
 				data->index_max_copy = (int)ft_strlen(data->cmd) - 1;
+				if (data->index > data->index_min_copy)
+					exec_tcap("mr");
 				while (data->cmd[data->index] && data->cmd[data->index + 1])
 				{
-					if ((data->index == data->index_min_copy || data->index == data->index_max_copy) && data->mode_copy)
+					if (data->index == data->index_min_copy)
 						exec_tcap("mr");
 					ft_putchar(data->cmd[data->index]);
-					if (data->index == data->index_max_copy && data->mode_copy)
+					if (data->index == data->index_max_copy)
 						exec_tcap("me");
 					data->index++;
 				}
+				exec_tcap("me");
 			}
 			else
 			{
@@ -419,7 +422,7 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 66 && buf[3] == 0 && !data->mode_copy)
 			move_down_history(data, env);
-		else if (buf[0] == -30 && buf[1] == -120 && buf[2] == -102 && buf[3] == 0 && !data->mode_copy)
+		else if (buf[0] == 16 && buf[1] == 0 && !data->mode_copy)
 		{
 			char *pb = get_pb();
 			data->curs_x += ft_strlen(pb);
@@ -467,15 +470,17 @@ void	boucle(t_env *env, t_data *data)
 				int	origin = data->index;
 
 				data->mode_copy = 0;
-				while (data->index > 0)
-					move_left(data);
-				ft_putstr(data->cmd);
+				while (data->index > 0 && data->cmd[data->index - 1] != '\n')
+				{
+					move_left_without_mod(data);
+				}
+				ft_putstr(data->cmd + data->index);
 				data->index = (int)ft_strlen(data->cmd);
 				while (data->index > origin)
-					move_left(data);
+					move_left_without_mod(data);
 			}
 		}
-		else if (buf[0] == 11 && buf[1] == 0) // copie
+		else if (buf[0] == -61 && buf[1] == -89 && buf[2] == 0) // copie
 		{
 			int	index_origine;
 			if (data->mode_copy)
@@ -496,19 +501,21 @@ void	boucle(t_env *env, t_data *data)
 				data->clipboard = ft_strsub(data->cmd, data->index_min_copy, data->index_max_copy - data->index_min_copy + 1);
 			}
 		}
-		else if (buf[0] == 24 && buf[1] == 0) // cut
+		else if (buf[0] == -30 && buf[1] == -119 && buf[2] == -120 && buf[3] == 0) // cut
 		{
 			if (data->mode_copy)
 			{
 				data->mode_copy = 0;
+				if (data->clipboard)
+					free(data->clipboard);
 				data->clipboard = ft_strsub(data->cmd, data->index_min_copy, data->index_max_copy - data->index_min_copy + 1);
 				while (data->index <= data->index_max_copy)
-					move_right(data);
+					move_right_without_mod(data);
 				while (data->index > data->index_min_copy)
 					delete_mode(data);
 			}
 		}
-		else if (buf[0] == 16 && buf[1] == 0) // paste
+		else if (buf[0] == -30 && buf[1] == -120 && buf[2] == -102 && buf[3] == 0) // paste
 		{
 			int	i;
 
@@ -525,13 +532,17 @@ void	boucle(t_env *env, t_data *data)
 				}
 			}
 		}
+		else if (buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 68 && buf[4] == 0) // Previous word
+			previous_word(data);
+		else if (buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 67 && buf[4] == 0) // Next Word
+			next_word(data);
 		else if (buf[0] == 27 && buf[1] == 0) // AFFICHE MESSAGE DE DEBUG 1
 		{
-			printf("index_min_copy = %d AND index_max_copy = %d\n", data->index_min_copy, data->index_max_copy);
+			printf("index - %d AND index_min_copy = %d AND index_max_copy = %d\n", data->index, data->index_min_copy, data->index_max_copy);
 		}
 		else if (buf[0] == 29 && buf[1] == 0) // AFFICHE MESSAGE DE DEBUG 2
 		{
-//			printf("data->index_min_win = %d\n", data->index_min_win);
+			exec_tcap("up");
 		}
 		else
 		{
