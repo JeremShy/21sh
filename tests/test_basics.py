@@ -4,6 +4,7 @@ import unittest
 
 BINARY_NAME = "21sh"
 
+
 class TestBasics(unittest.TestCase):
     tests_dir = os.path.split(__file__)[0]
     binary = "%s/../%s" % (tests_dir, BINARY_NAME)
@@ -37,7 +38,11 @@ class TestBasics(unittest.TestCase):
             ["%s" % self.binary], stdin=p_command.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         p_command.stdout.close()
         stdout, stderr = p_minishell.communicate()
-        return stdout.replace(self.prompt, ""), stderr
+
+        stdout = stdout.replace("%s\n" % self.prompt, "")
+        stdout = stdout.replace("%s" % self.prompt, "")
+
+        return stdout, stderr
 
     @staticmethod
     def execute_real_shell(command):
@@ -63,6 +68,26 @@ class TestBasics(unittest.TestCase):
         stdout, stderr = self.execute_my_shell([""])
         self.assertEqual("", stdout)
         self.assertEqual("", stderr)
+
+    def test_ls_00(self):
+        self.compare_shells(["ls"])
+
+    def test_ls_01(self):
+        self.compare_shells(["/bin/ls"])
+
+    def test_ls_02(self):
+        self.compare_shells(["/bin/ls", "-r"])
+
+    def test_ls_03(self):
+        self.compare_shells(["/bin/ls", "-rt"])
+
+    def test_ls_04(self):
+        self.compare_shells(["/bin/echo", "data"])
+
+    def test_env_00(self):
+        my_env = self.execute_my_shell(["env"])[0]
+        self.assertIn("PATH=", my_env)
+        self.assertIn("PWD=", my_env)
 
 
 if __name__ == "__main__":
