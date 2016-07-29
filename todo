@@ -48,3 +48,4 @@ on lit dans le out
 
 
 - Penser a supprimer les *.a avant le rendu
+- check des TODO dans le code pour supprimer les variables inutiles
