@@ -6,13 +6,13 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/01 19:38:44 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/01 16:27:41 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/27 18:54:59 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-t_termios	*init_term(void)
+t_termios	*init_term(t_env *env)
 {
 	t_termios	term;
 	t_termios	*ret;
@@ -27,8 +27,12 @@ t_termios	*init_term(void)
 	term.c_cc[VTIME] = 0;
 	if (tcsetattr(0, TCSADRAIN, &term) == -1)
 		return (NULL);
-	if ((name_term = getenv("TERM")) == NULL)
+	name_term = find_arg(env, "TERM");
+	if (ft_strequ(name_term, ""))
+	{
+		free(name_term);
 		return (NULL);
+	}
 	if (tgetent(NULL, name_term) == ERR)
 		return (NULL);
 	return (ret);
@@ -54,6 +58,20 @@ int		my_putchar(int c)
 	return (c);
 }
 
-void exec_tcap(char *tcap) {
+void exec_tcap(char *tcap)
+{
 	tputs(tgetstr(tcap, NULL), 1, my_putchar);
+}
+
+void invert_term(void)
+{
+	t_termios	*tmp;
+	t_termios	*current;
+
+	current = malloc(sizeof(t_termios));
+	tmp = singleton_termios(NULL, 0);
+	tcgetattr(0, current);
+	tcsetattr(0, TCSADRAIN, tmp);
+	free(tmp);
+	singleton_termios(current, 1);
 }

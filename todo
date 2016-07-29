@@ -1,14 +1,18 @@
 OH MON DIEU C'EST TOUT DOUX
 
--	Fermer stdout et stderr (>&-, 2>&-, 1>&-).,.
--	ls > ""
--	ls a b c e 2>&1 f g h i-> ls a b c f g h i > e
 -	historique mulitiligne
 -	depassement taille terminal
--	BNF ?
 - yank paste
 - leaks parsing
-- heredoc
+-	bug pour few |fwe
+- dquote bug parfois quand on modifie un des trucs avec les fleches
+-	ls << a << b segfault
+- echo "blblb\n" | cat -e
+- reinitialiser chaque valeur utile lors d'un probleme (Ctrl-C, parse error, etc, ...)
+- pour le clipboard, faire le up et down
+- quand le term entier est rempli de bullshit et que l'on remonte tout en haut (le fameux MDR GROS CON)
+- Home + page down kibug
+- echo -n + fleche gauche (probleme avec le prompt)
 
 {
 	commande -> {
@@ -22,9 +26,9 @@ OH MON DIEU C'EST TOUT DOUX
 		}
 }
 
-ls 2> truc 2>&1 penis
+ls 2> truc 2>&1 peni
 
-ls > a > b > c
+ls > a > b
 
 {
 	av;
@@ -35,3 +39,13 @@ ls > a > b > c
 	fd_in; 0
 	fd_err; 2 - b
 }
+
+pipe -> in : 3 out : 4
+
+on ecrit dans le in
+on ferme le in
+on lit dans le out
+
+
+- Penser a supprimer les *.a avant le rendu
+- check des TODO dans le code pour supprimer les variables inutiles

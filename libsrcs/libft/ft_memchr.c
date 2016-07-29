@@ -14,11 +14,9 @@
 
 void	*ft_memchr(const void *s, int c, size_t n)
 {
-	char		car;
 	int			i;
 	const char	*str;
 
-	car = (char)c;
 	i = 0;
 	str = s;
 	while (i < (int)n)

@@ -8,8 +8,20 @@ programme >/dev/null 2>&1
 stdout > /dev/null
 stderr > stdout
 
-ls > a 1>&1 1>&1
+ls 1>&2 2> a
 
 stdin : -1
-stdout : 1 - 1 - 1 - 1
-stderr : -1
+stdout : 3
+stderr : 3
+
+2>&1
+cmd-> stdin ->> -1
+elem1
+elem1, elem2
+elem1, elem2
+
+MORE THAN ONE FD
+{
+	on fait ls dans le premier
+	on fait ls dans le deuxieme
+}
