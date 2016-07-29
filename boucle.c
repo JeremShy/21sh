@@ -417,6 +417,7 @@ void	boucle(t_env *env, t_data *data)
 			{
 				flag++;
 				first = ft_strdup(data->cmd);
+				(void)first; // TODO
 			}
 			move_up_history(data, env);
 		}

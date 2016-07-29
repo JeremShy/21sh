@@ -135,6 +135,7 @@ void move_r2l(t_data *data)
 	int		i;
 
 	i = 0;
+	(void)i; // TODO not used
 	exec_tcap("do");
 	exec_tcap("cr");
 	data->index++;

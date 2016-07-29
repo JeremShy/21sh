@@ -17,6 +17,7 @@ void sigint(int sig)
   t_data  *data;
 
   sig = 0;
+	(void)sig; // TODO set but not used
   data = singleton_data(NULL, 0);
   while (data->index < (int)ft_strlen(data->cmd))
     move_right_without_mod(data);
@@ -79,6 +80,7 @@ void clear_cmd(t_data	*data)
 	int	i;
 
 	old_index = data->index;
+	(void)old_index; //TODO useless set
 	exec_tcap("cr");
 	i = get_actual_line(data);
 	j = get_line_max(data);
@@ -157,7 +159,9 @@ void sigwinch(int sig)
 
   data = singleton_data(NULL, 0);
   sig = 0;
+	(void)sig;
 	old_line_max = get_line_max(data);
+	(void)old_line_max; // TODO useless set
   get_winsize(data);
   get_index_min_win(data);
 	if (((data->len_prompt + (int)ft_strlen(data->cmd)) % (data->win_x)) == 0 )
