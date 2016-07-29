@@ -14,4 +14,4 @@ install:
   - make
 
 script:
-- ls -l
+- make check

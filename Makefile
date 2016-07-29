@@ -97,4 +97,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY : all clean fclean re
+check: $(NAME)
+	python -m unittest discover tests/
+
+.PHONY : all clean fclean re check
