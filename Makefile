@@ -68,18 +68,18 @@ INC = $(addprefix -I,$(INC_PATH))
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	@mkdir ./lib 2> /dev/null || true
+	@mkdir -p ./lib
 #	make -C libsrcs/libft
 #	make -C libsrcs/ft_printf
 	$(CC) $(CFLAGS) $(LFLAGS) $(INC) -o $@ $^
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
-	@mkdir $(OBJ_PATH) 2> /dev/null || true
+	@mkdir -p $(OBJ_PATH)
 	$(CC) $(CFLAGS) $(INC) -o $@ -c $<
 
 clean:
 	/bin/rm -fv $(OBJ)
-	@rmdir $(OBJ_PATH) 2> /dev/null || true
+	@rmdir -p $(OBJ_PATH)
 #	make -C libsrcs/libft clean
 #	make -C libsrcs/ft_printf clean
 
