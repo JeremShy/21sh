@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 15:30:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/29 00:01:12 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/29 20:39:27 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ void	move_down_history(t_data *data, t_env *env)
 int	create_history(t_data *data, t_env **env)
 {
 	int i;
+	t_cmd	*cmd;
 
 	i = 0;
 	// printf("DATA->INDEX = %d\n", data->index);
@@ -172,10 +173,15 @@ int	create_history(t_data *data, t_env **env)
 		// printf("\nexecuting command now...\n");
 		data->index = 0;
 		invert_term();
-		signal(SIGINT, SIG_IGN);
-		exec_cmd(env, parse(data->cmd, data->heredocs, env, data), data); // On execute la commande.
-		signal(SIGINT, sigint);
-		invert_term();
+		cmd = parse(data->cmd, data->heredocs, env, data);
+		if (cmd)
+		{
+			signal(SIGINT, SIG_IGN);
+			exec_cmd(env, cmd, data); // On execute la commande.
+			signal(SIGINT, sigint);
+			invert_term();
+			printf("return code : %d\n", cmd->ret);
+		}
 		// printf("\nthe command has been executed\n");
 		// display_heredoc(data->heredocs);
 		data->c = '\0';

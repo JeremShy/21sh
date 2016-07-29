@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/29 15:57:03 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/07/29 20:36:22 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef	struct		s_cmd {
 	t_fd					*fd_err;	//2
 	int						p_error;
 	int						error;
+	int						ret; // valeur de retour du programme
 }								t_cmd;
 
 typedef struct	s_history {
