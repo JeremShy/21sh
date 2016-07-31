@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/29 00:06:42 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/07/29 17:55:47 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,4 +227,6 @@ void				move_r2l(t_data *data);
 void				move_l2r(t_data *data);
 void				previous_word(t_data *data);
 void				next_word(t_data *data);
+int			ft_setenv(char **scmd, t_env **env);
+
 #endif
