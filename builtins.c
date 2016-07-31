@@ -6,48 +6,19 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 16:57:59 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/29 19:43:48 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/07/31 23:17:20 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-t_env *create_new_env(t_data *data, t_env **env, char **scmd)
-{
-	char	**new_elem;
-	t_env	*tmp;
-	int	i;
-
-	i = 0;
-	if (data->in_env_i == 1)
-		tmp = NULL;
-	else
-		tmp = *env;
-	if (scmd[i] && ft_strchr(scmd[i], '='))
-	{
-		data->in_env_i = 1;
-		while (scmd[i] && ft_strchr(scmd[i], '='))
-		{
-			new_elem = ft_strsplit(scmd[i], '=');
-			tmp = add_elem_end(tmp, new_elem[0], new_elem[1]);
-			// tmp = tmp->next;
-			i++;
-		}
-		// tmp = NULL;
-	}
-	return (tmp);
-}
-
 int			ft_env(t_env **env, char **scmd, t_data *data)
 {
 	int	i;
-	char *new_str;
-	t_env *old_env;
-	t_env	*new;
 
 	i = 1;
-	new = NULL;
-	old_env = *env;
+	if (!scmd[1])
+		return (print_env(*env));
 	while (scmd[i] && scmd[i][0] == '-')
 	{
 		if (scmd[i][1] == '-')
@@ -56,42 +27,7 @@ int			ft_env(t_env **env, char **scmd, t_data *data)
 			data->in_env_i = 1;
 		i++;
 	}
-	new = create_new_env(data, env, scmd + i);
-	while (scmd[i] && ft_strchr(scmd[i], '='))
-		i++;
-	if (data->in_env_i >= 1)
-	{
-		new_str = ft_strdup("");
-		while (scmd[i])
-		{
-			new_str = ft_strjoinaf1(new_str, scmd[i]);
-			i++;
-		}
-		if (ft_strnstr(new_str, "env", ft_strlen("env")))
-		{
-			if (!new)
-				printf("passe\n");
-			while (new)
-			{
-				ft_printf("%s=%s\n", new->name, new->arg);
-				new = new->next;
-			}
-			return (1);
-		}
-		data->in_env_i = 0;
-		exec_cmd(&new, parse(new_str, data->heredocs, &new, data),  data);
-		// old_env = *env;
-		// Faut free des trucs.
-		*env = old_env;
-		return (1);
-	}
-	while (*env)
-	{
-		ft_printf("%s=%s\n", (*env)->name, (*env)->arg);
-		*env =(*env)->next;
-	}
-	*env = old_env;
-	return (1);
+	return (env_tmp_exec(env, data, scmd + i));
 }
 
 int			ft_setenv(char **scmd, t_env **env)

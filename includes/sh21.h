@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/29 17:55:47 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/07/31 23:16:16 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,5 +228,11 @@ void				move_l2r(t_data *data);
 void				previous_word(t_data *data);
 void				next_word(t_data *data);
 int			ft_setenv(char **scmd, t_env **env);
+
+/*builtin_env*/
+int	env_tmp_exec(t_env **env, t_data *data, char **scmd);
+t_env *create_tmp_env(t_data *data, t_env *env, char **scmd);
+t_env	*copy_env(t_env *env);
+int	print_env(t_env *new);
 
 #endif

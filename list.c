@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 14:59:10 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/03/14 14:55:58 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/07/31 18:47:05 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ static t_env	*create_elem(char *name, char *arg)
 
 	ret = malloc(sizeof(t_list));
 	ret->name = ft_strdup(name);
-	ret->arg = ft_strdup(arg);
+	if (!arg)
+		ret->arg = ft_strdup("");
+	else
+		ret->arg = ft_strdup(arg);
 	ret->next = NULL;
 	return (ret);
 }
@@ -45,7 +48,11 @@ void			change_arg(t_env *list, char *name, char *new_arg)
 		if (ft_strequ(list->name, name))
 		{
 			free(list->arg);
-			list->arg = ft_strdup(new_arg);
+			if (!new_arg)
+				list->arg = ft_strdup("");
+			else
+				list->arg = ft_strdup(new_arg);
+			break;
 		}
 		list = list->next;
 	}
