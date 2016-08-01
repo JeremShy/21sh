@@ -146,7 +146,7 @@ class TestBasics(unittest.TestCase):
     def test_left_00(self):
         my_in = "in.my"
         with open(my_in, 'w') as fd:
-                fd.write("data")
+            fd.write("data")
         self.compare_shells(["cat", "<", "%s" % my_in])
         os.remove(my_in)
 
