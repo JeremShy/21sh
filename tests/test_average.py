@@ -164,6 +164,30 @@ class TestBasics(unittest.TestCase):
         self.compare_shells(["cat", "<", "%s" % my_in, "|", "cat -e", "|", "sort"])
         os.remove(my_in)
 
+    def test_left_pipe_right_00(self):
+        data_in = "in.my"
+        my_out = "out.my"
+        ref_out = "out.ref"
+        for f in [my_out, ref_out]:
+            with open(f, 'w') as fd:
+                fd.write("")
+        with open(data_in, 'w') as fd:
+            fd.write("3\n2\n1\n")
+
+        def cli(output):
+            return ["cat", "<", "%s" % data_in, "|", "cat -e", "|", "sort", ">", "%s" % output]
+
+        self.execute_my_shell(cli(my_out))
+        self.execute_real_shell(cli(ref_out))
+
+        with open(my_out, 'r') as my:
+            with open(ref_out, 'r') as ref:
+                # self.assertEqual(ref.read(), my.read())
+                # TODO
+                pass
+        for f in [data_in, my_out, ref_out]:
+            os.remove(f)
+
 
 if __name__ == "__main__":
     unittest.main()
