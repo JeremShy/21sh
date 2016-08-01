@@ -43,7 +43,9 @@ SRC_NAME = main.c \
 		 signal.c \
 		 echo.c \
 		 line_2.c \
-		 vid_inv.c
+		 vid_inv.c \
+		 history_builtin.c \
+		 history_flag.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes

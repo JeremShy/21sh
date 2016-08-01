@@ -100,6 +100,8 @@ typedef struct	s_data {
 	int				real_len_cmd; //longueur reelle de la commande
 	t_history	*history; //Dernier element historique
 	t_history	*history_en_cours; //Emplacement en cours dans l;historique
+	int				history_fd;
+	int				history_flag[8];
 	char			*nouveau; //Chais pu
 	char 			*key_here; //Cle du heredoc
 	size_t		end_hd; //fin du heredoc
@@ -227,4 +229,16 @@ void				move_r2l(t_data *data);
 void				move_l2r(t_data *data);
 void				previous_word(t_data *data);
 void				next_word(t_data *data);
+void				init_history(t_data *data);
+int					ft_history(char **scmd, t_data *data);
+void				init_flag(t_data *data);
+int					history_flag_none(t_data *data);
+int					history_flag_c(t_data *data);
+int					history_flag_d(t_data *data);
+int					history_flag_a(t_data *data);
+int					history_flag_w(t_data *data);
+int					history_flag_r(t_data *data);
+int					history_flag_n(t_data *data);
+int					history_flag_p(t_data *data);
+int					history_flag_s(t_data *data);
 #endif

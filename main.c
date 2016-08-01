@@ -104,6 +104,7 @@ int			main(int ac, char **av, char **env)
 	data.command_save = ft_strdup("");
 	data.clipboard = NULL;
 	get_index_min_win(&data);
+	init_history(&data);
 	singleton_data(&data, 1);
 	boucle(list, &data); // Entre dans la boucle principale du programme.
 	return (0);
