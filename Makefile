@@ -1,18 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/12/08 11:49:18 by jcamhi            #+#    #+#              #
-#    Updated: 2016/07/27 20:34:23 by jcamhi           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-# ft_source.c
-
-
 SRC_NAME = main.c \
 	   env.c \
 	   list.c \
@@ -43,6 +28,8 @@ SRC_NAME = main.c \
 		 signal.c \
 		 echo.c \
 		 line_2.c \
+		 history_builtin.c \
+		 history_flag.c \
 		 vid_inv.c
 
 OBJ_PATH = ./obj/
@@ -90,7 +77,7 @@ clean:
 	make -C libsrcs/ft_printf clean
 
 fclean: clean
-	rm -fv $(NAME)
+	rm -fv $(NAME) $(NAMELIB)
 	make -C libsrcs/libft fclean
 	make -C libsrcs/ft_printf fclean
 	#@rmdir lib 2> /dev/null || true

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/10 16:57:59 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/18 19:26:13 by jcamhi           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <sh21.h>
 
 int			ft_env(t_env **env, char **scmd, t_data *data)
@@ -74,10 +62,13 @@ int			ft_unsetenv(char **scmd, t_env **env)
 	return (1);
 }
 
-static int	ft_exit_bi(t_env *env)
+static int	ft_exit_bi(char **scmd, t_env *env)
 {
 	delete_list(env);
-	exit(EXIT_SUCCESS);
+	if (scmd[1])
+		exit(ft_atoi(scmd[1]));
+	else
+		exit(EXIT_SUCCESS);
 	return (1);
 }
 
@@ -92,9 +83,11 @@ int			exec_builtin(char **scmd, t_env **env, t_data *data)
 	else if (ft_strequ(scmd[0], "unsetenv"))
 		return (ft_unsetenv(scmd, env));
 	else if (ft_strequ(scmd[0], "exit"))
-		return (ft_exit_bi(*env));
+		return (ft_exit_bi(scmd, *env));
 	else if (ft_strequ(scmd[0], "echo"))
 		return (ft_echo(scmd + 1, *env));
+	else if (ft_strequ(scmd[0], "history"))
+		return (ft_history(scmd + 1, data));
 	// else if (ft_strequ(sc	md[0], "source"))
 		// return (ft_source(scmd, env));
 	return (0);

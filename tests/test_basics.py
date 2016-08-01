@@ -12,14 +12,9 @@ class TestBasics(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        os.write(1, "\nRunning %s\n" % __file__)
         if os.path.isfile(cls.binary) is False:
             raise IOError("Make the project: %s not here\n" % cls.binary)
         cls.prompt = cls.get_prompt(cls.binary)
-
-    @classmethod
-    def tearDownClass(cls):
-        os.write(1, "\n")
 
     @staticmethod
     def get_prompt(binary):

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/09 14:30:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/28 20:38:51 by vsteffen         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <sh21.h>
 
 char	*print_prompt(t_env *env, t_data *data)
@@ -104,6 +92,7 @@ int			main(int ac, char **av, char **env)
 	data.command_save = ft_strdup("");
 	data.clipboard = NULL;
 	get_index_min_win(&data);
+	// init_history(&data);
 	singleton_data(&data, 1);
 	boucle(list, &data); // Entre dans la boucle principale du programme.
 	return (0);
