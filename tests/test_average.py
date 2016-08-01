@@ -90,6 +90,25 @@ class TestBasics(unittest.TestCase):
                              "|", "cat -e", "|", "sort", "|", "rev", "|", "sort", "|", "cat -e",
                              "|", "cat -e", "|", "cat -e"])
 
+    def test_right_00(self):
+        out = "out"
+        self.compare_shells(["ls", ">", "%s" % out])
+        os.remove(out)
+
+    def test_right_01(self):
+        my_out = "out.my"
+        ref_out = "out.ref"
+        for f in [my_out, ref_out]:
+            with open(f, 'w') as fd:
+                fd.write("")
+        self.execute_my_shell(["ls", ">", "%s" % my_out])
+        self.execute_real_shell(["ls", ">", "%s" % ref_out])
+        with open(my_out, 'r') as my:
+            with open(ref_out, 'r') as ref:
+                self.assertEqual(ref.read(), my.read())
+        for f in [my_out, ref_out]:
+            os.remove(f)
+
 
 if __name__ == "__main__":
     unittest.main()
