@@ -4,7 +4,7 @@ OH MON DIEU C'EST TOUT DOUX
 -	depassement taille terminal
 - yank paste
 - leaks parsing
--	bug pour few |fwe
+#	bug pour few |fwe
 - dquote bug parfois quand on modifie un des trucs avec les fleches
 -	ls << a << b segfault
 - echo "blblb\n" | cat -e
@@ -12,7 +12,6 @@ OH MON DIEU C'EST TOUT DOUX
 - pour le clipboard, faire le up et down
 - quand le term entier est rempli de bullshit et que l'on remonte tout en haut (le fameux MDR GROS CON)
 - Home + page down kibug
-- echo -n + fleche gauche (probleme avec le prompt)
 
 {
 	commande -> {

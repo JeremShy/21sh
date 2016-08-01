@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/28 14:37:12 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/11 18:25:38 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/08/01 02:22:22 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int spawn_proc (t_cmd *cmd, t_env *env)
 	if ((pid = fork ()) == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		printf("XX on execute : %s\n", cmd->av[0]);
+		// printf("XX on execute : %s\n", cmd->av[0]);
 		if (in != 0)
 		{
 			dup2(in, 0);
@@ -96,7 +96,7 @@ int	fork_pipes(t_cmd *cmd, t_env *env)
 		cmd->fd_in->fd = fd[0];
 		i++;
 	}
-	printf("on execute : %s\n", cmd->av[0]);
+	// printf("on execute : %s\n", cmd->av[0]);
 	if (cmd->fd_in->fd != 0)
 		dup2(cmd->fd_in->fd, 0);
 	file = find_exec(cmd->av[0], env);
