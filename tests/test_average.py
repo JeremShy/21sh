@@ -150,6 +150,20 @@ class TestBasics(unittest.TestCase):
         self.compare_shells(["cat", "<", "%s" % my_in])
         os.remove(my_in)
 
+    def test_left_pipe_00(self):
+        my_in = "in.my"
+        with open(my_in, 'w') as fd:
+            fd.write("data")
+        self.compare_shells(["cat", "<", "%s" % my_in, "|", "cat -e"])
+        os.remove(my_in)
+
+    def test_left_pipe_01(self):
+        my_in = "in.my"
+        with open(my_in, 'w') as fd:
+            fd.write("3\n2\n1\n")
+        self.compare_shells(["cat", "<", "%s" % my_in, "|", "cat -e", "|", "sort"])
+        os.remove(my_in)
+
 
 if __name__ == "__main__":
     unittest.main()
