@@ -143,6 +143,13 @@ class TestBasics(unittest.TestCase):
         for f in [my_out, ref_out]:
             os.remove(f)
 
+    def test_left_00(self):
+        my_in = "in.my"
+        with open(my_in, 'w') as fd:
+                fd.write("data")
+        self.compare_shells(["cat", "<", "%s" % my_in])
+        os.remove(my_in)
+
 
 if __name__ == "__main__":
     unittest.main()
