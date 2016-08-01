@@ -1,0 +1,8 @@
+*.o
+21sh
+*.dSYM
+a.out
+*.a
+/lib
+/obj
+/.idea
