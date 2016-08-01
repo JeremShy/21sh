@@ -69,8 +69,26 @@ class TestBasics(unittest.TestCase):
         self.assertEqual("", stdout)
         self.assertEqual("", stderr)
 
-    def test_ls_00(self):
+    def test_semi_00(self):
         self.compare_shells(["ls", ";", "ls"])
+
+    def test_pipe_00(self):
+        self.compare_shells(["ls", "|", "cat -e"])
+
+    def test_pipe_01(self):
+        self.compare_shells(["ls", "|", "cat -e", "|", "sort"])
+
+    def test_pipe_02(self):
+        self.compare_shells(["ls", "|", "cat -e", "|", "sort", "|", "rev", "|", "sort", "|", "cat -e"])
+
+    def test_pipe_03(self):
+        self.compare_shells(["ls", "|", "cat -e", "|", "sort", "|", "rev", "|", "sort", "|", "cat -e",
+                             "|", "cat -e", "|", "sort", "|", "rev", "|", "sort", "|", "cat -e"])
+
+    def test_pipe_04(self):
+        self.compare_shells(["ls", "|", "cat -e", "|", "sort", "|", "rev", "|", "sort", "|", "cat -e",
+                             "|", "cat -e", "|", "sort", "|", "rev", "|", "sort", "|", "cat -e",
+                             "|", "cat -e", "|", "cat -e"])
 
 
 if __name__ == "__main__":

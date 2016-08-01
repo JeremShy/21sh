@@ -157,10 +157,10 @@ t_cmd		*cmd_not_found(t_env *list, t_cmd *command)
 		command = command->next;
 	}
 	
-	if (last_found)
+	/*if (last_found)
 		printf("on renvoit : %s\n", last_found->av[0]);
 	else
-		printf("on renvoit rien;");
+		printf("on renvoit rien;"); TODO DEBUG*/
 	return (last_found);
 }
 
