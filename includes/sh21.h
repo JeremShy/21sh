@@ -26,6 +26,7 @@
 # include <term.h>
 # include <sys/ioctl.h>
 # include <curses.h>
+# include <sys/time.h>
 # define	NONE (char)0
 # define	POINT_VIRGULE ';'
 # define	ETET (char)1
@@ -76,6 +77,7 @@ typedef	struct		s_cmd {
 typedef struct	s_history {
 	char							*line;
 	int								index;
+	int								time;
 	struct s_history	*next;
 	struct s_history	*prec;
 
@@ -232,6 +234,7 @@ void				next_word(t_data *data);
 void				init_history(t_data *data);
 int					ft_history(char **scmd, t_data *data);
 void				init_flag(t_data *data);
+int					get_history_fd(t_data *data);
 int					history_flag_none(t_data *data);
 int					history_flag_c(t_data *data);
 int					history_flag_d(t_data *data);
