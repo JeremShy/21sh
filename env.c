@@ -21,13 +21,34 @@ static t_env	*parse_line(t_env *ret, char *env)
 	return (ret);
 }
 
+char	*get_path(void)
+{
+	char	path[255];
+	int		r;
+	int		fd;
+
+	r = 0;
+	if ((fd = open("/etc/paths", O_RDONLY)) == -1)
+		return (NULL);
+	r = read(fd, path, 255);
+	close(fd);
+	path[r - 1] = '\0';
+	r = 0;
+	while (path[r])
+	{
+		if (path[r] == '\n')
+			path[r] = ':';
+		r++;
+	}
+	return (ft_strdup(path));
+}
+
 static t_env	*init_list_no_env(void)
 {
 	t_env	*ret;
 	char	*tmp;
 
-	tmp = ft_strdup("/nfs/2015/j/jcamhi/.brew/bin:/usr/bin:/bin:/usr/sbin");
-	tmp = ft_strjoinaf1(tmp, ":/sbin:/usr/local/bin:/usr/local/munki");
+	tmp = get_path();
 	ret = add_elem_end(NULL, "PATH", tmp);
 	free(tmp);
 	tmp = getcwd(NULL, 0);

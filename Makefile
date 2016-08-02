@@ -30,7 +30,8 @@ SRC_NAME = main.c \
 		 line_2.c \
 		 history_builtin.c \
 		 history_flag.c \
-		 vid_inv.c
+		 vid_inv.c \
+		 builtin_env.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes

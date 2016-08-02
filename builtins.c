@@ -3,11 +3,10 @@
 int			ft_env(t_env **env, char **scmd, t_data *data)
 {
 	int	i;
-	char *new_str;
-	t_env *old_env;
 
 	i = 1;
-	old_env = *env;
+	if (!scmd[1])
+		return (print_env(*env));
 	while (scmd[i] && scmd[i][0] == '-')
 	{
 		if (scmd[i][1] == '-')
@@ -16,26 +15,7 @@ int			ft_env(t_env **env, char **scmd, t_data *data)
 			data->in_env_i = 1;
 		i++;
 	}
-	if (data->in_env_i)
-	{
-		new_str = ft_strdup("");
-		while (scmd[i])
-		{
-			new_str = ft_strjoinaf1(new_str, scmd[i]);
-			i++;
-		}
-		exec_cmd(env, parse(new_str, data->heredocs, env, data),  data);
-		old_env = *env;
-		// Faut free des trucs.
-		return (1);
-	}
-	while (*env)
-	{
-		ft_printf("%s=%s\n", (*env)->name, (*env)->arg);
-		*env =(*env)->next;
-	}
-	*env = old_env;
-	return (1);
+	return (env_tmp_exec(env, data, scmd + i));
 }
 
 int			ft_setenv(char **scmd, t_env **env)

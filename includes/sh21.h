@@ -241,4 +241,8 @@ int					history_flag_r(t_data *data);
 int					history_flag_n(t_data *data);
 int					history_flag_p(t_data *data);
 int					history_flag_s(t_data *data);
+
+/*builtin_env*/
+int					env_tmp_exec(t_env **env, t_data *data, char **scmd);
+int					print_env(t_env *env);
 #endif
