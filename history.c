@@ -15,10 +15,12 @@
 t_history	*create_history_elem(char *content)
 {
 	static int	i = 1;
+	time_t rawtime;
 	t_history		*elem;
 
 	elem = (t_history*)malloc(sizeof(t_history));
 	elem->line = ft_strdup(content);
+	elem->time = (int)time(&rawtime);
 	elem->index = i;
 	elem->next = NULL;
 	elem->prec = NULL;
@@ -86,6 +88,18 @@ int get_history_fd(t_data *data)
 	return (0);
 }
 
+int		get_history_command_part(char *line)
+{
+	int		i;
+
+	i = 0;
+	while (line[i] != ';' && line[i] != '\0')
+		i++;
+	if (line[i] == ';')
+		i++;
+	return (i);
+}
+
 void init_history(t_data *data)
 {
 	char		*line;
@@ -95,7 +109,8 @@ void init_history(t_data *data)
 		return ;
 	while (get_next_line(data->history_fd, &line) == 1)
 	{
-		data->history = add_history_elem(data->history, create_history_elem(line));
+		get_history_command_part(line);
+		data->history = add_history_elem(data->history, create_history_elem(line + get_history_command_part(line)));
 	}
 	if (close(data->history_fd) == -1)
 		ft_putstr_fd("42sh: history: Failed to open/close history file\n", 2);
