@@ -76,7 +76,6 @@ typedef	struct		s_cmd {
 
 typedef struct	s_history {
 	char							*line;
-	int								index;
 	int								time;
 	struct s_history	*next;
 	struct s_history	*prec;

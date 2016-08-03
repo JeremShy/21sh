@@ -14,17 +14,15 @@
 
 t_history	*create_history_elem(char *content)
 {
-	static int	i = 1;
-	time_t rawtime;
-	t_history		*elem;
+	struct timeval 	tv;
+	t_history				*elem;
 
 	elem = (t_history*)malloc(sizeof(t_history));
 	elem->line = ft_strdup(content);
-	elem->time = (int)time(&rawtime);
-	elem->index = i;
+	gettimeofday(&tv, NULL);
+	elem->time = (int)tv.tv_sec;
 	elem->next = NULL;
 	elem->prec = NULL;
-	i++;
 	return (elem);
 }
 
@@ -82,7 +80,7 @@ int get_history_fd(t_data *data)
 		return (1);
 	if (access(path, F_OK) == -1)
 	{
-		data->history_fd = open(path, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		data->history_fd = open(path, O_RDWR | O_CREAT | O_TRUNC, 0600);
 	}
 	else if (access(path, R_OK) == 0)
 	{
