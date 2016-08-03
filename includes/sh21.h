@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   sh21.h                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/03 17:16:10 by jcamhi           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef SH21_H
 # define SH21_H
 # include <ft_printf.h>
@@ -63,8 +51,8 @@ typedef	struct		s_cmd {
 
 typedef struct	s_history {
 	char							*line;
-	int								index;
 	int								time;
+	int								get_from_file;
 	struct s_history	*next;
 	struct s_history	*prec;
 

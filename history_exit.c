@@ -24,8 +24,9 @@ void	history_exit(t_data *data)
 	free(path);
 	if (fd == -1)
 		return ;
-	history = data->history;
-	while (history->prec)
+	if ((history = data->history) == NULL)
+		return ;
+	while (history->prec && history->prec->get_from_file == 0)
 		history = history->prec;
 	while (history)
 	{

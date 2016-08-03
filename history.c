@@ -14,17 +14,16 @@
 
 t_history	*create_history_elem(char *content)
 {
-	static int	i = 1;
-	time_t rawtime;
-	t_history		*elem;
+	struct timeval 	tv;
+	t_history				*elem;
 
 	elem = (t_history*)malloc(sizeof(t_history));
 	elem->line = ft_strdup(content);
-	elem->time = (int)time(&rawtime);
-	elem->index = i;
+	gettimeofday(&tv, NULL);
+	elem->time = (int)tv.tv_sec;
+	elem->get_from_file = 0;
 	elem->next = NULL;
 	elem->prec = NULL;
-	i++;
 	return (elem);
 }
 
@@ -82,7 +81,7 @@ int get_history_fd(t_data *data)
 		return (1);
 	if (access(path, F_OK) == -1)
 	{
-		data->history_fd = open(path, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		data->history_fd = open(path, O_RDWR | O_CREAT | O_TRUNC, 0600);
 	}
 	else if (access(path, R_OK) == 0)
 	{
@@ -122,6 +121,7 @@ void init_history(t_data *data)
 		get_history_command_part(line);
 		data->history = add_history_elem(data->history, create_history_elem(line + get_history_command_part(line)));
 		data->history->time = ft_atoi(line);// HOTFIXE DEGUEULASSE CAR FLEMME DE CHANGER LES HEADERS POUR RAJOUTER LE TIME DU FICHIER
+		data->history->get_from_file = 1; // SAME AS ABOVE
 	}
 	if (close(data->history_fd) == -1)
 		ft_putstr_fd("42sh: history: Failed to open/close history file\n", 2);
