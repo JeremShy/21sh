@@ -29,7 +29,15 @@ SRC_NAME = main.c \
 		 echo.c \
 		 line_2.c \
 		 history_builtin.c \
-		 history_flag.c \
+		 history_flag_none.c \
+		 history_flag_c.c \
+		 history_flag_d.c \
+		 history_flag_a.c \
+		 history_flag_n.c \
+		 history_flag_r.c \
+		 history_flag_w.c \
+		 history_flag_p.c \
+		 history_flag_s.c \
 		 vid_inv.c \
 		 builtin_env.c
 
