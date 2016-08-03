@@ -21,6 +21,7 @@ t_history	*create_history_elem(char *content)
 	elem->line = ft_strdup(content);
 	gettimeofday(&tv, NULL);
 	elem->time = (int)tv.tv_sec;
+	elem->get_from_file = 0;
 	elem->next = NULL;
 	elem->prec = NULL;
 	return (elem);
@@ -120,6 +121,7 @@ void init_history(t_data *data)
 		get_history_command_part(line);
 		data->history = add_history_elem(data->history, create_history_elem(line + get_history_command_part(line)));
 		data->history->time = ft_atoi(line);// HOTFIXE DEGUEULASSE CAR FLEMME DE CHANGER LES HEADERS POUR RAJOUTER LE TIME DU FICHIER
+		data->history->get_from_file = 1; // SAME AS ABOVE
 	}
 	if (close(data->history_fd) == -1)
 		ft_putstr_fd("42sh: history: Failed to open/close history file\n", 2);

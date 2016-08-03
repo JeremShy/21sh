@@ -64,6 +64,7 @@ typedef	struct		s_cmd {
 typedef struct	s_history {
 	char							*line;
 	int								time;
+	int								get_from_file;
 	struct s_history	*next;
 	struct s_history	*prec;
 
