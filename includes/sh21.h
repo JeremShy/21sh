@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/01 23:34:22 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/08/03 15:59:18 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,6 @@
 # define	NONE (char)0
 # define	POINT_VIRGULE ';'
 # define	ETET (char)1
-// # define	PIPE '['
-// # define	CHEV_GAUCHE '<'
-// # define	DCHEV_GAUCHE 'l'
-// # define	CHEV_DROITE '>'
-// # define	ERR_SIMPLE 8 // 2>
-// # define	DCHEV_DROITE 'r'
-// # define	ERR_LONG
-// # define	ERR_OUT (char)2 // 2>&1
-// # define	OUT_OUT (char)3 // >&1
-// # define	OUT_ERR (char)4 // >&2
-// # define	OUT_ERR_L (char)5 // 1>&2
-// # define	ERR_ERR (char)6 // 2>&2
-// # define	OUT_OUT_L (char)7 // 1>&1
 
 # undef tab
 
@@ -76,7 +63,6 @@ typedef	struct		s_cmd {
 
 typedef struct	s_history {
 	char							*line;
-	int								index;
 	int								time;
 	struct s_history	*next;
 	struct s_history	*prec;
@@ -245,7 +231,7 @@ int					history_flag_r(t_data *data);
 int					history_flag_n(t_data *data);
 int					history_flag_p(t_data *data);
 int					history_flag_s(t_data *data);
-
+void				history_exit(t_data *data);
 /*builtin_env*/
 int					env_tmp_exec(t_env **env, t_data *data, char **scmd);
 int					print_env(t_env *env);

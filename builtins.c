@@ -42,8 +42,9 @@ int			ft_unsetenv(char **scmd, t_env **env)
 	return (1);
 }
 
-static int	ft_exit_bi(char **scmd, t_env *env)
+static int	ft_exit_bi(char **scmd, t_env *env, t_data *data)
 {
+	history_exit(data);
 	delete_list(env);
 	if (scmd[1])
 		exit(ft_atoi(scmd[1]));
@@ -63,7 +64,7 @@ int			exec_builtin(char **scmd, t_env **env, t_data *data)
 	else if (ft_strequ(scmd[0], "unsetenv"))
 		return (ft_unsetenv(scmd, env));
 	else if (ft_strequ(scmd[0], "exit"))
-		return (ft_exit_bi(scmd, *env));
+		return (ft_exit_bi(scmd, *env, data));
 	else if (ft_strequ(scmd[0], "echo"))
 		return (ft_echo(scmd + 1, *env));
 	else if (ft_strequ(scmd[0], "history"))
