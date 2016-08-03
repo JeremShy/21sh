@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   history_exit.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/08/03 15:27:38 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/03 16:24:38 by jcamhi           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <sh21.h>
 
 void	history_exit(t_data *data)
@@ -22,9 +10,7 @@ void	history_exit(t_data *data)
 		return ;
 	fd = open(path, O_WRONLY | O_APPEND);
 	free(path);
-	if (fd == -1)
-		return ;
-	if ((history = data->history) == NULL)
+	if (fd == -1 || (history = data->history) == NULL)
 		return ;
 	while (history->prec && history->prec->get_from_file == 0)
 		history = history->prec;

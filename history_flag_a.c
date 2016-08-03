@@ -3,17 +3,29 @@
 
 int history_flag_a(t_data *data)
 {
-  char  *path;
+  char			*path;
+	int				fd;
+	t_history	*history;
 
-  path = NULL;
-  if (get_history_path(data, &path) == 1)
-    return (1);
-  if ((data->history_fd = open(path, O_RDWR | O_APPEND, 0600)) == -1)
-  {
-    ft_putstr_fd("42sh: history: Failed to append history session on history file\n", 2);
-    free(path);
-    return (1);
-  }
-  free(path);
+	if (get_history_path(data, &path) == 1)
+		return (1);
+	fd = open(path, O_WRONLY | O_APPEND);
+	free(path);
+	if (fd == -1 || (history = data->history) == NULL)
+		return (1);
+	while (history->prec && history->prec->get_from_file == 0)
+		history = history->prec;
+	while (history)
+	{
+		path = ft_itoa_base(history->time, 10);
+		path = ft_strjoinaf1(path, ";");
+		path = ft_strjoinaf1(path, history->line);
+		path = ft_strjoinaf1(path, "\n");
+		write(fd, path, ft_strlen(path));
+		free(path);
+    history->get_from_file = 1;
+		history = history->next;
+	}
+	close(fd);
   return (0);
 }
