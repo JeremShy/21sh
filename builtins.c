@@ -95,6 +95,8 @@ int			exec_builtin(char **scmd, t_env **env, t_data *data)
 		return (ft_exit_bi(*env));
 	else if (ft_strequ(scmd[0], "echo"))
 		return (ft_echo(scmd + 1, *env));
+	else if (ft_strequ(scmd[0], "history"))
+		return (ft_history(scmd + 1, data));
 	// else if (ft_strequ(sc	md[0], "source"))
 		// return (ft_source(scmd, env));
 	return (0);

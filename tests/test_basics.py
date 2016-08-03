@@ -176,11 +176,88 @@ class TestBasics(unittest.TestCase):
         my_shell = self.execute_my_shell(["cd", dot_dot])
         self.assertIn("/", my_shell[0])
 
-    def test_cd_4(self):
+    def test_exec_dir_00(self):
         directory = "/bin"
         my_shell = self.execute_my_shell([directory])
         self.assertEqual("21sh: exec format error: %s\n" % directory, my_shell[1])
         self.assertEqual("", my_shell[0])
+
+    def test_exec_fake_00(self):
+        exe = "./fakeexec"
+        if os.path.isfile(exe):
+            os.remove(exe)
+        with open(exe, "w") as f:
+            f.write("fake exec\n")
+        os.chmod(exe, 0755)
+        my_shell = self.execute_my_shell([exe])
+        os.remove(exe)
+        self.assertEqual("21sh: exec format error: %s\n" % exe, my_shell[1])
+
+    def test_exec_fake_01(self):
+        exe = "./fakeexec"
+        if os.path.isfile(exe):
+            os.remove(exe)
+        with open(exe, "w") as f:
+            f.write("fake exec\n")
+        os.chmod(exe, 0000)
+        my_shell = self.execute_my_shell([exe])
+        os.remove(exe)
+        self.assertEqual("21sh: permission denied: %s\n" % exe, my_shell[1])
+
+    def test_exec_fake_02(self):
+        exe = "./fakeexec"
+        if os.path.isfile(exe):
+            os.remove(exe)
+        with open(exe, "w") as f:
+            f.write("fake exec\n")
+        os.chmod(exe, 0444)
+        my_shell = self.execute_my_shell([exe])
+        os.remove(exe)
+        self.assertEqual("21sh: permission denied: %s\n" % exe, my_shell[1])
+
+    def test_exec_fake_03(self):
+        exe = "./fakeexec"
+        if os.path.isfile(exe):
+            os.remove(exe)
+        with open(exe, "w") as f:
+            f.write("fake exec\n")
+        os.chmod(exe, 0666)
+        my_shell = self.execute_my_shell([exe])
+        os.remove(exe)
+        self.assertEqual("21sh: permission denied: %s\n" % exe, my_shell[1])
+
+    def test_exec_fake_04(self):
+        exe = "./fakeexec"
+        if os.path.isfile(exe):
+            os.remove(exe)
+        with open(exe, "w") as f:
+            f.write("fake exec\n")
+        os.chmod(exe, 0333)
+        my_shell = self.execute_my_shell([exe])
+        os.remove(exe)
+        self.assertEqual("21sh: exec format error: %s\n" % exe, my_shell[1])
+
+    def test_exec_fake_05(self):
+        exe = "./fakeexec"
+        if os.path.isfile(exe):
+            os.remove(exe)
+        with open(exe, "w") as f:
+            f.write("fake exec\n")
+        os.chmod(exe, 0222)
+        my_shell = self.execute_my_shell([exe])
+        os.remove(exe)
+        self.assertEqual("21sh: permission denied: %s\n" % exe, my_shell[1])
+
+    def test_exec_fake_06(self):
+        exe = "./fakeexec"
+        if os.path.isfile(exe):
+            os.remove(exe)
+        with open(exe, "w") as f:
+            f.write("fake exec\n")
+        os.chmod(exe, 0111)
+        my_shell = self.execute_my_shell([exe])
+        os.remove(exe)
+        self.assertEqual("21sh: exec format error: %s\n" % exe, my_shell[1])
 
 
 if __name__ == "__main__":
