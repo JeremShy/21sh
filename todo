@@ -5,7 +5,6 @@ OH MON DIEU C'EST TOUT DOUX
 - yank paste
 - leaks parsing
 -	bug pour few |fwe
-- dquote bug parfois quand on modifie un des trucs avec les fleches
 -	ls << a << b segfault
 - echo "blblb\n" | cat -e
 - reinitialiser chaque valeur utile lors d'un probleme (Ctrl-C, parse error, etc, ...)
@@ -13,7 +12,8 @@ OH MON DIEU C'EST TOUT DOUX
 - quand le term entier est rempli de bullshit et que l'on remonte tout en haut (le fameux MDR GROS CON)
 - Home + page down kibug
 - echo -n + fleche gauche (probleme avec le prompt)
-
+- Penser a supprimer les *.a avant le rendu
+- check des TODO dans le code pour supprimer les variables inutiles
 {
 	commande -> {
 		nom du programme
@@ -45,7 +45,3 @@ pipe -> in : 3 out : 4
 on ecrit dans le in
 on ferme le in
 on lit dans le out
-
-
-- Penser a supprimer les *.a avant le rendu
-- check des TODO dans le code pour supprimer les variables inutiles
