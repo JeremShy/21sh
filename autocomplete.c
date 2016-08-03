@@ -6,7 +6,7 @@
 /*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/03 23:03:00 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/08/03 23:42:00 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/08/03 23:44:47 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ static void	init_autocomplete(t_data *data)
 
 void ft_autocomplete(t_data *data)
 {
+	if (ft_strequ(data->cmd, ""))
+		return ;
 	if (!data->list_auto)
 	{
 		init_autocomplete(data);
