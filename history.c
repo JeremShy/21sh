@@ -32,6 +32,12 @@ t_history *add_history_elem(t_history *list, t_history *elem)
 {
 	if (list == NULL)
 		return (elem);
+	if (ft_strequ(elem->line, list->line))
+	{
+		free(elem->line);
+		free(elem);
+		return (list);
+	}
 	list->next = elem;
 	elem->prec = list;
 	return (elem);
@@ -44,7 +50,8 @@ int		get_history_path(t_data *data, char **path)
 	*path = find_arg(data->env, "HOME");
 	if (*path[0] == '\0')
 	{
-		printf("42sh: history: $HOME isn't set, impossible to create or read history file\n");
+		// ft_putstr_fd("42sh: history: $HOME isn't set, impossible to create or read history file\n", 2);
+		// print_prompt(data->env, data);
 		free(*path);
 		return (1);
 	}
@@ -62,7 +69,6 @@ int		get_history_path(t_data *data, char **path)
 			*path = ft_strjoinaf12(*path, history_name);
 		}
 	}
-	// printf("path = [%s]\n", *path);
 	return (0);
 }
 
@@ -83,7 +89,11 @@ int get_history_fd(t_data *data)
 		data->history_fd = open(path, O_RDONLY);
 	}
 	else
-		ft_putstr_fd("42sh: history: Failed to read history file\n", 2);
+	{
+		// ft_putstr_fd("42sh: history: Failed to read history file\n", 2);
+    // print_prompt(data->env, data);
+		return (1);
+	}
 	free(path);
 	return (0);
 }
@@ -111,6 +121,7 @@ void init_history(t_data *data)
 	{
 		get_history_command_part(line);
 		data->history = add_history_elem(data->history, create_history_elem(line + get_history_command_part(line)));
+		data->history->time = ft_atoi(line);// HOTFIXE DEGUEULASSE CAR FLEMME DE CHANGER LES HEADERS POUR RAJOUTER LE TIME DU FICHIER
 	}
 	if (close(data->history_fd) == -1)
 		ft_putstr_fd("42sh: history: Failed to open/close history file\n", 2);

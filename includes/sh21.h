@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/29 00:06:42 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/08/01 23:34:22 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef	struct		s_cmd {
 typedef struct	s_history {
 	char							*line;
 	int								index;
- 	int								time;
+	int								time;
 	struct s_history	*next;
 	struct s_history	*prec;
 
@@ -234,14 +234,19 @@ void				next_word(t_data *data);
 void				init_history(t_data *data);
 int					ft_history(char **scmd, t_data *data);
 void				init_flag(t_data *data);
+int					get_history_path(t_data *data, char **path);
 int					get_history_fd(t_data *data);
-int					history_flag_none(t_data *data);
+int					history_flag_none(t_data *data, char **scmd);
 int					history_flag_c(t_data *data);
-int					history_flag_d(t_data *data);
+int					history_flag_d(t_data *data, char **scmd);
 int					history_flag_a(t_data *data);
 int					history_flag_w(t_data *data);
 int					history_flag_r(t_data *data);
 int					history_flag_n(t_data *data);
 int					history_flag_p(t_data *data);
 int					history_flag_s(t_data *data);
+
+/*builtin_env*/
+int					env_tmp_exec(t_env **env, t_data *data, char **scmd);
+int					print_env(t_env *env);
 #endif

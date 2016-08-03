@@ -6,11 +6,44 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/18 18:45:34 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/19 16:54:45 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/08/01 02:59:52 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
+
+int eot()
+{
+	ft_putchar(4);
+	exec_tcap("mr");
+	ft_putchar('%');
+	exec_tcap("me");
+	exec_tcap("do");
+	return (1);
+}
+
+int	special_car(char c)
+{
+	if (c == 'a')
+		ft_putchar('\a');
+	else if (c == 'b')
+		ft_putchar('\b');
+	else if (c == 'f')
+		ft_putchar('\f');
+	else if (c == 'n')
+		ft_putchar('\n');
+	else if (c == 'r')
+		ft_putchar('\r');
+	else if (c == 't')
+		ft_putchar('\t');
+	else if (c == 'v')
+		ft_putchar('\v');
+	else if (c == '\\')
+		ft_putchar('\\');
+	else if (c == 'c')
+		return (eot());
+	return (0);
+}
 
 int ft_echo(char **scmd, t_env *env)
 {
@@ -43,28 +76,16 @@ int ft_echo(char **scmd, t_env *env)
 			{
 				if (scmd[i][j] == '\\')
 				{
-					c = scmd[i][j + 1];
-					if (c == 'a')
-						ft_putchar('\a');
-					else if (c == 'b')
-						ft_putchar('\b');
-					else if (c == 'f')
-						ft_putchar('\f');
-					else if (c == 'n')
-						ft_putchar('\n');
-					else if (c == 'r')
-						ft_putchar('\r');
-					else if (c == 't')
-						ft_putchar('\t');
-					else if (c == 'v')
-						ft_putchar('\v');
-					else if (c == '\\')
-						ft_putchar('\\');
-					else if (c == 'c')
-						return (1);
-					else
-						printf("scmd : %c\n", c);
 					j++;
+					if (scmd[i][j] == '\\')
+					{
+						c = scmd[i][j + 1];
+						if (special_car(c))
+							return (1);
+						j++;
+					}
+					else
+						write(1, &scmd[i][j], 1);
 				}
 				else
 					write(1, &scmd[i][j], 1);
@@ -78,5 +99,7 @@ int ft_echo(char **scmd, t_env *env)
 	}
 	if (flag == 0)
 		write(1, "\n", 1);
+	else
+		eot();
 	return (1);
 }

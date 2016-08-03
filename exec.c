@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/11 14:53:03 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/07/19 16:54:59 by jcamhi           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <sh21.h>
 
 static char	*print_error_no_path(char *tmp)
@@ -156,7 +144,7 @@ t_cmd		*cmd_not_found(t_env *list, t_cmd *command)
 		}
 		command = command->next;
 	}
-	
+
 	if (last_found)
 		printf("on renvoit : %s\n", last_found->av[0]);
 	else
