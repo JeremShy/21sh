@@ -6,7 +6,7 @@
 /*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/03 23:03:00 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/08/03 23:34:09 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/08/03 23:42:00 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void ft_autocomplete(t_data *data)
 	{
 		data->list_auto = data->list_auto->next;
 	}
+	if (!data->list_auto)
+		return ;
 	if (!data->cmd_before_auto)
 			data->cmd_before_auto = ft_strdup(data->cmd);
 	while (data->index > 0)

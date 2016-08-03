@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/25 18:15:40 by jcamhi            #+#    #+#              #
-#*   Updated: 2015/12/30 09:15:59 by jcamhi           ###   ########.fr       *#
+#    Updated: 2016/08/03 23:38:42 by JeremShy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,7 +94,7 @@ NAME = ../../lib/libft.a
 
 CC = gcc
 
-CFLAGS = -Werror -Wall -Wextra -c
+CFLAGS = -Werror -Wall -Wextra -c -g
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
