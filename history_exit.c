@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/03 15:27:38 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/03 16:24:38 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/08/03 17:05:31 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	history_exit(t_data *data)
 	history = data->history;
 	while (history->prec)
 		history = history->prec;
-	while (history->next)
+	while (history)
 	{
 		path = ft_itoa_base(history->time, 10);
 		path = ft_strjoinaf1(path, ";");
