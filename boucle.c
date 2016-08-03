@@ -167,6 +167,10 @@ int	create_history(t_data *data, t_env **env)
 		data->quote_or_hd = 0;
 		data->first_line_of_hd = 1;
 		data->quote_old_index = 0;
+		free(data->cmd_before_auto);
+		data->cmd_before_auto = NULL;
+		// TODO : Free la list_auto;
+		data->list_auto = NULL;
 	}
 	else
 	{
@@ -528,9 +532,16 @@ void	boucle(t_env *env, t_data *data)
 		{
 			exec_tcap("up");
 		}
+		else if (buf[0] == 9 && buf[1] == 0) // Autocompletion
+		{
+			if (!data->c && !data->mode_copy)
+			{
+				ft_autocomplete(data);
+			}
+		}
 		else
 		{
-							// ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
+				// ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
 		}
 		data->env = env;
 		get_index_min_win(data);

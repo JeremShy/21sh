@@ -40,7 +40,8 @@ SRC_NAME = main.c \
 		 history_flag_s.c \
 		 vid_inv.c \
 		 builtin_env.c \
-		 history_exit.c
+		 history_exit.c \
+		 autocomplete.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes

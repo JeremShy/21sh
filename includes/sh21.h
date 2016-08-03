@@ -63,6 +63,11 @@ typedef struct	s_hc {
 	char				*content;
 }								t_hc;
 
+typedef struct	s_auto {
+	char 					*str;
+	struct s_auto	*next;
+}								t_auto;
+
 typedef struct	s_data {
 	int				curs_x; //emplacement du cuurseur en x (absolu)
 	int				curs_y; // emplacement curseur y (relatif)
@@ -100,6 +105,8 @@ typedef struct	s_data {
 	int				index_min_copy; // premier index surligne
 	int				index_max_copy; // dernier index surligne
 	char			*clipboard; // presse papier
+	t_auto		*list_auto; // autocompletion
+	char			*cmd_before_auto; //command before autocompletion.
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
@@ -221,7 +228,7 @@ int					history_flag_n(t_data *data);
 int					history_flag_p(t_data *data);
 int					history_flag_s(t_data *data);
 void				history_exit(t_data *data);
-/*builtin_env*/
+void				ft_autocomplete(t_data *data);
 int					env_tmp_exec(t_env **env, t_data *data, char **scmd);
 int					print_env(t_env *env);
 #endif

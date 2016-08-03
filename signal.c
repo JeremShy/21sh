@@ -49,6 +49,8 @@ void sigint(int sig)
   data->first_line_of_hd = 1;
 	data->quote_old_index = 0;
   data->mode_copy = 0;
+	data->list_auto = NULL;
+	data->cmd_before_auto = NULL;
 }
 
 void get_winsize(t_data *data)
