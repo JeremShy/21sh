@@ -20,16 +20,6 @@ void	prompt_quote(t_data *data)
 	// printf("------- data->cmd = [%s]\n", data->cmd);
 }
 
-// data->history_en_cours = data->history_en_cours->prec;
-// while(data->history_en_cours &&
-// 	!ft_strnequ(data->history_en_cours->line, data->first, ft_strlen(data->first)))
-// {
-// 	printf("data->history en cours : %s\n", data->history_en_cours->line);
-// 	data->history_en_cours = data->history_en_cours->prec;
-// }
-// if (!data->history_en_cours)
-// 	return;
-
 void	move_up_history(t_data *data, t_env *env)
 {
 	t_history	*temp;
@@ -309,7 +299,10 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == 4 && buf[1] == 0)
 		// FREE DATA;
+		{
+			history_exit(data);
 			exit(0);
+		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 68 && buf[3] == 0)
 				move_left(data);
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 67 && buf[3] == 0)
