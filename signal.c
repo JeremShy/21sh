@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/07/11 14:57:58 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/07/28 18:20:14 by vsteffen         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <sh21.h>
 
 void sigint(int sig)
@@ -65,12 +53,13 @@ void sigint(int sig)
 
 void get_winsize(t_data *data)
 {
-  struct winsize w;
+   struct winsize w;
 
-  ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-  data->win_y = w.ws_row;
-  data->win_x = w.ws_col;
-	data->after_prompt = (data->len_prompt + 1) % data->win_x;
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	data->win_y = w.ws_row;
+	data->win_x = w.ws_col;
+	if (isatty(0)) // TODO zero division error if no prompt
+		data->after_prompt = (data->len_prompt + 1) % data->win_x;
 }
 
 void clear_cmd(t_data	*data)
@@ -125,9 +114,13 @@ void get_index_min_win(t_data *data)
 {
   int     rectangle;
   int     len_prompt_cmd;
-  const int max_cursor = ((data->len_prompt + (int)ft_strlen(data->cmd)) % data->win_x);
+  int		max_cursor;
 
-
+	// TODO Functional testing zero division error
+	if (isatty(0))
+		max_cursor = ((data->len_prompt + (int)ft_strlen(data->cmd)) % data->win_x);
+	else
+		max_cursor = 0;
   if (max_cursor == 0)
   {
     data->index_min_win = (int)ft_strlen(data->cmd) - (data->win_y * data->win_x);

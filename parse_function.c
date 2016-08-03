@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_function.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/08 22:10:43 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/27 22:21:55 by jcamhi           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <sh21.h>
 
 int verif_empty_quote(char *str, size_t *i) // ne supprime pas les quotes, si pas ok, renvoi un caractere apres la quote qui close

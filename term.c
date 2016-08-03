@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   term.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/01 19:38:44 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/27 18:54:59 by jcamhi           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <sh21.h>
 
 t_termios	*init_term(t_env *env)
@@ -68,10 +56,15 @@ void invert_term(void)
 	t_termios	*tmp;
 	t_termios	*current;
 
-	current = malloc(sizeof(t_termios));
-	tmp = singleton_termios(NULL, 0);
-	tcgetattr(0, current);
-	tcsetattr(0, TCSADRAIN, tmp);
-	free(tmp);
-	singleton_termios(current, 1);
+	current = (t_termios *)malloc(sizeof(t_termios));
+	// Adding this feature because of SEGV
+	// Invalid read of size 4 invert_term (term.c:74) tcsetattr (tcsetattr.c:73)
+
+	if (current && (tmp = singleton_termios(NULL, 0)))
+	{
+		tcgetattr(0, current);
+		tcsetattr(0, TCSADRAIN, tmp);
+		free(tmp);
+		singleton_termios(current, 1);
+	}
 }

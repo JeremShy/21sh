@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/29 20:36:22 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/08/01 23:34:22 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@
 # include <term.h>
 # include <sys/ioctl.h>
 # include <curses.h>
-# include <limits.h>
-# include <sys/stat.h>
+# include <sys/time.h>
 # define	NONE (char)0
 # define	POINT_VIRGULE ';'
 # define	ETET (char)1
@@ -49,7 +48,6 @@
 
 typedef struct dirent		t_dirent;
 typedef struct termios	t_termios;
-typedef struct stat			t_stat;
 
 typedef struct	s_env {
 	char			*name;
@@ -74,12 +72,12 @@ typedef	struct		s_cmd {
 	t_fd					*fd_err;	//2
 	int						p_error;
 	int						error;
-	int						ret; // valeur de retour du programme
 }								t_cmd;
 
 typedef struct	s_history {
 	char							*line;
 	int								index;
+	int								time;
 	struct s_history	*next;
 	struct s_history	*prec;
 
@@ -104,6 +102,8 @@ typedef struct	s_data {
 	int				real_len_cmd; //longueur reelle de la commande
 	t_history	*history; //Dernier element historique
 	t_history	*history_en_cours; //Emplacement en cours dans l;historique
+	int				history_fd;
+	int				history_flag[8];
 	char			*nouveau; //Chais pu
 	char 			*key_here; //Cle du heredoc
 	size_t		end_hd; //fin du heredoc
@@ -231,4 +231,22 @@ void				move_r2l(t_data *data);
 void				move_l2r(t_data *data);
 void				previous_word(t_data *data);
 void				next_word(t_data *data);
+void				init_history(t_data *data);
+int					ft_history(char **scmd, t_data *data);
+void				init_flag(t_data *data);
+int					get_history_path(t_data *data, char **path);
+int					get_history_fd(t_data *data);
+int					history_flag_none(t_data *data, char **scmd);
+int					history_flag_c(t_data *data);
+int					history_flag_d(t_data *data, char **scmd);
+int					history_flag_a(t_data *data);
+int					history_flag_w(t_data *data);
+int					history_flag_r(t_data *data);
+int					history_flag_n(t_data *data);
+int					history_flag_p(t_data *data);
+int					history_flag_s(t_data *data);
+
+/*builtin_env*/
+int					env_tmp_exec(t_env **env, t_data *data, char **scmd);
+int					print_env(t_env *env);
 #endif

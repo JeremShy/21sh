@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   line_2.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/07/25 18:31:23 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/29 00:30:21 by vsteffen         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <sh21.h>
 
 void	page_up(t_data *data)
@@ -152,7 +140,12 @@ void previous_word(t_data *data)
 			move_left_without_mod(data);
 	}
 	else
-		(void)data;
+	{
+		while (data->index > 0 && data->cmd[data->index - 1] != '\n' && ft_isspace2(data->cmd[data->index - 1]))
+			move_left(data);
+		while (data->index > 0 && data->cmd[data->index - 1] != '\n' && !(ft_isspace2(data->cmd[data->index - 1])))
+			move_left(data);
+	}
 }
 
 void next_word(t_data *data)
@@ -165,7 +158,14 @@ void next_word(t_data *data)
 			move_right_without_mod(data);
 	}
 	else
-		(void)data;
+	{
+		while (data->cmd[data->index] && !(ft_isspace2(data->cmd[data->index])) && data->index + 1 != (int)ft_strlen(data->cmd))
+		{
+			move_right(data);
+		}
+		while (data->cmd[data->index] && ft_isspace2(data->cmd[data->index]) && data->index + 1 != (int)ft_strlen(data->cmd))
+			move_right(data);
+	}
 }
 
 //abcdefghijklmnopqrstuvwxyz

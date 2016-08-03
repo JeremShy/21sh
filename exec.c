@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/11 14:53:03 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/07/29 20:36:50 by JeremShy         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <sh21.h>
 
 static char	*print_error_no_path(char *tmp)
@@ -94,7 +82,7 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i)
 	// printf("in : %d - out : %d - err - %d - command : %s\n", cmd->fd_in->fd, cmd->fd_out->fd, cmd->fd_err->fd, file);
 	process = fork();
 	if (process != 0)
-		wait(&cmd->ret);
+		wait(NULL);
 	else
 	{
 		if (!cmd->fd_in || cmd->fd_in->fd == -2)
@@ -201,7 +189,7 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 		{
 			pid = fork();
 			if (pid != 0)
-				wait(&command->ret);
+				wait(NULL);
 			else
 			{
 				signal(SIGINT, SIG_DFL);
@@ -217,6 +205,11 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 					command = cmd_not_found(*env, command);
 			}
 		}
+		// if (command && !(command->fd_in || command->fd_out || command->fd_err))
+		// {
+		// 	// Ici
+		// 	command = command->next;
+		// }
 	}
 	//free temp.
 	close_fd_cmd(temp);
