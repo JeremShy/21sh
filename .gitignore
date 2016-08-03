@@ -8,3 +8,4 @@ a.out
 /.idea
 *.pyc
 ._*
+.DS_Store
