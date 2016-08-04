@@ -93,6 +93,7 @@ int			main(int ac, char **av, char **env)
 	data.clipboard = NULL;
 	data.list_auto = NULL;
 	data.cmd_before_auto = NULL;
+	data.index_before_auto = 0;
 	get_index_min_win(&data);
 	init_history(&data);
 	singleton_data(&data, 1);

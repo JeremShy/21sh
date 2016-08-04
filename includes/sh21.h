@@ -106,7 +106,9 @@ typedef struct	s_data {
 	int				index_max_copy; // dernier index surligne
 	char			*clipboard; // presse papier
 	t_auto		*list_auto; // autocompletion
-	char			*cmd_before_auto; //command before autocompletion.
+	char			*cmd_before_auto; //commande avant autocompletion.
+	int				index_before_auto; // index avant autocompletion
+	int				index_in_word_before_auto; // Index dans le mot avant l'autocompletion (pour ls pou<tab>, ca va etre 3 par exemple);
 }				t_data;
 
 t_env				*ft_parse_env(char **env);

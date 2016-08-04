@@ -169,6 +169,7 @@ int	create_history(t_data *data, t_env **env)
 		data->quote_old_index = 0;
 		free(data->cmd_before_auto);
 		data->cmd_before_auto = NULL;
+		data->index_before_auto = 0;
 		// TODO : Free la list_auto;
 		data->list_auto = NULL;
 	}
