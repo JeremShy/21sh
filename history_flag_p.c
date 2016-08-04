@@ -10,7 +10,6 @@ int history_flag_p(t_data *data, char **scmd)
     return (0);
   else
   {
-    delete_last_history(data);
     j = 0;
     while (scmd[j] != NULL)
     {

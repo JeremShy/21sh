@@ -89,6 +89,7 @@ int	history_flag_file(t_data *data, char **scmd)
 
 int	history_flag_weird(t_data *data, char **scmd)
 {
+	delete_last_history(data);
 	if (data->history_flag[6])
 		if (history_flag_p(data, scmd) == 1)
 			return (1);

@@ -127,6 +127,34 @@ void	move_down_history(t_data *data, t_env *env)
 	}
 }
 
+int		history_subsitution_nb(t_data *data, char *command)
+{
+	int				nb;
+	t_history	*list;
+	int				i;
+
+	if ((nb = ft_atoi(command)) == 0)
+		return (0);
+	if ((list = data->history) == NULL)
+		return (0);
+	while (list->prec)
+		list = list->prec;
+	i = 1;
+	while (list->next && nb > i)
+	{
+		i++;
+		list = list->next;
+	}
+	if (nb == i)
+	{
+		free(data->cmd);
+		data->cmd = list->line;
+		return (1);
+	}
+	ft_putstr_fd("42sh: history position out of range\n", 2);
+	return (0);
+}
+
 int 	get_history_substutition_for_boucle(t_data *data, char *command)
 {
   char      *str;
@@ -134,6 +162,18 @@ int 	get_history_substutition_for_boucle(t_data *data, char *command)
   int       len;
 
   str = NULL;
+	if (command[0] == '!')
+	{
+		if (data->history != NULL)
+		{
+			free(data->cmd);
+			data->cmd = ft_strdup(data->history->line);
+			return (1);
+		}
+	}
+	else if (ft_isdigit(command[0]))
+		if (history_subsitution_nb(data, command))
+			return (1);
   list = data->history;
   len = (int)ft_strlen(command);
   while (list)
