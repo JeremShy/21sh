@@ -127,89 +127,89 @@ void	move_down_history(t_data *data, t_env *env)
 	}
 }
 
-int		history_subsitution_nb(t_data *data, char *command)
-{
-	int				nb;
-	t_history	*list;
-	int				i;
-
-	if ((nb = ft_atoi(command)) == 0)
-		return (0);
-	if ((list = data->history) == NULL)
-		return (0);
-	while (list->prec)
-		list = list->prec;
-	i = 1;
-	while (list->next && nb > i)
-	{
-		i++;
-		list = list->next;
-	}
-	if (nb == i)
-	{
-		free(data->cmd);
-		data->cmd = list->line;
-		return (1);
-	}
-	ft_putstr_fd("42sh: history position out of range\n", 2);
-	return (0);
-}
-
-int 	get_history_substutition_for_boucle(t_data *data, char *command)
-{
-  char      *str;
-  t_history *list;
-  int       len;
-
-  str = NULL;
-	if (command[0] == '!')
-	{
-		if (data->history != NULL)
-		{
-			free(data->cmd);
-			data->cmd = ft_strdup(data->history->line);
-			return (1);
-		}
-	}
-	else if (ft_isdigit(command[0]))
-		if (history_subsitution_nb(data, command))
-			return (1);
-  list = data->history;
-  len = (int)ft_strlen(command);
-  while (list)
-  {
-    if (ft_strnequ(command, list->line, len))
-		{
-			free(data->cmd);
-			data->cmd = ft_strdup(list->line);
-      return (1);
-		}
-    list = list->prec;
-  }
-	if (command[0] == '\0' || ft_isspace2(command[0]))
-		ft_putstr_fd("42sh: syntax error near unexpected token `newline'\n", 2);
-	else
-		ft_putstr_fd("42sh: command not found\n", 2);
-	free(data->cmd);
-	free(data->prompt);
-	data->prompt = print_prompt(data->env, data);
-	data->len_prompt = ft_strlen(data->prompt);
-	data->real_len_cmd = 0;
-	data->curs_x = data->len_prompt + 1;
-	data->curs_y = -1;
-	data->heredocs = NULL;
-	if (data->first)
-	{
-		free(data->first);
-		data->first = NULL;
-	}
-	data->first_search = 1;
-	data->history_en_cours = NULL;
-	data->cmd = ft_strdup("");
-	data->index = 0;
-	// SAME AS THE END OF A COMMAND EXECUTED
-	return (0);
-}
+// int		history_subsitution_nb(t_data *data, char *command)
+// {
+// 	int				nb;
+// 	t_history	*list;
+// 	int				i;
+//
+// 	if ((nb = ft_atoi(command)) == 0)
+// 		return (0);
+// 	if ((list = data->history) == NULL)
+// 		return (0);
+// 	while (list->prec)
+// 		list = list->prec;
+// 	i = 1;
+// 	while (list->next && nb > i)
+// 	{
+// 		i++;
+// 		list = list->next;
+// 	}
+// 	if (nb == i)
+// 	{
+// 		free(data->cmd);
+// 		data->cmd = list->line;
+// 		return (1);
+// 	}
+// 	ft_putstr_fd("42sh: history position out of range\n", 2);
+// 	return (0);
+// }
+//
+// int 	get_history_substutition_for_boucle(t_data *data, char *command)
+// {
+//   char      *str;
+//   t_history *list;
+//   int       len;
+//
+//   str = NULL;
+// 	if (command[0] == '!')
+// 	{
+// 		if (data->history != NULL)
+// 		{
+// 			free(data->cmd);
+// 			data->cmd = ft_strdup(data->history->line);
+// 			return (1);
+// 		}
+// 	}
+// 	else if (ft_isdigit(command[0]))
+// 		if (history_subsitution_nb(data, command))
+// 			return (1);
+//   list = data->history;
+//   len = (int)ft_strlen(command);
+//   while (list)
+//   {
+//     if (ft_strnequ(command, list->line, len))
+// 		{
+// 			free(data->cmd);
+// 			data->cmd = ft_strdup(list->line);
+//       return (1);
+// 		}
+//     list = list->prec;
+//   }
+// 	if (command[0] == '\0' || ft_isspace2(command[0]))
+// 		ft_putstr_fd("42sh: syntax error near unexpected token `newline'\n", 2);
+// 	else
+// 		ft_putstr_fd("42sh: command not found\n", 2);
+// 	free(data->cmd);
+// 	free(data->prompt);
+// 	data->prompt = print_prompt(data->env, data);
+// 	data->len_prompt = ft_strlen(data->prompt);
+// 	data->real_len_cmd = 0;
+// 	data->curs_x = data->len_prompt + 1;
+// 	data->curs_y = -1;
+// 	data->heredocs = NULL;
+// 	if (data->first)
+// 	{
+// 		free(data->first);
+// 		data->first = NULL;
+// 	}
+// 	data->first_search = 1;
+// 	data->history_en_cours = NULL;
+// 	data->cmd = ft_strdup("");
+// 	data->index = 0;
+// 	// SAME AS THE END OF A COMMAND EXECUTED
+// 	return (0);
+// }
 
 int	create_history(t_data *data, t_env **env)
 {
@@ -219,10 +219,9 @@ int	create_history(t_data *data, t_env **env)
 	// printf("DATA->INDEX = %d\n", data->index);
 	// printf("CURSEUR = [%d] /// INDEX  = [%d] /// DATA->WIN_X = [%d]\n", get_actual_cursor(data), data->index, data->win_x);
 	ft_putstr("\n");
-	if (data->cmd[0] == '!')
-		if (get_history_substutition_for_boucle(data, data->cmd + 1) == 0)
-			return (0);
-	// printf("NEW CMD ---> [%s]\n", data->cmd);
+	// if (data->cmd[0] == '!')
+	// 	if (get_history_substutition_for_boucle(data, data->cmd + 1) == 0)
+	// 		return (0);
 	if (data->c != '<' && (i = is_quote_end(data)) == 0 && (data->cmd[0] != '\0')) // Si la quote est terminée...
 	{
 		if (data->cmd_tmp[0] == '\0')
@@ -234,7 +233,7 @@ int	create_history(t_data *data, t_env **env)
 			if (data->quote_or_hd == 0) // Il ne faut pas jindre les heredocs à la commande.
 				data->cmd = ft_strjoinaf1(data->cmd_tmp, data->cmd);
 		}
-		data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
+		// data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
 		// printf("\nexecuting command now...\n");
 		data->index = 0;
 		invert_term();

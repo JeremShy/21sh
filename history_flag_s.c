@@ -71,6 +71,7 @@ char  *get_history_substutition(t_data *data, char *scmd)
   int       len;
 
   str = NULL;
+  printf("actual history = [%s]\n", data->history->line);
   if (scmd[0] == '!')
   {
     if (data->history != NULL)
@@ -89,6 +90,7 @@ char  *get_history_substutition(t_data *data, char *scmd)
   str = NULL;
   list = data->history;
   len = (int)ft_strlen(scmd);
+  printf("JE PASSE ICI ! \n");
   while (list)
   {
     if (ft_strnequ(scmd, list->line, len))

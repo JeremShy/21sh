@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/03 15:59:18 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/08/04 18:22:41 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,7 @@ void				delete_last_history(t_data *data);
 char  			*get_history_substutition(t_data *data, char *scmd);
 int					history_flag_p(t_data *data, char **scmd);
 int					history_flag_s(t_data *data, char **scmd);
+int					is_substitution(char *str, size_t *i, t_cmd *cmd, t_data *data);
 void				history_exit(t_data *data);
 /*builtin_env*/
 int					env_tmp_exec(t_env **env, t_data *data, char **scmd);
