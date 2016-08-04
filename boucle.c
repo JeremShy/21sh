@@ -127,6 +127,50 @@ void	move_down_history(t_data *data, t_env *env)
 	}
 }
 
+int 	get_history_substutition_for_boucle(t_data *data, char *command)
+{
+  char      *str;
+  t_history *list;
+  int       len;
+
+  str = NULL;
+  list = data->history;
+  len = (int)ft_strlen(command);
+  while (list)
+  {
+    if (ft_strnequ(command, list->line, len))
+		{
+			free(data->cmd);
+			data->cmd = ft_strdup(list->line);
+      return (1);
+		}
+    list = list->prec;
+  }
+	if (command[0] == '\0' || ft_isspace2(command[0]))
+		ft_putstr_fd("42sh: syntax error near unexpected token `newline'\n", 2);
+	else
+		ft_putstr_fd("42sh: command not found\n", 2);
+	free(data->cmd);
+	free(data->prompt);
+	data->prompt = print_prompt(data->env, data);
+	data->len_prompt = ft_strlen(data->prompt);
+	data->real_len_cmd = 0;
+	data->curs_x = data->len_prompt + 1;
+	data->curs_y = -1;
+	data->heredocs = NULL;
+	if (data->first)
+	{
+		free(data->first);
+		data->first = NULL;
+	}
+	data->first_search = 1;
+	data->history_en_cours = NULL;
+	data->cmd = ft_strdup("");
+	data->index = 0;
+	// SAME AS THE END OF A COMMAND EXECUTED
+	return (0);
+}
+
 int	create_history(t_data *data, t_env **env)
 {
 	int i;
@@ -135,6 +179,10 @@ int	create_history(t_data *data, t_env **env)
 	// printf("DATA->INDEX = %d\n", data->index);
 	// printf("CURSEUR = [%d] /// INDEX  = [%d] /// DATA->WIN_X = [%d]\n", get_actual_cursor(data), data->index, data->win_x);
 	ft_putstr("\n");
+	if (data->cmd[0] == '!')
+		if (get_history_substutition_for_boucle(data, data->cmd + 1) == 0)
+			return (0);
+	// printf("NEW CMD ---> [%s]\n", data->cmd);
 	if (data->c != '<' && (i = is_quote_end(data)) == 0 && (data->cmd[0] != '\0')) // Si la quote est terminée...
 	{
 		if (data->cmd_tmp[0] == '\0')
