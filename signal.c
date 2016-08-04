@@ -49,6 +49,7 @@ void sigint(int sig)
   data->first_line_of_hd = 1;
 	data->quote_old_index = 0;
   data->mode_copy = 0;
+	//TODO free list_auto
 	data->list_auto = NULL;
 	data->cmd_before_auto = NULL;
 	data->index_before_auto = 0;
