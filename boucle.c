@@ -286,10 +286,6 @@ void	boucle(t_env *env, t_data *data)
 		data->in_env_i = 0;
 		if ((ft_isalpha(buf[0]) || (buf[0] >= 32 && buf[0] <= 64) || (buf[0] >= 123 && buf[0] <= 126) || (buf[0] >= 91 && buf[0] <= 96)) && buf[1] == '\0' && !data->mode_copy)
 		{
-			//TODO free list_auto
-			data->list_auto = NULL;
-			data->cmd_before_auto = NULL;
-			data->index_before_auto = 0;
 			data->curs_x++;
 			if (data->index == (int)data->real_len_cmd)
 			{
@@ -321,11 +317,6 @@ void	boucle(t_env *env, t_data *data)
 				move_right(data);
 		else if (buf[0] == 127 && buf[1] == 0 && !data->mode_copy)
 		{
-			//TODO free list_auto
-			data->list_auto = NULL;
-			data->cmd_before_auto = NULL;
-			data->index_before_auto = 0;
-
 			if (data->index > 0)
 			{
 				delete_mode(data);
