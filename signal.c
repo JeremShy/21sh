@@ -52,6 +52,9 @@ void sigint(int sig)
 	//TODO free list_auto
 	data->list_auto = NULL;
 	data->cmd_before_auto = NULL;
+	if (data->absolute_cmd_before_auto)
+		free(data->absolute_cmd_before_auto);
+	data->absolute_cmd_before_auto = NULL;
 	data->index_before_auto = 0;
 }
 
