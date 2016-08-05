@@ -87,13 +87,17 @@ void ft_autocomplete(t_data *data)
 	char	*ptr_for_chr;
 	int		index_to_go;
 
+	if (ft_strequ(data->cmd, ""))
+		return ;
 	if (!data->absolute_cmd_before_auto)
 	{
+		while (data->cmd[data->index] && data->cmd[data->index] != ' ')
+		{
+			move_right_without_mod(data);
+		}
 		data->absolute_cmd_before_auto = ft_strdup(data->cmd);
 		data->cmd = ft_strsub(data->cmd, 0, data->index);
 	}
-	if (ft_strequ(data->cmd, ""))
-		return ;
 	if (!data->list_auto)
 	{
 		if (there_is_a_space(data->cmd, &ptr))
