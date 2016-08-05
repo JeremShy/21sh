@@ -153,8 +153,8 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 	cmd = NULL; // On initialiase notre retour.
 	if (is_parse_error(str))
 		return (NULL);
-	if (find_replace_substitution(data, str))
-		return (NULL);
+	// if (find_replace_substitution(data, str))
+	// 	return (NULL);
 	data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
 	while (str[i])
 	{
