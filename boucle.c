@@ -170,8 +170,12 @@ int	create_history(t_data *data, t_env **env)
 		data->quote_or_hd = 0;
 		data->first_line_of_hd = 1;
 		data->quote_old_index = 0;
-		free(data->cmd_before_auto);
+		if (data->cmd_before_auto)
+			free(data->cmd_before_auto);
 		data->cmd_before_auto = NULL;
+		if (data->absolute_cmd_before_auto)
+			free(data->absolute_cmd_before_auto);
+		data->absolute_cmd_before_auto = NULL;
 		data->index_before_auto = 0;
 		// TODO : Free la list_auto;
 		data->list_auto = NULL;
@@ -286,6 +290,13 @@ void	boucle(t_env *env, t_data *data)
 		data->in_env_i = 0;
 		if ((ft_isalpha(buf[0]) || (buf[0] >= 32 && buf[0] <= 64) || (buf[0] >= 123 && buf[0] <= 126) || (buf[0] >= 91 && buf[0] <= 96)) && buf[1] == '\0' && !data->mode_copy)
 		{
+			//TODO free list_auto
+			data->list_auto = NULL;
+			data->cmd_before_auto = NULL;
+			if (data->absolute_cmd_before_auto)
+				free(data->absolute_cmd_before_auto);
+			data->absolute_cmd_before_auto = NULL;
+			data->index_before_auto = 0;
 			data->curs_x++;
 			if (data->index == (int)data->real_len_cmd)
 			{
@@ -317,6 +328,14 @@ void	boucle(t_env *env, t_data *data)
 				move_right(data);
 		else if (buf[0] == 127 && buf[1] == 0 && !data->mode_copy)
 		{
+			//TODO free list_auto
+			data->list_auto = NULL;
+			data->cmd_before_auto = NULL;
+			if (data->absolute_cmd_before_auto)
+				free(data->absolute_cmd_before_auto);
+			data->absolute_cmd_before_auto = NULL;
+			data->index_before_auto = 0;
+
 			if (data->index > 0)
 			{
 				delete_mode(data);
@@ -335,6 +354,15 @@ void	boucle(t_env *env, t_data *data)
 		else if ((buf[0] == 27	&&	buf[1] == 91 && buf[2] == 72 && buf[3] == 0) ||
 							(buf[0] == 1 && buf[1] == 0)) // HOME
 			{
+				if (data->cmd_before_auto)
+					free(data->cmd_before_auto);
+				data->cmd_before_auto = NULL;
+				if (data->absolute_cmd_before_auto)
+					free(data->absolute_cmd_before_auto);
+				data->absolute_cmd_before_auto = NULL;
+				data->index_before_auto = 0;
+				// TODO : Free la list_auto;
+				data->list_auto = NULL;
 				if (data->index == data->index_max_copy)
 					data->index_max_copy = data->index_min_copy;
 				while(data->index > 0 && data->cmd[data->index - 1] != '\n')
@@ -358,6 +386,15 @@ void	boucle(t_env *env, t_data *data)
 		else if ((buf[0] == 27 && buf[1] == 91	&& buf[2] == 70 && buf[3] == 0) ||
 							(buf[0] == 5 && buf[1] == 0)) // END
 		{
+			if (data->cmd_before_auto)
+				free(data->cmd_before_auto);
+			data->cmd_before_auto = NULL;
+			if (data->absolute_cmd_before_auto)
+				free(data->absolute_cmd_before_auto);
+			data->absolute_cmd_before_auto = NULL;
+			data->index_before_auto = 0;
+			// TODO : Free la list_auto;
+			data->list_auto = NULL;
 			if (data->mode_copy)
 			{
 				if (data->index_min_copy == data->index)
@@ -391,7 +428,16 @@ void	boucle(t_env *env, t_data *data)
 			//
 			// }
 			// else
-				page_up(data);
+			if (data->cmd_before_auto)
+				free(data->cmd_before_auto);
+			data->cmd_before_auto = NULL;
+			if (data->absolute_cmd_before_auto)
+				free(data->absolute_cmd_before_auto);
+			data->absolute_cmd_before_auto = NULL;
+			data->index_before_auto = 0;
+			// TODO : Free la list_auto;
+			data->list_auto = NULL;
+			page_up(data);
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 54 && buf[3] == 126 && buf[4] == 0) // Page down
 		{
@@ -400,7 +446,16 @@ void	boucle(t_env *env, t_data *data)
 			//
 			// }
 			// else
-				page_down(data);
+			if (data->cmd_before_auto)
+				free(data->cmd_before_auto);
+			data->cmd_before_auto = NULL;
+			if (data->absolute_cmd_before_auto)
+				free(data->absolute_cmd_before_auto);
+			data->absolute_cmd_before_auto = NULL;
+			data->index_before_auto = 0;
+			// TODO : Free la list_auto;
+			data->list_auto = NULL;
+			page_down(data);
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65 && buf[3] == 0 && !data->mode_copy)
 		{
@@ -511,6 +566,15 @@ void	boucle(t_env *env, t_data *data)
 		{
 			int	i;
 
+			if (data->cmd_before_auto)
+				free(data->cmd_before_auto);
+			data->cmd_before_auto = NULL;
+			if (data->absolute_cmd_before_auto)
+				free(data->absolute_cmd_before_auto);
+			data->absolute_cmd_before_auto = NULL;
+			data->index_before_auto = 0;
+			// TODO : Free la list_auto;
+			data->list_auto = NULL;
 			if (!data->mode_copy)
 			{
 				if (data->clipboard)

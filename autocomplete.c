@@ -85,7 +85,13 @@ void ft_autocomplete(t_data *data)
 	char	*ptr;
 	char	*prefix;
 	char	*ptr_for_chr;
+	int		index_to_go;
 
+	if (!data->absolute_cmd_before_auto)
+	{
+		data->absolute_cmd_before_auto = ft_strdup(data->cmd);
+		data->cmd = ft_strsub(data->cmd, 0, data->index);
+	}
 	if (ft_strequ(data->cmd, ""))
 		return ;
 	if (!data->list_auto)
@@ -153,5 +159,10 @@ void ft_autocomplete(t_data *data)
 		data->cmd = ft_strjoin(data->cmd_before_auto, data->list_auto->str + data->index_in_word_before_auto);
 	else
 		data->cmd = ft_strdup(data->list_auto->str);
+	index_to_go = ft_strlen(data->cmd);
+	data->cmd = ft_strjoinaf1(data->cmd, data->absolute_cmd_before_auto + data->index_before_auto);
+	ft_putstr(data->absolute_cmd_before_auto + data->index_before_auto);
 	data->index = ft_strlen(data->cmd);
+	while(data->index > index_to_go)
+		move_left_without_mod(data);
 }
