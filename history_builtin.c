@@ -70,30 +70,31 @@ int	history_flag_clear(t_data *data, char **scmd)
 		return (history_flag_d(data, scmd));
 }
 
-int	history_flag_file(t_data *data)
+int	history_flag_file(t_data *data, char **scmd)
 {
 	if (data->history_flag[2])
-		if (history_flag_a(data) == 1)
+		if (history_flag_a(data, scmd[0]) == 1)
 			return (1);
 	if (data->history_flag[3])
-		if (history_flag_w(data) == 1)
+		if (history_flag_w(data, scmd[0]) == 1)
 			return (1);
 	if (data->history_flag[4])
-		if (history_flag_r(data) == 1)
+		if (history_flag_r(data, scmd[0]) == 1)
 			return (1);
 	if (data->history_flag[5])
-		if (history_flag_n(data) == 1)
+		if (history_flag_n(data, scmd[0]) == 1)
 			return (1);
 	return (0);
 }
 
-int	history_flag_weird(t_data *data)
+int	history_flag_weird(t_data *data, char **scmd)
 {
+	delete_last_history(data);
 	if (data->history_flag[6])
-		if (history_flag_p(data) == 1)
+		if (history_flag_p(data, scmd) == 1)
 			return (1);
 	if (data->history_flag[7])
-		if (history_flag_s(data) == 1)
+		if (history_flag_s(data, scmd) == 1)
 			return (1);
 	return (0);
 }
@@ -116,8 +117,8 @@ int ft_history(char **scmd, t_data *data)
 	if (data->history_flag[0] || data->history_flag[1])
 		return (history_flag_clear(data, scmd + j));
 	else if (data->history_flag[2] || data->history_flag[3] || data->history_flag[4] || data->history_flag[5])
-		return (history_flag_file(data));
+		return (history_flag_file(data, scmd + j));
 	else if (data->history_flag[6] || data->history_flag[7])
-		return (history_flag_weird(data));
+		return (history_flag_weird(data, scmd + j));
 	return (history_flag_none(data, scmd + j));
 }
