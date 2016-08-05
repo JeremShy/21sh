@@ -68,11 +68,6 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 		ft_putstr_fd("321sh: parse error near '|'\n", 2);
 		return (-1);
 	}
-	// else if (str[*i] == '!' && (ft_isspace2(str[*i + 1]) || str[*i + 1] == '\0')) // pour verifier si le premier caractere est un '!' sans arg --- Flemme de gerer tous les cas, il faut absolument que la commande soit collée au '!'
-	// {
-	// 	ft_putstr_fd("42sh: syntax error for '!'\n", 2);
-	// 	return (-1);
-	// }
 	while (str[*i])
 	{
 		while (ft_isspace2(str[*i])) // On saute les espaces
@@ -91,11 +86,6 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 			// printf("RIP ORIGINALITE\n");
 			return (count);
 		}
-		// else if (is_substitution(str, i, cmd, data) == -1)
-		// {
-		// 	// printf("PLZ SUBS TO MY CHANNEL\n");
-		// 	return (-1);
-		// }
 		else if ((tmp = skip_quotes_nb_arg(str, i, cmd)) != NULL) // Sinon  on augment notre count.
 		{
 			// printf("J'AIME LE CACA\n");
@@ -148,41 +138,6 @@ int		find_replace_substitution(t_data *data, char *str)
 	}
 	return (1);
 }
-
-
-
-
-
-
-// 	if (str[*i] == '!')
-// 	{
-// 		if (data->history == NULL || (subs = get_history_substutition(data, str)) == NULL)
-// 		{
-// 			data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
-// 			ft_putstr_fd("42sh: substitution not found\n", 2);
-// 			return (-1);
-// 		}
-// 		printf("ARG FIND -------------> [%s]\n", subs);
-// 		after_subs = *i;
-// 		// printf("avant ... = [%s]\n", str + after_subs);
-// 		while (ft_isspace2(str[after_subs]) == 0 && str[after_subs])
-// 			after_subs++;
-// 		// printf("after_subs = [%s]\n", str + after_subs);
-// 		tmp_char = str[*i];
-// 		str[*i] = '\0';
-// 		tmp_str = ft_strjoinaf1(subs, str + after_subs);
-// 		// printf("first join = [%s] /// ---> subs = [%s] AND str + after_subs = [%s]\n", tmp_str, subs, str + after_subs);
-// 		tmp_str = ft_strjoinaf2(str, tmp_str);
-// 		str[*i] = tmp_char;
-// 		free(str);
-// 		str = tmp_str;
-// 		*i = after_subs;
-// 		data->history = tmp_history;
-// 		printf("NEW STR = [%s]\n", str);
-// 		return (1);
-// 	}
-// 	return (0);
-// }
 
 t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 {
