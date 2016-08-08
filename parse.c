@@ -68,11 +68,6 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 		ft_putstr_fd("321sh: parse error near '|'\n", 2);
 		return (-1);
 	}
-	// else if (str[*i] == '!' && (ft_isspace2(str[*i + 1]) || str[*i + 1] == '\0')) // pour verifier si le premier caractere est un '!' sans arg --- Flemme de gerer tous les cas, il faut absolument que la commande soit collée au '!'
-	// {
-	// 	ft_putstr_fd("42sh: syntax error for '!'\n", 2);
-	// 	return (-1);
-	// }
 	while (str[*i])
 	{
 		while (ft_isspace2(str[*i])) // On saute les espaces
@@ -91,11 +86,6 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 			// printf("RIP ORIGINALITE\n");
 			return (count);
 		}
-		// else if (is_substitution(str, i, cmd, data) == -1)
-		// {
-		// 	// printf("PLZ SUBS TO MY CHANNEL\n");
-		// 	return (-1);
-		// }
 		else if ((tmp = skip_quotes_nb_arg(str, i, cmd)) != NULL) // Sinon  on augment notre count.
 		{
 			// printf("J'AIME LE CACA\n");
@@ -112,69 +102,6 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 	}
 	return (count);
 }
-
-// void	get_pos_after_quote_substitution(size_t *i, char *str)
-// {
-// 	char open;
-//
-// 	open = str[*i];
-// 	while (is_quote_close(open, str[*i + 1]) == 0 && str[*i + 1])
-// 		(*i)++;
-// 	if (str[*i])
-// 		(*i)++;
-// }
-
-// void	get_pos_after_quote(size_t *i, char *str)
-// {
-// 	char open;
-//
-// 	open = str[*i];
-// 	while (is_quote_close(open, str[*i + 1]) == 0 && str[*i + 1])
-// 		(*i)++;
-// 	if (str[*i])
-// 		(*i)++;
-// }
-
-// char  *get_history_substutition_parsing(t_data *data, char *scmd)
-// {
-//   char      *str;
-//   t_history *list;
-//   int       len;
-//
-//   str = NULL;
-//   printf("actual history = [%s]\n", data->history->line);
-// 	if (str[0] == '"' && str[1] == '!')
-// 		str = str + 2;
-// 	else
-// 		str = str + 1;
-//   if (scmd[0] == '!')
-//   {
-//     if (data->history != NULL)
-//     {
-//       data->history = add_history_elem(data->history, create_history_elem(data->cmd));
-//       return (ft_strdup(data->history->line));
-//     }
-//     return (NULL);
-//   }
-//   else if (ft_isdigit(scmd[0]))
-//   {
-//     if ((str = history_subsitution_nb_arg_ps(data, scmd)))
-//       return (str);
-//     return (NULL);
-//   }
-//   str = NULL;
-//   list = data->history;
-//   len = (int)ft_strlen(scmd);
-//   printf("JE PASSE ICI ! \n");
-//   while (list)
-//   {
-//     if (ft_strnequ(scmd, list->line, len))
-//       return (ft_strdup(list->line));
-//     list = list->prec;
-//   }
-//   return (str);
-// }
-
 
 void	jump_all_quote_for_arg(char *str, size_t *i)
 {
@@ -199,69 +126,6 @@ void	jump_all_quote_for_arg(char *str, size_t *i)
 	// printf("END CHAR = '%c'\n", str[*i - 1]);
 }
 
-// int		substitution_parse(t_data *data, char *str, size_t *i)
-// {
-// 	t_history	*tmp_history;
-// 	char			*subs;
-// 	char			*tmp_str;
-// 	char			tmp_char;
-// 	size_t		after_subs;
-//
-// 	// if (str[*i] == '"' && str[*i] == "!")
-//
-// 	if (data->history == NULL || (subs = get_history_substutition(data, str)) == NULL)
-// 	{
-// 		// data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
-// 		ft_putstr_fd("42sh: substitution not found\n", 2);
-// 		return (0);
-// 	}
-// 	printf("ARG FIND -------------> [%s]\n", subs);
-// 	exit(0);
-// 	after_subs = *i;
-// 	// printf("avant ... = [%s]\n", str + after_subs);
-// 	while (ft_isspace2(str[after_subs]) == 0 && str[after_subs])
-// 		after_subs++;
-// 	// printf("after_subs = [%s]\n", str + after_subs);
-// 	tmp_char = str[*i];
-// 	str[*i] = '\0';
-// 	tmp_str = ft_strjoinaf1(subs, str + after_subs);
-// 	// printf("first join = [%s] /// ---> subs = [%s] AND str + after_subs = [%s]\n", tmp_str, subs, str + after_subs);
-// 	tmp_str = ft_strjoinaf2(str, tmp_str);
-// 	str[*i] = tmp_char;
-// 	free(str);
-// 	str = tmp_str;
-// 	*i = after_subs;
-// 	data->history = tmp_history;
-// 	printf("NEW STR = [%s]\n", str);
-// 	return (1);
-// }
-
-// int		find_replace_substitution(t_data *data, char *str)
-// {
-// 	size_t				i;
-//
-// 	i = 0;
-// 	(void)data;
-// 	printf("--------------------------------------------\n");
-// 	while (str[i])
-// 	{
-// 		while (ft_isspace2(str[i]))
-// 			i++;
-// 		if (str[i] == '\0')
-// 			break ;
-// 		// if (str[i] == '!' || (str[i] == '"' && str[i] == "!"))
-// 		// {
-// 		// 	if (substitution_parse(data, str, &i) == 0)
-// 		// 		return (0);
-// 		// 	else
-// 		// 		i = 0;
-// 		// }
-// 		// else
-// 			jump_all_quote_for_arg(str, &i);
-// 	}
-// 	return (1);
-// }
-
 t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 {
 	int		count;
@@ -280,6 +144,8 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 		return (NULL);
 	printf("--------------------------------------------\n");
 	printf("RESULTAT : [%s]\n", data->cmd);
+	// if (find_replace_substitution(data, str))
+	// 	return (NULL);
 	data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
 	while (str[i])
 	{

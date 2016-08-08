@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   sh21.h                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/09 14:31:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/04 18:22:41 by vsteffen         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef SH21_H
 # define SH21_H
 # include <ft_printf.h>
@@ -75,6 +63,11 @@ typedef struct	s_hc {
 	char				*content;
 }								t_hc;
 
+typedef struct	s_auto {
+	char 					*str;
+	struct s_auto	*next;
+}								t_auto;
+
 typedef struct	s_data {
 	int				curs_x; //emplacement du cuurseur en x (absolu)
 	int				curs_y; // emplacement curseur y (relatif)
@@ -113,6 +106,11 @@ typedef struct	s_data {
 	int				index_max_copy; // dernier index surligne
 	char			*clipboard; // presse papier
 	int				flag_enter; // dans le parsing, pour savoir si on est entré dans une fonction
+	t_auto		*list_auto; // autocompletion
+	char			*cmd_before_auto; //commande avant autocompletion.
+	int				index_before_auto; // index avant autocompletion
+	int				index_in_word_before_auto; // Index dans le mot avant l'autocompletion (pour ls pou<tab>, ca va etre 3 par exemple);
+	char			*absolute_cmd_before_auto; //Veritable cmd au cas ou l'index n'est pas au bout;
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
@@ -240,7 +238,7 @@ int					history_flag_s(t_data *data, char **scmd);
 char				*history_subsitution_nb_arg_ps(t_data *data, char *command);
 int					is_substitution(char *str, size_t *i, t_cmd *cmd, t_data *data);
 void				history_exit(t_data *data);
-/*builtin_env*/
+void				ft_autocomplete(t_data *data);
 int					env_tmp_exec(t_env **env, t_data *data, char **scmd);
 int					print_env(t_env *env);
 int   			true_var_and_subs(t_data *data, char *str);

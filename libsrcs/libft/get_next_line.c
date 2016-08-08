@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/03 12:34:18 by jcamhi            #+#    #+#             */
-/*   Updated: 2015/12/17 18:09:07 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/08/03 23:39:36 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int				get_next_line(int const fd, char **line)
 	t_list			*maillon;
 	int				r;
 
+	r = 0;
 	maillon = NULL;
 	if (fd < 0 || !line)
 		return (-1);

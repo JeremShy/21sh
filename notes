@@ -23,6 +23,9 @@ Alt + V       : -30 - -120 - -102 - 0 - 0 - 0
 Alt - M       :-62 - -75 - 0 - 0 - 0 - 0 // Mode copie
 Alt + gauche	: 27 - 27 - 91 - 68 - 0 // Deplacement mot à mot vers la gauche
 Alt + droite	: 27 - 27 - 91 - 67 - 0 // Deplacement mot à mot vers la droite
+Tab						:	9 - 0 - 0 - 0 - 0 - 0 // Autocompletion
+Shift + Tab		: 27 - 91 - 90 - 0 - 0 - 0
+
 PIPES :
 http://stackoverflow.com/questions/8082932/connecting-n-commands-with-pipes-in-a-shell
 

@@ -127,90 +127,6 @@ void	move_down_history(t_data *data, t_env *env)
 	}
 }
 
-// int		history_subsitution_nb(t_data *data, char *command)
-// {
-// 	int				nb;
-// 	t_history	*list;
-// 	int				i;
-//
-// 	if ((nb = ft_atoi(command)) == 0)
-// 		return (0);
-// 	if ((list = data->history) == NULL)
-// 		return (0);
-// 	while (list->prec)
-// 		list = list->prec;
-// 	i = 1;
-// 	while (list->next && nb > i)
-// 	{
-// 		i++;
-// 		list = list->next;
-// 	}
-// 	if (nb == i)
-// 	{
-// 		free(data->cmd);
-// 		data->cmd = list->line;
-// 		return (1);
-// 	}
-// 	ft_putstr_fd("42sh: history position out of range\n", 2);
-// 	return (0);
-// }
-//
-// int 	get_history_substutition_for_boucle(t_data *data, char *command)
-// {
-//   char      *str;
-//   t_history *list;
-//   int       len;
-//
-//   str = NULL;
-// 	if (command[0] == '!')
-// 	{
-// 		if (data->history != NULL)
-// 		{
-// 			free(data->cmd);
-// 			data->cmd = ft_strdup(data->history->line);
-// 			return (1);
-// 		}
-// 	}
-// 	else if (ft_isdigit(command[0]))
-// 		if (history_subsitution_nb(data, command))
-// 			return (1);
-//   list = data->history;
-//   len = (int)ft_strlen(command);
-//   while (list)
-//   {
-//     if (ft_strnequ(command, list->line, len))
-// 		{
-// 			free(data->cmd);
-// 			data->cmd = ft_strdup(list->line);
-//       return (1);
-// 		}
-//     list = list->prec;
-//   }
-// 	if (command[0] == '\0' || ft_isspace2(command[0]))
-// 		ft_putstr_fd("42sh: syntax error near unexpected token `newline'\n", 2);
-// 	else
-// 		ft_putstr_fd("42sh: command not found\n", 2);
-// 	free(data->cmd);
-// 	free(data->prompt);
-// 	data->prompt = print_prompt(data->env, data);
-// 	data->len_prompt = ft_strlen(data->prompt);
-// 	data->real_len_cmd = 0;
-// 	data->curs_x = data->len_prompt + 1;
-// 	data->curs_y = -1;
-// 	data->heredocs = NULL;
-// 	if (data->first)
-// 	{
-// 		free(data->first);
-// 		data->first = NULL;
-// 	}
-// 	data->first_search = 1;
-// 	data->history_en_cours = NULL;
-// 	data->cmd = ft_strdup("");
-// 	data->index = 0;
-// 	// SAME AS THE END OF A COMMAND EXECUTED
-// 	return (0);
-// }
-
 int	create_history(t_data *data, t_env **env)
 {
 	int i;
@@ -254,6 +170,15 @@ int	create_history(t_data *data, t_env **env)
 		data->quote_or_hd = 0;
 		data->first_line_of_hd = 1;
 		data->quote_old_index = 0;
+		if (data->cmd_before_auto)
+			free(data->cmd_before_auto);
+		data->cmd_before_auto = NULL;
+		if (data->absolute_cmd_before_auto)
+			free(data->absolute_cmd_before_auto);
+		data->absolute_cmd_before_auto = NULL;
+		data->index_before_auto = 0;
+		// TODO : Free la list_auto;
+		data->list_auto = NULL;
 	}
 	else
 	{
@@ -365,6 +290,13 @@ void	boucle(t_env *env, t_data *data)
 		data->in_env_i = 0;
 		if ((ft_isalpha(buf[0]) || (buf[0] >= 32 && buf[0] <= 64) || (buf[0] >= 123 && buf[0] <= 126) || (buf[0] >= 91 && buf[0] <= 96)) && buf[1] == '\0' && !data->mode_copy)
 		{
+			//TODO free list_auto
+			data->list_auto = NULL;
+			data->cmd_before_auto = NULL;
+			if (data->absolute_cmd_before_auto)
+				free(data->absolute_cmd_before_auto);
+			data->absolute_cmd_before_auto = NULL;
+			data->index_before_auto = 0;
 			data->curs_x++;
 			if (data->index == (int)data->real_len_cmd)
 			{
@@ -396,6 +328,14 @@ void	boucle(t_env *env, t_data *data)
 				move_right(data);
 		else if (buf[0] == 127 && buf[1] == 0 && !data->mode_copy)
 		{
+			//TODO free list_auto
+			data->list_auto = NULL;
+			data->cmd_before_auto = NULL;
+			if (data->absolute_cmd_before_auto)
+				free(data->absolute_cmd_before_auto);
+			data->absolute_cmd_before_auto = NULL;
+			data->index_before_auto = 0;
+
 			if (data->index > 0)
 			{
 				delete_mode(data);
@@ -414,6 +354,15 @@ void	boucle(t_env *env, t_data *data)
 		else if ((buf[0] == 27	&&	buf[1] == 91 && buf[2] == 72 && buf[3] == 0) ||
 							(buf[0] == 1 && buf[1] == 0)) // HOME
 			{
+				if (data->cmd_before_auto)
+					free(data->cmd_before_auto);
+				data->cmd_before_auto = NULL;
+				if (data->absolute_cmd_before_auto)
+					free(data->absolute_cmd_before_auto);
+				data->absolute_cmd_before_auto = NULL;
+				data->index_before_auto = 0;
+				// TODO : Free la list_auto;
+				data->list_auto = NULL;
 				if (data->index == data->index_max_copy)
 					data->index_max_copy = data->index_min_copy;
 				while(data->index > 0 && data->cmd[data->index - 1] != '\n')
@@ -437,6 +386,15 @@ void	boucle(t_env *env, t_data *data)
 		else if ((buf[0] == 27 && buf[1] == 91	&& buf[2] == 70 && buf[3] == 0) ||
 							(buf[0] == 5 && buf[1] == 0)) // END
 		{
+			if (data->cmd_before_auto)
+				free(data->cmd_before_auto);
+			data->cmd_before_auto = NULL;
+			if (data->absolute_cmd_before_auto)
+				free(data->absolute_cmd_before_auto);
+			data->absolute_cmd_before_auto = NULL;
+			data->index_before_auto = 0;
+			// TODO : Free la list_auto;
+			data->list_auto = NULL;
 			if (data->mode_copy)
 			{
 				if (data->index_min_copy == data->index)
@@ -470,7 +428,16 @@ void	boucle(t_env *env, t_data *data)
 			//
 			// }
 			// else
-				page_up(data);
+			if (data->cmd_before_auto)
+				free(data->cmd_before_auto);
+			data->cmd_before_auto = NULL;
+			if (data->absolute_cmd_before_auto)
+				free(data->absolute_cmd_before_auto);
+			data->absolute_cmd_before_auto = NULL;
+			data->index_before_auto = 0;
+			// TODO : Free la list_auto;
+			data->list_auto = NULL;
+			page_up(data);
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 54 && buf[3] == 126 && buf[4] == 0) // Page down
 		{
@@ -479,7 +446,16 @@ void	boucle(t_env *env, t_data *data)
 			//
 			// }
 			// else
-				page_down(data);
+			if (data->cmd_before_auto)
+				free(data->cmd_before_auto);
+			data->cmd_before_auto = NULL;
+			if (data->absolute_cmd_before_auto)
+				free(data->absolute_cmd_before_auto);
+			data->absolute_cmd_before_auto = NULL;
+			data->index_before_auto = 0;
+			// TODO : Free la list_auto;
+			data->list_auto = NULL;
+			page_down(data);
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65 && buf[3] == 0 && !data->mode_copy)
 		{
@@ -590,6 +566,15 @@ void	boucle(t_env *env, t_data *data)
 		{
 			int	i;
 
+			if (data->cmd_before_auto)
+				free(data->cmd_before_auto);
+			data->cmd_before_auto = NULL;
+			if (data->absolute_cmd_before_auto)
+				free(data->absolute_cmd_before_auto);
+			data->absolute_cmd_before_auto = NULL;
+			data->index_before_auto = 0;
+			// TODO : Free la list_auto;
+			data->list_auto = NULL;
 			if (!data->mode_copy)
 			{
 				if (data->clipboard)
@@ -615,9 +600,16 @@ void	boucle(t_env *env, t_data *data)
 		{
 			exec_tcap("up");
 		}
+		else if (buf[0] == 9 && buf[1] == 0) // Autocompletion
+		{
+			if (!data->c && !data->mode_copy)
+			{
+				ft_autocomplete(data);
+			}
+		}
 		else
 		{
-							// ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
+				// ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
 		}
 		data->env = env;
 		get_index_min_win(data);
