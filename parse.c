@@ -142,11 +142,6 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 		return (NULL);
 	if (true_var_and_subs(data, &str) == 0)
 		return (NULL);
-	printf("--------------------------------------------\n");
-	printf("RESULTAT : [%s]\n", str);
-
-	// if (find_replace_substitution(data, str))
-	// 	return (NULL);
 	data->history = add_history_elem(data->history, create_history_elem(str)); // On rajoute la ligne dans l'historique.
 	while (str[i])
 	{
@@ -161,6 +156,8 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 		}
 		if (count)
 		{
+			printf("--------------------------------------------\n");
+			printf("RESULTAT : [%s]\n", data->cmd);
 			if (str[i - 1] == ';')
 			{
 				cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));

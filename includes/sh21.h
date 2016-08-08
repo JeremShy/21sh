@@ -242,4 +242,5 @@ void				ft_autocomplete(t_data *data);
 int					env_tmp_exec(t_env **env, t_data *data, char **scmd);
 int					print_env(t_env *env);
 int   			true_var_and_subs(t_data *data, char **str);
+int  			 	is_escaped_quote(char *str, int index);
 #endif
