@@ -76,26 +76,35 @@ int 	is_quote_true_close(char car, char open, char *str, int  prec)
 //   return (true_char);
 // }
 
-void delete_var(char *str, size_t index, size_t length, char *arg)
+char *delete_var(char *str, size_t index, size_t length, char *arg)
 {
   char *new_str;
 
-  new_str = ft_strsub(str, 0, index);
+  printf("IN DELETE VAR :\n");
+  if (index > 0)
+    new_str = ft_strsub(str, 0, index - 1);
+  else
+    new_str = ft_strdup("");
+  printf("sub = [%s]\n", new_str);
+  printf("After var --> [%s]\n", str + length);
   new_str = ft_strjoinaf1(new_str, str + length);
   free(str);
   free(arg);
-  str = new_str;
+  return(new_str);
 }
 
-void delete_var_and_replace(char *str, size_t index, size_t length, char *arg)
+char *delete_var_and_replace(char *str, size_t index, size_t length, char *arg)
 {
   char *new_str;
 
-  new_str = ft_strsub(str, 0, index);
+  if (index > 0)
+    new_str = ft_strsub(str, 0, index - 1);
+  else
+    new_str = ft_strdup("");
   new_str = ft_strjoinaf12(new_str, arg);
   new_str = ft_strjoinaf1(new_str, str + length);
   free(str);
-  str = new_str;
+  return (new_str);
 }
 
 void   is_var_and_replace(t_data *data, char *str, size_t *index)
@@ -104,14 +113,15 @@ void   is_var_and_replace(t_data *data, char *str, size_t *index)
   char    *arg;
   char    tmp_char;
 
-  length = *index + 1;
   if ((*index == 0 || str[*index - 1] != '\\') && str[*index] == '$')
   {
+    length = *index + 1;
     while (ft_isalnum(str[length]))
       length++;
     tmp_char = str[length];
     str[length] = '\0';
     arg = find_arg(data->env, str + *index + 1); // METTRE find_env_var
+    printf("ARG = [%s]\n", arg);
     str[length] = tmp_char;
     if (length - (*index + 1) == 0)
     {
@@ -120,11 +130,12 @@ void   is_var_and_replace(t_data *data, char *str, size_t *index)
     }
     if (ft_strequ(arg, ""))
     {
-      delete_var(str, *index, length, arg);
+      str = delete_var(str, *index + 1, length, arg);
+      printf("IN VAR REPLACE --> str = [%s]\n", str);
     }
     else
     {
-      delete_var_and_replace(str, *index, length, arg);
+      str = delete_var_and_replace(str, *index, length, arg);
     }
     (*index)--;
   }
@@ -177,6 +188,7 @@ int   is_subs_and_replace(t_data *data, char *str, size_t *index, int flag)
 
   length = *index;
   flag_special = 0;
+  data->flag_enter = 1;
   if ((*index == 0 || str[*index - 1] != '\\') && str[*index] == '!')
   {
     if (str[length] == '!')
@@ -219,6 +231,7 @@ int   is_subs_and_replace(t_data *data, char *str, size_t *index, int flag)
     }
     delete_subs_and_replace(str, *index, length, arg);
     (*index)--;
+    data->flag_enter = 0;
   }
   return (1); // NE PAS OUBLIER DE REMETTRE LE BON INDEX
 }
@@ -254,14 +267,15 @@ int   true_var_and_subs(t_data *data, char *str)
       {
         if (is_subs_and_replace(data, str, &index, 0) == 0)
           return (0);
-        if (tmp_index == index)
+        if (data->flag_enter)
           is_var_and_replace(data, str, &index);
       }
       else if (open_quote == '"')
       {
         if (is_subs_and_replace(data, str, &index, 1) == 0)
           return (0);
-        is_var_and_replace(data, str, &index);
+        if (data->flag_enter)
+          is_var_and_replace(data, str, &index);
       }
       index++;
     }

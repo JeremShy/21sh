@@ -112,6 +112,7 @@ typedef struct	s_data {
 	int				index_min_copy; // premier index surligne
 	int				index_max_copy; // dernier index surligne
 	char			*clipboard; // presse papier
+	int				flag_enter; // dans le parsing, pour savoir si on est entré dans une fonction
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
