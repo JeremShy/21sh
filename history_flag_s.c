@@ -72,11 +72,11 @@ char  *get_history_substutition(t_data *data, char *scmd)
 
   str = NULL;
   printf("actual history = [%s]\n", data->history->line);
-  if (scmd[0] == '!')
+  if (scmd[0] == '!' && scmd[1] == '\0')
   {
     if (data->history != NULL)
     {
-      // data->history = add_history_elem(data->history, create_history_elem(data->cmd));
+      data->history = add_history_elem(data->history, create_history_elem(data->cmd));
       return (ft_strdup(data->history->line));
     }
     return (NULL);

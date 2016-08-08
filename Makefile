@@ -38,6 +38,7 @@ SRC_NAME = main.c \
 		 history_flag_w.c \
 		 history_flag_p.c \
 		 history_flag_s.c \
+		 parsing_advanced.c \
 		 vid_inv.c \
 		 builtin_env.c \
 		 history_exit.c

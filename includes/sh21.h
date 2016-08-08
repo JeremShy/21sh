@@ -236,9 +236,11 @@ void				delete_last_history(t_data *data);
 char  			*get_history_substutition(t_data *data, char *scmd);
 int					history_flag_p(t_data *data, char **scmd);
 int					history_flag_s(t_data *data, char **scmd);
+char				*history_subsitution_nb_arg_ps(t_data *data, char *command);
 int					is_substitution(char *str, size_t *i, t_cmd *cmd, t_data *data);
 void				history_exit(t_data *data);
 /*builtin_env*/
 int					env_tmp_exec(t_env **env, t_data *data, char **scmd);
 int					print_env(t_env *env);
+int   			true_var_and_subs(t_data *data, char *str);
 #endif

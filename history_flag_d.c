@@ -68,19 +68,19 @@ int history_flag_d(t_data *data, char **scmd)
     if (ft_isdigit(scmd[j][0]))
     {
       if (history_flag_d_2(data, tmp_deb, ft_atoi(scmd[j])) == 1)
-        return (1);
+        return (0);
     }
     else
     {
       ft_putstr_fd("42sh: history: Invalid arg, you must specify an positive integer\n", 2);
-      return (1);
+      return (0);
     }
     j++;
   }
   if (j == 0)
   {
     ft_putstr_fd("42sh: history: Invalid arg, you must specify an positive integer\n", 2);
-    return (1);
+    return (0);
   }
-  return (0);
+  return (1);
 }

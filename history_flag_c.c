@@ -25,15 +25,15 @@ int history_flag_c(t_data *data)
       {
         // ft_putstr_fd("42sh: history: Failed to clear history file (close failed)\n", 2);
         // print_prompt(data->env, data);
-        return (1);
+        return (0);
       }
     }
     else
     {
       // ft_putstr_fd("42sh: history: Failed to clear history file (wrongs permissions)\n", 2);
       // print_prompt(data->env, data);
-      return (1);
+      return (0);
     }
   }
-  return (0);
+  return (1);
 }

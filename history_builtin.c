@@ -74,29 +74,45 @@ int	history_flag_file(t_data *data, char **scmd)
 {
 	if (data->history_flag[2])
 		if (history_flag_a(data, scmd[0]) == 1)
-			return (1);
+			return (0);
 	if (data->history_flag[3])
 		if (history_flag_w(data, scmd[0]) == 1)
-			return (1);
+			return (0);
 	if (data->history_flag[4])
 		if (history_flag_r(data, scmd[0]) == 1)
-			return (1);
+			return (0);
 	if (data->history_flag[5])
 		if (history_flag_n(data, scmd[0]) == 1)
-			return (1);
-	return (0);
+			return (0);
+	return (1);
 }
 
 int	history_flag_weird(t_data *data, char **scmd)
 {
+	char	*tmp_line;
+	int		tmp_time;
+	int		history_exist;
+
+	history_exist = 0;
+	if (data->history != NULL)
+	{
+		tmp_line = ft_strdup(data->history->line);
+		tmp_time = data->history->time;
+		history_exist = 1;
+	}
 	delete_last_history(data);
 	if (data->history_flag[6])
 		if (history_flag_p(data, scmd) == 1)
-			return (1);
+			return (0);
 	if (data->history_flag[7])
 		if (history_flag_s(data, scmd) == 1)
-			return (1);
-	return (0);
+			return (0);
+	if (history_exist)
+	{
+		data->history = add_history_elem(data->history, create_history_elem(tmp_line));
+		data->history->time = tmp_time;
+	}
+	return (1);
 }
 
 int ft_history(char **scmd, t_data *data)

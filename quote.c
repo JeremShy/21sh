@@ -70,10 +70,10 @@ int		is_quote_end(t_data *data)
 	{
 		if (data->c == '\0')
 		{
-			if (is_quote_open(boucle_cmd[i]))
+			if (is_quote_open(boucle_cmd[i]) && (i == 0 || boucle_cmd[i - 1] != '\\'))
 				data->c = boucle_cmd[i];
 		}
-		else if (is_quote_close(data->c, boucle_cmd[i]))
+		else if (is_quote_close(data->c, boucle_cmd[i]) && boucle_cmd[i - 1] != '\\')
 		{
 			data->c = '\0';
 		}
