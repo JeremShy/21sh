@@ -76,35 +76,35 @@ int 	is_quote_true_close(char car, char open, char *str, int  prec)
 //   return (true_char);
 // }
 
-char *delete_var(char *str, size_t index, size_t length, char *arg)
+void  delete_var(char **str, size_t index, size_t length, char *arg)
 {
   char *new_str;
 
   printf("IN DELETE VAR :\n");
   if (index > 0)
-    new_str = ft_strsub(str, 0, index - 1);
+    new_str = ft_strsub(*str, 0, index - 1);
   else
     new_str = ft_strdup("");
   printf("sub = [%s]\n", new_str);
-  printf("After var --> [%s]\n", str + length);
-  new_str = ft_strjoinaf1(new_str, str + length);
-  free(str);
+  printf("After var --> [%s]\n", (*str) + length);
+  new_str = ft_strjoinaf1(new_str, (*str) + length);
+  free(*str);
   free(arg);
-  return(new_str);
+  *str = new_str;
 }
 
-char *delete_var_and_replace(char *str, size_t index, size_t length, char *arg)
+void delete_var_and_replace(char **str, size_t index, size_t length, char *arg)
 {
   char *new_str;
 
   if (index > 0)
-    new_str = ft_strsub(str, 0, index - 1);
+    new_str = ft_strsub(*str, 0, index - 1);
   else
     new_str = ft_strdup("");
   new_str = ft_strjoinaf12(new_str, arg);
-  new_str = ft_strjoinaf1(new_str, str + length);
-  free(str);
-  return (new_str);
+  new_str = ft_strjoinaf1(new_str, (*str) + length);
+  free(*str);
+  *str = new_str;
 }
 
 void   is_var_and_replace(t_data *data, char *str, size_t *index)
@@ -130,12 +130,12 @@ void   is_var_and_replace(t_data *data, char *str, size_t *index)
     }
     if (ft_strequ(arg, ""))
     {
-      str = delete_var(str, *index + 1, length, arg);
-      printf("IN VAR REPLACE --> str = [%s]\n", str);
+      delete_var(&str, *index + 1, length, arg);
+      // printf("IN VAR REPLACE --> str = [%s]\n", str);
     }
     else
     {
-      str = delete_var_and_replace(str, *index, length, arg);
+      delete_var_and_replace(&str, *index, length, arg);
     }
     (*index)--;
   }
@@ -252,29 +252,29 @@ int   true_var_and_subs(t_data *data, char *str)
     while (ft_isspace2(str[index]))
 			index++;
     first_true_char = 0;
-    while (ft_isspace2(str[index]) == 0 && str[index])
+    while (!ft_isspace2(str[index]) && str[index])
     {
       tmp_index = index;
-      if (open_quote != '\0' && is_quote_true_open(str[index], str, index))
+      if (open_quote != '\0' && is_quote_true_open(str[index], str, index)) // Si on tombe sur une quote pas echappée
       {
         open_quote = str[index];
       }
-      else if (open_quote && is_quote_true_close(str[index], open_quote, str, index))
+      else if (open_quote && is_quote_true_close(str[index], open_quote, str, index)) // Si on tombe sur une fermeture pas echappée
       {
         open_quote = '\0';
       }
-      else if (open_quote == '\0')
+      else if (open_quote == '\0') // Variables dans une quote
       {
         if (is_subs_and_replace(data, str, &index, 0) == 0)
           return (0);
-        if (data->flag_enter)
+        if (data->flag_enter) // sert a ne pas entrer dans is_var si on est entré dans is_subs
           is_var_and_replace(data, str, &index);
       }
-      else if (open_quote == '"')
+      else if (open_quote == '"') // Variables hors d'une quote
       {
         if (is_subs_and_replace(data, str, &index, 1) == 0)
           return (0);
-        if (data->flag_enter)
+        if (data->flag_enter) // sert a ne pas entrer dans is_var si on est entré dans is_subs
           is_var_and_replace(data, str, &index);
       }
       index++;

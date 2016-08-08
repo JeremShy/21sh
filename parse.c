@@ -199,68 +199,68 @@ void	jump_all_quote_for_arg(char *str, size_t *i)
 	// printf("END CHAR = '%c'\n", str[*i - 1]);
 }
 
-int		substitution_parse(t_data *data, char *str, size_t *i)
-{
-	t_history	*tmp_history;
-	char			*subs;
-	char			*tmp_str;
-	char			tmp_char;
-	size_t		after_subs;
+// int		substitution_parse(t_data *data, char *str, size_t *i)
+// {
+// 	t_history	*tmp_history;
+// 	char			*subs;
+// 	char			*tmp_str;
+// 	char			tmp_char;
+// 	size_t		after_subs;
+//
+// 	// if (str[*i] == '"' && str[*i] == "!")
+//
+// 	if (data->history == NULL || (subs = get_history_substutition(data, str)) == NULL)
+// 	{
+// 		// data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
+// 		ft_putstr_fd("42sh: substitution not found\n", 2);
+// 		return (0);
+// 	}
+// 	printf("ARG FIND -------------> [%s]\n", subs);
+// 	exit(0);
+// 	after_subs = *i;
+// 	// printf("avant ... = [%s]\n", str + after_subs);
+// 	while (ft_isspace2(str[after_subs]) == 0 && str[after_subs])
+// 		after_subs++;
+// 	// printf("after_subs = [%s]\n", str + after_subs);
+// 	tmp_char = str[*i];
+// 	str[*i] = '\0';
+// 	tmp_str = ft_strjoinaf1(subs, str + after_subs);
+// 	// printf("first join = [%s] /// ---> subs = [%s] AND str + after_subs = [%s]\n", tmp_str, subs, str + after_subs);
+// 	tmp_str = ft_strjoinaf2(str, tmp_str);
+// 	str[*i] = tmp_char;
+// 	free(str);
+// 	str = tmp_str;
+// 	*i = after_subs;
+// 	data->history = tmp_history;
+// 	printf("NEW STR = [%s]\n", str);
+// 	return (1);
+// }
 
-	// if (str[*i] == '"' && str[*i] == "!")
-
-	if (data->history == NULL || (subs = get_history_substutition(data, str)) == NULL)
-	{
-		// data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
-		ft_putstr_fd("42sh: substitution not found\n", 2);
-		return (0);
-	}
-	printf("ARG FIND -------------> [%s]\n", subs);
-	exit(0);
-	after_subs = *i;
-	// printf("avant ... = [%s]\n", str + after_subs);
-	while (ft_isspace2(str[after_subs]) == 0 && str[after_subs])
-		after_subs++;
-	// printf("after_subs = [%s]\n", str + after_subs);
-	tmp_char = str[*i];
-	str[*i] = '\0';
-	tmp_str = ft_strjoinaf1(subs, str + after_subs);
-	// printf("first join = [%s] /// ---> subs = [%s] AND str + after_subs = [%s]\n", tmp_str, subs, str + after_subs);
-	tmp_str = ft_strjoinaf2(str, tmp_str);
-	str[*i] = tmp_char;
-	free(str);
-	str = tmp_str;
-	*i = after_subs;
-	data->history = tmp_history;
-	printf("NEW STR = [%s]\n", str);
-	return (1);
-}
-
-int		find_replace_substitution(t_data *data, char *str)
-{
-	size_t				i;
-
-	i = 0;
-	(void)data;
-	printf("--------------------------------------------\n");
-	while (str[i])
-	{
-		while (ft_isspace2(str[i]))
-			i++;
-		if (str[i] == '\0')
-			break ;
-		// if (str[i] == '!' || (str[i] == '"' && str[i] == "!"))
-		// {
-		// 	if (substitution_parse(data, str, &i) == 0)
-		// 		return (0);
-		// 	else
-		// 		i = 0;
-		// }
-		// else
-			jump_all_quote_for_arg(str, &i);
-	}
-	return (1);
-}
+// int		find_replace_substitution(t_data *data, char *str)
+// {
+// 	size_t				i;
+//
+// 	i = 0;
+// 	(void)data;
+// 	printf("--------------------------------------------\n");
+// 	while (str[i])
+// 	{
+// 		while (ft_isspace2(str[i]))
+// 			i++;
+// 		if (str[i] == '\0')
+// 			break ;
+// 		// if (str[i] == '!' || (str[i] == '"' && str[i] == "!"))
+// 		// {
+// 		// 	if (substitution_parse(data, str, &i) == 0)
+// 		// 		return (0);
+// 		// 	else
+// 		// 		i = 0;
+// 		// }
+// 		// else
+// 			jump_all_quote_for_arg(str, &i);
+// 	}
+// 	return (1);
+// }
 
 t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 {
