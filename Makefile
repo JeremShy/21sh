@@ -1,4 +1,4 @@
-SRC_NAME = main.c \
+ 	SRC_NAME = main.c \
 	   env.c \
 	   list.c \
 	   special_split.c \

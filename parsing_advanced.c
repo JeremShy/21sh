@@ -76,7 +76,7 @@ int 	is_quote_true_close(char car, char open, char *str, int  prec)
 //   return (true_char);
 // }
 
-void  delete_var(char **str, size_t index, size_t length, char *arg)
+int  delete_var(char **str, size_t index, size_t length, char *arg)
 {
   char *new_str;
 
@@ -91,53 +91,95 @@ void  delete_var(char **str, size_t index, size_t length, char *arg)
   free(*str);
   free(arg);
   *str = new_str;
+  return (1);
 }
 
-void delete_var_and_replace(char **str, size_t index, size_t length, char *arg)
+char  *arg_add_backslash(char *arg)
 {
-  char *new_str;
+  size_t  count;
+  int     i;
+  char    *ret;
+  int     j;
+
+  i = 0;
+  count = 0;
+  while (arg[i])
+  {
+    if (is_quote(arg[i]) || arg[i] == '$' || arg[i] == '!' || arg[i] == '\\')
+      count++;
+    count++;
+    i++;
+  }
+  ret = malloc(sizeof(char) * (count + 1));
+  i = 0;
+  j = 0;
+  while (arg[i])
+  {
+    if (is_quote(arg[i]) || arg[i] == '$' || arg[i] == '!' || arg[i] == '\\')
+    {
+      ret[j] = '\\';
+      j++;
+    }
+    ret[j] = arg[i];
+    j++;
+    i++;
+  }
+  free(arg);
+  ret[j] = '\0';
+  return (ret);
+}
+
+int   delete_var_and_replace(char **str, size_t index, size_t length, char *arg)
+{
+  char     *new_str;
+  size_t   real_length;
 
   if (index > 0)
-    new_str = ft_strsub(*str, 0, index - 1);
+    new_str = ft_strsub(*str, 0, index);
   else
     new_str = ft_strdup("");
+  printf("arg = [%s] // *str = [%s]\n", arg, *str);
+  arg = arg_add_backslash(arg);
+  real_length = ft_strlen(arg);
   new_str = ft_strjoinaf12(new_str, arg);
   new_str = ft_strjoinaf1(new_str, (*str) + length);
   free(*str);
   *str = new_str;
+  return(real_length);
 }
 
-void   is_var_and_replace(t_data *data, char *str, size_t *index)
+void   is_var_and_replace(t_data *data, char **str, size_t *index)
 {
   size_t  length;
   char    *arg;
   char    tmp_char;
+  size_t  real_length; // Length de la variable ajouté avec ou non backslash
 
-  if ((*index == 0 || str[*index - 1] != '\\') && str[*index] == '$')
+  if ((*index == 0 || (*str)[*index - 1] != '\\') && (*str)[*index] == '$')
   {
     length = *index + 1;
-    while (ft_isalnum(str[length]))
+    while (ft_isalnum((*str)[length]))
       length++;
-    tmp_char = str[length];
-    str[length] = '\0';
-    arg = find_arg(data->env, str + *index + 1); // METTRE find_env_var
+    tmp_char = (*str)[length];
+    (*str)[length] = '\0';
+    arg = find_arg(data->env, *str + *index + 1); // METTRE find_env_var
     printf("ARG = [%s]\n", arg);
-    str[length] = tmp_char;
+    (*str)[length] = tmp_char;
     if (length - (*index + 1) == 0)
     {
       free(arg);
-      return ;
     }
     if (ft_strequ(arg, ""))
     {
-      delete_var(&str, *index + 1, length, arg);
-      // printf("IN VAR REPLACE --> str = [%s]\n", str);
+      real_length = delete_var(str, *index + 1, length, arg);
+      printf("str = [%s]\n", *str);
     }
     else
     {
-      delete_var_and_replace(&str, *index, length, arg);
+      real_length = delete_var_and_replace(str, *index, length, arg);
+      printf("str = [%s]\n", *str);
     }
-    (*index)--;
+    *index = length - (*index + 1);
   }
 }
 
@@ -268,14 +310,14 @@ int   true_var_and_subs(t_data *data, char *str)
         if (is_subs_and_replace(data, str, &index, 0) == 0)
           return (0);
         if (data->flag_enter) // sert a ne pas entrer dans is_var si on est entré dans is_subs
-          is_var_and_replace(data, str, &index);
+          is_var_and_replace(data, &str, &index);
       }
       else if (open_quote == '"') // Variables hors d'une quote
       {
         if (is_subs_and_replace(data, str, &index, 1) == 0)
           return (0);
         if (data->flag_enter) // sert a ne pas entrer dans is_var si on est entré dans is_subs
-          is_var_and_replace(data, str, &index);
+          is_var_and_replace(data, &str, &index);
       }
       index++;
     }
