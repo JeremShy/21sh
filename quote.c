@@ -5,10 +5,16 @@ void	join_inside_quote(size_t *i, char *str)
 	size_t	tmp;
 	char	open;
 
+
 	open = str[*i];
 	// printf("open : %c\n", open);
 	while (is_quote_close(open, str[*i + 1]) == 0 && str[*i + 1])
 	{
+		if (str[*i] == '\\' && open != '\'')
+		{
+			printf("str : [%s]\n", str);
+			str = delete_char(str, *i);
+		}
 		str[*i] = str[*i + 1];
 		(*i)++;
 	}

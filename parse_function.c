@@ -73,8 +73,10 @@ char *skip_quotes(char **str, size_t *i, t_cmd *cmd)
 	{
 		if ((*str)[*i] == '\\')
 		{
+			printf("before : [%s]\n", *str);
 			if ((*str)[*i + 1])
 				*str = delete_char(*str, *i + 1);
+			printf("after : [%s]\n", *str);
 		}
 		else
 		{
@@ -86,7 +88,9 @@ char *skip_quotes(char **str, size_t *i, t_cmd *cmd)
 			}
 			if (is_quote_open((*str)[*i]))
 			{
+				printf("before : [%s]\n", *str);
 				join_inside_quote(i, *str);
+				printf("after : [%s]\n", *str);
 			}
 		}
 		if ((*str)[*i])
@@ -95,7 +99,8 @@ char *skip_quotes(char **str, size_t *i, t_cmd *cmd)
 	if (start != *i)
 	{
 		// printf("blblbl [%s]\n", ft_strsub(*str, start, *i - start));
-		return(ft_strsub(*str, start, *i - start));
+		printf("[%s] - [%s] - [%s] - %zu - %zu\n",*str, *str + *i, *str + start, start, *i);
+ 		return(ft_strsub(*str, start, *i - start));
 	}
 	return(NULL);
 }

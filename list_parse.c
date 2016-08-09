@@ -37,6 +37,7 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 	elem->p_error	= 0;
 	elem->error = 0;
 	elem->sep = NONE;
+	printf("STR3 = [%s]\n", str);
 	if (split_cmd(count, str, elem, heredocs) == -1)
 	{
 		//faire quelque
@@ -52,7 +53,7 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 		elem->fd_out->fd = 1;
 	if (elem->fd_err->fd == -1)
 		elem->fd_err->fd = 2;
-	free(str);
+ 	free(str);
 	// print_fd_list(elem);
 	return (elem);
 }

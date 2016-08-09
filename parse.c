@@ -75,7 +75,7 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 			(*i)++;
 		}
 		tmp_i = *i;
-		if(is_aggr(i, str, 1)) // Si il y a un aggregateur, on le saute.
+		if (is_aggr(i, str, 1)) // Si il y a un aggregateur, on le saute.
 		{
 			// printf("IT'S ALIVE\n");
 		}
@@ -150,6 +150,7 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 		fake_cmd.p_error = 0; // On mets le error et le p_error du fake_cmd à 0.
 		fake_cmd.error = 0;
 		old_i = i; // On retient le i d'avant.
+		printf("STR  = [%s]\n", str);
 		count = nb_arg(&i, str, &fake_cmd); // On compte le nombre d'elements
 		if (count == -1)
  		{
@@ -169,6 +170,7 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 			}
 			else
 			{
+				printf("STR2 = [%s]\n", str);
 				cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs)); //count a bouge i, du coup i - old_i donne le taille de la chaine a envoyer à create cmd_elem.
 			}
 		}
