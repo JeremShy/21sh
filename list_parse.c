@@ -37,7 +37,7 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 	elem->p_error	= 0;
 	elem->error = 0;
 	elem->sep = NONE;
-	printf("STR3 = [%s]\n", str);
+	// printf("STR3 = [%s]\n", str);
 	if (split_cmd(count, &str, elem, heredocs) == -1)
 	{
 		//faire quelque
@@ -47,6 +47,7 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 	// printf("sep : %d\n", elem->sep);
 	// printf("on cree une liste.\n");
 	elem->next = NULL;
+	print_list(elem);
 	if (elem->fd_in->fd == -1)
 		elem->fd_in->fd = 0;
 	if (elem->fd_out->fd == -1)

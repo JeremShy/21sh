@@ -10,13 +10,17 @@ void	join_inside_quote(size_t *i, char **str)
 	// printf("open : %c\n", open);
 	while (is_quote_close(open, (*str)[*i + 1]) == 0 && (*str)[*i + 1])
 	{
-		if ((*str)[*i] == '\\' && open != '\'')
+		if ((*str)[*i + 1] == '\\' && ((*str)[*i + 2] == '\"' || (*str)[*i + 2] == '$' || (*str)[*i + 2] == '!' || (*str)[*i + 2] == '`') && open != '\'')
 		{
-			printf("str : [%s]\n", *str);
-			*str = delete_char(*str, *i);
+			printf("str avant suppr = [%s]\n", *str);
+			*str = delete_char(*str, *i + 1);
+			printf("str apres suppr = [%s]\n", *str);
 		}
-		(*str)[*i] = (*str)[*i + 1];
-		(*i)++;
+		// else
+		// {
+			(*str)[*i] = (*str)[*i + 1];
+			(*i)++;
+		// }
 	}
 	tmp = *i;
 	while ((*str)[tmp + 1] && (*str)[tmp + 2])
