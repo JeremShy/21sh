@@ -1,32 +1,32 @@
 #include <sh21.h>
 
-void	join_inside_quote(size_t *i, char *str)
+void	join_inside_quote(size_t *i, char **str)
 {
 	size_t	tmp;
 	char	open;
 
 
-	open = str[*i];
+	open = (*str)[*i];
 	// printf("open : %c\n", open);
-	while (is_quote_close(open, str[*i + 1]) == 0 && str[*i + 1])
+	while (is_quote_close(open, (*str)[*i + 1]) == 0 && (*str)[*i + 1])
 	{
-		if (str[*i] == '\\' && open != '\'')
+		if ((*str)[*i] == '\\' && open != '\'')
 		{
-			printf("str : [%s]\n", str);
-			str = delete_char(str, *i);
+			printf("str : [%s]\n", *str);
+			*str = delete_char(*str, *i);
 		}
-		str[*i] = str[*i + 1];
+		(*str)[*i] = (*str)[*i + 1];
 		(*i)++;
 	}
 	tmp = *i;
-	while (str[tmp + 1] && str[tmp + 2])
+	while ((*str)[tmp + 1] && (*str)[tmp + 2])
 	{
-		str[tmp] = str[tmp + 2];
+		(*str)[tmp] = (*str)[tmp + 2];
 		tmp++;
 	}
-	str[tmp] = '\0';
+	(*str)[tmp] = '\0';
 	// printf("str : =%s=\n", str);
-	if (*i == 0 || is_quote_open(str[0]))
+	if (*i == 0 || is_quote_open((*str)[0]))
 		return ;
 	(*i)--;
 }

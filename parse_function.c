@@ -89,7 +89,7 @@ char *skip_quotes(char **str, size_t *i, t_cmd *cmd)
 			if (is_quote_open((*str)[*i]))
 			{
 				printf("before : [%s]\n", *str);
-				join_inside_quote(i, *str);
+				join_inside_quote(i, str);
 				printf("after : [%s]\n", *str);
 			}
 		}

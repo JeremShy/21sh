@@ -11,7 +11,7 @@ int		def_sep(char *str)
 	return (0);
 }
 
-int		split_cmd(int count, char *str, t_cmd *cmd, t_hc **heredocs)
+int		split_cmd(int count, char **str, t_cmd *cmd, t_hc **heredocs)
 {
 	size_t 	tmp_i;
 	char		*tmp;
@@ -23,22 +23,22 @@ int		split_cmd(int count, char *str, t_cmd *cmd, t_hc **heredocs)
 	cmd->av[count] = 0;
 	n_av = 0;
 	// printf("[%s]\n", str);
-	while (str[i])
+	while ((*str)[i])
 	{
-		while (ft_isspace2(str[i]))
+		while (ft_isspace2((*str)[i]))
 			i++;
 		tmp_i = i;
-		if(handle_aggr(&i, str, 1, cmd))
+		if(handle_aggr(&i, (*str), 1, cmd))
 		{
 		}
-		else if (handle_redir(&i, &str, 1, cmd, heredocs))
+		else if (handle_redir(&i, &(*str), 1, cmd, heredocs))
 		{
 		}
-		else if (is_sep(&i, str, 1, cmd))
+		else if (is_sep(&i, (*str), 1, cmd))
 		{
 			return (1);
 		}
-		else if ((tmp = skip_quotes(&str, &i, cmd)) != NULL)
+		else if ((tmp = skip_quotes(&(*str), &i, cmd)) != NULL)
 		{
 			if (tmp_i != i )
 			{
