@@ -203,7 +203,7 @@ void				move_r2l(t_data *data);
 void				insert_mode(t_data *data, char c);
 int					get_actual_cursor(t_data *data);
 void				delete_mode(t_data *data);
-int					ft_echo(char **scmd, t_env *env);
+int					ft_echo(char **scmd);
 void				get_index_min_win(t_data *data);
 int					get_actual_cursor_2(t_data *data);
 void				page_up(t_data *data);

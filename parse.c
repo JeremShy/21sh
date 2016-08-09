@@ -158,8 +158,8 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 		}
 		if (count)
 		{
-			printf("--------------------------------------------\n");
-			printf("RESULTAT : [%s] - count : %d\n", data->cmd, count);
+			// printf("--------------------------------------------\n");
+			// printf("RESULTAT : [%s] - count : %d\n", str , count);
 			if (str[i - 1] == ';')
 			{
 				cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));

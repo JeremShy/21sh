@@ -94,7 +94,7 @@ char *skip_quotes(char **str, size_t *i, t_cmd *cmd)
 	}
 	if (start != *i)
 	{
-		printf("blblbl [%s]\n", ft_strsub(*str, start, *i - start));
+		// printf("blblbl [%s]\n", ft_strsub(*str, start, *i - start));
 		return(ft_strsub(*str, start, *i - start));
 	}
 	return(NULL);

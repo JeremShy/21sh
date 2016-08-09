@@ -104,7 +104,7 @@ int		is_quote_end(t_data *data)
 				ft_putstr_fd("21sh: parse error near '\\n'\n", 2);
 				return (-1);
 			}
-			data->key_here = skip_quotes(boucle_cmd, &i, NULL); // On enleve les quotes.
+			data->key_here = skip_quotes(&boucle_cmd, &i, NULL); // On enleve les quotes.
 			if (data->key_here == NULL)
 			{
 				free(boucle_cmd);

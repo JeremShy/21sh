@@ -26,7 +26,7 @@ int spawn_proc (t_cmd *cmd, t_env *env)
 	if ((pid = fork ()) == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		printf("XX on execute : %s\n", cmd->av[0]);
+		// printf("XX on execute : %s\n", cmd->av[0]);
 		if (in != 0)
 		{
 			dup2(in, 0);
@@ -84,7 +84,7 @@ int	fork_pipes(t_cmd *cmd, t_env *env)
 		cmd->fd_in->fd = fd[0];
 		i++;
 	}
-	printf("on execute : %s\n", cmd->av[0]);
+	// printf("on execute : %s\n", cmd->av[0]);
 	if (cmd->fd_in->fd != 0)
 		dup2(cmd->fd_in->fd, 0);
 	file = find_exec(cmd->av[0], env);

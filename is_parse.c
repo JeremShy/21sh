@@ -54,12 +54,10 @@ char	*is_redir(size_t *i, char *str, int jump, t_cmd	*cmd)
 			cmd->p_error = 1;
 			return (NULL);
 		}
-		quote = skip_quotes(str, &tmp, cmd); // On enleve les quotes.
-		if (!quote)
-			quote = ft_strdup("");
-		if (jump)
+		quote = skip_quotes_nb_arg(str, &tmp, cmd); // On enleve les quotes.
+ 		if (jump)
 			*i = tmp;
-		return (quote); // On se barre à la fin.
+		return ("KAKA"); // On se barre à la fin.
 	}
 	return (NULL);
 }
