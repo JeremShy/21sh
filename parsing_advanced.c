@@ -1,6 +1,6 @@
 #include <sh21.h>
 
-int   is_escaped_quote(char *str, int index)
+int   is_escaped_char(char *str, int index)
 {
   int ret;
 
@@ -16,7 +16,7 @@ int   is_escaped_quote(char *str, int index)
 
 int 	is_quote_true_open(char car, char *str, int prec)
 {
-  if (!is_escaped_quote(str, prec))
+  if (!is_escaped_char(str, prec))
   {
   	if (car == '\'' || car == '"' || car == '`' || car == '('
   		|| car == '[' || car == '{')
@@ -27,7 +27,7 @@ int 	is_quote_true_open(char car, char *str, int prec)
 
 int 	is_quote_true_close(char car, char open, char *str, int  prec)
 {
-  if (!is_escaped_quote(str, prec))
+  if (!is_escaped_char(str, prec))
   {
     if (car == '\'' && open == '\'')
     	return (1);
@@ -124,7 +124,7 @@ void   is_var_and_replace(t_data *data, char **str, size_t *index)
   char    tmp_char;
   size_t  real_length; // Length de la variable ajouté avec ou non backslash
 
-  if (!is_escaped_quote(*str, *index) && (*str)[*index] == '$')
+  if (!is_escaped_char(*str, *index) && (*str)[*index] == '$')
   {
     length = *index + 1;
     while (ft_isalnum((*str)[length]))
@@ -208,7 +208,7 @@ int   is_subs_and_replace(t_data *data, char **str, size_t *index, int flag)
   length = *index + 1;
   flag_special = 0;
   data->flag_enter = 1;
-  if (!is_escaped_quote(*str, *index) && (*str)[*index] == '!')
+  if (!is_escaped_char(*str, *index) && (*str)[*index] == '!')
   {
     if ((*str)[length] == '!')
     {

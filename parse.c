@@ -31,18 +31,19 @@ int		split_cmd(int count, char *str, t_cmd *cmd, t_hc **heredocs)
 		if(handle_aggr(&i, str, 1, cmd))
 		{
 		}
-		else if (handle_redir(&i, str, 1, cmd, heredocs))
+		else if (handle_redir(&i, &str, 1, cmd, heredocs))
 		{
 		}
 		else if (is_sep(&i, str, 1, cmd))
 		{
 			return (1);
 		}
-		else if ((tmp = skip_quotes(str, &i, cmd)) != NULL)
+		else if ((tmp = skip_quotes(&str, &i, cmd)) != NULL)
 		{
 			if (tmp_i != i )
 			{
-				cmd->av[n_av] = ft_strsub(str, tmp_i, i - tmp_i);
+				// cmd->av[n_av] = ft_strsub(str, tmp_i, i - tmp_i);
+				cmd->av[n_av] = tmp;
 				n_av++;
 			}
 		}
@@ -58,7 +59,6 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 {
 	int			count;
 	size_t 	tmp_i;
-	char		*tmp;
 
 	count = 0;
 	while (ft_isspace2(str[*i])) // On saute les espaces
@@ -71,7 +71,9 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 	while (str[*i])
 	{
 		while (ft_isspace2(str[*i])) // On saute les espaces
+		{
 			(*i)++;
+		}
 		tmp_i = *i;
 		if(is_aggr(i, str, 1)) // Si il y a un aggregateur, on le saute.
 		{
@@ -86,7 +88,7 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 			// printf("RIP ORIGINALITE\n");
 			return (count);
 		}
-		else if ((tmp = skip_quotes_nb_arg(str, i, cmd)) != NULL) // Sinon  on augment notre count.
+		else if (skip_quotes_nb_arg(str, i, cmd) != NULL) // Sinon  on augmente notre count.
 		{
 			// printf("J'AIME LE CACA\n");
 			if (tmp_i != *i)
@@ -150,14 +152,14 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 		old_i = i; // On retient le i d'avant.
 		count = nb_arg(&i, str, &fake_cmd); // On compte le nombre d'elements
 		if (count == -1)
-		{
+ 		{
 			//free cmd.
 			return (0);
 		}
 		if (count)
 		{
 			printf("--------------------------------------------\n");
-			printf("RESULTAT : [%s]\n", data->cmd);
+			printf("RESULTAT : [%s] - count : %d\n", data->cmd, count);
 			if (str[i - 1] == ';')
 			{
 				cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));

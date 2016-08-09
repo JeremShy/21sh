@@ -320,6 +320,7 @@ void	boucle(t_env *env, t_data *data)
 		// FREE DATA;
 		{
 			history_exit(data);
+			ft_putstr_fd("exit\n", 2);
 			exit(0);
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 68 && buf[3] == 0)

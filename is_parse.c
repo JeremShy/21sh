@@ -77,6 +77,8 @@ int		is_sep(size_t *i, char *str, int jump, t_cmd *cmd)
 		ret += 2;
 	else
 		return (0);
+	if (is_escaped_char(str, *i))
+		return (0);
 	if (cmd)
 		cmd->sep = def_sep(str + *i); // On mets le bon sep.
 	if (jump) // Si le troisieme parametre est a un, on saute le sep.
