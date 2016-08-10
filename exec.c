@@ -36,7 +36,7 @@ static char	*while_exec(char **split, char *scmd)
 	return (NULL);
 }
 
-char		*find_exec(char *scmd, t_env *list)
+char		*find_exec(char *scmd, t_data *data)
 {
 	char	**split;
 	char	*tmp;
@@ -44,7 +44,7 @@ char		*find_exec(char *scmd, t_env *list)
 
 	if (ft_strchr(scmd, '/'))
 		return (ft_strdup(scmd));
-	tmp = find_arg(list, "PATH");
+	tmp = find_var_env(data, "PATH");
 	if (ft_strequ(tmp, ""))
 		return (print_error_no_path(tmp));
 	split = ft_strsplit(tmp, ':');
@@ -55,14 +55,14 @@ char		*find_exec(char *scmd, t_env *list)
 }
 
 
-int			exec_file(t_cmd *cmd, t_env *list, int in_env_i)
+int			exec_file(t_cmd *cmd, t_env *list, int in_env_i, t_data *data)
 {
 	char	*file;
 	char	**env;
 	pid_t	process;
 	int		retour;
 
-	file = find_exec(cmd->av[0], list);
+	file = find_exec(cmd->av[0], data);
 	if (!file)
 		return (0);
 	if (access(file, X_OK) == -1)
@@ -114,7 +114,7 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i)
 	return (1);
 }
 
-t_cmd		*cmd_not_found(t_env *list, t_cmd *command)
+t_cmd		*cmd_not_found(t_cmd *command, t_data *data)
 {
 	t_cmd		*last_found;
 	char		*exec;
@@ -130,7 +130,7 @@ t_cmd		*cmd_not_found(t_env *list, t_cmd *command)
 	{
 		if (command->sep != '|')
 			was_ok = 0;
-		if (!(exec = find_exec(command->av[0], list)))
+		if (!(exec = find_exec(command->av[0], data)))
 		{
 			ok = 0;
 			printf("COMMAND NOT FOUND CONNARD\n");
@@ -161,7 +161,7 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 		return;
 	temp = command;
 	// print_list(command);
-	command = cmd_not_found(*env, command);
+	command = cmd_not_found(command, data);
 	while (command && (command->fd_in || command->fd_out || command->fd_err))
 	{
 		if (command->av[0] && (command->sep == NONE || command->sep == POINT_VIRGULE || command->sep == ETET))
@@ -170,7 +170,7 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 				exec_builtin(command->av, env, data);
 			else
 			{
-				exec_file(command, *env, data->in_env_i);
+				exec_file(command, *env, data->in_env_i, data);
 			}
 			// printf("\nend of command.\n");
 			if (command->fd_out || command->fd_in || command->fd_err)
@@ -193,7 +193,7 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 			else
 			{
 				signal(SIGINT, SIG_DFL);
-				if (fork_pipes(command, *env) == -1)
+				if (fork_pipes(command, *env, data) == -1)
 					exit(0);
 			}
 			while (command && command->sep == '|')
@@ -202,7 +202,7 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 			{
 				command = command->next;
 				if (command)
-					command = cmd_not_found(*env, command);
+					command = cmd_not_found(command, data);
 			}
 		}
 		// if (command && !(command->fd_in || command->fd_out || command->fd_err))

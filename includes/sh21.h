@@ -25,10 +25,16 @@ typedef struct dirent		t_dirent;
 typedef struct termios	t_termios;
 
 typedef struct	s_env {
-	char			*name;
-	char			*arg;
+	char					*name;
+	char					*arg;
 	struct s_env	*next;
-}				t_env;
+}								t_env;
+
+typedef struct	s_var {
+	char					*name;
+	char					*arg;
+	struct s_var	*next;
+}								t_var;
 
 typedef struct		s_fd {
 	int					fd;
@@ -91,6 +97,7 @@ typedef struct	s_data {
 	char			*first; // Key pour la recherche vers le haut
 	int				first_search; // Permet d'eviter le soucis quand on appuie plusieurs fois sur haut et que ca se chevauche.
 	t_env			*env; // l'env.
+	t_var			*var;
 	int				win_y; //Taille en y de la fenetre
 	int				win_x; // Taille en x de la fenetre
 	int				after_prompt; // Position curseur apres prompt
@@ -120,18 +127,18 @@ int					is_builtin(char *cmd);
 int					exec_builtin(char **scmd, t_env **env, t_data *data);
 void				change_arg(t_env *list, char *name, char *new_arg);
 char				*find_arg(t_env *list, char *name);
-int					ft_cd(char **scmd, t_env *env);
+int					ft_cd(char **scmd, t_env *env, t_data *data);
 int					isset_arg(t_env *list, char *name);
 void				delete_elem(t_env **list, char *name);
 void				delete_list(t_env *list);
-int					exec_file(t_cmd *cmd, t_env *list, int in_env_i);
+int					exec_file(t_cmd *cmd, t_env *list, int in_env_i, t_data *data);
 char				**make_env_char(t_env *list);
 int					ft_source(char **scmd, t_env **env);
 void				exec_cmd(t_env **env, t_cmd *command, t_data *data);
 void				handle_line(char *line, t_env **env);
 void				free_char_tab(char **tab);
 t_termios		*singleton_termios(t_termios *termios, int i);
-t_termios		*init_term(t_env *env);
+t_termios		*init_term(t_data *data);
 void				boucle(t_env *env, t_data *data);
 int					my_putchar(int c);
 void				exec_tcap(char *tcap);
@@ -178,9 +185,9 @@ t_hc				*create_hc_elem(char *content);
 t_hc				*add_hc_elem(t_hc *list, t_hc *elem);
 void				display_heredoc (t_hc *elem);
 void				free_heredoc(t_hc *list);
-char				*find_exec(char *scmd, t_env *list);
-int					fork_pipes(t_cmd *cmd, t_env *env);
-int					spawn_proc (t_cmd *cmd, t_env *env);
+char				*find_exec(char *scmd, t_data *data);
+int					fork_pipes(t_cmd *cmd, t_env *env, t_data *data);
+int					spawn_proc (t_cmd *cmd, t_env *env, t_data *data);
 char				*get_pb(void);
 int					is_empty_border(char *str, size_t beg, size_t end);
 int					is_parse_error(char *str);
@@ -243,4 +250,6 @@ int					env_tmp_exec(t_env **env, t_data *data, char **scmd);
 int					print_env(t_env *env);
 int   			true_var_and_subs(t_data *data, char **str);
 int  			 	is_escaped_quote(char *str, int index);
+int					ft_setvar(char **scmd, t_data *data);
+char				*find_var_env(t_data *data, char *name);
 #endif

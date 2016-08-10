@@ -1,6 +1,6 @@
 #include <sh21.h>
 
-t_termios	*init_term(t_env *env)
+t_termios	*init_term(t_data *data)
 {
 	t_termios	term;
 	t_termios	*ret;
@@ -15,7 +15,7 @@ t_termios	*init_term(t_env *env)
 	term.c_cc[VTIME] = 0;
 	if (tcsetattr(0, TCSADRAIN, &term) == -1)
 		return (NULL);
-	name_term = find_arg(env, "TERM");
+	name_term = find_arg(data->env, "TERM");
 	if (ft_strequ(name_term, ""))
 	{
 		free(name_term);

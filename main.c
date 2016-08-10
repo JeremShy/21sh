@@ -13,14 +13,14 @@ char	*print_prompt(t_env *env, t_data *data)
 		ft_putstr("\e[39m");
 		return (data->prompt);
 	}
-	new = find_arg(env, "PROMPT");
+	new = find_var_env(data, "PROMPT");
 	if (ft_strequ(new, ""))
 	{
 		free(new);
 		new = getcwd(NULL, 0);
 		if (!new)
 		{
-			tmp = find_arg(env, "HOME");
+			tmp = find_var_env(data, "HOME");
 			if (ft_strequ(tmp, ""))
 				tmp = ft_strjoinaf1(tmp, "/");
 			change_arg(env, "PWD", tmp);
@@ -51,7 +51,6 @@ char	*print_prompt(t_env *env, t_data *data)
 
 int			main(int ac, char **av, char **env)
 {
-	t_env		*list;
 	t_data	data;
 //	char	*cmd;
 
@@ -62,13 +61,14 @@ int			main(int ac, char **av, char **env)
 		ft_putstr_fd("\n", 2);
 		return (0);
 	}
-	list = ft_parse_env(env);
-	singleton_termios(init_term(list), 1); // Mets le term en mode non canonique et tout le bordel
+	data.env = ft_parse_env(env);
+	data.var = NULL;
+	singleton_termios(init_term(&data), 1); // Mets le term en mode non canonique et tout le bordel
 	signal(SIGINT, sigint);
 	signal(SIGWINCH, sigwinch);
 	get_winsize(&data);
 	data.c = '\0';
-	data.prompt = print_prompt(list, &data); // On mets le prompt dans data.prompt
+	data.prompt = print_prompt(data.env, &data); // On mets le prompt dans data.prompt
 	data.len_prompt = ft_strlen(data.prompt); // On mets la longueur dans...
 	data.curs_x = data.len_prompt + 1;
 	data.curs_y = 0;
@@ -81,7 +81,6 @@ int			main(int ac, char **av, char **env)
 	data.heredocs = NULL;
 	data.first = NULL;
 	data.first_search = 1;
-	data.env = list;
 	data.key_here = NULL;
 	data.cmd_tmp = ft_strdup("");
 	data.heredocs_tmp = ft_strdup("");
@@ -98,6 +97,6 @@ int			main(int ac, char **av, char **env)
 	get_index_min_win(&data);
 	init_history(&data);
 	singleton_data(&data, 1);
-	boucle(list, &data); // Entre dans la boucle principale du programme.
+	boucle(data.env, &data); // Entre dans la boucle principale du programme.
 	return (0);
 }

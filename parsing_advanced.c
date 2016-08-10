@@ -131,7 +131,7 @@ void   is_var_and_replace(t_data *data, char **str, size_t *index)
       length++;
     tmp_char = (*str)[length];
     (*str)[length] = '\0';
-    arg = find_arg(data->env, *str + *index + 1); // METTRE find_env_var
+    arg = find_var_env(data, *str + *index + 1); // METTRE find_env_var
     printf("ARG = [%s]\n", arg);
     (*str)[length] = tmp_char;
     if (length - (*index + 1) == 0)

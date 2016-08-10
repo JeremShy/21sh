@@ -13,7 +13,7 @@ int find_number(t_cmd *cmd)
 	return (n);
 }
 
-int spawn_proc (t_cmd *cmd, t_env *env)
+int spawn_proc (t_cmd *cmd, t_env *env, t_data *data)
 {
 	pid_t pid;
 	int		in;
@@ -45,7 +45,7 @@ int spawn_proc (t_cmd *cmd, t_env *env)
 		{
 			close(1);
 		}
-		file = find_exec(cmd->av[0], env);
+		file = find_exec(cmd->av[0], data);
 		environ = make_env_char(env);
 		return execve(file, cmd->av, environ);
 	}
@@ -54,7 +54,7 @@ int spawn_proc (t_cmd *cmd, t_env *env)
 	return pid;
 }
 
-int	fork_pipes(t_cmd *cmd, t_env *env)
+int	fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 {
 	int i;
 	int fd[2];
@@ -73,7 +73,7 @@ int	fork_pipes(t_cmd *cmd, t_env *env)
 			close(fd[1]);
 		else
 			cmd->fd_out->fd = fd[1];
-		spawn_proc(cmd, env);
+		spawn_proc(cmd, env, data);
 		close(fd[1]);
 		cmd = cmd->next;
 		if (cmd == NULL)
@@ -87,7 +87,7 @@ int	fork_pipes(t_cmd *cmd, t_env *env)
 	printf("on execute : %s\n", cmd->av[0]);
 	if (cmd->fd_in->fd != 0)
 		dup2(cmd->fd_in->fd, 0);
-	file = find_exec(cmd->av[0], env);
+	file = find_exec(cmd->av[0], data);
 	environ = make_env_char(env);
 	return (execve(file, cmd->av, environ));
 }

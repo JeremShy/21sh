@@ -41,6 +41,7 @@
 		 parsing_advanced.c \
 		 vid_inv.c \
 		 builtin_env.c \
+		 setvar.c \
 		 history_exit.c \
 		 autocomplete.c
 
