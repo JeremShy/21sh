@@ -145,10 +145,10 @@ t_cmd		*cmd_not_found(t_cmd *command, t_data *data)
 		command = command->next;
 	}
 
-	if (last_found)
-		printf("on renvoit : %s\n", last_found->av[0]);
-	else
-		printf("on renvoit rien;");
+	// if (last_found)
+	// 	printf("on renvoit : %s\n", last_found->av[0]);
+	// else
+	// 	printf("on renvoit rien;");
 	return (last_found);
 }
 

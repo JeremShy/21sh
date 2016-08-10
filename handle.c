@@ -58,7 +58,7 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 	return (1);
 }
 
-char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd, t_hc **heredocs)
+char	*handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs)
 {
 	size_t	tmp;
 	char		*quote;
@@ -69,26 +69,26 @@ char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd, t_hc **heredocs)
 
 	fd_file = -1;
 	tmp = *i;
-	fd = (str[tmp] == '>' ? 1 : 0);
-	if ((str[tmp] == '<' && str[tmp + 1] == '<') || (str[tmp] == '>' && str[tmp + 1] == '>')) // on check si la redirection est valide.
+	fd = ((*str)[tmp] == '>' ? 1 : 0);
+	if (((*str)[tmp] == '<' && (*str)[tmp + 1] == '<') || ((*str)[tmp] == '>' && (*str)[tmp + 1] == '>')) // on check si la redirection est valide.
 	{
-		redir_type = (str[tmp] == '<' ? 3 : 1);
+		redir_type = ((*str)[tmp] == '<' ? 3 : 1);
 		tmp += 2;
 	}
-	else if (str[tmp] == '<' || str[tmp] == '>')
+	else if ((*str)[tmp] == '<' || (*str)[tmp] == '>')
 	{
-		redir_type = (str[tmp] == '>' ? 0 : 2);
+		redir_type = ((*str)[tmp] == '>' ? 0 : 2);
 		tmp++;
 	}
-	else if (ft_isdigit(str[*i]))
+	else if (ft_isdigit((*str)[*i]))
 	{
-		fd = str[*i] - '0';
-		if (str[tmp + 1] == '>' && str[tmp + 2] == '>')
+		fd = (*str)[*i] - '0';
+		if ((*str)[tmp + 1] == '>' && (*str)[tmp + 2] == '>')
 		{
 			redir_type = 1;
 			tmp += 3;
 		}
-		else if (str[tmp + 1] == '>')
+		else if ((*str)[tmp + 1] == '>')
 		{
 			redir_type = 0;
 			tmp += 2;
@@ -98,9 +98,9 @@ char	*handle_redir(size_t *i, char *str, int jump, t_cmd *cmd, t_hc **heredocs)
 	}
 	if (tmp != *i) // Si on a bouge tmp, alors :
 	{
-		while (ft_isspace2(str[tmp])) // on saute les espaces
+		while (ft_isspace2((*str)[tmp])) // on saute les espaces
 			tmp++;
-		if (is_empty(str, &tmp)) // on check si c'est empty
+		if (is_empty(*str, &tmp)) // on check si c'est empty
 		{
 			cmd->p_error = 1;
 			return(NULL);

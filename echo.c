@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/07/18 18:45:34 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/10 16:19:58 by vsteffen         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <sh21.h>
 
 int eot()
@@ -45,13 +33,13 @@ int	special_car(char c)
 	return (0);
 }
 
-int ft_echo(char **scmd, t_env *env)
+int ft_echo(char **scmd)
 {
 	int				flag;
 	int				i;
 	int				j;
 	char			c;
-	char			*str;
+	// char			*str;
 
 	i = 0;
 	flag = 0;
@@ -64,37 +52,37 @@ int ft_echo(char **scmd, t_env *env)
 	while (scmd[i])
 	{
 		j = 0;
-		if (scmd[i][0] == '$')
+		// if (scmd[i][0] == '$')
+		// {
+		// 	str = find_arg(env, scmd[i] + 1);
+		// 	ft_putstr(str);
+		// 	free(str);
+		// }
+		// else
+		// {
+		while (scmd[i][j])
 		{
-			str = find_arg(env, scmd[i] + 1);
-			ft_putstr(str);
-			free(str);
-		}
-		else
-		{
-			while (scmd[i][j])
+			if (scmd[i][j] == '\\')
 			{
+				j++;
 				if (scmd[i][j] == '\\')
 				{
+					c = scmd[i][j + 1];
+					if (special_car(c))
+						return (1);
 					j++;
-					if (scmd[i][j] == '\\')
-					{
-						c = scmd[i][j + 1];
-						if (special_car(c))
-							return (1);
-						j++;
-					}
-					else
-						write(1, &scmd[i][j], 1);
 				}
 				else
 					write(1, &scmd[i][j], 1);
-				if (scmd[i][j])
-					j++;
 			}
-			if (scmd[i + 1])
-				write(1, " ", 1);
+			else
+				write(1, &scmd[i][j], 1);
+			if (scmd[i][j])
+				j++;
 		}
+		if (scmd[i + 1])
+			write(1, " ", 1);
+		// }
 		i++;
 	}
 	if (flag == 0)

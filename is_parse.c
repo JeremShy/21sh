@@ -54,12 +54,10 @@ char	*is_redir(size_t *i, char *str, int jump, t_cmd	*cmd)
 			cmd->p_error = 1;
 			return (NULL);
 		}
-		quote = skip_quotes(str, &tmp, cmd); // On enleve les quotes.
-		if (!quote)
-			quote = ft_strdup("");
-		if (jump)
+		quote = skip_quotes_nb_arg(str, &tmp, cmd); // On enleve les quotes.
+ 		if (jump)
 			*i = tmp;
-		return (quote); // On se barre à la fin.
+		return ("KAKA"); // On se barre à la fin.
 	}
 	return (NULL);
 }
@@ -76,6 +74,8 @@ int		is_sep(size_t *i, char *str, int jump, t_cmd *cmd)
 	else if (ft_strnstr(str + *i, "&&", 2))
 		ret += 2;
 	else
+		return (0);
+	if (is_escaped_char(str, *i))
 		return (0);
 	if (cmd)
 		cmd->sep = def_sep(str + *i); // On mets le bon sep.

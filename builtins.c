@@ -66,7 +66,7 @@ int			exec_builtin(char **scmd, t_env **env, t_data *data)
 	else if (ft_strequ(scmd[0], "exit"))
 		return (ft_exit_bi(scmd, *env, data));
 	else if (ft_strequ(scmd[0], "echo"))
-		return (ft_echo(scmd + 1, *env));
+		return (ft_echo(scmd + 1));
 	else if (ft_strequ(scmd[0], "history"))
 		return (ft_history(scmd + 1, data));
 	else if (ft_strequ(scmd[0], "setvar"))
