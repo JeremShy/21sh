@@ -17,7 +17,7 @@ void		print_list(t_cmd *lst)
 			printf("av[%zu] : #%s#\n", j, av[j]);
 			j++;
 		}
-		// printf("sep : %c\n", lst->sep);
+		printf("sep : %d\n", lst->sep);
 		i++;
 		print_fd_list(lst);
 		lst = lst->next;
@@ -47,7 +47,7 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 	// printf("sep : %d\n", elem->sep);
 	// printf("on cree une liste.\n");
 	elem->next = NULL;
-	print_list(elem);
+	// print_list(elem);
 	if (elem->fd_in->fd == -1)
 		elem->fd_in->fd = 0;
 	if (elem->fd_out->fd == -1)

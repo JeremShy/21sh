@@ -82,7 +82,7 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i, t_data *data)
 	// printf("in : %d - out : %d - err - %d - command : %s\n", cmd->fd_in->fd, cmd->fd_out->fd, cmd->fd_err->fd, file);
 	process = fork();
 	if (process != 0)
-		wait(NULL);
+		wait(&cmd->ret);
 	else
 	{
 		if (!cmd->fd_in || cmd->fd_in->fd == -2)
@@ -144,11 +144,6 @@ t_cmd		*cmd_not_found(t_cmd *command, t_data *data)
 		}
 		command = command->next;
 	}
-
-	// if (last_found)
-	// 	printf("on renvoit : %s\n", last_found->av[0]);
-	// else
-	// 	printf("on renvoit rien;");
 	return (last_found);
 }
 
@@ -164,7 +159,7 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 	command = cmd_not_found(command, data);
 	while (command && (command->fd_in || command->fd_out || command->fd_err))
 	{
-		if (command->av[0] && (command->sep == NONE || command->sep == POINT_VIRGULE || command->sep == ETET))
+		if (command->av[0] && (command->sep == NONE || command->sep == POINT_VIRGULE || command->sep == ETET || command->sep == OUOU))
 		{
 			if (is_builtin(command->av[0]))
 				exec_builtin(command->av, env, data);
@@ -172,7 +167,7 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 			{
 				exec_file(command, *env, data->in_env_i, data);
 			}
-			// printf("\nend of command.\n");
+			printf("\nend of command.\n");
 			if (command->fd_out || command->fd_in || command->fd_err)
 			{
 				if (command->fd_out)
@@ -187,6 +182,7 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 		}
 		else if (command->sep == '|')
 		{
+			printf("ON RENTRE DANS LA PIPATION ET C'EST UN PROBLEME GRAVE.\n");
 			pid = fork();
 			if (pid != 0)
 				wait(NULL);

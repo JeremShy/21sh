@@ -19,21 +19,36 @@ int	is_parse_error(char *str)
 {
 	size_t i;
 	int			there_is_a_pipe;
+	int			flag;
 
 	i = 0;
 	// printf("ON ENVOIE [%s]\n", str);
 	there_is_a_pipe = 0;
 	while (str[i])
 	{
+		flag = 0;
 		while (ft_isspace2(str[i]))
+		{
+			flag = 1;
 			i++;
-		if (str[i] == '|' || (str[i] == '\0' && there_is_a_pipe))
+		}
+		if ((str[i] == '|' && flag) || (str[i] == '\0' && there_is_a_pipe))
 		{
 			printf("121sh: parse error near '|'\n");
 			printf("str[i] = %c\n\n", str[i]);
 			return (1);
+ 		}
+		if (str[i] == '|')
+		{
+			i++;
+			while (ft_isspace2(str[i]))
+				i++;
+			if (str[i] == '|')
+			{
+				printf("521sh: parse error near '|'\n");
+				return (1);
+			}
 		}
-		there_is_a_pipe = 1;
 		while (str[i] != '|' && str[i] != '\0')
 		{
 			if (is_quote_open(str[i]))
@@ -41,6 +56,7 @@ int	is_parse_error(char *str)
 			else
 				i++;
 		}
+		there_is_a_pipe = 1;
 		if (str[i])
 			i++;
 	}

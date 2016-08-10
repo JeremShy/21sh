@@ -2,8 +2,10 @@
 
 int		def_sep(char *str)
 {
-	if (ft_strnstr(str, "&&", 2))
+	if (ft_strnequ(str, "&&", 2))
 		return (ETET);
+	else if (ft_strnequ(str, "||", 2))
+		return (OUOU);
 	else if (str[0] == '|')
 		return (str[0]);
 	else if (str[0] == ';')

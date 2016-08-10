@@ -67,12 +67,14 @@ int		is_sep(size_t *i, char *str, int jump, t_cmd *cmd)
 	size_t	ret;
 
 	ret = *i;
-	if (str[*i] == ';') // Si c'est un ;, un | ou un &&, on augmente ret.
+	if (ft_strnequ(str + *i, "||", 2))
+		ret += 2;
+	else if (ft_strnequ(str + *i, "&&", 2))
+		ret += 2;
+	else if (str[*i] == ';') // Si c'est un ;, un | ou un &&, on augmente ret.
 		ret++;
 	else if (str[*i] == '|')
 		ret++;
-	else if (ft_strnstr(str + *i, "&&", 2))
-		ret += 2;
 	else
 		return (0);
 	if (is_escaped_char(str, *i))

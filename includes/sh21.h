@@ -18,6 +18,7 @@
 # define	NONE (char)0
 # define	POINT_VIRGULE ';'
 # define	ETET (char)1
+# define	OUOU (char)2
 
 # undef tab
 
@@ -53,6 +54,7 @@ typedef	struct		s_cmd {
 	t_fd					*fd_err;	//2
 	int						p_error;
 	int						error;
+	int						ret;
 }								t_cmd;
 
 typedef struct	s_history {
