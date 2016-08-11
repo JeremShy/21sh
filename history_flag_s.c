@@ -5,13 +5,18 @@ void delete_last_history(t_data *data)
 {
   t_history *list;
 
-  list = data->history->prec;
+  list = data->history;
   if (list)
   {
-    free(data->history->line);
-    free(data->history);
-    list->next = NULL;
-    data->history = list;
+    if (list->prec)
+    {
+      data->history = list->prec;
+      data->history->next = NULL;
+    }
+    else
+      data->history = NULL;
+    free(list->line);
+    free(list);
   }
 }
 
@@ -103,28 +108,12 @@ char  *get_history_substutition(t_data *data, char *scmd)
 int history_flag_s(t_data *data, char **scmd)
 {
   int   j;
-  char  *arg;
 
-  if (scmd[0] == NULL)
-    return (0);
-  else
+  j = 0;
+  while (scmd[j] != NULL)
   {
-    j = 0;
-    while (scmd[j] != NULL)
-    {
-      if (scmd[j][0] == '!')
-      {
-        if ((arg = get_history_substutition(data, scmd[j] + 1)) == NULL)
-        {
-          ft_putstr_fd("42sh: history: command not found\n", 2);
-          return (1);
-        }
-      }
-      else
-        arg = scmd[j];
-      data->history = add_history_elem(data->history, create_history_elem(ft_strdup(arg)));
-      j++;
-    }
+    data->history = add_history_elem(data->history, create_history_elem(ft_strdup(scmd[j])));
+    j++;
   }
   return (0);
 }

@@ -89,29 +89,36 @@ int	history_flag_file(t_data *data, char **scmd)
 
 int	history_flag_weird(t_data *data, char **scmd)
 {
-	char	*tmp_line;
-	int		tmp_time;
-	int		history_exist;
-
-	history_exist = 0;
-	if (data->history != NULL)
+	// char	*tmp_line;
+	// int		tmp_time;
+	// int		history_exist;
+	//
+	// history_exist = 0;
+	// if (data->history != NULL)
+	// {
+		// tmp_line = ft_strdup(data->history->line);
+		// tmp_time = data->history->time;
+		// history_exist = 1;
+	// }
+	if (!scmd[0])
+		return (1);
+	if (data->history)
 	{
-		tmp_line = ft_strdup(data->history->line);
-		tmp_time = data->history->time;
-		history_exist = 1;
+		// printf("A KE KOUKOU --> [%s]\n", data->history->line);
+		delete_last_history(data);
+		// printf("A KE KOUKOU --> [%s]\n", data->history->line);
 	}
-	delete_last_history(data);
 	if (data->history_flag[6])
-		if (history_flag_p(data, scmd) == 1)
+		if (history_flag_p(scmd) == 1)
 			return (0);
 	if (data->history_flag[7])
 		if (history_flag_s(data, scmd) == 1)
 			return (0);
-	if (history_exist)
-	{
-		data->history = add_history_elem(data->history, create_history_elem(tmp_line));
-		data->history->time = tmp_time;
-	}
+	// if (history_exist)
+	// {
+	// 	data->history = add_history_elem(data->history, create_history_elem(tmp_line));
+	// 	data->history->time = tmp_time;
+	// }
 	return (1);
 }
 
@@ -121,6 +128,7 @@ int ft_history(char **scmd, t_data *data)
 
 	j = 0;
 	init_flag(data);
+	printf("------------ JE PASSE DANS L'HISTORIQUE\n");
 	if (get_history_flag(data, scmd, &j) == 1)
 		return (1);
 	// printf(" ---------------------- data->history = [%s]\n", data->history->line);

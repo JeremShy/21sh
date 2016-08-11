@@ -6,20 +6,23 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 16:57:59 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/31 23:17:35 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/08/11 18:13:10 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-int	print_env(t_env *new)
+int	print_env(t_env *new, t_cmd *cmd)
 {
-	while (new)
+	if (cmd->fd_out && cmd->fd_out->fd != -2)
 	{
-		ft_putstr(new->name);
-		write(1, "=", 1);
-		ft_putendl(new->arg);
-		new = new->next;
+		while (new)
+		{
+			ft_putstr_fd(new->name, cmd->fd_out->fd);
+			write(cmd->fd_out->fd, "=", 1);
+			ft_putendl_fd(new->arg, cmd->fd_out->fd);
+			new = new->next;
+		}
 	}
 	return (1);
 }
@@ -63,7 +66,7 @@ t_env *create_tmp_env(t_data *data, t_env *env, char **scmd)
 	return (tmp);
 }
 
-int	env_tmp_exec(t_env **env, t_data *data, char **scmd)
+int	env_tmp_exec(t_env **env, t_data *data, char **scmd, t_cmd *cmd)
 {
 	t_env	*tmp;
 	t_env	*new;
@@ -76,7 +79,7 @@ int	env_tmp_exec(t_env **env, t_data *data, char **scmd)
 	while (scmd[i] && ft_strchr(scmd[i], '='))
 		i++;
 	if (scmd[i] && ft_strequ(scmd[i], "env") && !scmd[i + 1])
-		return (print_env(new));
+		return (print_env(new, cmd));
 	new_str = ft_strdup("");
 	while (scmd[i])
 	{

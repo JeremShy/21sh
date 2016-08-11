@@ -62,6 +62,7 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i, t_data *data)
 	pid_t	process;
 	int		retour;
 
+	printf("On passe dans exec_file\n");
 	file = find_exec(cmd->av[0], data);
 	if (!file)
 		return (0);
@@ -155,30 +156,38 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 	if (!command)
 		return;
 	temp = command;
-	// print_list(command);
 	command = cmd_not_found(command, data);
-	while (command && (command->fd_in || command->fd_out || command->fd_err))
+	while (command && (command->fd_out || command->fd_err))
 	{
 		if (command->av[0] && (command->sep == NONE || command->sep == POINT_VIRGULE || command->sep == ETET || command->sep == OUOU))
 		{
 			if (is_builtin(command->av[0]))
-				exec_builtin(command->av, env, data);
+			{
+				command->ret = exec_builtin(command, env, data);
+			}
 			else
 			{
 				exec_file(command, *env, data->in_env_i, data);
 			}
 			printf("\nend of command.\n");
-			if (command->fd_out || command->fd_in || command->fd_err)
+			if (command->fd_out || command->fd_err)
 			{
 				if (command->fd_out)
 					command->fd_out = command->fd_out->next;
 				if (command->fd_err)
 					command->fd_err = command->fd_err->next;
-				if (command->fd_in)
-					command->fd_in = command->fd_in->next;
 			}
 			else
+			{
+				printf("on command->next\n");
+				if ((command->ret == 0 && command->sep == OUOU) || (command->ret != 0 && command->sep == ETET))
+				{
+					printf("%s\n", "passe");
+
+					return ;
+				}
 				command = command->next;
+			}
 		}
 		else if (command->sep == '|')
 		{
@@ -201,11 +210,6 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 					command = cmd_not_found(command, data);
 			}
 		}
-		// if (command && !(command->fd_in || command->fd_out || command->fd_err))
-		// {
-		// 	// Ici
-		// 	command = command->next;
-		// }
 	}
 	//free temp.
 	close_fd_cmd(temp);

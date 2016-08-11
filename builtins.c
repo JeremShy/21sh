@@ -1,21 +1,21 @@
 #include <sh21.h>
 
-int			ft_env(t_env **env, char **scmd, t_data *data)
+int			ft_env(t_env **env, t_cmd *cmd, t_data *data)
 {
 	int	i;
 
 	i = 1;
-	if (!scmd[1])
-		return (print_env(*env));
-	while (scmd[i] && scmd[i][0] == '-')
+	if (!(cmd->av)[1])
+		return (print_env(*env, cmd));
+	while ((cmd->av)[i] && (cmd->av)[i][0] == '-')
 	{
-		if (scmd[i][1] == '-')
+		if ((cmd->av)[i][1] == '-')
 			break;
-		if (ft_strchr(scmd[i], 'i'))
+		if (ft_strchr((cmd->av)[i], 'i'))
 			data->in_env_i = 1;
 		i++;
 	}
-	return (env_tmp_exec(env, data, scmd + i));
+	return (env_tmp_exec(env, data, cmd->av + i, cmd));
 }
 
 int			ft_setenv(char **scmd, t_env **env)
@@ -53,24 +53,25 @@ static int	ft_exit_bi(char **scmd, t_env *env, t_data *data)
 	return (1);
 }
 
-int			exec_builtin(char **scmd, t_env **env, t_data *data)
+int			exec_builtin(t_cmd *cmd, t_env **env, t_data *data)
 {
-	if (ft_strequ(scmd[0], "cd"))
-		return (ft_cd(scmd, *env, data));
-	else if (ft_strequ(scmd[0], "env"))
-		return (ft_env(env, scmd, data));
-	else if (ft_strequ(scmd[0], "setenv"))
-		return (ft_setenv(scmd, env));
-	else if (ft_strequ(scmd[0], "unsetenv"))
-		return (ft_unsetenv(scmd, env));
-	else if (ft_strequ(scmd[0], "exit"))
-		return (ft_exit_bi(scmd, *env, data));
-	else if (ft_strequ(scmd[0], "echo"))
-		return (ft_echo(scmd + 1));
-	else if (ft_strequ(scmd[0], "history"))
-		return (ft_history(scmd + 1, data));
-	else if (ft_strequ(scmd[0], "setvar"))
-		return (ft_setvar(scmd, data));
+	printf("+-+-+-+-+-+-+-+-+-+ ON PASSE DANS LES BUILTINS\n");
+	if (ft_strequ((cmd->av)[0], "cd"))
+		return (ft_cd((cmd->av), *env, data));
+	else if (ft_strequ((cmd->av)[0], "env"))
+		return (ft_env(env, cmd, data));
+	else if (ft_strequ((cmd->av)[0], "setenv"))
+		return (ft_setenv((cmd->av), env));
+	else if (ft_strequ((cmd->av)[0], "unsetenv"))
+		return (ft_unsetenv((cmd->av), env));
+	else if (ft_strequ((cmd->av)[0], "exit"))
+		return (ft_exit_bi((cmd->av), *env, data));
+	else if (ft_strequ((cmd->av)[0], "echo"))
+		return (ft_echo((cmd->av) + 1));
+	else if (ft_strequ((cmd->av)[0], "history"))
+		return (ft_history((cmd->av) + 1, data));
+	else if (ft_strequ((cmd->av)[0], "setvar"))
+		return (ft_setvar((cmd->av), data));
 	// else if (ft_strequ(sc	md[0], "source"))
 		// return (ft_source(scmd, env));
 	return (0);

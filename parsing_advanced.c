@@ -255,6 +255,33 @@ int   is_subs_and_replace(t_data *data, char **str, size_t *index, int flag)
   return (1); // NE PAS OUBLIER DE REMETTRE LE BON INDEX
 }
 
+int   is_tilde_and_replace(t_data *data, char **str, size_t *index)
+{
+  char    *home;
+  char    *tmp;
+
+  if (!is_escaped_char(*str, *index) && ((*str)[*index] == '~' && (ft_isspace2((*str)[*index]) || (*str)[*index + 1] == '/' || (*str)[*index + 1] == '\0')))
+  {
+    home = find_var_env(data, "HOME");
+    if (home)
+    {
+      (*str)[*index] = '\0';
+      // tmp = ft_strdup(*str);
+      // tmp = ft_strjoinaf2(*str, home);
+      // tmp = ft_strjoinaf1(tmp, *str + index + 1);
+      tmp = ft_strjoinaf1(ft_strjoin(*str, home), *str + *index + 1);
+      free(*str);
+      *str = tmp;
+      (*index) += ft_strlen(home);
+      // delete_subs_and_replace(str, *index, 1, home);
+    }
+    free(home);
+  }
+  return (1); // NE PAS OUBLIER DE REMETTRE LE BON INDEX
+}
+
+//FLAG ENTER : 0 entré dans is tilde et 1
+
 int   true_var_and_subs(t_data *data, char **str)
 {
   // char    *new_str;
@@ -287,7 +314,10 @@ int   true_var_and_subs(t_data *data, char **str)
         if (is_subs_and_replace(data, str, &index, 0) == 0)
           return (0);
         if (data->flag_enter) // sert a ne pas entrer dans is_var si on est entré dans is_subs
+        {
           is_var_and_replace(data, str, &index);
+          is_tilde_and_replace(data, str, &index);
+        }
       }
       else if (open_quote == '"') // Variables dans une quote
       {
