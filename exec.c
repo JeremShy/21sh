@@ -169,7 +169,7 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 			{
 				exec_file(command, *env, data->in_env_i, data);
 			}
-			printf("\nend of command.\n");
+			printf("------------------------------------------------\nend of command.\n");
 			if (command->fd_out || command->fd_err)
 			{
 				if (command->fd_out)

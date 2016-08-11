@@ -7,6 +7,7 @@ void sigint(int sig)
   sig = 0;
 	(void)sig; // TODO set but not used
   data = singleton_data(NULL, 0);
+  exec_tcap("me");
   while (data->index < (int)ft_strlen(data->cmd))
     move_right_without_mod(data);
   ft_putstr("\n");
@@ -23,7 +24,6 @@ void sigint(int sig)
   data->cmd = ft_strdup("");
   data->index = 0;
   data->c = 0;
-  exec_tcap("me");
   data->prompt = print_prompt(data->env, data);
   data->len_prompt = ft_strlen(data->prompt);
 	if (data->cmd_tmp) // TEST DE TRUC CHELOU
@@ -155,6 +155,7 @@ void sigwinch(int sig)
   t_data  *data;
 	int			old_index;
 	int 		old_line_max;
+  int     i;
 
   data = singleton_data(NULL, 0);
   sig = 0;
@@ -163,23 +164,54 @@ void sigwinch(int sig)
 	(void)old_line_max; // TODO useless set
   get_winsize(data);
   get_index_min_win(data);
-	if (((data->len_prompt + (int)ft_strlen(data->cmd)) % (data->win_x)) == 0 )
+	if (((data->len_prompt + (int)ft_strlen(data->cmd)) - (data->win_x)) >= 0)
 	{
 		// sleep(1);
 		exec_tcap("cl");
 		ft_putstr("\e[38;5;208m");
 		ft_putstr(data->prompt);
 		ft_putstr("\e[39m");
-		ft_putstr(data->cmd);
+    if (data->mode_copy)
+    {
+      i = 0;
+      while (data->cmd[i])
+      {
+        if (i >= data->index_min_copy && i <= data->index_max_copy)
+          vi_char(data->cmd[i]);
+        else
+          ft_putchar(data->cmd[i]);
+        i++;
+      }
+    }
+    else
+      ft_putstr(data->cmd);
 		old_index = data->index;
 		data->index = (int)ft_strlen(data->cmd);
 		while (old_index < data->index)
-			move_left(data);
-		// sleep(1);
-
-		// exec_tcap("sr");
-		// exec_tcap("do");
+			move_left_without_mod(data);
 	}
+  // if ((int)ft_strlen(data->prompt) + (int)ft_strlen(data->cmd) - data->win_x >= 0) // HOTFIXE CRADE
+  // {
+  //   // exec_tcap("cl");
+  //   // old_index = data->index;
+  //   // print_prompt(data->env, data);
+  //   // ft_putstr(data->cmd);
+  //   // data->index = (int)ft_strlen(data->cmd);
+  //   // while (old_index < data->index)
+  //   //   move_left(data);
+  //   // ret = (int)ft_strlen(data->prompt) + (int)ft_strlen(data->cmd) - data->win_x;
+  //   // while (ret >= 0)
+  //   // {
+  //   //   ret -= data->win_x;
+  //   // }
+  //   // printf("--------------------------------\n--------------------------------\n--------------------------------\n");
+  //   if (data->cmd[data->index] == '\0')
+  //     ft_putchar(' ');
+  //   else
+  //     ft_putchar(data->cmd[data->index]);
+  //   data->index++;
+  //   move_left(data);
+  // }
 	// if (data->len_prompt + (int)ft_strlen(data->cmd) > data->win_x)
 	// {
 	//

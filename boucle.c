@@ -184,6 +184,7 @@ int	create_history(t_data *data, t_env **env)
 	{
 		if (i == -1)
 		{
+			printf("I am running free\n");
 			//Parse error
 			data->c = '\0'; // Pour tout reinitialiser par la suite.
 			//FREE HEREDOCS
@@ -247,6 +248,7 @@ int	create_history(t_data *data, t_env **env)
 	data->real_len_cmd = 0;
 	data->curs_x = data->len_prompt + 1;
 	data->curs_y = -1;
+	printf("ON ARRIVE LA POULETKIK\n");
 	data->heredocs = NULL;
 	if (data->first)
 	{

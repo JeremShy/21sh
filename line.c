@@ -16,7 +16,7 @@ void move_right_simple(t_data *data)
 
 int get_actual_line(t_data *data)
 {
-	return((data->len_prompt + data->index + 1) / data->win_x);
+	return ((data->len_prompt + data->index + 1) / data->win_x);
 }
 
 // int	get_actual_cursor(t_data *data)
@@ -98,7 +98,7 @@ int	get_actual_cursor(t_data *data)
 	{
 		if (data->prompt[i] == '\n')
 			x = 0;
-		else if (x == data->win_x)
+		else if (x == data->win_x - 1)
 			x = 0;
 		else
 			x++;
@@ -150,7 +150,7 @@ void	move_left(t_data *data)
 		return ;
 	if (data->index_min_win != -1 && data->index_min_win == data->index)
 	{
-		printf("MDR GROS CON\n");
+		// printf("C\"EST PAS INTELLIGENT\n");
 		exec_tcap("vb");
 		return ;
 	}

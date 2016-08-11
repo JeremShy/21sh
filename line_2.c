@@ -85,8 +85,17 @@ void page_down(t_data *data)
 		why = 0;
 		if (data->mode_copy == 0) // Si on est pas en mode_copy..
 		{
-			write(1, data->cmd + data->index, data->win_x); // OPTI TU PEUX PAS TEST
-			data->index += data->win_x;
+			if (get_actual_cursor(data) == 0)
+			{
+				write(1, data->cmd + data->index, data->win_x + 1);
+				data->index += data->win_x + 1;
+				move_left_without_mod(data);
+			}
+			else
+			{
+				write(1, data->cmd + data->index, data->win_x); // OPTI TU PEUX PAS TEST
+				data->index += data->win_x;
+			}
 		}
 		else // Sinon..
 		{
@@ -168,4 +177,4 @@ void next_word(t_data *data)
 	}
 }
 
-//abcdefghijklmnopqrstuvwxyz
+// abcdefghijklmnopqrstuvwxyz

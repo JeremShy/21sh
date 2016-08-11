@@ -142,6 +142,8 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 	// printf("str : [%s]\n", str);
 	i = 0;
 	cmd = NULL; // On initialiase notre retour.
+	display_heredoc(data->heredocs);
+	// printf("LAST HEREDOCS = [%s]\n", data->heredocs->content);
 	if (is_pipe_e_parse_error(str))
 		return (NULL);
 	if (true_var_and_subs(data, &str) == 0)
