@@ -1,39 +1,39 @@
 #include <sh21.h>
 
-int eot()
+int eot(t_cmd *cmd)
 {
-	ft_putchar(4);
+	putchar_builtin(cmd, 4, 1);
 	exec_tcap("mr");
-	ft_putchar('%');
+	putchar_builtin(cmd, '%', 1);
 	exec_tcap("me");
 	exec_tcap("do");
 	return (1);
 }
 
-int	special_car(char c)
+int	special_car(char c, t_cmd *cmd)
 {
 	if (c == 'a')
-		ft_putchar('\a');
+		putchar_builtin(cmd, '\a', 1);
 	else if (c == 'b')
-		ft_putchar('\b');
+		putchar_builtin(cmd, '\b', 1);
 	else if (c == 'f')
-		ft_putchar('\f');
+		putchar_builtin(cmd, '\f', 1);
 	else if (c == 'n')
-		ft_putchar('\n');
+		putchar_builtin(cmd, '\n', 1);
 	else if (c == 'r')
-		ft_putchar('\r');
+		putchar_builtin(cmd, '\r', 1);
 	else if (c == 't')
-		ft_putchar('\t');
+		putchar_builtin(cmd, '\t', 1);
 	else if (c == 'v')
-		ft_putchar('\v');
+		putchar_builtin(cmd, '\v', 1);
 	else if (c == '\\')
-		ft_putchar('\\');
+		putchar_builtin(cmd, '\\', 1);
 	else if (c == 'c')
-		return (eot());
+		return (eot(cmd));
 	return (0);
 }
 
-int ft_echo(char **scmd)
+int ft_echo(char **scmd, t_cmd *cmd)
 {
 	int				flag;
 	int				i;
@@ -68,26 +68,26 @@ int ft_echo(char **scmd)
 				if (scmd[i][j] == '\\')
 				{
 					c = scmd[i][j + 1];
-					if (special_car(c))
+					if (special_car(c, cmd))
 						return (1);
 					j++;
 				}
 				else
-					write(1, &scmd[i][j], 1);
+					putchar_builtin(cmd, scmd[i][j], 1);
 			}
 			else
-				write(1, &scmd[i][j], 1);
+				putchar_builtin(cmd, scmd[i][j], 1);
 			if (scmd[i][j])
 				j++;
 		}
 		if (scmd[i + 1])
-			write(1, " ", 1);
+			putchar_builtin(cmd, ' ', 1);
 		// }
 		i++;
 	}
 	if (flag == 0)
-		write(1, "\n", 1);
+		putchar_builtin(cmd, '\n', 1);
 	else
-		eot();
+		eot(cmd);
 	return (1);
 }

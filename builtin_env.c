@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 16:57:59 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/12 15:39:17 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/08/12 17:13:15 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,12 @@
 
 int	print_env(t_env *new, t_cmd *cmd)
 {
-	if (cmd->fd_out && cmd->fd_out->fd != -2)
+	while (new)
 	{
-		while (new)
-		{
-			ft_putstr_fd(new->name, cmd->fd_out->fd);
-			write(cmd->fd_out->fd, "=", 1);
-			ft_putendl(new->arg, cmd->fd_out->fd);
-			new = new->next;
-		}
+		putstr_builtin(cmd, new->name, 1);
+		putstr_builtin(cmd, "=", 1);
+		putendl_builtin(cmd, new->arg, 1);
+		new = new->next;
 	}
 	return (1);
 }

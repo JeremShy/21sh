@@ -15,7 +15,7 @@ int  get_history_flag_time(t_data *data)
   return (nb);
 }
 
-int  get_history_flag_none_arg(char **scmd)
+int  get_history_flag_none_arg(char **scmd, t_cmd *cmd)
 {
   if (scmd[0] == NULL)
     return (-1);
@@ -25,15 +25,15 @@ int  get_history_flag_none_arg(char **scmd)
       return (ft_atoi(scmd[0]));
     else
     {
-      ft_putstr_fd("42sh: history: Too many arguments\n", 2);
+      putstr_builtin(cmd, "42sh: history: Too many arguments\n", 2);
       return (-2);
     }
   }
-  ft_putstr_fd("42sh: history: Numeric argument required\n", 2);
+  putstr_builtin(cmd, "42sh: history: Numeric argument required\n", 2);
   return (-2);
 }
 
-void   print_history_line_info(t_history *list, int i, int flag_time)
+void   print_history_line_info(t_history *list, int i, int flag_time, t_cmd *cmd)
 {
   ft_putnbr(i);
   if (flag_time == 1)
@@ -44,9 +44,9 @@ void   print_history_line_info(t_history *list, int i, int flag_time)
     else
       ft_putstr("[NO TIMESTAMP]");
   }
-  ft_putchar(' ');
-  ft_putstr(list->line);
-  ft_putchar('\n');
+  putchar_builtin(cmd, ' ', 1);
+  putstr_builtin(cmd, list->line, 1);
+  putchar_builtin(cmd, '\n', 1);
 }
 
 t_history *history_flag_none_no_nb(t_history *list, int *i)
@@ -81,14 +81,14 @@ t_history *history_flag_none_with_nb(t_history *list, int *i, int arg)
   return (list);
 }
 
-int history_flag_none(t_data *data, char **scmd)
+int history_flag_none(t_data *data, char **scmd, t_cmd *cmd)
 {
   t_history  *tmp_deb;
   int        flag_time;
   int        i;
   int        arg;
 
-  if ((arg = get_history_flag_none_arg(scmd)) == -2)
+  if ((arg = get_history_flag_none_arg(scmd, cmd)) == -2)
     return (1);
   i = 1;
   if (arg == -1)
@@ -98,7 +98,7 @@ int history_flag_none(t_data *data, char **scmd)
   flag_time = get_history_flag_time(data);
   while (tmp_deb)
   {
-    print_history_line_info(tmp_deb, i, flag_time);
+    print_history_line_info(tmp_deb, i, flag_time, cmd);
     i++;
     tmp_deb = tmp_deb->next;
   }

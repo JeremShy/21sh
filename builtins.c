@@ -29,11 +29,11 @@ int			ft_setenv(char **scmd, t_env **env)
 	return (1);
 }
 
-int			ft_unsetenv(char **scmd, t_env **env)
+int			ft_unsetenv(char **scmd, t_env **env, t_cmd *cmd)
 {
 	if (!scmd[1])
 	{
-		ft_putstr_fd("unsetenv: Too few arguments.\n", 2);
+		putstr_builtin(cmd, "unsetenv: Too few arguments.\n", 2);
 		return (0);
 	}
 	if (!isset_arg(*env, scmd[1]))
@@ -63,25 +63,59 @@ void putstr_builtin(t_cmd *cmd, char *str, int fd)
 		fd_ptr = cmd->fd_err;
 	else
 		return ;
+	if (!fd_ptr)
+		return ;
 	ft_putstr_fd(str, fd_ptr->fd);
+}
+
+void putchar_builtin(t_cmd *cmd, char car, int fd)
+{
+	t_fd *fd_ptr;
+
+	if (fd == 1)
+		fd_ptr = cmd->fd_out;
+	else if (fd == 2)
+		fd_ptr = cmd->fd_err;
+	else
+		return ;
+	if (!fd_ptr)
+		return ;
+	ft_putchar_fd(car, fd_ptr->fd);
+}
+
+void putnbr_fd(t_cmd *cmd, int nb, int fd)
+{
+	t_fd *fd_ptr;
+
+	if (fd == 1)
+		fd_ptr = cmd->fd_out;
+	else if (fd == 2)
+		fd_ptr = cmd->fd_err;
+	else
+		return ;
+	if (!fd_ptr)
+		return ;
+	ft_putnbr_fd(nb, fd_ptr->fd);
+}
+
+void putendl_builtin(t_cmd *cmd, char *str, int fd)
+{
+	t_fd *fd_ptr;
+
+	if (fd == 1)
+		fd_ptr = cmd->fd_out;
+	else if (fd == 2)
+		fd_ptr = cmd->fd_err;
+	else
+		return ;
+	if (!fd_ptr)
+		return ;
+	ft_putstr_fd(str, fd_ptr->fd);
+	ft_putchar_fd('\n', fd_ptr->fd);
 }
 
 int			exec_builtin(t_cmd *cmd, t_env **env, t_data *data)
 {
-
-	// if (!cmd->fd_in || cmd->fd_in->fd == -2)
-	// 	close(0);
-	// else if (cmd->fd_in->fd != 0)
-	// 	dup2(cmd->fd_in->fd, 0);
-	// if (!cmd->fd_out || cmd->fd_out->fd == -2)
-	// 	close(1);
-	// else if (cmd->fd_out->fd != 1)
-	// 	dup2(cmd->fd_out->fd, 1);
-	// if (!cmd->fd_err || cmd->fd_err->fd == -2)
-	// 	close(2);
-	// else if (cmd->fd_err->fd != 2)
-	// 	dup2(cmd->fd_err->fd, 2);
-	// signal(SIGINT, SIG_DFL); // Ces dernieres sont les memes qu'a un autre endroit. Anna, je te laisse retrouver et les mettre dans une fonction. On t'aime, bonne chance. Bisous. (Cordialement).
 	printf("+-+-+-+-+-+-+-+-+-+ ON PASSE DANS LES BUILTINS\n");
 	if (ft_strequ((cmd->av)[0], "cd"))
 		return (ft_cd((cmd->av), *env, data));
@@ -90,15 +124,15 @@ int			exec_builtin(t_cmd *cmd, t_env **env, t_data *data)
 	else if (ft_strequ((cmd->av)[0], "setenv"))
 		return (ft_setenv((cmd->av), env));
 	else if (ft_strequ((cmd->av)[0], "unsetenv"))
-		return (ft_unsetenv((cmd->av), env));
+		return (ft_unsetenv((cmd->av), env, cmd));
 	else if (ft_strequ((cmd->av)[0], "exit"))
 		return (ft_exit_bi((cmd->av), *env, data));
 	else if (ft_strequ((cmd->av)[0], "echo"))
-		return (ft_echo((cmd->av) + 1));
+		return (ft_echo((cmd->av) + 1, cmd));
 	else if (ft_strequ((cmd->av)[0], "history"))
-		return (ft_history((cmd->av) + 1, data));
+		return (ft_history((cmd->av) + 1, data, cmd));
 	else if (ft_strequ((cmd->av)[0], "setvar"))
-		return (ft_setvar((cmd->av), data));
+		return (ft_setvar((cmd->av), data, cmd));
 	// else if (ft_strequ(sc	md[0], "source"))
 		// return (ft_source(scmd, env));
 	return (0);

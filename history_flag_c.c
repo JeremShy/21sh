@@ -2,7 +2,7 @@
 #include <sh21.h>
 
 
-int history_flag_c(t_data *data)
+int history_flag_c(t_data *data, t_cmd *cmd)
 {
   t_history   *tmp;
   char        *path;

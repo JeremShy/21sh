@@ -44,7 +44,7 @@ void delete_last_history(t_data *data)
 //   return (list);
 // }
 
-char		*history_subsitution_nb_arg_ps(t_data *data, char *command)
+char		*history_subsitution_nb_arg_ps(t_data *data, char *command, t_cmd *cmd)
 {
 	int				nb;
 	t_history	*list;
@@ -64,7 +64,7 @@ char		*history_subsitution_nb_arg_ps(t_data *data, char *command)
 	}
 	if (nb == i)
 		return (ft_strdup(list->line));
-	ft_putstr_fd("42sh: history position out of range\n", 2);
+	putstr_builtin(cmd, "42sh: history position out of range\n", 2);
 	return (NULL);
 }
 
@@ -76,7 +76,7 @@ char  *get_history_substutition(t_data *data, char *scmd)
   int       len;
 
   str = NULL;
-  printf("actual history = [%s]\n", data->history->line);
+  // printf("actual history = [%s]\n", data->history->line);
   if (scmd[0] == '!' && scmd[1] == '\0')
   {
     if (data->history != NULL)

@@ -1,7 +1,7 @@
 
 #include <sh21.h>
 
-int history_flag_r(t_data *data, char *scmd)
+int history_flag_r(t_data *data, char *scmd, t_cmd *cmd)
 {
   char			*path;
   char      *line;
@@ -22,6 +22,6 @@ int history_flag_r(t_data *data, char *scmd)
     free(line);
 	}
 	if (close(data->history_fd) == -1)
-		ft_putstr_fd("42sh: history: Failed to open/close history file\n", 2);
+		putstr_builtin(cmd, "42sh: history: Failed to open/close history file\n", 2);
   return (0);
 }

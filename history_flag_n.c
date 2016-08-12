@@ -9,7 +9,7 @@ int   get_current_time(void)
   return ((int)tv.tv_sec);
 }
 
-int history_flag_n(t_data *data, char *scmd)
+int history_flag_n(t_data *data, char *scmd, t_cmd *cmd)
 {
   char			*path;
 	t_history	*history;
@@ -34,13 +34,13 @@ int history_flag_n(t_data *data, char *scmd)
         history = history->prec;
       if (ft_strequ(history->line, command_line) == 0)
       {
-          printf("-----------  COMMAND FOUND = [%s]\n", command_line);
+          // printf("-----------  COMMAND FOUND = [%s]\n", command_line);
   		    data->history = add_history_elem(data->history, create_history_elem(ft_strdup(command_line)));
   		    data->history->time = ft_atoi(line);// HOTFIXE DEGUEULASSE CAR FLEMME DE CHANGER LES HEADERS POUR RAJOUTER LE TIME DU FICHIER
       }
       free(line);
   	}
   	if (close(data->history_fd) == -1)
-  		ft_putstr_fd("42sh: history: Failed to open/close history file\n", 2);
+  		putstr_builtin(cmd, "42sh: history: Failed to open/close history file\n", 2);
     return (0);
 }
