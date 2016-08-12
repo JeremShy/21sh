@@ -27,12 +27,11 @@ void	get_pos_after_quote(size_t *i, char *str)
 	char open;
 
 	open = str[*i];
-	while (!is_quote_close(open, str[*i + 1]) && !is_escaped_char(str, *i + 1) && str[*i + 1])
+	while (!(is_quote_close(open, str[*i + 1]) && !is_escaped_char(str, *i + 1)) && str[*i + 1])
 		(*i)++;
 	if (str[*i])
 		(*i)++;
 }
-
 
 char *skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd)
 {
@@ -88,9 +87,9 @@ char *skip_quotes(char **str, size_t *i, t_cmd *cmd)
 			}
 			if (is_quote_open((*str)[*i]))
 			{
-				printf("before1 : [%s]\n", *str);
+				// printf("before1 : [%s]\n", *str);
 				join_inside_quote(i, str);
-				printf("after1 : [%s]\n", *str);
+				// printf("after1 : [%s]\n", *str);
 			}
 		}
 		if ((*str)[*i])
@@ -99,7 +98,7 @@ char *skip_quotes(char **str, size_t *i, t_cmd *cmd)
 	if (start != *i)
 	{
 		// printf("blblbl [%s]\n", ft_strsub(*str, start, *i - start));
-		printf("[%s] - [%s] - [%s] - %zu - %zu\n",*str, *str + *i, *str + start, start, *i);
+		// printf("[%s] - [%s] - [%s] - %zu - %zu\n",*str, *str + *i, *str + start, start, *i);
  		return(ft_strsub(*str, start, *i - start));
 	}
 	return(NULL);

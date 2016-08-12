@@ -67,6 +67,7 @@ int		is_sep(size_t *i, char *str, int jump, t_cmd *cmd)
 	size_t	ret;
 
 	ret = *i;
+	// printf("on appelle is sep avec str[i] = : %s\n", str + *i);
 	if (ft_strnequ(str + *i, "||", 2))
 		ret += 2;
 	else if (ft_strnequ(str + *i, "&&", 2))

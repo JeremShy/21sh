@@ -49,13 +49,13 @@ int  delete_var(char **str, size_t index, size_t length, char *arg)
 {
   char *new_str;
 
-  printf("IN DELETE VAR :\n");
+  // printf("IN DELETE VAR :\n");
   if (index > 0)
     new_str = ft_strsub(*str, 0, index - 1);
   else
     new_str = ft_strdup("");
-  printf("sub = [%s]\n", new_str);
-  printf("After var --> [%s]\n", (*str) + length);
+  // printf("sub = [%s]\n", new_str);
+  // printf("After var --> [%s]\n", (*str) + length);
   new_str = ft_strjoinaf1(new_str, (*str) + length);
   free(*str);
   free(arg);
@@ -107,7 +107,7 @@ int   delete_var_and_replace(char **str, size_t index, size_t length, char *arg)
     new_str = ft_strsub(*str, 0, index);
   else
     new_str = ft_strdup("");
-  printf("arg = [%s] // *str = [%s]\n", arg, *str);
+  // printf("arg = [%s] // *str = [%s]\n", arg, *str);
   arg = arg_add_backslash(arg);
   real_length = ft_strlen(arg);
   new_str = ft_strjoinaf12(new_str, arg);
@@ -132,7 +132,7 @@ void   is_var_and_replace(t_data *data, char **str, size_t *index)
     tmp_char = (*str)[length];
     (*str)[length] = '\0';
     arg = find_var_env(data, *str + *index + 1); // METTRE find_env_var
-    printf("ARG = [%s]\n", arg);
+    // printf("ARG = [%s]\n", arg);
     (*str)[length] = tmp_char;
     if (length - (*index + 1) == 0)
     {
@@ -142,12 +142,12 @@ void   is_var_and_replace(t_data *data, char **str, size_t *index)
     if (ft_strequ(arg, ""))
     {
       real_length = delete_var(str, *index + 1, length, arg);
-      printf("str = [%s]\n", *str);
+      // printf("str = [%s]\n", *str);
     }
     else
     {
       real_length = delete_var_and_replace(str, *index, length, arg);
-      printf("str = [%s]\n", *str);
+      // printf("str = [%s]\n", *str);
     }
     *index = length - (*index + 1);
   }

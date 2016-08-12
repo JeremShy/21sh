@@ -88,6 +88,7 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 		else if (is_sep(i, str, 1, cmd)) // Si il y a un separateur, on return
 		{
 			// printf("RIP ORIGINALITE\n");
+			// printf("on rentre dans le poulet ET C'EST BON\n");
 			return (count);
 		}
 		else if (skip_quotes_nb_arg(str, i, cmd) != NULL) // Sinon  on augmente notre count.
@@ -142,7 +143,7 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 	// printf("str : [%s]\n", str);
 	i = 0;
 	cmd = NULL; // On initialiase notre retour.
-	display_heredoc(data->heredocs);
+	// display_heredoc(da1a->heredocs);
 	// printf("LAST HEREDOCS = [%s]\n", data->heredocs->content);
 	if (is_pipe_e_parse_error(str))
 		return (NULL);
@@ -154,7 +155,6 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 		fake_cmd.p_error = 0; // On mets le error et le p_error du fake_cmd à 0.
 		fake_cmd.error = 0;
 		old_i = i; // On retient le i d'avant.
-		// printf("STR  = [%s]\n", str);
 		count = nb_arg(&i, str, &fake_cmd); // On compte le nombre d'elements
 		if (count == -1)
  		{
@@ -164,7 +164,7 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 		if (count)
 		{
 			printf("--------------------------------------------\n");
-			printf("RESULTAT : [%s] - count : %d\n", str , count);
+			// printf("RESULTAT : [%s] - count : %d\n", str , count);
 			if (str[i - 1] == ';')
 			{
 				cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));
@@ -179,15 +179,16 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 			}
 		}
 	}
+	// print_list(cmd);
 	if (!cmd)
 		return (NULL);
 	last = cmd;
 	while (last->next)
 		last = last->next;
-	if (last->sep == '|')
-	{
-		ft_putendl_fd("421sh: parse error near '|'", 2);
-		return (NULL);
-	}
+	// if (last->sep == '|')
+	// {
+	// 	ft_putendl_fd("421sh: parse error near '|'", 2);
+	// 	return (NULL);
+	// }
 	return (cmd);
 }

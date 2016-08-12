@@ -54,7 +54,6 @@ char		*find_exec(char *scmd, t_data *data)
 	return (ret);
 }
 
-
 int			exec_file(t_cmd *cmd, t_env *list, int in_env_i, t_data *data)
 {
 	char	*file;

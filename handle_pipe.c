@@ -45,9 +45,17 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data)
 		{
 			close(1);
 		}
-		file = find_exec(cmd->av[0], data);
-		environ = make_env_char(env);
-		return execve(file, cmd->av, environ);
+		if (is_builtin(cmd->av[0]))
+		{
+			cmd->ret = exec_builtin(cmd, &env, data);
+			exit(cmd->ret);
+		}
+		else
+		{
+			file = find_exec(cmd->av[0], data);
+			environ = make_env_char(env);
+			return execve(file, cmd->av, environ);
+		}
 	}
 	if (in != 0)
 		close(in);
