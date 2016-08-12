@@ -83,7 +83,7 @@ void putchar_builtin(t_cmd *cmd, char car, int fd)
 	ft_putchar_fd(car, fd_ptr->fd);
 }
 
-void putnbr_fd(t_cmd *cmd, int nb, int fd)
+void putnbr_builtin(t_cmd *cmd, int nb, int fd)
 {
 	t_fd *fd_ptr;
 

@@ -224,7 +224,7 @@ int   is_subs_and_replace(t_data *data, char **str, size_t *index, int flag)
       while (ft_isdigit((*str)[length]))
         length++;
       // line_number = ft_atoi(str + *index + 1);
-      if ((arg = history_subsitution_nb_arg_ps(data, *str + *index + 1)) == NULL) // On récupere la ligne correspondant au n et si pas valide, return NULL
+      if ((arg = history_subsitution_nb_arg(data, *str + *index + 1)) == NULL) // On récupere la ligne correspondant au n et si pas valide, return NULL
         return (0);
       flag_special = 2; //Flag pour dire "!n"
     }

@@ -31,7 +31,7 @@ int		get_history_path_anrw(t_data *data, char **path, char *scmd)
 	return (0);
 }
 
-int history_flag_a(t_data *data, char *scmd, t_cmd *cmd)
+int history_flag_a(t_data *data, char *scmd)
 {
   char			*path;
 	int				fd;

@@ -1,7 +1,7 @@
 
 #include <sh21.h>
 
-int history_flag_w(t_data *data, char *scmd, t_cmd *cmd)
+int history_flag_w(t_data *data, char *scmd)
 {
   char			*path;
 	t_history	*history;

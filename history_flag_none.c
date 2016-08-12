@@ -35,14 +35,14 @@ int  get_history_flag_none_arg(char **scmd, t_cmd *cmd)
 
 void   print_history_line_info(t_history *list, int i, int flag_time, t_cmd *cmd)
 {
-  ft_putnbr(i);
+  putnbr_builtin(cmd, i, 1);
   if (flag_time == 1)
   {
-    ft_putchar(' ');
+    putchar_builtin(cmd, ' ', 1);
     if (list->time > 0)
-      ft_putnbr(list->time);
+      putnbr_builtin(cmd, list->time, 1);
     else
-      ft_putstr("[NO TIMESTAMP]");
+      putstr_builtin(cmd, "[NO TIMESTAMP]", 1);
   }
   putchar_builtin(cmd, ' ', 1);
   putstr_builtin(cmd, list->line, 1);

@@ -1,27 +1,5 @@
 #include <sh21.h>
 
-// t_var *create_var_elem (char *content)
-// {
-// 	t_var	*elem;
-//
-// 	elem = malloc(sizeof(t_var));
-// 	elem->content = content;
-// 	elem->next = NULL;
-// 	return (elem);
-// }
-// t_var 	*add_var_elem(t_var *list, t_var *elem)
-// {
-// 	t_var *tmp;
-//
-// 	tmp = list;
-// 	if (list == NULL)
-// 		return (elem);
-// 	while (list->next != NULL)
-//   		list = list->next;
-// 	list->next = elem;
-// 	return (tmp);
-// }
-
 int				isset_var(t_var *list, char *name)
 {
 	while (list)
@@ -72,11 +50,11 @@ t_var			*add_var_elem_end(t_var *list, char *name, char *arg)
 	return (tmp);
 }
 
-int			ft_setvar(char **scmd, t_data *data)
+int			ft_setvar(char **scmd, t_data *data, t_cmd *cmd)
 {
 	if (!scmd[1] || !scmd[2])
   {
-    ft_putstr_fd("42sh: invalid argument [arg1 arg2]\n", 2);
+    putstr_builtin(cmd, "42sh: invalid argument [arg1 arg2]\n", 2);
     return (0);
   }
 	if (isset_var(data->var, scmd[1]))
