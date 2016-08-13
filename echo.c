@@ -52,14 +52,6 @@ int ft_echo(char **scmd, t_cmd *cmd)
 	while (scmd[i])
 	{
 		j = 0;
-		// if (scmd[i][0] == '$')
-		// {
-		// 	str = find_arg(env, scmd[i] + 1);
-		// 	ft_putstr(str);
-		// 	free(str);
-		// }
-		// else
-		// {
 		while (scmd[i][j])
 		{
 			if (scmd[i][j] == '\\')
@@ -87,7 +79,7 @@ int ft_echo(char **scmd, t_cmd *cmd)
 	}
 	if (flag == 0)
 		putchar_builtin(cmd, '\n', 1);
-	else
-		eot(cmd);
+	// else
+		// eot(cmd);
 	return (1);
 }
