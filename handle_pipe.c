@@ -27,24 +27,6 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data)
 	{
 		signal(SIGINT, SIG_DFL);
 		// printf("XX on execute : %s\n", cmd->av[0]);
-		if (in != 0)
-		{
-			dup2(in, 0);
-			close(in);
-		}
-		if (out != 1)
-		{
-			dup2(out, 1);
-			close(out);
-		}
-		if (in == -2)
-		{
-			close(0);
-		}
-		if (out == -2)
-		{
-			close(1);
-		}
 		if (is_builtin(cmd->av[0]))
 		{
 			cmd->ret = exec_builtin(cmd, &env, data);
@@ -52,6 +34,24 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data)
 		}
 		else
 		{
+			if (in != 0)
+			{
+				dup2(in, 0);
+				close(in);
+			}
+			if (out != 1)
+			{
+				dup2(out, 1);
+				close(out);
+			}
+			if (in == -2)
+			{
+				close(0);
+			}
+			if (out == -2)
+			{
+				close(1);
+			}
 			file = find_exec(cmd->av[0], data);
 			environ = make_env_char(env);
 			return execve(file, cmd->av, environ);
