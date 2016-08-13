@@ -156,7 +156,7 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 		return;
 	temp = command;
 	command = cmd_not_found(command, data);
-	while (command && (command->fd_out || command->fd_err))
+	while (command)
 	{
 		if (command->av[0] && (command->sep == NONE || command->sep == POINT_VIRGULE || command->sep == ETET || command->sep == OUOU))
 		{
@@ -179,12 +179,11 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 			else
 			{
 				printf("on command->next\n");
-				if ((command->ret == 0 && command->sep == OUOU) || (command->ret != 0 && command->sep == ETET))
-				{
-					printf("%s\n", "passe");
-
-					return ;
-				}
+				// if ((command->ret == 0 && command->sep == OUOU) || (command->ret != 0 && command->sep == ETET))
+				// {
+				// 	printf("%s\n", "passe");
+				// 	return ;
+				// }
 				command = command->next;
 			}
 		}
