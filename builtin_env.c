@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 16:57:59 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/12 17:13:15 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/08/14 16:45:55 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	env_tmp_exec(t_env **env, t_data *data, char **scmd, t_cmd *cmd)
    char  *new_str;
    int   i;
 
-   i = 0;
+  i = 0;
 	new = create_tmp_env(data, *env, scmd + i);
 	tmp = create_tmp_env(data, *env, scmd + i);
 	while (scmd[i] && ft_strchr(scmd[i], '='))
