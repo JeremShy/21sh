@@ -189,7 +189,7 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 		}
 		else if (command->sep == '|')
 		{
-			// printf("ON RENTRE DANS LA PIPATION ET C'EST UN PROBLEME GRAVE.\n");
+			printf("ON RENTRE DANS LA PIPATION ET C'EST UN PROBLEME GRAVE.\n");
 			pid = fork();
 			if (pid != 0)
 				wait(NULL);

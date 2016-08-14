@@ -93,8 +93,16 @@ int	fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 		i++;
 	}
 	// printf("on execute : %s\n", cmd->av[0]);
-	if (cmd->fd_in->fd != 0)
-		dup2(cmd->fd_in->fd, 0);
+	// if (cmd->fd_in->fd != 0)
+	// 	dup2(cmd->fd_in->fd, 0);
+	if (!cmd->fd_out || cmd->fd_out->fd == -2)
+		close(1);
+	else if (cmd->fd_out->fd != 1)
+		dup2(cmd->fd_out->fd, 1);
+	if (!cmd->fd_err || cmd->fd_err->fd == -2)
+		close(2);
+	else if (cmd->fd_err->fd != 2)
+		dup2(cmd->fd_err->fd, 2);
 	file = find_exec(cmd->av[0], data);
 	environ = make_env_char(env);
 	return (execve(file, cmd->av, environ));
