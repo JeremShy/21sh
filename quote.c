@@ -102,7 +102,7 @@ int		is_quote_end(t_data *data)
 	{
 		if (ft_strnstr(boucle_cmd + i, "<<", 2))
 		{
-			printf("heredoc detected\n");
+			// printf("heredoc detected\n");
 			data->command_save = ft_strdup(boucle_cmd);
 			data->old_index = data->index;
 			i += 2;

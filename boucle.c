@@ -203,7 +203,7 @@ int	create_history(t_data *data, t_env **env)
 			{
 				free(data->cmd);
 				data->heredocs = add_hc_elem(data->heredocs, create_hc_elem(data->heredocs_tmp));
-				data->cmd = ft_strdup(data->cmd_tmp);
+				// data->cmd = ft_strdup(data->cmd_tmp);
 				free(data->cmd_tmp);
 				data->cmd_tmp = ft_strdup("");
 				data->index = data->old_index;
@@ -214,6 +214,7 @@ int	create_history(t_data *data, t_env **env)
 				data->real_len_cmd = 0;
 				data->quote_or_hd = 1;
 				data->cmd = data->command_save;
+				data->heredocs_tmp = ft_strdup("");
 				return (create_history(data, env));
 				// create_history(data, env);
 			}
@@ -249,7 +250,7 @@ int	create_history(t_data *data, t_env **env)
 	data->curs_x = data->len_prompt + 1;
 	data->curs_y = -1;
 	// printf("ON ARRIVE LA POULETKIK\n");
-	data->heredocs = NULL;
+	// data->heredocs = NULL;
 	if (data->first)
 	{
 		free(data->first);
