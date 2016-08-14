@@ -47,7 +47,7 @@ t_env *create_tmp_env(t_data *data, t_env *env, char **scmd)
 	tmp = NULL;
 	if (data->in_env_i != 1)
 		tmp = copy_env(env);
-	data->in_env_i = 0;
+	// data->in_env_i = 0;
 	if (scmd[i] && ft_strchr(scmd[i], '='))
 	{
 		while (scmd[i] && ft_strchr(scmd[i], '='))

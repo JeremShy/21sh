@@ -133,6 +133,10 @@ int			exec_builtin(t_cmd *cmd, t_env **env, t_data *data)
 		return (ft_history((cmd->av) + 1, data, cmd));
 	else if (ft_strequ((cmd->av)[0], "setvar"))
 		return (ft_setvar((cmd->av), data, cmd));
+	else if (ft_strequ((cmd->av)[0], "unset"))
+		return (ft_unset((cmd->av), env, cmd, data));
+	else if (ft_strequ((cmd->av)[0], "export"))
+		return (ft_export((cmd->av), env));
 	// else if (ft_strequ(sc	md[0], "source"))
 		// return (ft_source(scmd, env));
 	return (0);

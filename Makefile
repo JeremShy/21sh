@@ -43,7 +43,9 @@
 		 builtin_env.c \
 		 setvar.c \
 		 history_exit.c \
-		 autocomplete.c
+		 autocomplete.c \
+		 unset.c \
+		 export.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes

@@ -259,4 +259,7 @@ void				putstr_builtin(t_cmd *cmd, char *str, int fd);
 void				putendl_builtin(t_cmd *cmd, char *str, int fd);
 void				putchar_builtin(t_cmd *cmd, char car, int fd);
 void				putnbr_builtin(t_cmd *cmd, int nb, int fd);
+int					isset_var(t_var *list, char *name);
+int					ft_unset(char **scmd, t_env **env, t_cmd *cmd, t_data *data);
+int					ft_export(char **scmd, t_env **env);
 #endif

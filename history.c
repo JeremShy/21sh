@@ -114,7 +114,7 @@ void init_history(t_data *data)
 	char		*line;
 
 	line = NULL;
-	if (get_history_fd(data) == 1 && data->history_fd == -1)
+	if (get_history_fd(data) == 0 && data->history_fd == -1)
 		return ;
 	while (get_next_line(data->history_fd, &line) == 1)
 	{
