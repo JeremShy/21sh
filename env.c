@@ -43,21 +43,44 @@ char	*get_path(void)
 	return (ft_strdup(path));
 }
 
-static t_env	*init_list_no_env(void)
+int	var_exist(char **env, char *check)
+{
+	int	i;
+
+	i = 0;
+	while (env && env[i])
+	{
+		if (ft_strnstr(env[i], check, ft_strlen(check)))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+static t_env	*init_list_no_env(char **env)
 {
 	t_env	*ret;
 	char	*tmp;
 
-	tmp = get_path();
-	ret = add_elem_end(NULL, "PATH", tmp);
-	free(tmp);
-	tmp = getcwd(NULL, 0);
-	ret = add_elem_end(ret, "PWD", tmp);
-	ret = add_elem_end(ret, "OLDPWD", tmp);
-	free(tmp);
-	ret = add_elem_end(ret, "HOME", "/");
-	ret = add_elem_end(ret, "SHLVL", "0");
-	ret = add_elem_end(ret, "TERM", "xterm-256color");
+	if (!var_exist(env, "PATH="))
+	{
+		tmp = get_path();
+		ret = add_elem_end(NULL, "PATH", tmp);
+		free(tmp);
+	}
+	if (!var_exist(env, "PWD=") || !var_exist(env, "OLDPWD="))
+	{
+		tmp = getcwd(NULL, 0);
+		ret = add_elem_end(ret, "PWD", tmp);
+		ret = add_elem_end(ret, "OLDPWD", tmp);
+		free(tmp);
+	}
+	if (!var_exist(env, "HOME="))
+		ret = add_elem_end(ret, "HOME", "/");
+	if (!var_exist(env, "SHLVL="))
+		ret = add_elem_end(ret, "SHLVL", "0");
+	if (!var_exist(env, "TERM="))
+		ret = add_elem_end(ret, "TERM", "xterm-256color");
 	return (ret);
 }
 
@@ -69,8 +92,7 @@ t_env			*ft_parse_env(char **env)
 
 	ret = NULL;
 	i = 0;
-	if (!env[0])
-		ret = init_list_no_env();
+	ret = init_list_no_env(env);
 	while (env[i] != NULL)
 	{
 		ret = parse_line(ret, env[i]);
