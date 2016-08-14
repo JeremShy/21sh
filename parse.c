@@ -147,8 +147,6 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 	// printf("LAST HEREDOCS = [%s]\n", data->heredocs->content);
 	if (is_pipe_e_parse_error(str))
 		return (NULL);
-	if (true_var_and_subs(data, &str) == 0)
-		return (NULL);
 	data->history = add_history_elem(data->history, create_history_elem(str)); // On rajoute la ligne dans l'historique.
 	while (str[i])
 	{
