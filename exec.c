@@ -151,6 +151,7 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 {
 	t_cmd *temp;
 	pid_t pid;
+	int		tmp;
 
 	if (!command)
 		return;
@@ -169,21 +170,20 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 				exec_file(command, *env, data->in_env_i, data);
 			}
 			// printf("------------------------------------------------\nend of command.\n");
-			if (command->fd_out || command->fd_err)
+			tmp = 0;
+			if (command->fd_out->next || command->fd_err->next || command->fd_in->next)
 			{
-				if (command->fd_out)
+				tmp = 1;
+				if (command->fd_in->next)
+					command->fd_in = command->fd_in->next;
+				if (command->fd_out->next)
 					command->fd_out = command->fd_out->next;
-				if (command->fd_err)
+				if (command->fd_err->next)
 					command->fd_err = command->fd_err->next;
 			}
-			else
+			if (!tmp)
 			{
 				printf("on command->next\n");
-				// if ((command->ret == 0 && command->sep == OUOU) || (command->ret != 0 && command->sep == ETET))
-				// {
-				// 	printf("%s\n", "passe");
-				// 	return ;
-				// }
 				command = command->next;
 			}
 		}
