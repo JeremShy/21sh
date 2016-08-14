@@ -116,7 +116,7 @@ void putendl_builtin(t_cmd *cmd, char *str, int fd)
 
 int			exec_builtin(t_cmd *cmd, t_env **env, t_data *data)
 {
-	printf("+-+-+-+-+-+-+-+-+-+ ON PASSE DANS LES BUILTINS\n");
+	// printf("+-+-+-+-+-+-+-+-+-+ ON PASSE DANS LES BUILTINS\n");
 	if (ft_strequ((cmd->av)[0], "cd"))
 		return (ft_cd((cmd->av), *env, data));
 	else if (ft_strequ((cmd->av)[0], "env"))

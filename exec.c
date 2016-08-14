@@ -61,7 +61,7 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i, t_data *data)
 	pid_t	process;
 	int		retour;
 
-	printf("On passe dans exec_file\n");
+	// printf("On passe dans exec_file\n");
 	file = find_exec(cmd->av[0], data);
 	if (!file)
 		return (0);
@@ -133,7 +133,7 @@ t_cmd		*cmd_not_found(t_cmd *command, t_data *data)
 		if (!(exec = find_exec(command->av[0], data)))
 		{
 			ok = 0;
-			printf("COMMAND NOT FOUND CONNARD\n");
+			// printf("COMMAND NOT FOUND CONNARD\n");
 			last_found = NULL;
 		}
 		else if (!ok)
@@ -183,13 +183,13 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 			}
 			if (!tmp)
 			{
-				printf("on command->next\n");
+				// printf("on command->next\n");
 				command = command->next;
 			}
 		}
 		else if (command->sep == '|')
 		{
-			printf("ON RENTRE DANS LA PIPATION ET C'EST UN PROBLEME GRAVE.\n");
+			// printf("ON RENTRE DANS LA PIPATION ET C'EST UN PROBLEME GRAVE.\n");
 			pid = fork();
 			if (pid != 0)
 				wait(NULL);

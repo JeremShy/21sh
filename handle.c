@@ -136,7 +136,7 @@ char	*handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs)
 				free(quote);
 				return(NULL);
 			}
-			printf("value of (*heredocs) = [%s]\n", (*heredocs)->content);
+			// printf("value of (*heredocs) = [%s]\n", (*heredocs)->content);
 			write(pipe_tab[1], (*heredocs)->content, ft_strlen((*heredocs)->content));
 			// printf("We write in heredocs : %s\n", (*heredocs)->content);
 			close(pipe_tab[1]);

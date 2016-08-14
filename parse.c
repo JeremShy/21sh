@@ -163,7 +163,7 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 		}
 		if (count)
 		{
-			printf("--------------------------------------------\n");
+			// printf("--------------------------------------------\n");
 			// printf("RESULTAT : [%s] - count : %d\n", str , count);
 			if (str[i - 1] == ';')
 			{
@@ -174,7 +174,7 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 			}
 			else if (ft_strnequ(str + i - 2, "||", 2) || ft_strnequ(str + i - 2, "&&", 2))
 			{
-				printf("here !\n");
+				// printf("here !\n");
 				cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));
 				exec_cmd(env, cmd, data);
 				if ((cmd->ret == 0 && cmd->sep == OUOU) || (cmd->ret != 0 && cmd->sep == ETET))

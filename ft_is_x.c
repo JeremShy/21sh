@@ -106,8 +106,8 @@ int	is_parse_error(char *str)
 		}
 		if (((str[i] == '|' || str[i] == '&') && flag) || (str[i] == '\0' && there_is_a_pipe))
 		{
-			printf("121sh: parse error near '| or '&'\n");
-			printf("str[i] = %c\n\n", str[i]);
+			ft_putstr("121sh: parse error near '| or '&'\n");
+			// printf("str[i] = %c\n\n", str[i]);
 			return (1);
  		}
 		if (str[i] == '|')
@@ -117,7 +117,7 @@ int	is_parse_error(char *str)
 				i++;
 			if (str[i] == '|' || !str[i])
 			{
-				printf("521sh: parse error near '|'\n");
+				ft_putstr("521sh: parse error near '|'\n");
 				return (1);
 			}
 		}

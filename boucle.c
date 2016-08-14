@@ -184,7 +184,7 @@ int	create_history(t_data *data, t_env **env)
 	{
 		if (i == -1)
 		{
-			printf("I am running free\n");
+			// printf("I am running free\n");
 			//Parse error
 			data->c = '\0'; // Pour tout reinitialiser par la suite.
 			//FREE HEREDOCS
@@ -597,7 +597,7 @@ void	boucle(t_env *env, t_data *data)
 			next_word(data);
 		else if (buf[0] == 27 && buf[1] == 0) // AFFICHE MESSAGE DE DEBUG 1
 		{
-			printf("index - %d AND index_min_copy = %d AND index_max_copy = %d\n", data->index, data->index_min_copy, data->index_max_copy);
+			// printf("index - %d AND index_min_copy = %d AND index_max_copy = %d\n", data->index, data->index_min_copy, data->index_max_copy);
 		}
 		else if (buf[0] == 29 && buf[1] == 0) // AFFICHE MESSAGE DE DEBUG 2
 		{

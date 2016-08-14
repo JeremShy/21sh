@@ -21,6 +21,6 @@ int main(void)
 
   str = strdup("0123456789");
   delete_char(str, 3);
-  printf("New str = [%s]\n", str);
+  // printf("New str = [%s]\n", str);
   return (0);
 }

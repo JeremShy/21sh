@@ -73,7 +73,7 @@ int	fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 	// cmd->fd_in->fd = 0;
 	i = 0;
 	n = find_number(cmd);
-	printf("n : %d\n", n);
+	// printf("n : %d\n", n);
 	while (i < n - 1)
 	{
 		pipe(fd);
