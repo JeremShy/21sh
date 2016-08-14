@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 16:57:59 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/14 16:45:55 by JeremShy         ###   ########.fr       */
+/*   Updated: 2016/08/14 18:52:52 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_env *create_tmp_env(t_data *data, t_env *env, char **scmd)
 	tmp = NULL;
 	if (data->in_env_i != 1)
 		tmp = copy_env(env);
-	// data->in_env_i = 0;
+	data->in_env_i = 0;
 	if (scmd[i] && ft_strchr(scmd[i], '='))
 	{
 		while (scmd[i] && ft_strchr(scmd[i], '='))
@@ -67,12 +67,16 @@ int	env_tmp_exec(t_env **env, t_data *data, char **scmd, t_cmd *cmd)
 {
 	t_env	*tmp;
 	t_env	*new;
-   char  *new_str;
-   int   i;
+	char	*new_str;
+	int	i;
 
-  i = 0;
+	i = 0;
 	new = create_tmp_env(data, *env, scmd + i);
 	tmp = create_tmp_env(data, *env, scmd + i);
+	// printf("\n\nNEW =\n");
+	// print_env(new, cmd);
+	// printf("\n\nTMP =\n");
+	// print_env(tmp, cmd);
 	while (scmd[i] && ft_strchr(scmd[i], '='))
 		i++;
 	if (scmd[i] && ft_strequ(scmd[i], "env") && !scmd[i + 1])
@@ -83,8 +87,8 @@ int	env_tmp_exec(t_env **env, t_data *data, char **scmd, t_cmd *cmd)
 		new_str = ft_strjoinaf1(new_str, scmd[i]);
 		i++;
 	}
-	data->in_env_i = 0;
-	exec_cmd(&tmp, parse(new_str, data->heredocs, &tmp, data),  data);
+	// data->in_env_i = 0;
+	exec_cmd(&new, parse(new_str, data->heredocs, &tmp, data),  data);
 	delete_list(new);
 	delete_list(tmp);
 	return (1);
