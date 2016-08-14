@@ -246,7 +246,10 @@ int   is_subs_and_replace(t_data *data, char **str, size_t *index, int flag)
         return (0);
       }
       if ((arg = find_subs_in_parsing(data, *str + *index + 1, length - (*index + 1))) == NULL)
+      {
+        ft_putstr_fd("42sh: event not found\n", 2);
         return (0);
+      }
     }
     delete_subs_and_replace(str, *index, length, arg);
     (*index)--;
