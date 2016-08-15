@@ -112,7 +112,7 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i, t_data *data)
 		else if (cmd->fd_err->fd != 2)
 			dup2(cmd->fd_err->fd, 2);
 		signal(SIGINT, SIG_DFL);
-		print_tab_char(env);
+		// print_tab_char(env);
 		retour = execve(file, cmd->av, env);
 		if (retour == -1)
 		{

@@ -52,7 +52,7 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data)
 			{
 				close(1);
 			}
-			file = find_exec(cmd->av[0], data);
+			file = find_exec(cmd->av[0], data, env);
 			environ = make_env_char(env);
 			return execve(file, cmd->av, environ);
 		}
@@ -103,7 +103,7 @@ int	fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 		close(2);
 	else if (cmd->fd_err->fd != 2)
 		dup2(cmd->fd_err->fd, 2);
-	file = find_exec(cmd->av[0], data);
+	file = find_exec(cmd->av[0], data, env);
 	environ = make_env_char(env);
 	return (execve(file, cmd->av, environ));
 }

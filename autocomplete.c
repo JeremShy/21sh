@@ -86,6 +86,7 @@ void ft_autocomplete(t_data *data)
 	char	*prefix;
 	char	*ptr_for_chr;
 	int		index_to_go;
+	char	*tmp;
 
 	if (ft_strequ(data->cmd, ""))
 		return ;
@@ -108,8 +109,10 @@ void ft_autocomplete(t_data *data)
 			{
 					split[0] = ft_strsub(ptr, 0, ptr_for_chr - ptr + 1);
 					prefix = ft_strdup(split[0]);
+					tmp = ft_strdup(ptr_for_chr);
 					free(ptr);
-					ptr = ft_strdup(ptr_for_chr + 1);
+					// ptr = ft_strdup(ptr_for_chr + 1);
+					ptr = tmp;
 			}
 			else
 			{
