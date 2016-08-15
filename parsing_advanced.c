@@ -131,7 +131,7 @@ void   is_var_and_replace(t_data *data, char **str, size_t *index)
       length++;
     tmp_char = (*str)[length];
     (*str)[length] = '\0';
-    arg = find_var_env(data, *str + *index + 1); // METTRE find_env_var
+    arg = find_var_env(data, *str + *index + 1, data->env); // METTRE find_env_var
     // printf("ARG = [%s]\n", arg);
     (*str)[length] = tmp_char;
     if (length - (*index + 1) == 0)
@@ -265,7 +265,7 @@ int   is_tilde_and_replace(t_data *data, char **str, size_t *index)
 
   if (!is_escaped_char(*str, *index) && ((*str)[*index] == '~' && (ft_isspace2((*str)[*index]) || (*str)[*index + 1] == '/' || (*str)[*index + 1] == '\0')))
   {
-    home = find_var_env(data, "HOME");
+    home = find_var_env(data, "HOME", data->env);
     if (home)
     {
       (*str)[*index] = '\0';

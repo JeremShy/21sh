@@ -62,6 +62,7 @@ static t_env	*init_list_no_env(char **env)
 	t_env	*ret;
 	char	*tmp;
 
+	ret = NULL;
 	if (!var_exist(env, "PATH="))
 	{
 		tmp = get_path();
@@ -90,7 +91,6 @@ t_env			*ft_parse_env(char **env)
 	t_env	*ret;
 	char	*tmp;
 
-	ret = NULL;
 	i = 0;
 	ret = init_list_no_env(env);
 	while (env[i] != NULL)

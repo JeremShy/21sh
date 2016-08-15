@@ -36,7 +36,7 @@ static char	*while_exec(char **split, char *scmd)
 	return (NULL);
 }
 
-char		*find_exec(char *scmd, t_data *data)
+char		*find_exec(char *scmd, t_data *data, t_env *env)
 {
 	char	**split;
 	char	*tmp;
@@ -44,7 +44,7 @@ char		*find_exec(char *scmd, t_data *data)
 
 	if (ft_strchr(scmd, '/'))
 		return (ft_strdup(scmd));
-	tmp = find_var_env(data, "PATH");
+	tmp = find_var_env(data, "PATH", env);
 	if (ft_strequ(tmp, ""))
 		return (print_error_no_path(tmp));
 	split = ft_strsplit(tmp, ':');
@@ -52,6 +52,20 @@ char		*find_exec(char *scmd, t_data *data)
 	ret = while_exec(split, scmd);
 	free_char_tab(split);
 	return (ret);
+}
+
+void print_tab_char(char **tab)
+{
+	int		i;
+
+	i = 0;
+	printf("-----------------------------------------------\n");
+	while (tab && tab[i])
+	{
+		ft_putendl_fd(tab[i], 1);
+		i++;
+	}
+	printf("-----------------------------------------------\n");
 }
 
 int			exec_file(t_cmd *cmd, t_env *list, int in_env_i, t_data *data)
@@ -62,7 +76,7 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i, t_data *data)
 	int		retour;
 
 	// printf("On passe dans exec_file\n");
-	file = find_exec(cmd->av[0], data);
+	file = find_exec(cmd->av[0], data, list);
 	if (!file)
 		return (0);
 	if (access(file, X_OK) == -1)
@@ -98,6 +112,7 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i, t_data *data)
 		else if (cmd->fd_err->fd != 2)
 			dup2(cmd->fd_err->fd, 2);
 		signal(SIGINT, SIG_DFL);
+		print_tab_char(env);
 		retour = execve(file, cmd->av, env);
 		if (retour == -1)
 		{
@@ -114,7 +129,7 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i, t_data *data)
 	return (1);
 }
 
-t_cmd		*cmd_not_found(t_cmd *command, t_data *data)
+t_cmd		*cmd_not_found(t_cmd *command, t_data *data, t_env *env)
 {
 	t_cmd		*last_found;
 	char		*exec;
@@ -130,7 +145,7 @@ t_cmd		*cmd_not_found(t_cmd *command, t_data *data)
 	{
 		if (command->sep != '|')
 			was_ok = 0;
-		if (!(exec = find_exec(command->av[0], data)))
+		if (!(exec = find_exec(command->av[0], data, env)))
 		{
 			ok = 0;
 			// printf("COMMAND NOT FOUND CONNARD\n");
@@ -156,7 +171,7 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 	if (!command)
 		return;
 	temp = command;
-	command = cmd_not_found(command, data);
+	command = cmd_not_found(command, data, *env);
 	while (command)
 	{
 		if (command->av[0] && (command->sep == NONE || command->sep == POINT_VIRGULE || command->sep == ETET || command->sep == OUOU))
@@ -167,6 +182,7 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 			}
 			else
 			{
+				printf("[%s] va se chercher dans file ...\n", command->av[0]);
 				exec_file(command, *env, data->in_env_i, data);
 			}
 			// printf("------------------------------------------------\nend of command.\n");
@@ -205,7 +221,7 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 			{
 				command = command->next;
 				if (command)
-					command = cmd_not_found(command, data);
+					command = cmd_not_found(command, data, *env);
 			}
 		}
 	}

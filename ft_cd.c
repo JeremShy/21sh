@@ -29,7 +29,7 @@ static void	goto_home(t_env *env, char *tmp, t_data *data)
 	char	*temp;
 
 	change_arg(env, "OLDPWD", tmp);
-	temp = find_var_env(data, "HOME");
+	temp = find_var_env(data, "HOME", data->env);
 	change_arg(env, "PWD", temp);
 	chdir(temp);
 	free(temp);
@@ -47,11 +47,11 @@ int			ft_cd(char **scmd, t_env *env, t_data *data)
 		return (chg_arg1(scmd, env, tmp));
 	else
 	{
-		temp = ft_strdup(find_var_env(data, "OLDPWD"));
+		temp = ft_strdup(find_var_env(data, "OLDPWD", data->env));
 		chdir(temp);
 		free(tmp);
 		tmp = getcwd(NULL, 0);
-		change_arg(env, "OLDPWD", find_var_env(data, "PWD"));
+		change_arg(env, "OLDPWD", find_var_env(data, "PWD", data->env));
 		change_arg(env, "PWD", tmp);
 		free(temp);
 	}

@@ -13,14 +13,14 @@ char	*print_prompt(t_env *env, t_data *data)
 		ft_putstr("\e[39m");
 		return (data->prompt);
 	}
-	new = find_var_env(data, "PROMPT");
+	new = find_var_env(data, "PROMPT", env);
 	if (ft_strequ(new, ""))
 	{
 		free(new);
 		new = getcwd(NULL, 0);
 		if (!new)
 		{
-			tmp = find_var_env(data, "HOME");
+			tmp = find_var_env(data, "HOME", env);
 			if (ft_strequ(tmp, ""))
 				tmp = ft_strjoinaf1(tmp, "/");
 			change_arg(env, "PWD", tmp);

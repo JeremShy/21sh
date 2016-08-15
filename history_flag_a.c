@@ -5,7 +5,7 @@ int		get_history_path_anrw(t_data *data, char **path, char *scmd)
 {
 	char	*history_name;
 
-	*path = find_var_env(data, "HOME");
+	*path = find_var_env(data, "HOME", data->env);
 	if (*path[0] == '\0')
 	{
 		free(*path);
@@ -13,7 +13,7 @@ int		get_history_path_anrw(t_data *data, char **path, char *scmd)
 	}
 	else
 	{
-    history_name = find_var_env(data, "HISTFILE");
+    history_name = find_var_env(data, "HISTFILE", data->env);
     if (scmd != NULL)
     {
       *path = ft_strjoinaf1(*path, "/");

@@ -130,7 +130,7 @@ void ft_autocomplete(t_data *data)
 		}
 		else
 		{
-			path = find_var_env(data, "PATH");
+			path = find_var_env(data, "PATH", data->env);
 			if (ft_strequ(path, ""))
 			{
 				free(path);

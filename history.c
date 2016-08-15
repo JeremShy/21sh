@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 12:51:49 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/10 16:43:03 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/08/15 20:09:59 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		get_history_path(t_data *data, char **path)
 {
 	char	*history_name;
 
-	*path = find_var_env(data, "HOME");
+	*path = find_var_env(data, "HOME", data->env);
 	if (*path[0] == '\0')
 	{
 		// ft_putstr_fd("42sh: history: $HOME isn't set, impossible to create or read history file\n", 2);
@@ -56,7 +56,7 @@ int		get_history_path(t_data *data, char **path)
 	}
 	else
 	{
-		history_name = find_var_env(data, "HISTFILE");
+		history_name = find_var_env(data, "HISTFILE", data->env);
 		if (history_name[0] == '\0')
 		{
 			free(history_name);

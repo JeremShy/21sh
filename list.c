@@ -50,13 +50,13 @@ int				isset_arg(t_env *list, char *name)
 	return (0);
 }
 
-char			*find_var_env(t_data *data, char *name)
+char			*find_var_env(t_data *data, char *name, t_env *env)
 {
 	t_var 	*list_var;
 	t_env		*list_env;
 
 	list_var = data->var;
-	list_env = data->env;
+	list_env = env;
 	if (!list_var && !list_env)
 		return (ft_strdup(""));
 	while (list_env)
