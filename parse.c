@@ -119,6 +119,9 @@ void	jump_all_quote_for_arg(char *str, size_t *i)
 		if (is_quote_open(str[*i]))
 		{
 			open_quote = str[*i];
+			(void)		open_quote;
+			(void)		begin_quote;
+
 			get_pos_after_quote(i, str);
 			begin_quote = *i;
 			// printf("char after quote = [%c]\n", str[*i]);

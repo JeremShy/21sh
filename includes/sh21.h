@@ -19,6 +19,8 @@
 # define	POINT_VIRGULE ';'
 # define	ETET (char)1
 # define	OUOU (char)2
+# define	ERR_GETOLDWD "Error: Get OLDPWD"
+# define	ERR_GETCWD "Error: Get PWD"
 
 # undef tab
 

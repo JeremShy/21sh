@@ -123,6 +123,7 @@ void   is_var_and_replace(t_data *data, char **str, size_t *index)
   char    *arg;
   char    tmp_char;
   size_t  real_length; // Length de la variable ajouté avec ou non backslash
+  (void)  real_length; // Length de la variable ajouté avec ou non backslash
 
   if (!is_escaped_char(*str, *index) && (*str)[*index] == '$')
   {
@@ -204,6 +205,7 @@ int   is_subs_and_replace(t_data *data, char **str, size_t *index, int flag)
   char    *arg;
   // int     line_number;
   int     flag_special;
+	(void)     flag_special;
 
   length = *index + 1;
   flag_special = 0;
@@ -288,7 +290,9 @@ int   true_var_and_subs(t_data *data, char **str)
   size_t  index;
   char    open_quote;
   size_t  tmp_index; // flag qui sert a ne passer qu'une fois dans is_var et is_subs si un des deux est ok + reanalyser le premier caractere de la chaine obtenue
+	(void)  tmp_index; // flag qui sert a ne passer qu'une fois dans is_var et is_subs si un des deux est ok + reanalyser le premier caractere de la chaine obtenue
   size_t  first_true_char;
+	(void)  first_true_char;
 
   // old_str = ft_strdup(*str);
   index = 0;
