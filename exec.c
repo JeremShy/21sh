@@ -182,7 +182,7 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 			}
 			else
 			{
-				printf("[%s] va se chercher dans file ...\n", command->av[0]);
+				// printf("[%s] va se chercher dans file ...\n", command->av[0]);
 				exec_file(command, *env, data->in_env_i, data);
 			}
 			// printf("------------------------------------------------\nend of command.\n");
@@ -205,15 +205,17 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 		}
 		else if (command->sep == '|')
 		{
-			printf("ON RENTRE DANS LA PIPATION ET C'EST UN PROBLEME GRAVE.\n");
+			// printf("ON RENTRE DANS LA PIPATION ET C'EST UN PROBLEME GRAVE.\n");
 			pid = fork();
 			if (pid != 0)
+			{
 				wait(NULL);
+				// waitpid(pid, NULL, 0);
+			}
 			else
 			{
 				signal(SIGINT, SIG_DFL);
-				if (fork_pipes(command, *env, data) == -1)
-					exit(0);
+				exit (fork_pipes(command, *env, data));
 			}
 			while (command && command->sep == '|')
 					command = command->next;

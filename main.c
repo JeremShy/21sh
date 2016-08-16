@@ -48,7 +48,6 @@ char	*print_prompt(t_env *env, t_data *data)
 	return(prompt);
 }
 
-
 int			main(int ac, char **av, char **env)
 {
 	t_data	data;
