@@ -29,6 +29,7 @@ static void	init_autocomplete(t_data *data, char **split, char *str_to_equ, char
 	DIR		*directory;
 	t_dirent	*truc;
 
+	// printf("split[0] = [%s] /// prefix = [%s] // str to equ = [%s]\n", split[0], prefix, str_to_equ);
 	i = 0;
 	while (split[i])
 	{
@@ -52,15 +53,21 @@ static void	init_autocomplete(t_data *data, char **split, char *str_to_equ, char
 static int	there_is_a_space(char *cmd, char **ptr) // Note : ptr est la chaine apres l'espace.
 {
 	size_t	i;
+	int			first_word;
 
 	i = 0;
 	*ptr = NULL;
+	first_word = 1;
+	while (ft_isspace2(cmd[i]))
+		i++;
 	while (cmd[i])
 	{
 		if (is_quote_open(cmd[i]))
 			get_pos_after_quote(&i, cmd);
-		else if (cmd[i] == ' ')
+		else if (ft_isspace2(cmd[i]))
 		{
+			while (ft_isspace2(cmd[i]))
+				i++;
 			if (*ptr == NULL)
 				*ptr = ft_strdup(cmd + i + 1);
 			else
@@ -70,8 +77,17 @@ static int	there_is_a_space(char *cmd, char **ptr) // Note : ptr est la chaine a
 			}
 			i++;
 		}
+		else if (is_sep(&i, cmd, 1, NULL))
+			first_word = 1;
 		else
 			i++;
+		first_word = 0;
+	}
+	if (first_word)
+	{
+		if (*ptr)
+			free(*ptr);
+		*ptr = NULL;
 	}
 	if (*ptr)
 		return (1);
@@ -109,7 +125,7 @@ void ft_autocomplete(t_data *data)
 			{
 					split[0] = ft_strsub(ptr, 0, ptr_for_chr - ptr + 1);
 					prefix = ft_strdup(split[0]);
-					tmp = ft_strdup(ptr_for_chr);
+					tmp = ft_strdup(ptr_for_chr + 1);
 					free(ptr);
 					// ptr = ft_strdup(ptr_for_chr + 1);
 					ptr = tmp;
@@ -127,6 +143,7 @@ void ft_autocomplete(t_data *data)
 			split[0] = ft_strsub(data->cmd, 0, ptr - data->cmd + 1);
 			split[1] = NULL;
 			// printf("[%s]\n", split[0]);
+			// printf("ptr : %s\n", ptr);
 			ptr = ft_strdup(ptr + 1);
 			prefix = ft_strdup(split[0]);
 			data->index_in_word_before_auto = data->index;

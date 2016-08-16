@@ -15,7 +15,7 @@ void		signal_handler(void)
 	{
 		if (i != SIGSTOP && i != SIGTTOU && i != SIGTSTP && i != SIGTTIN
 			&& i != SIGWINCH && i != SIGINFO && i != SIGINT && i != SIGURG
-			&& i != SIGIO)
+			&& i != SIGIO && i != SIGCHLD)
 			signal(i, signal_end_prog);
 		i++;
 	}
