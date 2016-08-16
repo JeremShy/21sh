@@ -78,6 +78,7 @@ int	fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 	// cmd->fd_in->fd = 0;
 	i = 0;
 	n = find_number(cmd);
+	ret_execve = 21;
 	// printf("n : %d\n", n);
 	while (i < n - 1)
 	{
@@ -87,6 +88,7 @@ int	fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 		else
 			cmd->fd_out->fd = fd[1];
 		son_proc = spawn_proc(cmd, env, data);
+		// printf("SON_PROC = %d\n", son_proc);
 		close(fd[1]);
 		cmd = cmd->next;
 		if (cmd == NULL)
@@ -110,13 +112,14 @@ int	fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 		dup2(cmd->fd_err->fd, 2);
 	file = find_exec(cmd->av[0], data, env);
 	environ = make_env_char(env);
+	ret_execve = 0;
 	fork_exec = fork();
 	if (fork_exec != 0)
-		wait(&ret_execve);
+		waitpid(fork_exec, &ret_execve, 0);
 	else
 		return (execve(file, cmd->av, environ));
-	close(cmd->fd_in->fd);
-	waitpid(son_proc, NULL, 0);
-	// printf("ret-execve = %d\n", ret_execve);
-	exit(ret_execve);
+	// waitpid(son_proc, NULL, 0);
+	wait(NULL);
+	// printf("SON_PROC = %d\n", son_proc);
+	exit(get_ret(ret_execve, data));
 }

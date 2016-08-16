@@ -5,7 +5,7 @@ int		is_aggr(size_t *i, char *str, int jump)
 	size_t tmp;
 
 	tmp = *i;
-	if (str[*i] == '>' && str[*i + 1] == '&' && (ft_isdigit(str[*i + 2]) || str[*i + 2] == '-')) // Il faut que ca commence par un <, suivi de..
+	if ((str[*i] == '>' || str[*i] == '<') && str[*i + 1] == '&' && (ft_isdigit(str[*i + 2]) || str[*i + 2] == '-')) // Il faut que ca commence par un <, suivi de..
 	{
 		(*i) += 2;
 		while (ft_isdigit(str[*i]) || str[*i] == '-')
@@ -14,7 +14,7 @@ int		is_aggr(size_t *i, char *str, int jump)
 			*i = tmp;
 		return (1);
 	}
-	else if (ft_isdigit(str[*i]) && str[*i + 1] == '>' && str[*i + 2] == '&' && (ft_isdigit(str[*i + 3]) || str[*i + 3] == '-')) // Ou alors ca peut commencer par un nombre..
+	else if (ft_isdigit(str[*i]) && (str[*i + 1] == '>' || str[*i + 1] == '<') && str[*i + 2] == '&' && (ft_isdigit(str[*i + 3]) || str[*i + 3] == '-')) // Ou alors ca peut commencer par un nombre..
 	{
 		(*i) += 3;
 		while (ft_isdigit(str[*i]) || str[*i] == '-')

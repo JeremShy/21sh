@@ -45,7 +45,8 @@
 		 history_exit.c \
 		 autocomplete.c \
 		 unset.c \
-		 export.c
+		 export.c \
+		 signals.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes

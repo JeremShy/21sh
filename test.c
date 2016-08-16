@@ -1,11 +1,8 @@
-#include <sh21.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 int main()
 {
-	char truc[1001];
-	printf("on entre dans le programme\n");
-	while  (read(0, truc, 1000));
-	printf("on sort du programme\n");
-// 		exit(0);
-	return (0);
+	dprintf(1, "C'est sur la sortie standard\n");
+	dprintf(2, "C'est sur la sortie d'erreur\n");
 }

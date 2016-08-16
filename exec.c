@@ -162,11 +162,28 @@ t_cmd		*cmd_not_found(t_cmd *command, t_data *data, t_env *env)
 	return (last_found);
 }
 
+int		get_ret(int status, t_data *data)
+{
+	int ret;
+
+	if (WIFEXITED(status))
+		ret = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		ret = WTERMSIG(status);
+	else if (WIFSTOPPED(status))
+		ret = WSTOPSIG(status);
+	else
+		ret = (EXIT_FAILURE);
+	data->ret = ret;
+	return (ret);
+}
+
 void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 {
 	t_cmd *temp;
 	pid_t pid;
 	int		tmp;
+	int		ret;
 
 	if (!command)
 		return;
@@ -179,11 +196,13 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 			if (is_builtin(command->av[0]))
 			{
 				command->ret = exec_builtin(command, env, data);
+				data->ret = command->ret;
 			}
 			else
 			{
 				// printf("[%s] va se chercher dans file ...\n", command->av[0]);
 				exec_file(command, *env, data->in_env_i, data);
+				command->ret = get_ret(command->ret, data);
 			}
 			// printf("------------------------------------------------\nend of command.\n");
 			tmp = 0;
@@ -209,13 +228,16 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 			pid = fork();
 			if (pid != 0)
 			{
-				wait(NULL);
+				waitpid(pid, &ret, 0);
+				command->ret = get_ret(ret, data);
+				data->ret = ret;
 				// waitpid(pid, NULL, 0);
 			}
 			else
 			{
 				signal(SIGINT, SIG_DFL);
-				exit (fork_pipes(command, *env, data));
+				fork_pipes(command, *env, data);
+				exit(1);
 			}
 			while (command && command->sep == '|')
 					command = command->next;
@@ -223,7 +245,9 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 			{
 				command = command->next;
 				if (command)
+				{
 					command = cmd_not_found(command, data, *env);
+				}
 			}
 		}
 	}

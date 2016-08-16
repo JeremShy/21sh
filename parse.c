@@ -172,10 +172,10 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 			}
 			else if (i > 2 && (ft_strnequ(str + i - 2, "||", 2) || ft_strnequ(str + i - 2, "&&", 2)))
 			{
-				// printf("here !\n");
 				cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));
 				exec_cmd(env, cmd, data);
-				if ((cmd->ret == 0 && cmd->sep == OUOU) || (cmd->ret != 0 && cmd->sep == ETET))
+				cmd->sep = def_sep(str + i - 2);
+				if (cmd && ((cmd->ret == 0 && cmd->sep == OUOU) || (cmd->ret != 0 && cmd->sep == ETET)))
 					return (NULL);
 				//FAUDRA FREE CMD.
 				cmd = NULL;

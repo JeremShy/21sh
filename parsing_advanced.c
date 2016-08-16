@@ -127,6 +127,13 @@ void   is_var_and_replace(t_data *data, char **str, size_t *index)
   if (!is_escaped_char(*str, *index) && (*str)[*index] == '$')
   {
     length = *index + 1;
+		if ((*str)[*index + 1] == '?')
+		{
+			length++;
+			arg = ft_strdup(ft_itoa_base(data->ret, 10));
+			real_length = delete_var_and_replace(str, *index, length, arg);
+			return ;
+		}
     while (ft_isalnum((*str)[length]))
       length++;
     tmp_char = (*str)[length];

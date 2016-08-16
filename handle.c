@@ -5,13 +5,15 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 	size_t 	tmp;
 	int			avant;
 	int			apres;
+	char		chevron;
 	t_fd		**fd_avant;
 	t_fd		**fd_apres;
 
 	tmp = *i;
 	avant = 1;
-	if (str[*i] == '>' && str[*i + 1] == '&' && (ft_isdigit(str[*i + 2]) || str[*i + 2] == '-')) // On check si le truc est valide.
+	if ((str[*i] == '>' || str[*i] == '<') && str[*i + 1] == '&' && (ft_isdigit(str[*i + 2]) || str[*i + 2] == '-')) // On check si le truc est valide.
 	{
+		chevron = str[*i];
 		(*i) += 2;
 		if (str[*i] == '-')
 			apres = -2;
@@ -22,9 +24,10 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 		if (!jump)
 			*i = tmp;
 	}
-	else if (ft_isdigit(str[*i]) && str[*i + 1] == '>' && str[*i + 2] == '&' && (ft_isdigit(str[*i + 3]) || str[*i + 3] == '-')) // La meme
+	else if (ft_isdigit(str[*i]) && (str[*i + 1] == '>' || str[*i + 1] == '<') && str[*i + 2] == '&' && (ft_isdigit(str[*i + 3]) || str[*i + 3] == '-')) // La meme
 	{
 		avant = str[*i] - '0';
+		chevron = str[*i + 1];
 		(*i) += 3;
 		if (str[*i] == '-')
 			apres = -2;
@@ -49,12 +52,20 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 		fd_apres = &cmd->fd_out;
 	else
 		fd_apres = &cmd->fd_err;
-	if ((*fd_apres)->fd == -1 && apres != -2) // Si c'est le premier fd qu'on redefinit, on remplace.
-		*fd_avant = add_fd_elem(*fd_avant, create_fd(dup(apres)));
-	else if (apres != -2)
-		*fd_avant = add_fd_elem(*fd_avant, copy_fd(*fd_apres)); // Si on le close pas, on ajoute a la liste.
+	if (chevron == '>')
+	{
+		if ((*fd_apres)->fd == -1 && apres != -2) // Si c'est le premier fd qu'on redefinit, on remplace.
+			*fd_avant = add_fd_elem(*fd_avant, create_fd(dup(apres)));
+		else if (apres != -2)
+			*fd_avant = add_fd_elem(*fd_avant, copy_fd(*fd_apres)); // Si on le close pas, on ajoute a la liste.
+		else
+			*fd_avant = add_fd_elem(*fd_avant, create_fd(-2)); // Sinon, on le close. (tout ce bordel etait pour ne pas faire un dup(-2) !)
+	}
 	else
-		*fd_avant = add_fd_elem(*fd_avant, create_fd(-2)); // Sinon, on le close. (tout ce bordel etait pour ne pas faire un dup(-2) !)
+	{
+		if (apres == -2)
+			*fd_avant = add_fd_elem(*fd_avant, create_fd(-2)); // Sinon, on le close. (tout ce bordel etait pour ne pas faire un dup(-2) !)
+	}
 	return (1);
 }
 
