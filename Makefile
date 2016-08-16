@@ -43,7 +43,11 @@
 		 builtin_env.c \
 		 setvar.c \
 		 history_exit.c \
-		 autocomplete.c
+		 autocomplete.c \
+		 cd_islegal.c \
+		 cd_main.c \
+		 cd_goto.c \
+		 cd_misc.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes

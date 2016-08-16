@@ -60,24 +60,29 @@ void	goto_oldpwd(t_env *env, t_data *data)
 	}
 }
 
-
-
 int			ft_cd(char **scmd, t_env *env, t_data *data)
 {
-	char	*tmp;
+	/*char	*cwd;
 
-	tmp = getcwd(NULL, 0);
-	if (!tmp)
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
 	{
 		write(2, ERR_GETCWD, ft_strlen(ERR_GETCWD));
 		return (0);
 	}
 	else if (!scmd[1])
-		goto_home(env, tmp, data);
+		goto_home(env, cwd, data);
 	else if (!ft_strequ(scmd[1], "-"))
-		return (chg_arg1(scmd, env, tmp));
+		return (chg_arg1(scmd, env, cwd));
 	else
 		goto_oldpwd(env, data);
-	free(tmp);
-	return (1);
+	free(cwd);
+	return (1);*/
+	(void)goto_home;
+	(void)chg_arg1;
+	(void)env;
+
+	return cd(scmd, data);
 }
+
+

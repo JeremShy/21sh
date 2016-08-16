@@ -19,8 +19,12 @@
 # define	POINT_VIRGULE ';'
 # define	ETET (char)1
 # define	OUOU (char)2
-# define	ERR_GETOLDWD "Error: Get OLDPWD"
-# define	ERR_GETCWD "Error: Get PWD"
+# define	ERR_GETOLDWD "Error: Get OLDPWD\n"
+# define	ERR_GETCWD "Error: Get PWD\n"
+# define	BUF_CWD 1024
+# define	BUF_CWD_MAX BUF_CWD * 1024
+# define	BUF_CWD_ERR "Error in Get CWD\n"
+
 
 # undef tab
 
@@ -261,4 +265,7 @@ void				putstr_builtin(t_cmd *cmd, char *str, int fd);
 void				putendl_builtin(t_cmd *cmd, char *str, int fd);
 void				putchar_builtin(t_cmd *cmd, char car, int fd);
 void				putnbr_builtin(t_cmd *cmd, int nb, int fd);
+
+int cd(char **cmd, t_data *data);
+
 #endif
