@@ -37,7 +37,7 @@ int			ft_unset(char **scmd, t_env **env, t_cmd *cmd, t_data *data)
 	if (!scmd[1])
 	{
 		putstr_builtin(cmd, "unset: Too few arguments.\n", 2);
-		return (0);
+		return (1);
 	}
 	ret = 1;
   if (isset_arg(*env, scmd[1]))

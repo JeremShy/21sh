@@ -191,7 +191,6 @@ void				display_heredoc (t_hc *elem);
 void				free_heredoc(t_hc *list);
 char				*find_exec(char *scmd, t_data *data, t_env *env);
 int					fork_pipes(t_cmd *cmd, t_env *env, t_data *data);
-int					spawn_proc (t_cmd *cmd, t_env *env, t_data *data);
 char				*get_pb(void);
 int					is_empty_border(char *str, size_t beg, size_t end);
 int					is_parse_error(char *str);

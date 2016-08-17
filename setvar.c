@@ -55,11 +55,11 @@ int			ft_setvar(char **scmd, t_data *data, t_cmd *cmd)
 	if (!scmd[1] || !scmd[2])
   {
     putstr_builtin(cmd, "42sh: invalid argument [arg1 arg2]\n", 2);
-    return (0);
+    return (1);
   }
 	if (isset_var(data->var, scmd[1]))
 		change_var(data->var, scmd[1], scmd[2]);
 	else
 		 data->var = add_var_elem_end(data->var, scmd[1], scmd[2]);
-	return (1);
+	return (0);
 }

@@ -13,19 +13,22 @@ int find_number(t_cmd *cmd)
 	return (n);
 }
 
-int spawn_proc (t_cmd *cmd, t_env *env, t_data *data)
+int spawn_proc (t_cmd *cmd, t_env *env, t_data *data, int fd)
 {
 	pid_t pid;
 	int		in;
 	int		out;
+	int		err;
 	char	*file;
 	char	**environ;
 
 	in = cmd->fd_in->fd;
 	out = cmd->fd_out->fd;
+	err = cmd->fd_err->fd;
 	if ((pid = fork ()) == 0)
 	{
 		signal(SIGINT, SIG_DFL);
+		dup2(fd, out);
 		// printf("XX on execute : %s\n", cmd->av[0]);
 		if (is_builtin(cmd->av[0]))
 		{
@@ -44,6 +47,11 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data)
 				dup2(out, 1);
 				close(out);
 			}
+			if (err != 2)
+			{
+				dup2(fd, 2);
+				close(err);
+			}
 			if (in == -2)
 			{
 				close(0);
@@ -51,6 +59,10 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data)
 			if (out == -2)
 			{
 				close(1);
+			}
+			if (err == -2)
+			{
+				close(2);
 			}
 			file = find_exec(cmd->av[0], data, env);
 			environ = make_env_char(env);
@@ -78,16 +90,17 @@ int	fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 	// cmd->fd_in->fd = 0;
 	i = 0;
 	n = find_number(cmd);
-	ret_execve = 21;
-	// printf("n : %d\n", n);
 	while (i < n - 1)
 	{
 		pipe(fd);
 		if (cmd->fd_out->fd == -2)
 			close(fd[1]);
 		else
-			cmd->fd_out->fd = fd[1];
-		son_proc = spawn_proc(cmd, env, data);
+		{
+			// dup2(fd[1], cmd->fd_out->fd);
+			// cmd->fd_out->fd = fd[1];
+		}
+		son_proc = spawn_proc(cmd, env, data, fd[1]);
 		// printf("SON_PROC = %d\n", son_proc);
 		close(fd[1]);
 		cmd = cmd->next;

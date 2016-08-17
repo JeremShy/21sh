@@ -55,7 +55,9 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 	if (chevron == '>')
 	{
 		if ((*fd_apres)->fd == -1 && apres != -2) // Si c'est le premier fd qu'on redefinit, on remplace.
+		{
 			*fd_avant = add_fd_elem(*fd_avant, create_fd(dup(apres)));
+		}
 		else if (apres != -2)
 			*fd_avant = add_fd_elem(*fd_avant, copy_fd(*fd_apres)); // Si on le close pas, on ajoute a la liste.
 		else
@@ -66,6 +68,10 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 		if (apres == -2)
 			*fd_avant = add_fd_elem(*fd_avant, create_fd(-2)); // Sinon, on le close. (tout ce bordel etait pour ne pas faire un dup(-2) !)
 	}
+	printf ("err : \n");
+	print_fd(cmd->fd_err);
+	printf ("out : \n");
+	print_fd(cmd->fd_out);
 	return (1);
 }
 
