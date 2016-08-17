@@ -325,7 +325,22 @@ void	boucle(t_env *env, t_data *data)
 		{
 			if (data->c == '<')
 			{
-				sigint(0);
+				free(data->cmd);
+				data->heredocs = add_hc_elem(data->heredocs, create_hc_elem(data->heredocs_tmp));
+				// data->cmd = ft_strdup(data->cmd_tmp);
+				free(data->cmd_tmp);
+				data->cmd_tmp = ft_strdup("");
+				data->index = data->old_index;
+				free(data->key_here);
+				data->key_here = NULL;
+				// printf("[%s]\n", data->cmd + data->index);
+				data->c = '\0';
+				data->real_len_cmd = 0;
+				data->quote_or_hd = 1;
+				data->cmd = data->command_save;
+				data->heredocs_tmp = ft_strdup("");
+				create_history(data, &env);
+				// create_history(data, env);
 			}
 			else if (ft_strequ(data->cmd, ""))
 			{

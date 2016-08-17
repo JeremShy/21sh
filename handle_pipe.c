@@ -28,15 +28,15 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data, int fd)
 	if ((pid = fork ()) == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		dup2(fd, out);
 		// printf("XX on execute : %s\n", cmd->av[0]);
-		if (is_builtin(cmd->av[0]))
-		{
-			cmd->ret = exec_builtin(cmd, &env, data);
-			exit(cmd->ret);
-		}
-		else
-		{
+		// if (is_builtin(cmd->av[0]))
+		// {
+		// 	cmd->ret = exec_builtin(cmd, &env, data);
+		// 	exit(cmd->ret);
+		// }
+		// else
+		// {
+			dup2(fd, out);
 			if (in != 0)
 			{
 				dup2(in, 0);
@@ -44,7 +44,11 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data, int fd)
 			}
 			if (out != 1)
 			{
-				dup2(out, 1);
+				// dup2(out, 1);
+				if (cmd->fd_out->fd_pointe == 2)
+					dup2(err, 1);
+				else
+					dup2(out, 1);
 				close(out);
 			}
 			if (err != 2)
@@ -67,10 +71,18 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data, int fd)
 			{
 				close(2);
 			}
+			if (is_builtin(cmd->av[0]))
+			{
+				cmd->fd_in->fd = 0;
+				cmd->fd_out->fd = 1;
+				cmd->fd_err->fd = 2;
+				cmd->ret = exec_builtin(cmd, &env, data);
+				exit(cmd->ret);
+			}
 			file = find_exec(cmd->av[0], data, env);
 			environ = make_env_char(env);
 			return execve(file, cmd->av, environ);
-		}
+		// }
 	}
 	// else
 	// 	waitpid(pid, NULL, 0);

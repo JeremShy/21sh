@@ -136,7 +136,7 @@ void ft_autocomplete(t_data *data)
 	int		index_to_go;
 	char	*tmp;
 
-	if (ft_strequ(data->cmd, ""))
+	if (is_empty_border(data->cmd, 0, ft_strlen(data->cmd)))
 		return ;
 	if (!data->absolute_cmd_before_auto)
 	{
@@ -173,14 +173,14 @@ void ft_autocomplete(t_data *data)
 			}
 			split[1] = NULL;
 		}
-		else if ((ptr = ft_strrchr(find_ptr(data->cmd), '/')))
+		else if ((ptr = ft_strrchr(find_ptr(data->cmd) - 1, '/')))
 		{
 			// printf("troisieme\n");
 			split = malloc(sizeof(char*) * 2);
 			split[0] = ft_strsub(data->cmd, 0, ptr - data->cmd + 1);
 			split[1] = NULL;
 			// printf("[%s]\n", split[0]);
-			// printf("ptr : %s\n", ptr);
+			// printf("ptr : %s\n", ptr);s
 			ptr = ft_strdup(ptr + 1);
 			prefix = ft_strdup(split[0]);
 			data->index_in_word_before_auto = data->index;
@@ -196,11 +196,17 @@ void ft_autocomplete(t_data *data)
 			}
 			split = ft_strsplit(path, ':');
 			// ptr = ft_strdup(data->cmd);
-			ptr = ft_strdup(find_ptr(data->cmd));
+			if (find_ptr(data->cmd) > 0)
+				ptr = ft_strdup(find_ptr(data->cmd) - 1);
+			else
+				ptr = ft_strdup(data->cmd);
 			prefix = ft_strdup("");
 			free(path);
 			// data->index_in_word_before_auto = data->index;
-			data->index_in_word_before_auto = data->index_before_move - (find_ptr(data->cmd) - data->cmd);
+			if (find_ptr(data->cmd) > 0)
+				data->index_in_word_before_auto = data->index_before_move - ((find_ptr(data->cmd) - 1) - data->cmd);
+			else
+				data->index_in_word_before_auto = 0;
 		}
 		init_autocomplete(data, split, ptr, prefix);
 	}

@@ -34,7 +34,7 @@ int		my_putchar(int c)
 		fd = open("/dev/tty", O_RDWR);
 	if (!isatty(fd))
 	{
-		ft_printf("/dev/tty is not a valid tty.\n");
+		ft_putstr("/dev/tty is not a valid tty.\n");
 		exit(EXIT_FAILURE);
 	}
 	if (c == -1)

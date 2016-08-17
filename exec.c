@@ -145,7 +145,7 @@ t_cmd		*cmd_not_found(t_cmd *command, t_data *data, t_env *env)
 	{
 		if (command->sep != '|')
 			was_ok = 0;
-		if (!(exec = find_exec(command->av[0], data, env)))
+		if (!is_builtin(command->av[0]) && !(exec = find_exec(command->av[0], data, env)))
 		{
 			ok = 0;
 			// printf("COMMAND NOT FOUND CONNARD\n");
@@ -155,7 +155,8 @@ t_cmd		*cmd_not_found(t_cmd *command, t_data *data, t_env *env)
 		{
 			ok = 1;
 			last_found = command;
-			free(exec);
+      if (!is_builtin(command->av[0]))
+			   free(exec);
 		}
 		command = command->next;
 	}
