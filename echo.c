@@ -61,7 +61,7 @@ int ft_echo(char **scmd, t_cmd *cmd)
 				// {
 					c = scmd[i][j + 1];
 					if (special_car(scmd[i][j + 1], cmd))
-						return (1);
+						return (0);
 					j++;
 				// }
 				// else
@@ -81,5 +81,5 @@ int ft_echo(char **scmd, t_cmd *cmd)
 		putchar_builtin(cmd, '\n', 1);
 	// else
 		// eot(cmd);
-	return (1);
+	return (0);
 }

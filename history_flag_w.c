@@ -1,4 +1,3 @@
-
 #include <sh21.h>
 
 int history_flag_w(t_data *data, char *scmd)

@@ -161,6 +161,7 @@ void	move_left(t_data *data)
 		free(data->absolute_cmd_before_auto);
 	data->absolute_cmd_before_auto = NULL;
 	data->index_before_auto = 0;
+	data->index_before_move = 0;
 	// TODO : Free la list_auto;
 	data->list_auto = NULL;
 	if (data->mode_copy && data->index == data->index_max_copy && data->index_min_copy != data->index_max_copy) // Le left quand on est à droite (#Nicolas_Sarkozy)
@@ -209,6 +210,7 @@ void move_right(t_data *data)
 		free(data->absolute_cmd_before_auto);
 	data->absolute_cmd_before_auto = NULL;
 	data->index_before_auto = 0;
+	data->index_before_move = 0;
 	// TODO : Free la list_auto;
 	data->list_auto = NULL;
 	if (data->mode_copy && data->index == data->index_min_copy && data->index_min_copy != data->index_max_copy)

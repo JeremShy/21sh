@@ -120,6 +120,7 @@ typedef struct	s_data {
 	int				index_before_auto; // index avant autocompletion
 	int				index_in_word_before_auto; // Index dans le mot avant l'autocompletion (pour ls pou<tab>, ca va etre 3 par exemple);
 	char			*absolute_cmd_before_auto; //Veritable cmd au cas ou l'index n'est pas au bout;
+	int				index_before_move;
 	int				ret; // Retour de la derniere commande (Pour $?).
 }				t_data;
 
@@ -265,4 +266,5 @@ int					ft_unset(char **scmd, t_env **env, t_cmd *cmd, t_data *data);
 int					ft_export(char **scmd, t_env **env, t_cmd *cmd);
 int					get_ret(int status, t_data *data);
 void				signal_handler(void);
+void				jump_all_quote_for_arg(char *str, size_t *i);
 #endif

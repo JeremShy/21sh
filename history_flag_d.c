@@ -8,10 +8,6 @@ void history_flag_d_3(t_data *data, t_history *list)
 
   tmp_prec = list->prec;
   tmp_next = list->next;
-  // printf("-------------------------------\n");
-  // printf("line prec = [%s]\n", tmp_prec->line);
-  // printf("line actual = [%s]\n", list->line);
-  // printf("line next = [%s]\n", tmp_next->line);
   if (tmp_prec)
   {
     tmp_prec->next = tmp_next;
@@ -29,9 +25,6 @@ void history_flag_d_3(t_data *data, t_history *list)
     data->history = NULL;
   free(list->line);
   free(list);
-  // free(list->line);
-  // list->line = ft_strdup("MA BITE EST TRES DURE");
-  // printf("New end of history = [%s]\n", data->history->line);
 }
 
 int  history_flag_d_2(t_data *data, t_history *list, int nb, t_cmd *cmd)
@@ -44,7 +37,6 @@ int  history_flag_d_2(t_data *data, t_history *list, int nb, t_cmd *cmd)
     list = list->next;
     i++;
   }
-  // printf("SALUT --------\nnb = %d AND list->line = [%s]\n", nb, list->line);
   if (list == NULL || nb == 0)
   {
     putstr_builtin(cmd, "42sh: history: history position out of range\n", 2);
@@ -68,19 +60,19 @@ int history_flag_d(t_data *data, char **scmd, t_cmd *cmd)
     if (ft_isdigit(scmd[j][0]))
     {
       if (history_flag_d_2(data, tmp_deb, ft_atoi(scmd[j]), cmd) == 1)
-        return (0);
+        return (1);
     }
     else
     {
       putstr_builtin(cmd, "42sh: history: Invalid arg, you must specify an positive integer\n", 2);
-      return (0);
+      return (1);
     }
     j++;
   }
   if (j == 0)
   {
     putstr_builtin(cmd, "42sh: history: Invalid arg, you must specify an positive integer\n", 2);
-    return (0);
+    return (1);
   }
-  return (1);
+  return (0);
 }

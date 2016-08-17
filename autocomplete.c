@@ -50,48 +50,80 @@ static void	init_autocomplete(t_data *data, char **split, char *str_to_equ, char
 	free(prefix);
 }
 
-static int	there_is_a_space(char *cmd, char **ptr) // Note : ptr est la chaine apres l'espace.
+
+void	jump_all_quote_for_arg(char *str, size_t *i)
+{
+	char		open_quote;
+	size_t	begin_quote;
+
+	// printf("FIRST CHAR = '%c'\n", str[*i]);
+	while (ft_isspace2(str[*i]) == 0 && str[*i] && !is_sep(i, str, 0, NULL))
+	{
+		if (is_quote_open(str[*i]))
+		{
+			open_quote = str[*i];
+			get_pos_after_quote(i, str);
+			begin_quote = *i;
+			// printf("char after quote = [%c]\n", str[*i]);
+			(*i)++;
+			// printf("car = '%c'\n", str[*i]);
+		}
+		else
+			(*i)++;
+	}
+	// printf("END CHAR = '%c'\n", str[*i - 1]);
+}
+
+char	*find_ptr(char *cmd)
+{
+	size_t	i;
+
+	i = ft_strlen(cmd);
+	if (i)
+		i--;
+	while (i > 0 && !ft_isspace2(cmd[i]) && !is_sep(&i, cmd, 0, NULL))
+		i--;
+	// printf("cmd[i]: %c - i : %zu\n", cmd[i], i);
+	if (!is_sep(&i, cmd, 1, NULL))
+		i++;
+	return (cmd + i);
+}
+
+static int	is_auto_arg(char *cmd, char **ptr) // Note : ptr est la chaine apres l'espace.
 {
 	size_t	i;
 	int			first_word;
 
 	i = 0;
-	*ptr = NULL;
 	first_word = 1;
 	while (ft_isspace2(cmd[i]))
 		i++;
 	while (cmd[i])
 	{
-		if (is_quote_open(cmd[i]))
-			get_pos_after_quote(&i, cmd);
-		else if (ft_isspace2(cmd[i]))
+		while (ft_isspace2(cmd[i]))
 		{
-			while (ft_isspace2(cmd[i]))
-				i++;
-			if (*ptr == NULL)
-				*ptr = ft_strdup(cmd + i + 1);
-			else
-			{
-				free(*ptr);
-				*ptr = ft_strdup(cmd + i + 1);
-			}
+			first_word = 0;
 			i++;
 		}
-		else if (is_sep(&i, cmd, 1, NULL))
+		if (is_sep(&i, cmd, 1, NULL))
+		{
 			first_word = 1;
-		else
-			i++;
-		first_word = 0;
+			while (ft_isspace2(cmd[i]))
+				i++;
+		}
+		else if (cmd[i])
+		{
+			jump_all_quote_for_arg(cmd, &i);
+		}
 	}
-	if (first_word)
-	{
-		if (*ptr)
-			free(*ptr);
-		*ptr = NULL;
-	}
-	if (*ptr)
-		return (1);
-	return (0);
+	*ptr = find_ptr(cmd);
+	// if (ft_strequ(*ptr, ""))
+	// 	*ptr = NULL;
+	// else
+		*ptr = ft_strdup(*ptr);
+	// printf("i = %zu [%c] // *ptr = [%s]\n", i, cmd[i], *ptr);
+	// printf("ON RENVOIT %d DANS TON RETURN\n", first_word);
+	return (!first_word);
 }
 
 void ft_autocomplete(t_data *data)
@@ -108,6 +140,8 @@ void ft_autocomplete(t_data *data)
 		return ;
 	if (!data->absolute_cmd_before_auto)
 	{
+		data->index_before_move = data->index;
+		// printf("data->index_in_word_before_auto : %d\n", data->index_in_word_before_auto);
 		while (data->cmd[data->index] && data->cmd[data->index] != ' ')
 		{
 			move_right_without_mod(data);
@@ -117,8 +151,9 @@ void ft_autocomplete(t_data *data)
 	}
 	if (!data->list_auto)
 	{
-		if (there_is_a_space(data->cmd, &ptr))
+		if (is_auto_arg(data->cmd, &ptr))
 		{
+			// printf("premier\n");
 			data->index_in_word_before_auto = ft_strlen(ptr);
 			split = malloc(sizeof(char*) * 2);
 			if ((ptr_for_chr = ft_strrchr(ptr, '/')))
@@ -132,13 +167,15 @@ void ft_autocomplete(t_data *data)
 			}
 			else
 			{
+				// printf("deuxieme\n");
 				prefix = ft_strdup("");
 				split[0] = ft_strdup("./");
 			}
 			split[1] = NULL;
 		}
-		else if ((ptr = ft_strrchr(data->cmd, '/')))
+		else if ((ptr = ft_strrchr(find_ptr(data->cmd), '/')))
 		{
+			// printf("troisieme\n");
 			split = malloc(sizeof(char*) * 2);
 			split[0] = ft_strsub(data->cmd, 0, ptr - data->cmd + 1);
 			split[1] = NULL;
@@ -150,6 +187,7 @@ void ft_autocomplete(t_data *data)
 		}
 		else
 		{
+			// printf("quatrieme\n");
 			path = find_var_env(data, "PATH", data->env);
 			if (ft_strequ(path, ""))
 			{
@@ -157,10 +195,12 @@ void ft_autocomplete(t_data *data)
 				return ;
 			}
 			split = ft_strsplit(path, ':');
-			ptr = ft_strdup(data->cmd);
+			// ptr = ft_strdup(data->cmd);
+			ptr = ft_strdup(find_ptr(data->cmd));
 			prefix = ft_strdup("");
 			free(path);
-			data->index_in_word_before_auto = data->index;
+			// data->index_in_word_before_auto = data->index;
+			data->index_in_word_before_auto = data->index_before_move - (find_ptr(data->cmd) - data->cmd);
 		}
 		init_autocomplete(data, split, ptr, prefix);
 	}
@@ -168,6 +208,7 @@ void ft_autocomplete(t_data *data)
 		data->list_auto = data->list_auto->next;
 	if (!data->list_auto)
 		return ;
+	// printf("on doit mettre : [%s]\n", data->list_auto->str);
 	if (!data->cmd_before_auto)
 	{
 			data->cmd_before_auto = ft_strdup(data->cmd);

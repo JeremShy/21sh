@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 16:57:59 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/15 23:52:47 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/08/17 18:16:08 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	print_env(t_env *new, t_cmd *cmd)
 		putendl_builtin(cmd, new->arg, 1);
 		new = new->next;
 	}
-	return (1);
+	return (0);
 }
 
 t_env	*copy_env(t_env *env)
@@ -101,5 +101,5 @@ int	env_tmp_exec(t_env **env, t_data *data, char **scmd, t_cmd *cmd)
 	}
 	delete_list(new);
 	delete_list(tmp);
-	return (1);
+	return (0);
 }

@@ -21,12 +21,12 @@ int			ft_env(t_env **env, t_cmd *cmd, t_data *data)
 int			ft_setenv(char **scmd, t_env **env)
 {
 	if (!scmd[1] || !scmd[2])
-		return (0);
+		return (1);
 	if (isset_arg(*env, scmd[1]))
 		change_arg(*env, scmd[1], scmd[2]);
 	else
 		*env = add_elem_end(*env, scmd[1], scmd[2]);
-	return (1);
+	return (0);
 }
 
 int			ft_unsetenv(char **scmd, t_env **env, t_cmd *cmd)
@@ -34,12 +34,12 @@ int			ft_unsetenv(char **scmd, t_env **env, t_cmd *cmd)
 	if (!scmd[1])
 	{
 		putstr_builtin(cmd, "unsetenv: Too few arguments.\n", 2);
-		return (0);
+		return (1);
 	}
 	if (!isset_arg(*env, scmd[1]))
-		return (0);
+		return (1);
 	delete_elem(env, scmd[1]);
-	return (1);
+	return (0);
 }
 
 static int	ft_exit_bi(char **scmd, t_env *env, t_data *data)
@@ -48,9 +48,7 @@ static int	ft_exit_bi(char **scmd, t_env *env, t_data *data)
 	delete_list(env);
 	if (scmd[1])
 		exit(ft_atoi(scmd[1]));
-	else
-		exit(EXIT_SUCCESS);
-	return (1);
+	exit(EXIT_SUCCESS);
 }
 
 void putstr_builtin(t_cmd *cmd, char *str, int fd)

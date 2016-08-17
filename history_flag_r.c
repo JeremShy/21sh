@@ -1,4 +1,3 @@
-
 #include <sh21.h>
 
 int history_flag_r(t_data *data, char *scmd, t_cmd *cmd)
@@ -8,7 +7,6 @@ int history_flag_r(t_data *data, char *scmd, t_cmd *cmd)
 
 	if (get_history_path_anrw(data, &path, scmd) == 1)
 		return (1);
-  // printf("IN FLAG R\n");
 	data->history_fd = open(path, O_RDONLY);
   free(path);
   if (data->history_fd == -1)

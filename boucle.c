@@ -177,6 +177,7 @@ int	create_history(t_data *data, t_env **env)
 			free(data->absolute_cmd_before_auto);
 		data->absolute_cmd_before_auto = NULL;
 		data->index_before_auto = 0;
+		data->index_before_move = 0;
 		// TODO : Free la list_auto;
 		data->list_auto = NULL;
 	}
@@ -441,6 +442,7 @@ void	boucle(t_env *env, t_data *data)
 				free(data->absolute_cmd_before_auto);
 			data->absolute_cmd_before_auto = NULL;
 			data->index_before_auto = 0;
+			data->index_before_move = 0;
 			// TODO : Free la list_auto;
 			data->list_auto = NULL;
 			page_up(data);

@@ -55,6 +55,7 @@ void sigint(int sig)
 		free(data->absolute_cmd_before_auto);
 	data->absolute_cmd_before_auto = NULL;
 	data->index_before_auto = 0;
+  data->index_before_move = 0;
 }
 
 void get_winsize(t_data *data)

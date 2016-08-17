@@ -44,42 +44,6 @@ char		*history_subsitution_nb_arg(t_data *data, char *command)
 	return (NULL);
 }
 
-// char  *get_history_substutition(t_data *data, char *scmd)
-// {
-//   char      *str;
-//   t_history *list;
-//   int       len;
-//
-//   str = NULL;
-//   // printf("actual history = [%s]\n", data->history->line);
-//   if (scmd[0] == '!' && scmd[1] == '\0')
-//   {
-//     if (data->history != NULL)
-//     {
-//       data->history = add_history_elem(data->history, create_history_elem(data->cmd));
-//       return (ft_strdup(data->history->line));
-//     }
-//     return (NULL);
-//   }
-//   else if (ft_isdigit(scmd[0]))
-//   {
-//     if ((str = history_subsitution_nb_arg_ps(data, scmd)))
-//       return (str);
-//     return (NULL);
-//   }
-//   str = NULL;
-//   list = data->history;
-//   len = (int)ft_strlen(scmd);
-//   printf("JE PASSE ICI ! \n");
-//   while (list)
-//   {
-//     if (ft_strnequ(scmd, list->line, len))
-//       return (ft_strdup(list->line));
-//     list = list->prec;
-//   }
-//   return (str);
-// }
-
 int history_flag_s(t_data *data, char **scmd)
 {
   int   j;

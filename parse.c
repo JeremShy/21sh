@@ -108,28 +108,6 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 	return (count);
 }
 
-void	jump_all_quote_for_arg(char *str, size_t *i)
-{
-	char		open_quote;
-	size_t	begin_quote;
-
-	// printf("FIRST CHAR = '%c'\n", str[*i]);
-	while (ft_isspace2(str[*i]) == 0 && str[*i])
-	{
-		if (is_quote_open(str[*i]))
-		{
-			open_quote = str[*i];
-			get_pos_after_quote(i, str);
-			begin_quote = *i;
-			// printf("char after quote = [%c]\n", str[*i]);
-			(*i)++;
-			// printf("car = '%c'\n", str[*i]);
-		}
-		else
-			(*i)++;
-	}
-	// printf("END CHAR = '%c'\n", str[*i - 1]);
-}
 
 t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 {
