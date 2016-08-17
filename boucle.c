@@ -323,11 +323,17 @@ void	boucle(t_env *env, t_data *data)
 		else if (buf[0] == 4 && buf[1] == 0)
 		// FREE DATA;
 		{
-			history_exit(data);
-			if (ft_strequ(data->cmd, ""))
+			if (data->c == '<')
+			{
+				sigint(0);
+			}
+			else if (ft_strequ(data->cmd, ""))
+			{
+				history_exit(data);
 				ft_putstr_fd("exit", 2);
-			invert_term();
-			exit(0);
+				invert_term();
+				exit(0);
+			}
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 68 && buf[3] == 0)
 				move_left(data);

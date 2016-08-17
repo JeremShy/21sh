@@ -31,9 +31,9 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 
 	elem = (t_cmd*)malloc(sizeof(t_cmd)); // On alloue l'espace necessaire à la contiendance de notre élément.
 	elem->ret = 23;
-	elem->fd_in = create_fd(-1); // On initialise les trois fds.
-	elem->fd_out = create_fd(-1);
-	elem->fd_err = create_fd(-1);
+	elem->fd_in = create_fd(-1, -1); // On initialise les trois fds.
+	elem->fd_out = create_fd(-1, -1);
+	elem->fd_err = create_fd(-1, -1);
 	// printf("str : [%s]\n", str);
 	elem->p_error	= 0;
 	elem->error = 0;

@@ -49,7 +49,10 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data, int fd)
 			}
 			if (err != 2)
 			{
-				dup2(fd, 2);
+				if (cmd->fd_err->fd_pointe == 1)
+					dup2(fd, 2);
+				else
+					dup2(err, 2);
 				close(err);
 			}
 			if (in == -2)

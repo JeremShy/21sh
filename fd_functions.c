@@ -45,13 +45,14 @@ void print_fd_list(t_cmd *list)
 	printf("\n");
 }
 
-t_fd	*create_fd(int fd)
+t_fd	*create_fd(int fd, int fd_pointe)
 {
 	t_fd	*elem;
 
 	elem = (t_fd*)malloc(sizeof(t_fd));
 	elem->next = NULL;
 	elem->fd = fd; //
+	elem->fd_pointe = fd_pointe;
 	return (elem);
 }
 
@@ -80,7 +81,7 @@ t_fd	*copy_fd(t_fd *list)
 	copy = NULL;
 	while (list)
 	{
-		copy = add_fd_elem(copy, create_fd(dup(list->fd)));
+		copy = add_fd_elem(copy, create_fd(dup(list->fd), list->fd_pointe));
 		list = list->next;
 	}
 	return (copy);

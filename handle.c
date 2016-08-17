@@ -56,17 +56,17 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 	{
 		if ((*fd_apres)->fd == -1 && apres != -2) // Si c'est le premier fd qu'on redefinit, on remplace.
 		{
-			*fd_avant = add_fd_elem(*fd_avant, create_fd(dup(apres)));
+			*fd_avant = add_fd_elem(*fd_avant, create_fd(dup(apres), apres));
 		}
 		else if (apres != -2)
 			*fd_avant = add_fd_elem(*fd_avant, copy_fd(*fd_apres)); // Si on le close pas, on ajoute a la liste.
 		else
-			*fd_avant = add_fd_elem(*fd_avant, create_fd(-2)); // Sinon, on le close. (tout ce bordel etait pour ne pas faire un dup(-2) !)
+			*fd_avant = add_fd_elem(*fd_avant, create_fd(-2, -2)); // Sinon, on le close. (tout ce bordel etait pour ne pas faire un dup(-2) !)
 	}
 	else
 	{
 		if (apres == -2)
-			*fd_avant = add_fd_elem(*fd_avant, create_fd(-2)); // Sinon, on le close. (tout ce bordel etait pour ne pas faire un dup(-2) !)
+			*fd_avant = add_fd_elem(*fd_avant, create_fd(-2, -2)); // Sinon, on le close. (tout ce bordel etait pour ne pas faire un dup(-2) !)
 	}
 	printf ("err : \n");
 	print_fd(cmd->fd_err);
@@ -186,11 +186,11 @@ char	*handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs)
 			return (NULL);
 		}
 		if (fd == 0) // on ajoute ce truc au bon fd.
-			cmd->fd_in = add_fd_elem(cmd->fd_in, create_fd(fd_file));
+			cmd->fd_in = add_fd_elem(cmd->fd_in, create_fd(fd_file, fd_file));
 		else if (fd == 1)
-			cmd->fd_out = add_fd_elem(cmd->fd_out, create_fd(fd_file));
+			cmd->fd_out = add_fd_elem(cmd->fd_out, create_fd(fd_file, fd_file));
 		else if (fd == 2)
-			cmd->fd_err = add_fd_elem(cmd->fd_err, create_fd(fd_file));
+			cmd->fd_err = add_fd_elem(cmd->fd_err, create_fd(fd_file, fd_file));
 		if (jump)
 			*i = tmp;
 		// printf("redir_type : %d\n", redir_type);

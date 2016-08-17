@@ -39,6 +39,7 @@ typedef struct	s_var {
 
 typedef struct		s_fd {
 	int					fd;
+	int					fd_pointe;
 	struct s_fd	*next;
 }								t_fd;
 
@@ -173,7 +174,7 @@ char				*is_redir(size_t *i, char *str, int jump, t_cmd *cmd);
 char				*skip_quotes(char **str, size_t *i, t_cmd *cmd);
 int					is_sep(size_t *i, char *str, int jump, t_cmd *cmd);
 t_fd				*add_fd_elem(t_fd *list, t_fd *elem);
-t_fd				*create_fd(int fd);
+t_fd				*create_fd(int fd, int fd_pointe);
 int					split_cmd(int count, char **str, t_cmd *cmd, t_hc **heredocs);
 char				*skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd);
 int					is_empty(char *str, size_t *i);
