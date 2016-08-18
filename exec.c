@@ -19,6 +19,7 @@ static char	*while_exec(char **split, char *scmd)
 	{
 		directory = opendir(split[i]);
 		while (directory && (truc = readdir(directory)))
+    {
 			if (ft_strequ(truc->d_name, scmd) &&
 					!ft_strequ(truc->d_name, ".") &&
 					!ft_strequ(truc->d_name, ".."))
@@ -26,6 +27,7 @@ static char	*while_exec(char **split, char *scmd)
 				closedir(directory);
 				return (ft_strjoinaf1(ft_strjoin(split[i], "/"), scmd));
 			}
+    }
 		if (directory)
 			closedir(directory);
 		i++;
@@ -86,7 +88,7 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i, t_data *data)
 		else
 			ft_putstr_fd("21sh: permission denied: ", 2);
 		ft_putendl_fd(cmd->av[0], 2);
-		free(file);
+    free(file);
 		return (0);
 	}
 	if (in_env_i)
@@ -125,6 +127,7 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i, t_data *data)
 		}
 		exit(EXIT_SUCCESS);
 	}
+  free(file);
 	free_char_tab(env);
 	return (1);
 }
