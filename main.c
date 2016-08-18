@@ -76,18 +76,20 @@ int			main(int ac, char **av, char **env)
 	data.real_len_cmd = 0;
 	data.history = NULL;
 	data.history_en_cours = NULL;
-	data.end_hd = 0;
-	data.heredocs = NULL;
 	data.first = NULL;
 	data.first_search = 1;
-	data.key_here = NULL;
 	data.cmd_tmp = ft_strdup("");
-	data.heredocs_tmp = ft_strdup("");
-	data.quote_or_hd = 0;
-	data.first_line_of_hd = 1;
 	data.quote_old_index = 0;
 	data.mode_copy = 0;
+	// ---------HEREDOCS----------
+	data.heredocs = NULL;
+	data.key_here = NULL;
+	data.heredocs_tmp = ft_strdup("");
 	data.command_save = ft_strdup("");
+	data.end_hd = 0;
+	data.quote_or_hd = 0;
+	data.first_line_of_hd = 1;
+	// ---------------------------
 	data.clipboard = NULL;
 	data.list_auto = NULL;
 	data.cmd_before_auto = NULL;

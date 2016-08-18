@@ -90,6 +90,7 @@ t_env			*ft_parse_env(char **env)
 	int		i;
 	t_env	*ret;
 	char	*tmp;
+	char	*tmp2;
 
 	i = 0;
 	ret = init_list_no_env(env);
@@ -101,8 +102,10 @@ t_env			*ft_parse_env(char **env)
 	if (isset_arg(ret, "SHLVL"))
 	{
 		tmp = find_arg(ret, "SHLVL");
-		change_arg(ret, "SHLVL", ft_itoa_base(ft_atoi(tmp) + 1, 10));
+		tmp2 = ft_itoa_base(ft_atoi(tmp) + 1, 10);
+		change_arg(ret, "SHLVL", tmp2);
 		free(tmp);
+		free(tmp2);
 	}
 	return (ret);
 }

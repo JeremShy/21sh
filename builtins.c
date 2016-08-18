@@ -42,15 +42,6 @@ int			ft_unsetenv(char **scmd, t_env **env, t_cmd *cmd)
 	return (0);
 }
 
-static int	ft_exit_bi(char **scmd, t_env *env, t_data *data)
-{
-	history_exit(data);
-	delete_list(env);
-	if (scmd[1])
-		exit(ft_atoi(scmd[1]));
-	exit(EXIT_SUCCESS);
-}
-
 void putstr_builtin(t_cmd *cmd, char *str, int fd)
 {
 	t_fd *fd_ptr;

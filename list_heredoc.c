@@ -1,6 +1,6 @@
 #include <sh21.h>
 
-void	free_heredoc(t_hc *list)
+void	free_heredoc(t_data *data, t_hc *list)
 {
 	t_hc *tmp;
 
@@ -11,6 +11,7 @@ void	free_heredoc(t_hc *list)
 		free(list);
 		list = tmp;
 	}
+	data->heredocs = NULL;
 }
 
 void	display_heredoc(t_hc *elem)

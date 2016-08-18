@@ -160,15 +160,19 @@ int	create_history(t_data *data, t_env **env)
 		// printf("\nthe command has been executed\n");
 		// display_heredoc(data->heredocs);
 		data->c = '\0';
-		data->end_hd = 0;
-		free_heredoc(data->heredocs);
-		data->heredocs_tmp = ft_strdup("");
-		data->heredocs = NULL;
-		free(data->key_here);
-		data->key_here = NULL;
+		//-------------------------
+		reinitialise_heredoc(data, 1);
+
+		// data->end_hd = 0;
+		// free_heredoc(data, data->heredocs);
+		// data->heredocs_tmp = ft_strdup("");
+		// data->heredocs = NULL;
+		// free(data->key_here);
+		// data->key_here = NULL;
+		// data->quote_or_hd = 0;
+		// data->first_line_of_hd = 1;
+		//--------------------------
 		data->cmd_tmp = ft_strdup("");
-		data->quote_or_hd = 0;
-		data->first_line_of_hd = 1;
 		data->quote_old_index = 0;
 		if (data->cmd_before_auto)
 			free(data->cmd_before_auto);
@@ -187,13 +191,7 @@ int	create_history(t_data *data, t_env **env)
 		{
 			// printf("I am running free\n");
 			//Parse error
-			data->c = '\0'; // Pour tout reinitialiser par la suite.
-			//FREE HEREDOCS
-			free_heredoc(data->heredocs);
-			data->heredocs = NULL;
-			if (data->key_here)
-				free(data->key_here);
-			data->key_here = NULL;
+			reinitialise_heredoc(data, 1);
 			free(data->cmd);
 		}
 		else if (data->c == '<')
@@ -202,22 +200,22 @@ int	create_history(t_data *data, t_env **env)
 			// printf("index = %d\n", data->index);
 			if (is_key(data))
 			{
-				free(data->cmd);
-				data->heredocs = add_hc_elem(data->heredocs, create_hc_elem(data->heredocs_tmp));
-				// data->cmd = ft_strdup(data->cmd_tmp);
-				free(data->cmd_tmp);
-				data->cmd_tmp = ft_strdup("");
-				data->index = data->old_index;
-				free(data->key_here);
-				data->key_here = NULL;
-				// printf("[%s]\n", data->cmd + data->index);
-				data->c = '\0';
-				data->real_len_cmd = 0;
-				data->quote_or_hd = 1;
-				data->cmd = data->command_save;
-				data->heredocs_tmp = ft_strdup("");
+				reinitialise_heredoc(data, 0);
+				// free(data->cmd);
+				// data->heredocs = add_hc_elem(data->heredocs, create_hc_elem(data->heredocs_tmp));
+				// // data->cmd = ft_strdup(data->cmd_tmp);
+				// free(data->cmd_tmp);
+				// data->cmd_tmp = ft_strdup("");
+				// data->index = data->old_index;
+				// free(data->key_here);
+				// data->key_here = NULL;
+				// // printf("[%s]\n", data->cmd + data->index);
+				// data->c = '\0';
+				// data->real_len_cmd = 0;
+				// data->quote_or_hd = 1;
+				// data->cmd = data->command_save;
+				// data->heredocs_tmp = ft_strdup("");
 				return (create_history(data, env));
-				// create_history(data, env);
 			}
 			else
 			{
@@ -325,29 +323,14 @@ void	boucle(t_env *env, t_data *data)
 		{
 			if (data->c == '<')
 			{
-				free(data->cmd);
-				data->heredocs = add_hc_elem(data->heredocs, create_hc_elem(data->heredocs_tmp));
-				// data->cmd = ft_strdup(data->cmd_tmp);
-				free(data->cmd_tmp);
-				data->cmd_tmp = ft_strdup("");
-				data->index = data->old_index;
-				free(data->key_here);
-				data->key_here = NULL;
-				// printf("[%s]\n", data->cmd + data->index);
-				data->c = '\0';
-				data->real_len_cmd = 0;
-				data->quote_or_hd = 1;
-				data->cmd = data->command_save;
-				data->heredocs_tmp = ft_strdup("");
+				reinitialise_heredoc(data, 0);
 				create_history(data, &env);
 				// create_history(data, env);
 			}
 			else if (ft_strequ(data->cmd, ""))
 			{
-				history_exit(data);
 				ft_putstr_fd("exit", 2);
-				invert_term();
-				exit(0);
+				ft_exit_bi(NULL, env, data);
 			}
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 68 && buf[3] == 0)

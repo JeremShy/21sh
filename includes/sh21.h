@@ -83,7 +83,6 @@ typedef struct	s_data {
 	char			*prompt; //prompt
 	int				len_prompt; //longueur prompt
 	char			*cmd; //commande en cours
-	char			*ancienne_cmd; //truc de heredoc (ca marche)
 	char			c; //caractere si on est dans une quote ou autre
 	int				index; //la ou on ecrit
 	int				old_index; //Ancien index
@@ -93,10 +92,18 @@ typedef struct	s_data {
 	t_history	*history_en_cours; //Emplacement en cours dans l;historique
 	int				history_fd;
 	int				history_flag[8];
-	char			*nouveau; //Chais pu
+
+// ---------------------------HEREDOCS------------------------------------------
 	char 			*key_here; //Cle du heredoc
 	size_t		end_hd; //fin du heredoc
 	t_hc			*heredocs; //Liste avec les heredocs par ordre d'apparition
+	char			*cmd_tmp; // comme ancienne_cmd, permet de conserver une ligne ou plusieurs de la commande lors des quotes ou heredoc
+	int				quote_or_hd; // definir si on est dans une quote ou hd
+	int				first_line_of_hd; // pour eviter que l'on se retrouve avec le \n du strjoin
+	char			*heredocs_tmp; // Pour se souvenir des heredocs. (La pince téton ?)
+	char			*command_save; // Pour se souvenir dans la commande quand on arrive dans des heredocs.
+// -----------------------------------------------------------------------------
+
 	char			*first; // Key pour la recherche vers le haut
 	int				first_search; // Permet d'eviter le soucis quand on appuie plusieurs fois sur haut et que ca se chevauche.
 	t_env			*env; // l'env.
@@ -105,11 +112,6 @@ typedef struct	s_data {
 	int				win_x; // Taille en x de la fenetre
 	int				after_prompt; // Position curseur apres prompt
 	int				in_env_i;
-	char			*cmd_tmp; // comme ancienne_cmd, permet de conserver une ligne ou plusieurs de la commande lors des quotes ou heredoc
-	int				quote_or_hd; // definir si on est dans une quote ou hd
-	int				first_line_of_hd; // pour eviter que l'on se retrouve avec le \n du strjoin
-	char			*heredocs_tmp; // Pour se souvenir des heredocs. (La pince téton ?)
-	char			*command_save; // Pour se souvenir dans la commande quand on arrive dans des heredocs.
 	int				index_min_win;
 	int				mode_copy; // À 1 si on est en mode de surlignement, à 0 sinon.
 	int				index_min_copy; // premier index surligne
@@ -189,7 +191,7 @@ int					is_key(t_data *data);
 t_hc				*create_hc_elem(char *content);
 t_hc				*add_hc_elem(t_hc *list, t_hc *elem);
 void				display_heredoc (t_hc *elem);
-void				free_heredoc(t_hc *list);
+void				free_heredoc(t_data *data, t_hc *list);
 char				*find_exec(char *scmd, t_data *data, t_env *env);
 int					fork_pipes(t_cmd *cmd, t_env *env, t_data *data);
 char				*get_pb(void);
@@ -267,4 +269,13 @@ int					ft_export(char **scmd, t_env **env, t_cmd *cmd);
 int					get_ret(int status, t_data *data);
 void				signal_handler(void);
 void				jump_all_quote_for_arg(char *str, size_t *i);
+
+// ---------------------------BUILTIN EXIT--------------------------------------
+int	ft_exit_bi(char **scmd, t_env *env, t_data *data);
+//------------------------------------------------------------------------------
+
+
+// ---------------------------HEREDOCS------------------------------------------
+void reinitialise_heredoc(t_data *data, int flag);
+//------------------------------------------------------------------------------
 #endif

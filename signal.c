@@ -12,7 +12,6 @@ void sigint(int sig)
     move_right_without_mod(data);
   ft_putstr("\n");
   data->real_len_cmd = 0;
-  data->heredocs = NULL;
   if (data->first)
   {
     free(data->first);
@@ -34,19 +33,9 @@ void sigint(int sig)
 			data->cmd_tmp = ft_strdup("");
 		}
 	}
-  if (data->heredocs)
-    free_heredoc(data->heredocs);
-  if (data->key_here)
-    free(data->key_here);
-  free(data->command_save);
-  data->command_save = ft_strdup("");
-  free(data->heredocs_tmp);
-  data->heredocs_tmp = ft_strdup("");
+	reinitialise_heredoc(data, 1);
   free(data->cmd_tmp);
   data->cmd_tmp = ft_strdup("");
-  data->end_hd = 0;
-  data->quote_or_hd = 0;
-  data->first_line_of_hd = 1;
 	data->quote_old_index = 0;
   data->mode_copy = 0;
 	data->list_auto = NULL;

@@ -22,7 +22,11 @@ t_termios	*init_term(t_data *data)
 		return (NULL);
 	}
 	if (tgetent(NULL, name_term) == ERR)
+	{
+		free(name_term);
 		return (NULL);
+	}
+	free(name_term);
 	return (ret);
 }
 

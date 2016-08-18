@@ -23,6 +23,7 @@
 		 quote.c \
 		 heredoc.c \
 		 list_heredoc.c \
+		 exit_builtin.c \
 		 handle_pipe.c \
 		 get_pb.c \
 		 signal.c \
