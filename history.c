@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 12:51:49 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/18 22:15:55 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/08/19 00:21:33 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void init_history(t_data *data)
 	while (get_next_line(data->history_fd, &line) == 1)
 	{
 		get_history_command_part(line);
-		data->history = add_history_elem(data->history, create_history_elem(ft_strdup(line + get_history_command_part(line))));
+		data->history = add_history_elem(data->history, create_history_elem(line + get_history_command_part(line)));
 		data->history->time = ft_atoi(line);// HOTFIXE DEGUEULASSE CAR FLEMME DE CHANGER LES HEADERS POUR RAJOUTER LE TIME DU FICHIER
 		data->history->get_from_file = 1; // SAME AS ABOVE
 		free(line);
