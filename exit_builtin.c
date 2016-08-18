@@ -15,7 +15,7 @@ void reinitialise_heredoc(t_data *data, int flag)
 	{
 		data->c = '\0';
 		free(data->cmd);
-		data->heredocs = add_hc_elem(data->heredocs, create_hc_elem(data->heredocs_tmp));
+		data->heredocs = add_hc_elem(data->heredocs, create_hc_elem(ft_strdup(data->heredocs_tmp)));
 		if (data->cmd_tmp && data->cmd_tmp[0] != '\0')
 		{
 			free(data->cmd_tmp);
@@ -33,7 +33,7 @@ void reinitialise_heredoc(t_data *data, int flag)
 	}
 	if (data->heredocs_tmp && data->heredocs_tmp[0] != '\0')
 	{
-		// free(data->heredocs_tmp);
+		free(data->heredocs_tmp);
 		data->heredocs_tmp = ft_strdup("");
 	}
 	// NE PAS OBULIER DE FREE EGALEMENT  CMD_TMP;
