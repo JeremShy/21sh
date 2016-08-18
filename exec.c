@@ -1,16 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/11 14:53:03 by JeremShy          #+#    #+#             */
-/*   Updated: 2016/08/01 02:23:04 by adomingu         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include <sh21.h>
+ #include <sh21.h>
 
 static char	*print_error_no_path(char *tmp)
 {
@@ -31,6 +19,7 @@ static char	*while_exec(char **split, char *scmd)
 	{
 		directory = opendir(split[i]);
 		while (directory && (truc = readdir(directory)))
+    {
 			if (ft_strequ(truc->d_name, scmd) &&
 					!ft_strequ(truc->d_name, ".") &&
 					!ft_strequ(truc->d_name, ".."))
@@ -38,6 +27,7 @@ static char	*while_exec(char **split, char *scmd)
 				closedir(directory);
 				return (ft_strjoinaf1(ft_strjoin(split[i], "/"), scmd));
 			}
+    }
 		if (directory)
 			closedir(directory);
 		i++;
@@ -48,7 +38,7 @@ static char	*while_exec(char **split, char *scmd)
 	return (NULL);
 }
 
-char		*find_exec(char *scmd, t_env *list)
+char		*find_exec(char *scmd, t_data *data, t_env *env)
 {
 	char	**split;
 	char	*tmp;
@@ -56,7 +46,7 @@ char		*find_exec(char *scmd, t_env *list)
 
 	if (ft_strchr(scmd, '/'))
 		return (ft_strdup(scmd));
-	tmp = find_arg(list, "PATH");
+	tmp = find_var_env(data, "PATH", env);
 	if (ft_strequ(tmp, ""))
 		return (print_error_no_path(tmp));
 	split = ft_strsplit(tmp, ':');
@@ -66,15 +56,29 @@ char		*find_exec(char *scmd, t_env *list)
 	return (ret);
 }
 
+void print_tab_char(char **tab)
+{
+	int		i;
 
-int			exec_file(t_cmd *cmd, t_env *list, int in_env_i)
+	i = 0;
+	printf("-----------------------------------------------\n");
+	while (tab && tab[i])
+	{
+		ft_putendl_fd(tab[i], 1);
+		i++;
+	}
+	printf("-----------------------------------------------\n");
+}
+
+int			exec_file(t_cmd *cmd, t_env *list, int in_env_i, t_data *data)
 {
 	char	*file;
 	char	**env;
 	pid_t	process;
 	int		retour;
 
-	file = find_exec(cmd->av[0], list);
+	// printf("On passe dans exec_file\n");
+	file = find_exec(cmd->av[0], data, list);
 	if (!file)
 		return (0);
 	if (access(file, X_OK) == -1)
@@ -84,7 +88,7 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i)
 		else
 			ft_putstr_fd("21sh: permission denied: ", 2);
 		ft_putendl_fd(cmd->av[0], 2);
-		free(file);
+    free(file);
 		return (0);
 	}
 	if (in_env_i)
@@ -94,7 +98,7 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i)
 	// printf("in : %d - out : %d - err - %d - command : %s\n", cmd->fd_in->fd, cmd->fd_out->fd, cmd->fd_err->fd, file);
 	process = fork();
 	if (process != 0)
-		wait(NULL);
+		wait(&cmd->ret);
 	else
 	{
 		if (!cmd->fd_in || cmd->fd_in->fd == -2)
@@ -110,6 +114,7 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i)
 		else if (cmd->fd_err->fd != 2)
 			dup2(cmd->fd_err->fd, 2);
 		signal(SIGINT, SIG_DFL);
+		// print_tab_char(env);
 		retour = execve(file, cmd->av, env);
 		if (retour == -1)
 		{
@@ -122,11 +127,12 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i)
 		}
 		exit(EXIT_SUCCESS);
 	}
+  free(file);
 	free_char_tab(env);
 	return (1);
 }
 
-t_cmd		*cmd_not_found(t_env *list, t_cmd *command)
+t_cmd		*cmd_not_found(t_cmd *command, t_data *data, t_env *env)
 {
 	t_cmd		*last_found;
 	char		*exec;
@@ -142,71 +148,100 @@ t_cmd		*cmd_not_found(t_env *list, t_cmd *command)
 	{
 		if (command->sep != '|')
 			was_ok = 0;
-		if (!(exec = find_exec(command->av[0], list)))
+		if (!is_builtin(command->av[0]) && !(exec = find_exec(command->av[0], data, env)))
 		{
 			ok = 0;
-			printf("COMMAND NOT FOUND CONNARD\n");
+			// printf("COMMAND NOT FOUND CONNARD\n");
 			last_found = NULL;
 		}
 		else if (!ok)
 		{
 			ok = 1;
 			last_found = command;
-			free(exec);
+      if (!is_builtin(command->av[0]))
+			   free(exec);
 		}
 		command = command->next;
 	}
-
-	// if (last_found)
-		// printf("on renvoit : %s\n", last_found->av[0]);
-	// else
-		// printf("on renvoit rien;");
 	return (last_found);
+}
+
+int		get_ret(int status, t_data *data)
+{
+	int ret;
+
+	if (WIFEXITED(status))
+		ret = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		ret = WTERMSIG(status);
+	else if (WIFSTOPPED(status))
+		ret = WSTOPSIG(status);
+	else
+		ret = (EXIT_FAILURE);
+	data->ret = ret;
+	return (ret);
 }
 
 void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 {
 	t_cmd *temp;
 	pid_t pid;
+	int		tmp;
+	int		ret;
 
 	if (!command)
 		return;
 	temp = command;
-	// print_list(command);
-	command = cmd_not_found(*env, command);
-	while (command && (command->fd_in || command->fd_out || command->fd_err))
+	command = cmd_not_found(command, data, *env);
+	while (command)
 	{
-		if (command->av[0] && (command->sep == NONE || command->sep == POINT_VIRGULE || command->sep == ETET))
+		if (command->av[0] && (command->sep == NONE || command->sep == POINT_VIRGULE || command->sep == ETET || command->sep == OUOU))
 		{
 			if (is_builtin(command->av[0]))
-				exec_builtin(command->av, env, data);
+			{
+				command->ret = exec_builtin(command, env, data);
+				data->ret = command->ret;
+			}
 			else
 			{
-				exec_file(command, *env, data->in_env_i);
+				// printf("[%s] va se chercher dans file ...\n", command->av[0]);
+				exec_file(command, *env, data->in_env_i, data);
+				command->ret = get_ret(command->ret, data);
 			}
-			// printf("\nend of command.\n");
-			if (command->fd_out || command->fd_in || command->fd_err)
+			// printf("------------------------------------------------\nend of command.\n");
+			tmp = 0;
+			if (command->fd_out->next || command->fd_err->next || command->fd_in->next)
 			{
-				if (command->fd_out)
-					command->fd_out = command->fd_out->next;
-				if (command->fd_err)
-					command->fd_err = command->fd_err->next;
-				if (command->fd_in)
+				tmp = 1;
+				if (command->fd_in->next)
 					command->fd_in = command->fd_in->next;
+				if (command->fd_out->next)
+					command->fd_out = command->fd_out->next;
+				if (command->fd_err->next)
+					command->fd_err = command->fd_err->next;
 			}
-			else
+			if (!tmp)
+			{
+				// printf("on command->next\n");
 				command = command->next;
+			}
 		}
 		else if (command->sep == '|')
 		{
+			// printf("ON RENTRE DANS LA PIPATION ET C'EST UN PROBLEME GRAVE.\n");
 			pid = fork();
 			if (pid != 0)
-				wait(NULL);
+			{
+				waitpid(pid, &ret, 0);
+				command->ret = get_ret(ret, data);
+				data->ret = ret;
+				// waitpid(pid, NULL, 0);
+			}
 			else
 			{
 				signal(SIGINT, SIG_DFL);
-				if (fork_pipes(command, *env) == -1)
-					exit(0);
+				fork_pipes(command, *env, data);
+				exit(1);
 			}
 			while (command && command->sep == '|')
 					command = command->next;
@@ -214,14 +249,11 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 			{
 				command = command->next;
 				if (command)
-					command = cmd_not_found(*env, command);
+				{
+					command = cmd_not_found(command, data, *env);
+				}
 			}
 		}
-		// if (command && !(command->fd_in || command->fd_out || command->fd_err))
-		// {
-		// 	// Ici
-		// 	command = command->next;
-		// }
 	}
 	//free temp.
 	close_fd_cmd(temp);

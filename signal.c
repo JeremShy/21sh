@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/07/11 14:57:58 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/07/28 18:20:14 by vsteffen         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <sh21.h>
 
 void sigint(int sig)
@@ -19,11 +7,11 @@ void sigint(int sig)
   sig = 0;
 	(void)sig; // TODO set but not used
   data = singleton_data(NULL, 0);
+  exec_tcap("me");
   while (data->index < (int)ft_strlen(data->cmd))
     move_right_without_mod(data);
   ft_putstr("\n");
   data->real_len_cmd = 0;
-  data->heredocs = NULL;
   if (data->first)
   {
     free(data->first);
@@ -35,7 +23,6 @@ void sigint(int sig)
   data->cmd = ft_strdup("");
   data->index = 0;
   data->c = 0;
-  exec_tcap("me");
   data->prompt = print_prompt(data->env, data);
   data->len_prompt = ft_strlen(data->prompt);
 	if (data->cmd_tmp) // TEST DE TRUC CHELOU
@@ -46,31 +33,29 @@ void sigint(int sig)
 			data->cmd_tmp = ft_strdup("");
 		}
 	}
-  if (data->heredocs)
-    free_heredoc(data->heredocs);
-  if (data->key_here)
-    free(data->key_here);
-  free(data->command_save);
-  data->command_save = ft_strdup("");
-  free(data->heredocs_tmp);
-  data->heredocs_tmp = ft_strdup("");
+	reinitialise_heredoc(data, 1);
   free(data->cmd_tmp);
   data->cmd_tmp = ft_strdup("");
-  data->end_hd = 0;
-  data->quote_or_hd = 0;
-  data->first_line_of_hd = 1;
 	data->quote_old_index = 0;
   data->mode_copy = 0;
+	data->list_auto = NULL;
+	data->cmd_before_auto = NULL;
+	if (data->absolute_cmd_before_auto)
+		free(data->absolute_cmd_before_auto);
+	data->absolute_cmd_before_auto = NULL;
+	data->index_before_auto = 0;
+  data->index_before_move = 0;
 }
 
 void get_winsize(t_data *data)
 {
-  struct winsize w;
+   struct winsize w;
 
-  ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-  data->win_y = w.ws_row;
-  data->win_x = w.ws_col;
-	data->after_prompt = (data->len_prompt + 1) % data->win_x;
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	data->win_y = w.ws_row;
+	data->win_x = w.ws_col;
+	if (isatty(0)) // TODO zero division error if no prompt
+		data->after_prompt = (data->len_prompt + 1) % data->win_x;
 }
 
 void clear_cmd(t_data	*data)
@@ -125,9 +110,13 @@ void get_index_min_win(t_data *data)
 {
   int     rectangle;
   int     len_prompt_cmd;
-  const int max_cursor = ((data->len_prompt + (int)ft_strlen(data->cmd)) % data->win_x);
+  int		max_cursor;
 
-
+	// TODO Functional testing zero division error
+	if (isatty(0))
+		max_cursor = ((data->len_prompt + (int)ft_strlen(data->cmd)) % data->win_x);
+	else
+		max_cursor = 0;
   if (max_cursor == 0)
   {
     data->index_min_win = (int)ft_strlen(data->cmd) - (data->win_y * data->win_x);
@@ -156,6 +145,7 @@ void sigwinch(int sig)
   t_data  *data;
 	int			old_index;
 	int 		old_line_max;
+  int     i;
 
   data = singleton_data(NULL, 0);
   sig = 0;
@@ -164,23 +154,54 @@ void sigwinch(int sig)
 	(void)old_line_max; // TODO useless set
   get_winsize(data);
   get_index_min_win(data);
-	if (((data->len_prompt + (int)ft_strlen(data->cmd)) % (data->win_x)) == 0 )
+	if (((data->len_prompt + (int)ft_strlen(data->cmd)) - (data->win_x)) >= 0)
 	{
 		// sleep(1);
 		exec_tcap("cl");
 		ft_putstr("\e[38;5;208m");
 		ft_putstr(data->prompt);
 		ft_putstr("\e[39m");
-		ft_putstr(data->cmd);
+    if (data->mode_copy)
+    {
+      i = 0;
+      while (data->cmd[i])
+      {
+        if (i >= data->index_min_copy && i <= data->index_max_copy)
+          vi_char(data->cmd[i]);
+        else
+          ft_putchar(data->cmd[i]);
+        i++;
+      }
+    }
+    else
+      ft_putstr(data->cmd);
 		old_index = data->index;
 		data->index = (int)ft_strlen(data->cmd);
 		while (old_index < data->index)
-			move_left(data);
-		// sleep(1);
-
-		// exec_tcap("sr");
-		// exec_tcap("do");
+			move_left_without_mod(data);
 	}
+  // if ((int)ft_strlen(data->prompt) + (int)ft_strlen(data->cmd) - data->win_x >= 0) // HOTFIXE CRADE
+  // {
+  //   // exec_tcap("cl");
+  //   // old_index = data->index;
+  //   // print_prompt(data->env, data);
+  //   // ft_putstr(data->cmd);
+  //   // data->index = (int)ft_strlen(data->cmd);
+  //   // while (old_index < data->index)
+  //   //   move_left(data);
+  //   // ret = (int)ft_strlen(data->prompt) + (int)ft_strlen(data->cmd) - data->win_x;
+  //   // while (ret >= 0)
+  //   // {
+  //   //   ret -= data->win_x;
+  //   // }
+  //   // printf("--------------------------------\n--------------------------------\n--------------------------------\n");
+  //   if (data->cmd[data->index] == '\0')
+  //     ft_putchar(' ');
+  //   else
+  //     ft_putchar(data->cmd[data->index]);
+  //   data->index++;
+  //   move_left(data);
+  // }
 	// if (data->len_prompt + (int)ft_strlen(data->cmd) > data->win_x)
 	// {
 	//

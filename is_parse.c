@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   is_parse.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/14 16:17:58 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/06/30 15:46:00 by jcamhi           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <sh21.h>
 
 int		is_aggr(size_t *i, char *str, int jump)
@@ -17,7 +5,7 @@ int		is_aggr(size_t *i, char *str, int jump)
 	size_t tmp;
 
 	tmp = *i;
-	if (str[*i] == '>' && str[*i + 1] == '&' && (ft_isdigit(str[*i + 2]) || str[*i + 2] == '-')) // Il faut que ca commence par un <, suivi de..
+	if ((str[*i] == '>' || str[*i] == '<') && str[*i + 1] == '&' && (ft_isdigit(str[*i + 2]) || str[*i + 2] == '-')) // Il faut que ca commence par un <, suivi de..
 	{
 		(*i) += 2;
 		while (ft_isdigit(str[*i]) || str[*i] == '-')
@@ -26,7 +14,7 @@ int		is_aggr(size_t *i, char *str, int jump)
 			*i = tmp;
 		return (1);
 	}
-	else if (ft_isdigit(str[*i]) && str[*i + 1] == '>' && str[*i + 2] == '&' && (ft_isdigit(str[*i + 3]) || str[*i + 3] == '-')) // Ou alors ca peut commencer par un nombre..
+	else if (ft_isdigit(str[*i]) && (str[*i + 1] == '>' || str[*i + 1] == '<') && str[*i + 2] == '&' && (ft_isdigit(str[*i + 3]) || str[*i + 3] == '-')) // Ou alors ca peut commencer par un nombre..
 	{
 		(*i) += 3;
 		while (ft_isdigit(str[*i]) || str[*i] == '-')
@@ -66,12 +54,10 @@ char	*is_redir(size_t *i, char *str, int jump, t_cmd	*cmd)
 			cmd->p_error = 1;
 			return (NULL);
 		}
-		quote = skip_quotes(str, &tmp, cmd); // On enleve les quotes.
-		if (!quote)
-			quote = ft_strdup("");
-		if (jump)
+		quote = skip_quotes_nb_arg(str, &tmp, cmd); // On enleve les quotes.
+ 		if (jump)
 			*i = tmp;
-		return (quote); // On se barre à la fin.
+		return ("KAKA"); // On se barre à la fin.
 	}
 	return (NULL);
 }
@@ -81,13 +67,18 @@ int		is_sep(size_t *i, char *str, int jump, t_cmd *cmd)
 	size_t	ret;
 
 	ret = *i;
-	if (str[*i] == ';') // Si c'est un ;, un | ou un &&, on augmente ret.
+	// printf("on appelle is sep avec str[i] = : %s\n", str + *i);
+	if (ft_strnequ(str + *i, "||", 2))
+		ret += 2;
+	else if (ft_strnequ(str + *i, "&&", 2))
+		ret += 2;
+	else if (str[*i] == ';') // Si c'est un ;, un | ou un &&, on augmente ret.
 		ret++;
 	else if (str[*i] == '|')
 		ret++;
-	else if (ft_strnstr(str + *i, "&&", 2))
-		ret += 2;
 	else
+		return (0);
+	if (is_escaped_char(str, *i))
 		return (0);
 	if (cmd)
 		cmd->sep = def_sep(str + *i); // On mets le bon sep.

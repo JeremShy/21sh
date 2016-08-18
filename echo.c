@@ -1,57 +1,45 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/07/18 18:45:34 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/01 02:59:52 by adomingu         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <sh21.h>
 
-int eot()
+int eot(t_cmd *cmd)
 {
-	ft_putchar(4);
+	putchar_builtin(cmd, 4, 1);
 	exec_tcap("mr");
-	ft_putchar('%');
+	putchar_builtin(cmd, '%', 1);
 	exec_tcap("me");
 	exec_tcap("do");
 	return (1);
 }
 
-int	special_car(char c)
+int	special_car(char c, t_cmd *cmd)
 {
 	if (c == 'a')
-		ft_putchar('\a');
+		putchar_builtin(cmd, '\a', 1);
 	else if (c == 'b')
-		ft_putchar('\b');
+		putchar_builtin(cmd, '\b', 1);
 	else if (c == 'f')
-		ft_putchar('\f');
+		putchar_builtin(cmd, '\f', 1);
 	else if (c == 'n')
-		ft_putchar('\n');
+		putchar_builtin(cmd, '\n', 1);
 	else if (c == 'r')
-		ft_putchar('\r');
+		putchar_builtin(cmd, '\r', 1);
 	else if (c == 't')
-		ft_putchar('\t');
+		putchar_builtin(cmd, '\t', 1);
 	else if (c == 'v')
-		ft_putchar('\v');
+		putchar_builtin(cmd, '\v', 1);
 	else if (c == '\\')
-		ft_putchar('\\');
+		putchar_builtin(cmd, '\\', 1);
 	else if (c == 'c')
-		return (eot());
+		return (1);
 	return (0);
 }
 
-int ft_echo(char **scmd, t_env *env)
+int ft_echo(char **scmd, t_cmd *cmd)
 {
 	int				flag;
 	int				i;
 	int				j;
 	char			c;
-	char			*str;
+	// char			*str;
 
 	i = 0;
 	flag = 0;
@@ -64,42 +52,34 @@ int ft_echo(char **scmd, t_env *env)
 	while (scmd[i])
 	{
 		j = 0;
-		if (scmd[i][0] == '$')
+		while (scmd[i][j])
 		{
-			str = find_arg(env, scmd[i] + 1);
-			ft_putstr(str);
-			free(str);
-		}
-		else
-		{
-			while (scmd[i][j])
+			if (scmd[i][j] == '\\')
 			{
-				if (scmd[i][j] == '\\')
-				{
+				// j++;
+				// if (scmd[i][j] == '\\')
+				// {
+					c = scmd[i][j + 1];
+					if (special_car(scmd[i][j + 1], cmd))
+						return (0);
 					j++;
-					if (scmd[i][j] == '\\')
-					{
-						c = scmd[i][j + 1];
-						if (special_car(c))
-							return (1);
-						j++;
-					}
-					else
-						write(1, &scmd[i][j], 1);
-				}
-				else
-					write(1, &scmd[i][j], 1);
-				if (scmd[i][j])
-					j++;
+				// }
+				// else
+				// 	putchar_builtin(cmd, scmd[i][j], 1);
 			}
-			if (scmd[i + 1])
-				write(1, " ", 1);
+			else
+				putchar_builtin(cmd, scmd[i][j], 1);
+			if (scmd[i][j])
+				j++;
 		}
+		if (scmd[i + 1])
+			putchar_builtin(cmd, ' ', 1);
+		// }
 		i++;
 	}
 	if (flag == 0)
-		write(1, "\n", 1);
-	else
-		eot();
-	return (1);
+		putchar_builtin(cmd, '\n', 1);
+	// else
+		// eot(cmd);
+	return (0);
 }

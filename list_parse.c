@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   list_parse.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: JeremShy <JeremShy@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/03 20:12:36 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/04 10:51:33 by JeremShy         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <sh21.h>
 
 void		print_list(t_cmd *lst)
@@ -29,7 +17,7 @@ void		print_list(t_cmd *lst)
 			printf("av[%zu] : #%s#\n", j, av[j]);
 			j++;
 		}
-		// printf("sep : %c\n", lst->sep);
+		printf("sep : %d\n", lst->sep);
 		i++;
 		print_fd_list(lst);
 		lst = lst->next;
@@ -42,14 +30,16 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 	t_cmd		*elem;
 
 	elem = (t_cmd*)malloc(sizeof(t_cmd)); // On alloue l'espace necessaire à la contiendance de notre élément.
-	elem->fd_in = create_fd(-1); // On initialise les trois fds.
-	elem->fd_out = create_fd(-1);
-	elem->fd_err = create_fd(-1);
+	elem->ret = 23;
+	elem->fd_in = create_fd(-1, -1); // On initialise les trois fds.
+	elem->fd_out = create_fd(-1, -1);
+	elem->fd_err = create_fd(-1, -1);
 	// printf("str : [%s]\n", str);
 	elem->p_error	= 0;
 	elem->error = 0;
 	elem->sep = NONE;
-	if (split_cmd(count, str, elem, heredocs) == -1)
+	// printf("STR3 = [%s]\n", str);
+	if (split_cmd(count, &str, elem, heredocs) == -1)
 	{
 		//faire quelque
 		printf("ARGH\n");
@@ -58,13 +48,15 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 	// printf("sep : %d\n", elem->sep);
 	// printf("on cree une liste.\n");
 	elem->next = NULL;
+	// print_list(elem);
 	if (elem->fd_in->fd == -1)
 		elem->fd_in->fd = 0;
 	if (elem->fd_out->fd == -1)
 		elem->fd_out->fd = 1;
 	if (elem->fd_err->fd == -1)
 		elem->fd_err->fd = 2;
-	free(str);
+	// printf("KUKOU, CA FREEZ\n");
+ 	free(str);
 	// print_fd_list(elem);
 	return (elem);
 }

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   line.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/05/20 12:19:00 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/28 22:56:23 by vsteffen         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <sh21.h>
 
 void move_left_simple(t_data *data)
@@ -28,7 +16,7 @@ void move_right_simple(t_data *data)
 
 int get_actual_line(t_data *data)
 {
-	return((data->len_prompt + data->index + 1) / data->win_x);
+	return ((data->len_prompt + data->index + 1) / data->win_x);
 }
 
 // int	get_actual_cursor(t_data *data)
@@ -110,7 +98,7 @@ int	get_actual_cursor(t_data *data)
 	{
 		if (data->prompt[i] == '\n')
 			x = 0;
-		else if (x == data->win_x)
+		else if (x == data->win_x - 1)
 			x = 0;
 		else
 			x++;
@@ -162,10 +150,20 @@ void	move_left(t_data *data)
 		return ;
 	if (data->index_min_win != -1 && data->index_min_win == data->index)
 	{
-		printf("MDR GROS CON\n");
+		// printf("C\"EST PAS INTELLIGENT\n");
 		exec_tcap("vb");
 		return ;
 	}
+	if (data->cmd_before_auto)
+		free(data->cmd_before_auto);
+	data->cmd_before_auto = NULL;
+	if (data->absolute_cmd_before_auto)
+		free(data->absolute_cmd_before_auto);
+	data->absolute_cmd_before_auto = NULL;
+	data->index_before_auto = 0;
+	data->index_before_move = 0;
+	// TODO : Free la list_auto;
+	data->list_auto = NULL;
 	if (data->mode_copy && data->index == data->index_max_copy && data->index_min_copy != data->index_max_copy) // Le left quand on est à droite (#Nicolas_Sarkozy)
 	{
 		ft_putchar(data->cmd[data->index]);
@@ -205,6 +203,16 @@ void move_right(t_data *data)
 		exec_tcap("vb");
 		return ;
 	}
+	if (data->cmd_before_auto)
+		free(data->cmd_before_auto);
+	data->cmd_before_auto = NULL;
+	if (data->absolute_cmd_before_auto)
+		free(data->absolute_cmd_before_auto);
+	data->absolute_cmd_before_auto = NULL;
+	data->index_before_auto = 0;
+	data->index_before_move = 0;
+	// TODO : Free la list_auto;
+	data->list_auto = NULL;
 	if (data->mode_copy && data->index == data->index_min_copy && data->index_min_copy != data->index_max_copy)
 	{
 		ft_putchar(data->cmd[data->index]);

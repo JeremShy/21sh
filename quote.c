@@ -1,38 +1,36 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   quote.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/14 16:22:40 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/25 15:59:43 by jcamhi           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <sh21.h>
 
-void	join_inside_quote(size_t *i, char *str)
+void	join_inside_quote(size_t *i, char **str)
 {
 	size_t	tmp;
 	char	open;
 
-	open = str[*i];
+
+	open = (*str)[*i];
 	// printf("open : %c\n", open);
-	while (is_quote_close(open, str[*i + 1]) == 0 && str[*i + 1])
+	while (is_quote_close(open, (*str)[*i + 1]) == 0 && !is_escaped_char(*str, *i + 1) && (*str)[*i + 1])
 	{
-		str[*i] = str[*i + 1];
-		(*i)++;
+		if ((*str)[*i + 1] == '\\' && ((*str)[*i + 2] == '\"' || (*str)[*i + 2] == '$' || (*str)[*i + 2] == '!' || (*str)[*i + 2] == '\\' || (*str)[*i + 2] == '`') && open != '\'')
+		{
+			printf("str avant suppr = [%s]\n", *str);
+			*str = delete_char(*str, *i + 1);
+			printf("str apres suppr = [%s]\n", *str);
+		}
+		// else
+		// {
+			(*str)[*i] = (*str)[*i + 1];
+			(*i)++;
+		// }
 	}
 	tmp = *i;
-	while (str[tmp + 1] && str[tmp + 2])
+	while ((*str)[tmp + 1] && (*str)[tmp + 2])
 	{
-		str[tmp] = str[tmp + 2];
+		(*str)[tmp] = (*str)[tmp + 2];
 		tmp++;
 	}
-	str[tmp] = '\0';
+	(*str)[tmp] = '\0';
 	// printf("str : =%s=\n", str);
-	if (*i == 0 || is_quote_open(str[0]))
+	if (*i == 0 || is_quote_open((*str)[0]))
 		return ;
 	(*i)--;
 }
@@ -82,10 +80,10 @@ int		is_quote_end(t_data *data)
 	{
 		if (data->c == '\0')
 		{
-			if (is_quote_open(boucle_cmd[i]))
+			if (is_quote_open(boucle_cmd[i]) && !is_escaped_char(boucle_cmd, i))
 				data->c = boucle_cmd[i];
 		}
-		else if (is_quote_close(data->c, boucle_cmd[i]))
+		else if (is_quote_close(data->c, boucle_cmd[i]) && !is_escaped_char(boucle_cmd, i))
 		{
 			data->c = '\0';
 		}
@@ -104,7 +102,7 @@ int		is_quote_end(t_data *data)
 	{
 		if (ft_strnstr(boucle_cmd + i, "<<", 2))
 		{
-			printf("heredoc detected\n");
+			// printf("heredoc detected\n");
 			data->command_save = ft_strdup(boucle_cmd);
 			data->old_index = data->index;
 			i += 2;
@@ -116,7 +114,7 @@ int		is_quote_end(t_data *data)
 				ft_putstr_fd("21sh: parse error near '\\n'\n", 2);
 				return (-1);
 			}
-			data->key_here = skip_quotes(boucle_cmd, &i, NULL); // On enleve les quotes.
+			data->key_here = skip_quotes(&boucle_cmd, &i, NULL); // On enleve les quotes.
 			if (data->key_here == NULL)
 			{
 				free(boucle_cmd);
