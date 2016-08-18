@@ -48,8 +48,8 @@ void	delete_heredocs(t_data *data)
 		free(data->key_here);
 	// if (data->cmd_tmp) // --> FREE AUSSI POUR LES QUOTES ?
 	// 	free(data->cmd_tmp); // --> FREE AUSSI POUR LES QUOTES ?
-	if (data->command_save)
-		free(data->command_save);
+	// if (data->command_save)
+		// free(data->command_save);
 }
 
 int	ft_exit_bi(char **scmd, t_env *env, t_data *data)
@@ -61,8 +61,8 @@ int	ft_exit_bi(char **scmd, t_env *env, t_data *data)
 	delete_list(env);
 	delete_heredocs(data);
 	delete_list_history(data->history);
+	// delete_list_command(data->command);
 	free(data->prompt);
-	sleep(10);
 	if (scmd && scmd[1])
 	{
 		tmp = ft_atoi(scmd[1]);

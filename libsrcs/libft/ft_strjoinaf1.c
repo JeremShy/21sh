@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 13:41:24 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/18 21:39:41 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/08/19 00:14:14 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strjoinaf1(char *s1, char const *s2)
 	if (!s1 && s2)
 		return (ft_strdup(s2));
 	if (!s2 && s1)
-		return (s1);
+		return (ft_strdup(s1));
 	if (!s1 && !s2)
 		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2) + 1;

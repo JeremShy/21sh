@@ -114,13 +114,12 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 	int		count;
 	size_t	i;
 	size_t	old_i;
-	t_cmd		*cmd;
 	t_cmd		fake_cmd; //Important.
 	t_cmd		*last;
 
 	// printf("str : [%s]\n", str);
 	i = 0;
-	cmd = NULL; // On initialiase notre retour.
+	data->command = NULL; // On initialiase notre retour.
 	// display_heredoc(data->heredocs);
 	// printf("LAST HEREDOCS = [%s]\n", data->heredocs->content);
 	if (is_pipe_e_parse_error(str))
@@ -134,7 +133,7 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 		count = nb_arg(&i, str, &fake_cmd); // On compte le nombre d'elements
 		if (count == -1)
  		{
-			//free cmd.
+			//free data->command.
 			return (0);
 		}
 		if (count)
@@ -143,32 +142,32 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 			// printf("RESULTAT : [%s] - count : %d\n", str , count);
 			if (str[i - 1] == ';')
 			{
-				cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));
-				exec_cmd(env, cmd, data);
+				data->command = add_cmd_elem(data->command, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));
+				exec_cmd(env, data->command, data);
 				//FAUDRA FREE CMD.
-				cmd = NULL;
+				data->command = NULL;
 			}
 			else if (i > 2 && (ft_strnequ(str + i - 2, "||", 2) || ft_strnequ(str + i - 2, "&&", 2)))
 			{
-				cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));
-				exec_cmd(env, cmd, data);
-				cmd->sep = def_sep(str + i - 2);
-				if (cmd && ((cmd->ret == 0 && cmd->sep == OUOU) || (cmd->ret != 0 && cmd->sep == ETET)))
+				data->command = add_cmd_elem(data->command, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));
+				exec_cmd(env, data->command, data);
+				data->command->sep = def_sep(str + i - 2);
+				if (data->command && ((data->command->ret == 0 && data->command->sep == OUOU) || (data->command->ret != 0 && data->command->sep == ETET)))
 					return (NULL);
 				//FAUDRA FREE CMD.
-				cmd = NULL;
+				data->command = NULL;
 			}
 			else
 			{
 				// printf("STR2 = [%s]\n", str);
-				cmd = add_cmd_elem(cmd, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs)); //count a bouge i, du coup i - old_i donne le taille de la chaine a envoyer à create cmd_elem.
+				data->command = add_cmd_elem(data->command, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs)); //count a bouge i, du coup i - old_i donne le taille de la chaine a envoyer à create cmd_elem.
 			}
 		}
 	}
-	// print_list(cmd);
-	if (!cmd)
+	// print_list(data->command);
+	if (!data->command)
 		return (NULL);
-	last = cmd;
+	last = data->command;
 	while (last->next)
 		last = last->next;
 	// if (last->sep == '|')
@@ -176,5 +175,5 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 	// 	ft_putendl_fd("421sh: parse error near '|'", 2);
 	// 	return (NULL);
 	// }
-	return (cmd);
+	return (data->command);
 }

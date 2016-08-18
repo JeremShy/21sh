@@ -36,7 +36,6 @@ void delete_list_history(t_history *list)
 	while(list)
 	{
 		tmp = list->prec;
-		printf("SUPPR ... %s\n", list->line);
 		free(list->line);
 		free(list);
 		list = tmp;

@@ -103,7 +103,7 @@ typedef struct	s_data {
 	char			*heredocs_tmp; // Pour se souvenir des heredocs. (La pince téton ?)
 	char			*command_save; // Pour se souvenir dans la commande quand on arrive dans des heredocs.
 // -----------------------------------------------------------------------------
-
+	t_cmd			*command;
 	char			*first; // Key pour la recherche vers le haut
 	int				first_search; // Permet d'eviter le soucis quand on appuie plusieurs fois sur haut et que ca se chevauche.
 	t_env			*env; // l'env.
