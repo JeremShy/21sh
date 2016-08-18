@@ -47,7 +47,9 @@
 		 autocomplete.c \
 		 unset.c \
 		 export.c \
-		 signals.c
+		 signals.c \
+		 delete_list.c
+
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes

@@ -271,11 +271,16 @@ void				signal_handler(void);
 void				jump_all_quote_for_arg(char *str, size_t *i);
 
 // ---------------------------BUILTIN EXIT--------------------------------------
-int	ft_exit_bi(char **scmd, t_env *env, t_data *data);
+int					ft_exit_bi(char **scmd, t_env *env, t_data *data);
 //------------------------------------------------------------------------------
 
+// -------------------------------LIST------------------------------------------
+void				delete_list_fd(t_fd *list);
+void				delete_list_command(t_cmd *list);
+void				delete_list_history(t_history *list);
+//------------------------------------------------------------------------------
 
 // ---------------------------HEREDOCS------------------------------------------
-void reinitialise_heredoc(t_data *data, int flag);
+void				reinitialise_heredoc(t_data *data, int flag);
 //------------------------------------------------------------------------------
 #endif

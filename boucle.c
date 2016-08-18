@@ -172,6 +172,7 @@ int	create_history(t_data *data, t_env **env)
 		// data->quote_or_hd = 0;
 		// data->first_line_of_hd = 1;
 		//--------------------------
+		// if (data->cmd_tmp && data->cmd_tmp[0] != '\0')
 		data->cmd_tmp = ft_strdup("");
 		data->quote_old_index = 0;
 		if (data->cmd_before_auto)
