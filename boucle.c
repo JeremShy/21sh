@@ -64,7 +64,8 @@ void	move_up_history(t_data *data, t_env *env)
 		data->prompt = print_prompt(env, data);
 		data->len_prompt = ft_strlen(data->prompt);
 		ft_putstr((data->history_en_cours)->line);
-		free(data->cmd);
+		if (data->cmd)
+			free(data->cmd);
 		data->cmd = ft_strdup((data->history_en_cours)->line);
 		data->real_len_cmd = ft_strlen(data->cmd);
 		data->index = ft_strlen(data->cmd);
@@ -86,7 +87,8 @@ void	move_down_history(t_data *data, t_env *env)
 			{
 				return ;
 			}
-			free(data->cmd);
+			if (data->cmd)
+				free(data->cmd);
 			if (data->first)
 			{
 				data->history_en_cours = data->history_en_cours->next;
@@ -193,7 +195,8 @@ int	create_history(t_data *data, t_env **env)
 			// printf("I am running free\n");
 			//Parse error
 			reinitialise_heredoc(data, 1);
-			free(data->cmd);
+			// if (data->cmd)
+			// 	free(data->cmd);
 		}
 		else if (data->c == '<')
 		{
@@ -226,20 +229,25 @@ int	create_history(t_data *data, t_env **env)
 					data->heredocs_tmp = ft_strjoinaf1(data->heredocs_tmp, "\n");
 				}
 				data->first_line_of_hd = 0;
-				data->cmd = ft_strdup("");
+				// if (data->cmd)
+				// 	free(data->cmd);
+				// data->cmd = ft_strdup("");
 			}
 		}
 		else if (data->c == '\0')
 		{
 			free(data->cmd_tmp);
 			data->cmd_tmp = ft_strdup("");
-			free(data->cmd);
+			// if (data->cmd)
+			// 	free(data->cmd);
 		}
 		else
 		{
 			data->cmd_tmp = ft_strjoinaf2(data->cmd_tmp, data->cmd);
 			data->cmd_tmp = ft_strjoin(data->cmd_tmp, "\n");
-			data->cmd = ft_strdup("");
+			// if (data->cmd)
+			// 	free(data->cmd);
+			// data->cmd = ft_strdup("");
 		}
 		data->index++;
 	}
@@ -258,6 +266,8 @@ int	create_history(t_data *data, t_env **env)
 	}
 	data->first_search = 1;
 	data->history_en_cours = NULL;
+	if (data->cmd)
+		free(data->cmd);
 	data->cmd = ft_strdup("");
 	data->index = 0;
 	return (0);
