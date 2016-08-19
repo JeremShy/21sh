@@ -48,7 +48,9 @@
 		 unset.c \
 		 export.c \
 		 signals.c \
-		 delete_list.c
+		 delete_list.c \
+		 exit.c
+
 
 
 OBJ_PATH = ./obj/

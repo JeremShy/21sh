@@ -29,7 +29,7 @@ static void	init_autocomplete(t_data *data, char **split, char *str_to_equ, char
 	DIR		*directory;
 	t_dirent	*truc;
 
-	printf("split[0] = [%s] /// prefix = [%s] // str to equ = [%s]\n", split[0], prefix, str_to_equ);
+	// printf("split[0] = [%s] /// prefix = [%s] // str to equ = [%s]\n", split[0], prefix, str_to_equ);
 	i = 0;
 	while (split[i])
 	{
@@ -81,12 +81,19 @@ char	*find_ptr(char *cmd)
 	i = ft_strlen(cmd);
 	if (i)
 		i--;
+	// printf("Un : [%s]\n", cmd + i);
 	while (i > 0 && !ft_isspace2(cmd[i]) && !is_sep(&i, cmd, 0, NULL))
 		i--;
 	// printf("cmd[i]: %c - i : %zu\n", cmd[i], i);
-	if (!is_sep(&i, cmd, 1, NULL) && i != 0 && cmd[i] && cmd[i + 1])
+	// printf("Deux : [%s]\n", cmd + i);
+	if (!ft_isspace2(cmd[i]) && i == 0)
+	{
+		// DO NOTHING
+	}
+	else if (!is_sep(&i, cmd, 1, NULL) && !is_sep(&i, cmd, 0, NULL) && cmd[i] && cmd[i + 1])
 		i++;
-	printf("le pointeur est sur [%c] - %zu\n", (cmd + i)[0] , i);
+	// printf("Trois : [%s]\n", cmd + i);
+	// printf("le pointeur est sur [%c] - %zu\n", (cmd + i)[0] , i);
 	return (cmd + i);
 }
 
@@ -174,7 +181,7 @@ void ft_autocomplete(t_data *data)
 			}
 			split[1] = NULL;
 		}
-		else if ((ptr = ft_strrchr(find_ptr(data->cmd) - 1, '/')))
+		else if ((ptr = ft_strrchr(find_ptr(data->cmd), '/')))
 		{
 			// printf("troisieme\n");
 			split = malloc(sizeof(char*) * 2);
@@ -205,7 +212,7 @@ void ft_autocomplete(t_data *data)
 			free(path);
 			// data->index_in_word_before_auto = data->index;
 			if (find_ptr(data->cmd) > 0)
-				data->index_in_word_before_auto = data->index_before_move - ((find_ptr(data->cmd) - 1) - data->cmd);
+				data->index_in_word_before_auto = data->index_before_move - (find_ptr(data->cmd) - data->cmd);
 			else
 				data->index_in_word_before_auto = 0;
 		}

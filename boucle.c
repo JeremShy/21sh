@@ -303,7 +303,7 @@ void	boucle(t_env *env, t_data *data)
 			else if (ft_strequ(data->cmd, ""))
 			{
 				ft_putstr_fd("exit", 2);
-				ft_exit_bi(NULL, env, data);
+				exit_ctrl_d(env, data);
 			}
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 68 && buf[3] == 0)
