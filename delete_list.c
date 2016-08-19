@@ -20,7 +20,6 @@ void delete_list_command(t_cmd *list)
 	{
 		tmp = list->next;
 		free_char_tab(list->av);
-		free(list->cmd_path);
 		delete_list_fd(list->fd_in);
 		delete_list_fd(list->fd_out);
 		delete_list_fd(list->fd_err);

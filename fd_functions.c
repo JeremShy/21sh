@@ -2,15 +2,11 @@
 
 void	close_fd(t_fd *fd)
 {
-	t_fd	*next;
-
 	while (fd)
 	{
-		next = fd->next;
 		if (fd->fd > 2)
 			close(fd->fd);
-		free(fd);
-		fd = next;
+		fd = fd->next;
 	}
 }
 void	close_fd_cmd(t_cmd *cmd)

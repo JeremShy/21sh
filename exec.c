@@ -188,10 +188,14 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 	pid_t pid;
 	int		tmp;
 	int		ret;
+	t_fd  *fd_save[3];
 
 	if (!command)
 		return;
 	temp = command;
+	fd_save[0] = command->fd_in;
+	fd_save[1] = command->fd_out;
+	fd_save[2] = command->fd_err;
 	command = cmd_not_found(command, data, *env);
 	while (command)
 	{
@@ -255,6 +259,8 @@ void		exec_cmd(t_env **env, t_cmd *command, t_data *data)
 			}
 		}
 	}
-	//free temp.
+	temp->fd_in = fd_save[0];
+	temp->fd_out = fd_save[1];
+	temp->fd_err = fd_save[2];
 	close_fd_cmd(temp);
 }

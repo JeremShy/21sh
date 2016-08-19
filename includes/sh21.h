@@ -48,7 +48,6 @@ typedef	struct		s_cmd {
 //	int						ac;
 	int						sep;
 	struct s_cmd	*next;
-	char					*cmd_path;
 	int						is_valid;
 	t_fd					*fd_in;		//0
 	t_fd					*fd_out;	//1

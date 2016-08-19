@@ -29,7 +29,7 @@ static void	init_autocomplete(t_data *data, char **split, char *str_to_equ, char
 	DIR		*directory;
 	t_dirent	*truc;
 
-	// printf("split[0] = [%s] /// prefix = [%s] // str to equ = [%s]\n", split[0], prefix, str_to_equ);
+	printf("split[0] = [%s] /// prefix = [%s] // str to equ = [%s]\n", split[0], prefix, str_to_equ);
 	i = 0;
 	while (split[i])
 	{
@@ -84,8 +84,9 @@ char	*find_ptr(char *cmd)
 	while (i > 0 && !ft_isspace2(cmd[i]) && !is_sep(&i, cmd, 0, NULL))
 		i--;
 	// printf("cmd[i]: %c - i : %zu\n", cmd[i], i);
-	if (!is_sep(&i, cmd, 1, NULL))
+	if (!is_sep(&i, cmd, 1, NULL) && i != 0 && cmd[i] && cmd[i + 1])
 		i++;
+	printf("le pointeur est sur [%c] - %zu\n", (cmd + i)[0] , i);
 	return (cmd + i);
 }
 
@@ -197,7 +198,7 @@ void ft_autocomplete(t_data *data)
 			split = ft_strsplit(path, ':');
 			// ptr = ft_strdup(data->cmd);
 			if (find_ptr(data->cmd) > 0)
-				ptr = ft_strdup(find_ptr(data->cmd) - 1);
+				ptr = ft_strdup(find_ptr(data->cmd));
 			else
 				ptr = ft_strdup(data->cmd);
 			prefix = ft_strdup("");
@@ -224,6 +225,8 @@ void ft_autocomplete(t_data *data)
 	while (data->index > data->index_before_auto)
 		move_left_without_mod(data);
 	exec_tcap("cd");
+	// sleep(2);
+	// printf("On putstr [%s]\n", data->list_auto->str);
 	ft_putstr(data->list_auto->str + data->index_in_word_before_auto);
 	free(data->cmd);
 	if (data->index_in_word_before_auto != data->index_before_auto)

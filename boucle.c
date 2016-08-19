@@ -165,16 +165,6 @@ int	create_history(t_data *data, t_env **env)
 		//-------------------------
 		reinitialise_heredoc(data, 1);
 
-		// data->end_hd = 0;
-		// free_heredoc(data, data->heredocs);
-		// data->heredocs_tmp = ft_strdup("");
-		// data->heredocs = NULL;
-		// free(data->key_here);
-		// data->key_here = NULL;
-		// data->quote_or_hd = 0;
-		// data->first_line_of_hd = 1;
-		//--------------------------
-		// if (data->cmd_tmp && data->cmd_tmp[0] != '\0')
 		data->cmd_tmp = ft_strdup("");
 		data->quote_old_index = 0;
 		if (data->cmd_before_auto)
@@ -187,38 +177,20 @@ int	create_history(t_data *data, t_env **env)
 		data->index_before_move = 0;
 		// TODO : Free la list_auto;
 		data->list_auto = NULL;
+		delete_list_command(data->command);
+		data->command = NULL;
 	}
 	else
 	{
 		if (i == -1)
 		{
-			// printf("I am running free\n");
-			//Parse error
 			reinitialise_heredoc(data, 1);
-			// if (data->cmd)
-			// 	free(data->cmd);
 		}
 		else if (data->c == '<')
 		{
-			// printf("--------  data->cmd : %s\n", data->cmd);
-			// printf("index = %d\n", data->index);
 			if (is_key(data))
 			{
 				reinitialise_heredoc(data, 0);
-				// free(data->cmd);
-				// data->heredocs = add_hc_elem(data->heredocs, create_hc_elem(data->heredocs_tmp));
-				// // data->cmd = ft_strdup(data->cmd_tmp);
-				// free(data->cmd_tmp);
-				// data->cmd_tmp = ft_strdup("");
-				// data->index = data->old_index;
-				// free(data->key_here);
-				// data->key_here = NULL;
-				// // printf("[%s]\n", data->cmd + data->index);
-				// data->c = '\0';
-				// data->real_len_cmd = 0;
-				// data->quote_or_hd = 1;
-				// data->cmd = data->command_save;
-				// data->heredocs_tmp = ft_strdup("");
 				return (create_history(data, env));
 			}
 			else
@@ -229,25 +201,17 @@ int	create_history(t_data *data, t_env **env)
 					data->heredocs_tmp = ft_strjoinaf1(data->heredocs_tmp, "\n");
 				}
 				data->first_line_of_hd = 0;
-				// if (data->cmd)
-				// 	free(data->cmd);
-				// data->cmd = ft_strdup("");
 			}
 		}
 		else if (data->c == '\0')
 		{
 			free(data->cmd_tmp);
 			data->cmd_tmp = ft_strdup("");
-			// if (data->cmd)
-			// 	free(data->cmd);
 		}
 		else
 		{
 			data->cmd_tmp = ft_strjoinaf2(data->cmd_tmp, data->cmd);
 			data->cmd_tmp = ft_strjoin(data->cmd_tmp, "\n");
-			// if (data->cmd)
-			// 	free(data->cmd);
-			// data->cmd = ft_strdup("");
 		}
 		data->index++;
 	}
@@ -257,8 +221,6 @@ int	create_history(t_data *data, t_env **env)
 	data->real_len_cmd = 0;
 	data->curs_x = data->len_prompt + 1;
 	data->curs_y = -1;
-	// printf("ON ARRIVE LA POULETKIK\n");
-	// data->heredocs = NULL;
 	if (data->first)
 	{
 		free(data->first);
@@ -329,7 +291,7 @@ void	boucle(t_env *env, t_data *data)
 				data->first = NULL;
 			}
 		}
-		else if (buf[0] == 4 && buf[1] == 0)
+		else if (buf[0] == 4 && buf[1] == 0) // Ctrl + D
 		// FREE DATA;
 		{
 			if (data->c == '<')

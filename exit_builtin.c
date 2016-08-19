@@ -56,12 +56,14 @@ int	ft_exit_bi(char **scmd, t_env *env, t_data *data)
 {
 	int	tmp;
 
-	invert_term();
+	// invert_term();
+	free(singleton_termios(NULL, 0));
 	history_exit(data);
 	delete_list(env);
 	delete_heredocs(data);
 	delete_list_history(data->history);
-	// delete_list_command(data->command);
+	if (data->command)
+		delete_list_command(data->command);
 	free(data->prompt);
 	if (scmd && scmd[1])
 	{

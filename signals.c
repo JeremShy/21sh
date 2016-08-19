@@ -3,6 +3,8 @@
 void 		signal_end_prog(int sig)
 {
 	invert_term();
+	free(singleton_termios(NULL, 0));
+	// TODO: Free data
 	exit(sig);
 }
 

@@ -134,6 +134,8 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 		if (count == -1)
  		{
 			//free data->command.
+			delete_list_command(data->command);
+			data->command = NULL;
 			return (0);
 		}
 		if (count)
@@ -144,7 +146,7 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 			{
 				data->command = add_cmd_elem(data->command, create_cmd_elem(ft_strsub(str, old_i, i - old_i), count, &heredocs));
 				exec_cmd(env, data->command, data);
-				//FAUDRA FREE CMD.
+				delete_list_command(data->command);
 				data->command = NULL;
 			}
 			else if (i > 2 && (ft_strnequ(str + i - 2, "||", 2) || ft_strnequ(str + i - 2, "&&", 2)))
@@ -153,8 +155,12 @@ t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 				exec_cmd(env, data->command, data);
 				data->command->sep = def_sep(str + i - 2);
 				if (data->command && ((data->command->ret == 0 && data->command->sep == OUOU) || (data->command->ret != 0 && data->command->sep == ETET)))
+				{
+					delete_list_command(data->command);
+					data->command = NULL;
 					return (NULL);
-				//FAUDRA FREE CMD.
+				}
+				delete_list_command(data->command);
 				data->command = NULL;
 			}
 			else
