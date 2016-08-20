@@ -168,11 +168,12 @@ int		is_empty_border_between_cmd(char *str)
 
 int		is_empty_border_in_actual_cmd(char *str, size_t i)
 {
+	// if (!str[i] && i > 0)
 	while (i > 0 && !is_sep(&i, str, 1, NULL))
 		i--;
 	while (ft_isspace2(str[i]))
 		i++;
-	if (str[i] && is_sep(&i, str, 0, NULL))
+	if (!str[i] || is_sep(&i, str, 0, NULL))
 		return (1);
 	return (0);
 }
