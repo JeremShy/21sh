@@ -29,7 +29,7 @@ static void	init_autocomplete(t_data *data, char **split, char *str_to_equ, char
 	DIR		*directory;
 	t_dirent	*truc;
 
-	printf("split[0] = [%s] /// prefix = [%s] // str to equ = [%s]\n", split[0], prefix, str_to_equ);
+	// printf("split[0] = [%s] /// prefix = [%s] // str to equ = [%s]\n", split[0], prefix, str_to_equ);
 	i = 0;
 	while (split[i])
 	{
@@ -131,10 +131,6 @@ static int	is_auto_arg(char *cmd, char **ptr) // Note : ptr est la chaine apres 
 		*ptr = ft_strdup(*ptr);
 	// printf("i = %zu [%c] // *ptr = [%s]\n", i, cmd[i], *ptr);
 	// printf("ON RENVOIT %d DANS TON RETURN\n", first_word);
-	if (!first_word)
-		printf("C'EST UNE COMMANDE !\n");
-	else
-		printf("C'EST UNE COMMANDE !\n");
 	return (!first_word);
 }
 
@@ -165,7 +161,7 @@ void ft_autocomplete(t_data *data)
 	{
 		if (is_auto_arg(data->cmd, &ptr))
 		{
-			printf("premier\n");
+			// printf("premier\n");
 			data->index_in_word_before_auto = ft_strlen(ptr);
 			split = malloc(sizeof(char*) * 2);
 			if ((ptr_for_chr = ft_strrchr(ptr, '/')))  // FICHIER AVEC SLASH
@@ -179,7 +175,7 @@ void ft_autocomplete(t_data *data)
 			}
 			else
 			{
-				printf("deuxieme\n"); // FICHIER SANS SLASH
+				// printf("deuxieme\n"); // FICHIER SANS SLASH
 				prefix = ft_strdup("");
 				split[0] = ft_strdup("./");
 			}
@@ -187,7 +183,7 @@ void ft_autocomplete(t_data *data)
 		}
 		else if ((ptr = ft_strrchr(find_ptr(data->cmd), '/')))
 		{
-			printf("troisieme\n"); // LA COMMANDE AVEC SLASH
+			// printf("troisieme\n"); // LA COMMANDE AVEC SLASH
 			split = malloc(sizeof(char*) * 2);
 			split[0] = ft_strsub(data->cmd, 0, ptr - data->cmd + 1);
 			split[1] = NULL;
@@ -199,7 +195,7 @@ void ft_autocomplete(t_data *data)
 		}
 		else
 		{
-			printf("quatrieme\n"); // LA COMMANDE SANS SLASH
+			// printf("quatrieme\n"); // LA COMMANDE SANS SLASH
 			path = find_var_env(data, "PATH", data->env);
 			if (ft_strequ(path, ""))
 			{
