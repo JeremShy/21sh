@@ -29,8 +29,8 @@ static void	init_autocomplete(t_data *data, char **split, char *str_to_equ, char
 	DIR		*directory;
 	t_dirent	*truc;
 
-	// printf("split[0] = [%s] /// prefix = [%s] // str to equ = [%s]\n", split[0], prefix, str_to_equ);
 	i = 0;
+	// printf("split[0] = [%s] /// prefix = [%s] // str to equ = [%s]\n", split[0], prefix, str_to_equ);
 	while (split[i])
 	{
 		directory = opendir(split[i]);
@@ -92,6 +92,13 @@ char	*find_ptr(char *cmd)
 	}
 	else if (!is_sep(&i, cmd, 1, NULL) && !is_sep(&i, cmd, 0, NULL) && cmd[i] && cmd[i + 1])
 		i++;
+	while (is_sep(&i, cmd, 1, NULL))
+		i++;
+	if (cmd[i] == ' ')
+	{
+		// printf("DUP DE \" \"\n");
+		return (cmd + ft_strlen(cmd));
+	}
 	// printf("Trois : [%s]\n", cmd + i);
 	// printf("le pointeur est sur [%c] - %zu\n", (cmd + i)[0] , i);
 	return (cmd + i);
@@ -124,14 +131,50 @@ static int	is_auto_arg(char *cmd, char **ptr) // Note : ptr est la chaine apres 
 			jump_all_quote_for_arg(cmd, &i);
 		}
 	}
-	*ptr = find_ptr(cmd);
+	*ptr = ft_strdup(find_ptr(cmd));
 	// if (ft_strequ(*ptr, ""))
 	// 	*ptr = NULL;
 	// else
-		*ptr = ft_strdup(*ptr);
+	// *ptr = ft_strdup(*ptr);
 	// printf("i = %zu [%c] // *ptr = [%s]\n", i, cmd[i], *ptr);
 	// printf("ON RENVOIT %d DANS TON RETURN\n", first_word);
 	return (!first_word);
+}
+
+int		is_empty_border_between_cmd(char *str)
+{
+	size_t 	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		while (ft_isspace2(str[i]))
+			i++;
+		if (str[i] && !is_sep(&i, str, 0, NULL))
+			return (1);
+		while (!is_sep(&i, str, 1, NULL))
+		{
+			while (ft_isspace2(str[i]))
+				i++;
+			if (is_sep(&i, str, 0, NULL))
+				continue ;
+			jump_all_quote_for_arg(str, &i);
+		}
+		if (str[i])
+			return (0);
+	}
+	return (0);
+}
+
+int		is_empty_border_in_actual_cmd(char *str, size_t i)
+{
+	while (i > 0 && !is_sep(&i, str, 1, NULL))
+		i--;
+	while (ft_isspace2(str[i]))
+		i++;
+	if (str[i] && is_sep(&i, str, 0, NULL))
+		return (1);
+	return (0);
 }
 
 void ft_autocomplete(t_data *data)
@@ -144,7 +187,7 @@ void ft_autocomplete(t_data *data)
 	int		index_to_go;
 	char	*tmp;
 
-	if (is_empty_border(data->cmd, 0, ft_strlen(data->cmd)))
+	if (is_empty_border_in_actual_cmd(data->cmd, data->index))
 		return ;
 	if (!data->absolute_cmd_before_auto)
 	{
