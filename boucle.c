@@ -583,7 +583,7 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == 29 && buf[1] == 0) // AFFICHE MESSAGE DE DEBUG 2
 		{
-			exec_tcap("up");
+			printf ("DEBUG --> data->cmd = [%s] AND .. [%s]\n", data->cmd, data->cmd + 10);
 		}
 		else if (buf[0] == 9 && buf[1] == 0) // Autocompletion
 		{

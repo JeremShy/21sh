@@ -190,6 +190,7 @@ void ft_autocomplete(t_data *data)
 
 	if (is_empty_border_in_actual_cmd(data->cmd, data->index))
 		return ;
+	data->index_before_auto = data->index;
 	if (!data->absolute_cmd_before_auto)
 	{
 		data->index_before_move = data->index;
@@ -198,7 +199,7 @@ void ft_autocomplete(t_data *data)
 		{
 			move_right_without_mod(data);
 		}
-		data->absolute_cmd_before_auto = ft_strdup(data->cmd);
+		data->absolute_cmd_before_auto = ft_strdup(data->cmd); // Leaks (probably)
 		data->cmd = ft_strsub(data->cmd, 0, data->index);
 	}
 	if (!data->list_auto)
@@ -265,10 +266,15 @@ void ft_autocomplete(t_data *data)
 	else if (data->list_auto->next)
 		data->list_auto = data->list_auto->next;
 	if (!data->list_auto)
+	{
+		free(data->cmd);
+		data->cmd = ft_strdup(data->absolute_cmd_before_auto);  // LEAKS
 		return ;
+	}
 	// printf("on doit mettre : [%s]\n", data->list_auto->str);
 	if (!data->cmd_before_auto)
 	{
+			// printf("BEFORE AUTO INITIALISE ...\n");
 			data->cmd_before_auto = ft_strdup(data->cmd);
 			data->index_before_auto = data->index;
 	}
@@ -276,7 +282,6 @@ void ft_autocomplete(t_data *data)
 	while (data->index > data->index_before_auto)
 		move_left_without_mod(data);
 	exec_tcap("cd");
-	// sleep(2);
 	// printf("On putstr [%s]\n", data->list_auto->str);
 	ft_putstr(data->list_auto->str + data->index_in_word_before_auto);
 	free(data->cmd);
@@ -285,6 +290,7 @@ void ft_autocomplete(t_data *data)
 	else
 		data->cmd = ft_strdup(data->list_auto->str);
 	index_to_go = ft_strlen(data->cmd);
+	// printf("Tring to join data->cmd --> [%s] + [%s]\n", data->cmd, data->absolute_cmd_before_auto + data->index_before_auto);
 	data->cmd = ft_strjoinaf1(data->cmd, data->absolute_cmd_before_auto + data->index_before_auto);
 	ft_putstr(data->absolute_cmd_before_auto + data->index_before_auto);
 	data->index = ft_strlen(data->cmd);
