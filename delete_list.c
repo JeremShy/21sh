@@ -12,6 +12,19 @@ void delete_list_fd(t_fd *list)
 	}
 }
 
+void delete_list_auto(t_auto *list)
+{
+ 	t_auto *tmp;
+
+ 	while(list)
+ 	{
+ 		tmp = list->next;
+ 		free(list->str);
+ 		free(list);
+ 		list = tmp;
+ 	}
+}
+
 void delete_list_command(t_cmd *list)
 {
 	t_cmd *tmp;

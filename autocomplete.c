@@ -2,7 +2,7 @@
 
 t_auto *create_auto_elem (char *content)
 {
-	t_auto	*elem;
+	t_auto 	*elem;
 
 	elem = malloc(sizeof(t_auto));
 	elem->str = content;
@@ -18,16 +18,16 @@ t_auto 	*add_auto_elem(t_auto *list, t_auto *elem)
 	if (list == NULL)
 		return (elem);
 	while (list->next != NULL)
-  		list = list->next;
+		list = list->next;
 	list->next = elem;
 	return (tmp);
 }
 
-static void	init_autocomplete(t_data *data, char **split, char *str_to_equ, char *prefix) // Prends data, un tableau ave les dossiers a parcourir, et le debut de truc a complete, et le prefixe
+static void    	init_autocomplete(t_data *data, char **split, char *str_to_equ, char *prefix) // Prends data, un tableau ave les dossiers a parcourir, et le debut de truc a complete, et le prefixe
 {
-	int		i;
-	DIR		*directory;
-	t_dirent	*truc;
+	int    		i;
+	DIR    		*directory;
+	t_dirent       	*truc;
 
 	i = 0;
 	// printf("split[0] = [%s] /// prefix = [%s] // str to equ = [%s]\n", split[0], prefix, str_to_equ);
@@ -51,10 +51,10 @@ static void	init_autocomplete(t_data *data, char **split, char *str_to_equ, char
 }
 
 
-void	jump_all_quote_for_arg(char *str, size_t *i)
+void   	jump_all_quote_for_arg(char *str, size_t *i)
 {
-	char		open_quote;
-	size_t	begin_quote;
+	char   		open_quote;
+	size_t 	begin_quote;
 
 	// printf("FIRST CHAR = '%c'\n", str[*i]);
 	while (ft_isspace2(str[*i]) == 0 && str[*i] && !is_sep(i, str, 0, NULL))
@@ -74,9 +74,9 @@ void	jump_all_quote_for_arg(char *str, size_t *i)
 	// printf("END CHAR = '%c'\n", str[*i - 1]);
 }
 
-char	*find_ptr(char *cmd)
+char   	*find_ptr(char *cmd)
 {
-	size_t	i;
+	size_t 	i;
 
 	i = ft_strlen(cmd);
 	if (i)
@@ -104,10 +104,10 @@ char	*find_ptr(char *cmd)
 	return (cmd + i);
 }
 
-static int	is_auto_arg(char *cmd, char **ptr) // Note : ptr est la chaine apres l'espace.
+static int     	is_auto_arg(char *cmd, char **ptr) // Note : ptr est la chaine apres l'espace.
 {
-	size_t	i;
-	int			first_word;
+	size_t 	i;
+	int    			first_word;
 
 	i = 0;
 	first_word = 1;
@@ -133,7 +133,7 @@ static int	is_auto_arg(char *cmd, char **ptr) // Note : ptr est la chaine apres 
 	}
 	*ptr = ft_strdup(find_ptr(cmd));
 	// if (ft_strequ(*ptr, ""))
-	// 	*ptr = NULL;
+	//     	*ptr = NULL;
 	// else
 	// *ptr = ft_strdup(*ptr);
 	// printf("i = %zu [%c] // *ptr = [%s]\n", i, cmd[i], *ptr);
@@ -141,7 +141,7 @@ static int	is_auto_arg(char *cmd, char **ptr) // Note : ptr est la chaine apres 
 	return (!first_word);
 }
 
-int		is_empty_border_between_cmd(char *str)
+int    		is_empty_border_between_cmd(char *str)
 {
 	size_t 	i;
 
@@ -166,7 +166,7 @@ int		is_empty_border_between_cmd(char *str)
 	return (0);
 }
 
-int		is_empty_border_in_actual_cmd(char *str, size_t i)
+int    		is_empty_border_in_actual_cmd(char *str, size_t i)
 {
 	// if (!str[i] && i > 0)
 	while (i > 0 && !is_sep(&i, str, 1, NULL))
@@ -180,17 +180,16 @@ int		is_empty_border_in_actual_cmd(char *str, size_t i)
 
 void ft_autocomplete(t_data *data)
 {
-	char	*path;
-	char	**split;
-	char	*ptr;
-	char	*prefix;
-	char	*ptr_for_chr;
-	int		index_to_go;
-	char	*tmp;
+	char   	*path;
+	char   	**split;
+	char   	*ptr;
+	char   	*prefix;
+	char   	*ptr_for_chr;
+	int    		index_to_go;
+	char   	*tmp;
 
 	if (is_empty_border_in_actual_cmd(data->cmd, data->index))
 		return ;
-	data->index_before_auto = data->index;
 	if (!data->absolute_cmd_before_auto)
 	{
 		data->index_before_move = data->index;
@@ -199,7 +198,7 @@ void ft_autocomplete(t_data *data)
 		{
 			move_right_without_mod(data);
 		}
-		data->absolute_cmd_before_auto = ft_strdup(data->cmd); // Leaks (probably)
+		data->absolute_cmd_before_auto = ft_strdup(data->cmd);
 		data->cmd = ft_strsub(data->cmd, 0, data->index);
 	}
 	if (!data->list_auto)
@@ -211,12 +210,12 @@ void ft_autocomplete(t_data *data)
 			split = malloc(sizeof(char*) * 2);
 			if ((ptr_for_chr = ft_strrchr(ptr, '/')))  // FICHIER AVEC SLASH
 			{
-					split[0] = ft_strsub(ptr, 0, ptr_for_chr - ptr + 1);
-					prefix = ft_strdup(split[0]);
-					tmp = ft_strdup(ptr_for_chr + 1);
-					free(ptr);
-					// ptr = ft_strdup(ptr_for_chr + 1);
-					ptr = tmp;
+				split[0] = ft_strsub(ptr, 0, ptr_for_chr - ptr + 1);
+				prefix = ft_strdup(split[0]);
+				tmp = ft_strdup(ptr_for_chr + 1);
+				free(ptr);
+				// ptr = ft_strdup(ptr_for_chr + 1);
+				ptr = tmp;
 			}
 			else
 			{
@@ -265,8 +264,13 @@ void ft_autocomplete(t_data *data)
 	}
 	else if (data->list_auto->next)
 		data->list_auto = data->list_auto->next;
-	if (!data->list_auto)
+	if (!data->list_auto || ft_strnequ(data->list_auto->str + data->index_in_word_before_auto, data->cmd + data->index_before_move, ft_strlen(data->cmd)))
 	{
+		if (data->list_auto)
+		{
+			delete_list_auto(data->list_auto);
+			data->list_auto = NULL;
+		}
 		free(data->cmd);
 		data->cmd = ft_strdup(data->absolute_cmd_before_auto);  // LEAKS
 		return ;
@@ -274,14 +278,19 @@ void ft_autocomplete(t_data *data)
 	// printf("on doit mettre : [%s]\n", data->list_auto->str);
 	if (!data->cmd_before_auto)
 	{
-			// printf("BEFORE AUTO INITIALISE ...\n");
-			data->cmd_before_auto = ft_strdup(data->cmd);
-			data->index_before_auto = data->index;
+		data->cmd_before_auto = ft_strdup(data->cmd);
+		data->index_before_auto = data->index;
 	}
+	exec_tcap("vb");
+	sleep(2);
+	printf("data->index %d > data->index_before_auto %d \n", data->index, data->index_before_auto);
 	// printf("%d et %d\n", data->index_in_word_before_auto, data->index_before_auto);
 	while (data->index > data->index_before_auto)
 		move_left_without_mod(data);
 	exec_tcap("cd");
+	exec_tcap("vb");
+	sleep(2);
+	// sleep(2);
 	// printf("On putstr [%s]\n", data->list_auto->str);
 	ft_putstr(data->list_auto->str + data->index_in_word_before_auto);
 	free(data->cmd);
@@ -290,7 +299,6 @@ void ft_autocomplete(t_data *data)
 	else
 		data->cmd = ft_strdup(data->list_auto->str);
 	index_to_go = ft_strlen(data->cmd);
-	// printf("Tring to join data->cmd --> [%s] + [%s]\n", data->cmd, data->absolute_cmd_before_auto + data->index_before_auto);
 	data->cmd = ft_strjoinaf1(data->cmd, data->absolute_cmd_before_auto + data->index_before_auto);
 	ft_putstr(data->absolute_cmd_before_auto + data->index_before_auto);
 	data->index = ft_strlen(data->cmd);
