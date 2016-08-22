@@ -151,7 +151,7 @@ int    		is_empty_border_between_cmd(char *str)
 		while (ft_isspace2(str[i]))
 			i++;
 		if (str[i] && !is_sep(&i, str, 0, NULL))
-			return (1);
+				return (1);
 		while (!is_sep(&i, str, 1, NULL))
 		{
 			while (ft_isspace2(str[i]))
@@ -198,8 +198,8 @@ void ft_autocomplete(t_data *data)
 		{
 			move_right_without_mod(data);
 		}
-		data->absolute_cmd_before_auto = ft_strdup(data->cmd);
-		data->cmd = ft_strsub(data->cmd, 0, data->index);
+		data->absolute_cmd_before_auto = data->cmd;
+		data->cmd = ft_strsub(data->absolute_cmd_before_auto, 0, data->index);
 	}
 	if (!data->list_auto)
 	{
@@ -264,44 +264,44 @@ void ft_autocomplete(t_data *data)
 	}
 	else if (data->list_auto->next)
 		data->list_auto = data->list_auto->next;
-	if (!data->list_auto || ft_strnequ(data->list_auto->str + data->index_in_word_before_auto, data->cmd + data->index_before_move, ft_strlen(data->cmd)))
+	if (!data->list_auto)
 	{
-		if (data->list_auto)
-		{
-			delete_list_auto(data->list_auto);
-			data->list_auto = NULL;
-		}
+		index_to_go = data->index_before_move;
+		// data->cmd = ft_strjoinaf1(data->cmd, data->absolute_cmd_before_auto + data->index_before_auto);
+		while (data->index > 0)
+			move_left_without_mod(data);
+		ft_putstr(data->absolute_cmd_before_auto);
 		free(data->cmd);
-		data->cmd = ft_strdup(data->absolute_cmd_before_auto);  // LEAKS
+		data->cmd = data->absolute_cmd_before_auto;
+		data->index = ft_strlen(data->cmd);
+		while (data->index > index_to_go)
+			move_left_without_mod(data);
+		data->cmd_before_auto = NULL;
+		data->absolute_cmd_before_auto = NULL;
+		data->index_before_auto = 0;
+		data->index_before_move = 0;
 		return ;
 	}
-	// printf("on doit mettre : [%s]\n", data->list_auto->str);
 	if (!data->cmd_before_auto)
 	{
 		data->cmd_before_auto = ft_strdup(data->cmd);
 		data->index_before_auto = data->index;
 	}
-	exec_tcap("vb");
-	sleep(2);
-	printf("data->index %d > data->index_before_auto %d \n", data->index, data->index_before_auto);
-	// printf("%d et %d\n", data->index_in_word_before_auto, data->index_before_auto);
-	while (data->index > data->index_before_auto)
+	// exec_tcap("vb");
+	// printf("data->index = %d /// data->index_before_move = %d\n", data->index, data->index_before_move);
+	while (data->index > data->index_before_move)
 		move_left_without_mod(data);
 	exec_tcap("cd");
-	exec_tcap("vb");
-	sleep(2);
-	// sleep(2);
-	// printf("On putstr [%s]\n", data->list_auto->str);
 	ft_putstr(data->list_auto->str + data->index_in_word_before_auto);
+	data->index = data->index_before_move + ft_strlen(data->list_auto->str + data->index_in_word_before_auto);
+	// printf("data->index : %d\n", data->index);
 	free(data->cmd);
-	if (data->index_in_word_before_auto != data->index_before_auto)
-		data->cmd = ft_strjoin(data->cmd_before_auto, data->list_auto->str + data->index_in_word_before_auto);
-	else
-		data->cmd = ft_strdup(data->list_auto->str);
-	index_to_go = ft_strlen(data->cmd);
+	data->cmd = ft_strjoin(data->cmd_before_auto, data->list_auto->str + data->index_in_word_before_auto);
+	index_to_go = data->index;
 	data->cmd = ft_strjoinaf1(data->cmd, data->absolute_cmd_before_auto + data->index_before_auto);
 	ft_putstr(data->absolute_cmd_before_auto + data->index_before_auto);
 	data->index = ft_strlen(data->cmd);
 	while(data->index > index_to_go)
 		move_left_without_mod(data);
+	printf("data->index_before_move : %d\n", data->index);
 }
