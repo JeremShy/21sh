@@ -1,4 +1,4 @@
-#include <sh21.h>
+	#include <sh21.h>
 
 t_auto *create_auto_elem (char *content)
 {
@@ -30,7 +30,7 @@ static void    	init_autocomplete(t_data *data, char **split, char *str_to_equ, 
 	t_dirent       	*truc;
 
 	i = 0;
-	printf("split[0] = [%s] /// prefix = [%s] // str to equ = [%s]\n", split[0], prefix, str_to_equ);
+	// printf("split[0] = [%s] /// prefix = [%s] // str to equ = [%s]\n", split[0], prefix, str_to_equ);
 	while (split[i])
 	{
 		directory = opendir(split[i]);
@@ -190,7 +190,6 @@ void ft_autocomplete(t_data *data)
 				prefix = ft_strdup(split[0]);
 				tmp = ft_strdup(ptr_for_chr + 1);
 				free(ptr);
-				// ptr = ft_strdup(ptr_for_chr + 1);
 				ptr = tmp;
 			}
 			else
@@ -201,15 +200,19 @@ void ft_autocomplete(t_data *data)
 			}
 			split[1] = NULL;
 		}
-		else if ((ptr = ft_strrchr(find_ptr(data->cmd), '/')))
+		else if ((ptr_for_chr = ft_strrchr(ptr, '/')))
 		{
 			// printf("troisieme\n"); // LA COMMANDE AVEC SLASH
 			split = malloc(sizeof(char*) * 2);
-			split[0] = ft_strsub(data->cmd, 0, ptr - data->cmd + 1);
+			// printf("ptr = [%s] AND data->cmd + 1 = [%s]\n", find_ptr, data->cmd + 1);
+			split[0] = ft_strsub(ptr, 0, ptr_for_chr - ptr + 1);
 			split[1] = NULL;
 			// printf("[%s]\n", split[0]);
 			// printf("ptr : %s\n", ptr);s
-			ptr = ft_strdup(ptr + 1);
+			tmp = ft_strdup(ptr_for_chr + 1);
+			free(ptr);
+			ptr = tmp;
+			// ptr = ft_strdup(ptr_for_chr + 1);
 			prefix = ft_strdup(split[0]);
 			data->index_in_word_before_auto = data->index;
 		}
@@ -237,6 +240,7 @@ void ft_autocomplete(t_data *data)
 				data->index_in_word_before_auto = 0;
 		}
 		init_autocomplete(data, split, ptr, prefix);
+		free_char_tab(split);
 	}
 	else if (data->list_auto->next)
 		data->list_auto = data->list_auto->next;

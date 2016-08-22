@@ -65,7 +65,10 @@ int	ft_exit_bi(char **scmd, t_env *env, t_data *data)
 	delete_list_history(data->history);
 	if (data->command)
 		delete_list_command(data->command);
-	free(data->prompt);
+	// delete_list_env_and_var(data);
+	delete_list_var(data->var);
+	delete_data(data);
+	// free(data->prompt);
 	if (tmp != -1)
 	{
 		exit(tmp);

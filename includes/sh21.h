@@ -285,6 +285,9 @@ void				delete_list_command(t_cmd *list);
 void				delete_list_history(t_history *list);
 void				delete_heredocs(t_data *data);
 void				delete_list_auto(t_auto *list);
+void				delete_list_env_and_var(t_data *data);
+void				delete_data(t_data *data);
+void				delete_list_var(t_var *list);
 //------------------------------------------------------------------------------
 
 // ---------------------------HEREDOCS------------------------------------------

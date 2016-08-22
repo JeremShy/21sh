@@ -82,7 +82,7 @@ int		handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs)
 	int			fd;
 	int			fd_file;
 	int			pipe_tab[2];
-	int			redir_type; //0 : >, 1 : >>, 2 <, 3 <<
+		int			redir_type; //0 : >, 1 : >>, 2 <, 3 <<
 
 	fd_file = -1;
 	tmp = *i;
@@ -165,7 +165,12 @@ int		handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs)
 		}
 		if (fd_file == -1)
 		{
-			if (access(quote, F_OK) == -1)
+			if ((redir_type == 0 || redir_type == 1) && access(quote, F_OK) == -1)
+			{
+				ft_putstr_fd("21sh: permission denied: ", 2);
+				ft_putendl_fd(quote, 2);
+			}
+			else if (access(quote, F_OK) == -1)
 			{
 				ft_putstr_fd("21sh: no such file or directory: ", 2);
 				ft_putendl_fd(quote, 2);
