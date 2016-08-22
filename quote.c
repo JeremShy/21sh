@@ -96,6 +96,7 @@ int		is_quote_end(t_data *data)
 		data->quote_or_hd = 0;
 		return (1);
 	}
+	// Au dessus : Si y a une quote. En dessous : Si y a un heredoc
 	i = data->end_hd;
 	boucle_cmd = ft_strjoin(data->cmd_tmp, data->cmd);
 	while (data->c == '\0' && boucle_cmd[i])
@@ -121,6 +122,8 @@ int		is_quote_end(t_data *data)
 				data->key_here = ft_strdup("");
 			}
 			data->end_hd = i;
+			if (data->cmd_tmp)
+				free(data->cmd_tmp);
 			data->cmd_tmp = data->cmd;
 			data->cmd = ft_strdup("");
 			data->index = -1;

@@ -152,7 +152,7 @@ int	create_history(t_data *data, t_env **env)
 		else
 		{
 			if (data->quote_or_hd == 0) // Il ne faut pas joindre les heredocs à la commande.
-				data->cmd = ft_strjoinaf1(data->cmd_tmp, data->cmd);
+				data->cmd = ft_strjoinaf2(data->cmd_tmp, data->cmd);
 		}
 		// data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
 		// printf("\nexecuting command now...\n");
@@ -167,6 +167,8 @@ int	create_history(t_data *data, t_env **env)
 		data->c = '\0';
 		//-------------------------
 		reinitialise_heredoc(data, 1);
+		if (data->cmd_tmp)
+			free(data->cmd_tmp);
 		data->cmd_tmp = ft_strdup("");
 		data->quote_old_index = 0;
 		if (data->cmd_before_auto)
@@ -180,7 +182,7 @@ int	create_history(t_data *data, t_env **env)
 		// TODO : Free la list_auto;
 		data->list_auto = NULL;
 		delete_list_command(data->command);
-		data->command = NULL;
+				data->command = NULL;
 	}
 	else
 	{
@@ -212,8 +214,8 @@ int	create_history(t_data *data, t_env **env)
 		}
 		else
 		{
-			data->cmd_tmp = ft_strjoinaf2(data->cmd_tmp, data->cmd);
-			data->cmd_tmp = ft_strjoin(data->cmd_tmp, "\n");
+			data->cmd_tmp = ft_strjoinaf1(data->cmd_tmp, data->cmd);
+			data->cmd_tmp = ft_strjoinaf1(data->cmd_tmp, "\n");
 		}
 		data->index++;
 	}
@@ -230,8 +232,8 @@ int	create_history(t_data *data, t_env **env)
 	}
 	data->first_search = 1;
 	data->history_en_cours = NULL;
-	// if (data->cmd)
-	// 	free(data->cmd);
+	if (data->cmd)
+		free(data->cmd);
 	data->cmd = ft_strdup("");
 	data->index = 0;
 	return (0);

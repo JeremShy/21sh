@@ -181,7 +181,7 @@ t_fd				*create_fd(int fd, int fd_pointe);
 int					split_cmd(int count, char **str, t_cmd *cmd, t_hc **heredocs);
 char				*skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd);
 int					is_empty(char *str, size_t *i);
-char				*handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs);
+int					handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs);
 t_fd				*copy_list_fd(t_fd *list);
 t_fd				*copy_fd(t_fd *list);
 int					handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd);

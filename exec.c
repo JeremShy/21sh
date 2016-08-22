@@ -76,6 +76,7 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i, t_data *data)
 	char	**env;
 	pid_t	process;
 	int		retour;
+	DIR		*dir;
 
 	// printf("On passe dans exec_file\n");
 	file = find_exec(cmd->av[0], data, list);
@@ -89,6 +90,18 @@ int			exec_file(t_cmd *cmd, t_env *list, int in_env_i, t_data *data)
 			ft_putstr_fd("21sh: permission denied: ", 2);
 		ft_putendl_fd(cmd->av[0], 2);
     free(file);
+		return (0);
+	}
+	dir = opendir(file);
+	if (dir)
+	{
+		if (in_env_i)
+			ft_putstr_fd("env: permission denied: ", 2);
+		else
+			ft_putstr_fd("21sh: permission denied: ", 2);
+		ft_putendl_fd(cmd->av[0], 2);
+    free(file);
+		closedir(dir);
 		return (0);
 	}
 	if (in_env_i)
@@ -144,6 +157,7 @@ t_cmd		*cmd_not_found(t_cmd *command, t_data *data, t_env *env)
 	was_ok = 1;
 	if (command->sep != '|')
 		return (command);
+	exec = NULL;
 	while (command && (command->sep == '|' || was_ok))
 	{
 		if (command->sep != '|')
@@ -158,8 +172,11 @@ t_cmd		*cmd_not_found(t_cmd *command, t_data *data, t_env *env)
 		{
 			ok = 1;
 			last_found = command;
-      if (!is_builtin(command->av[0]))
-			   free(exec);
+		}
+		if (exec)
+		{
+			free(exec);
+			exec = NULL;
 		}
 		command = command->next;
 	}

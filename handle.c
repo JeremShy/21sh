@@ -75,7 +75,7 @@ int		handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd)
 	return (1);
 }
 
-char	*handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs)
+int		handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs)
 {
 	size_t	tmp;
 	char		*quote;
@@ -111,7 +111,7 @@ char	*handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs)
 			tmp += 2;
 		}
 		else
-			return (NULL);
+			return (0);
 	}
 	if (tmp != *i) // Si on a bouge tmp, alors :
 	{
@@ -120,13 +120,16 @@ char	*handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs)
 		if (is_empty(*str, &tmp)) // on check si c'est empty
 		{
 			cmd->p_error = 1;
-			return(NULL);
+			return (0);
 		}
 		quote = skip_quotes(str, &tmp, cmd); // on vire les quotes
 		if (!quote)
 			quote = ft_strdup("");
 		if (fd > 2)
-			return(quote); // si le fd est pourri, on se barre
+		{
+			free(quote);
+			return(1);
+		}
 		// printf("Quote : [%s]. fd : %d\n", quote, fd);
 		if (redir_type == 0) // on open avec les bons flags selon si c'est  > ou >> ou <
 			fd_file = open(quote, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -141,7 +144,7 @@ char	*handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs)
 				ft_putstr_fd("\n", 2);
 				cmd->error = 1;
 				free(quote);
-				return(NULL);
+				return (1);
 			}
 		}
 		else if (redir_type == 3)
@@ -151,7 +154,7 @@ char	*handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs)
 				ft_putstr_fd("zsh: error while handling heredoc. \n", 2);
 				cmd->error = 1;
 				free(quote);
-				return(NULL);
+				return (1);
 			}
 			// printf("value of (*heredocs) = [%s]\n", (*heredocs)->content);
 			write(pipe_tab[1], (*heredocs)->content, ft_strlen((*heredocs)->content));
@@ -183,7 +186,8 @@ char	*handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs)
 				ft_putendl_fd(quote, 2);
 			}
 			cmd->error = 1;
-			return (NULL);
+			free(quote);
+			return (0);
 		}
 		if (fd == 0) // on ajoute ce truc au bon fd.
 			cmd->fd_in = add_fd_elem(cmd->fd_in, create_fd(fd_file, fd_file));
@@ -198,7 +202,8 @@ char	*handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs)
 		// dup(fd_file);
 		// dup2(fd, fd_file);
 		// write(fd, "a\n", 2);
-		return (quote);
+		free(quote);
+		return(1);
 	}
-	return (NULL);
+	return (0);
 }

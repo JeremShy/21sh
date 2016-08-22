@@ -30,7 +30,7 @@ static void    	init_autocomplete(t_data *data, char **split, char *str_to_equ, 
 	t_dirent       	*truc;
 
 	i = 0;
-	// printf("split[0] = [%s] /// prefix = [%s] // str to equ = [%s]\n", split[0], prefix, str_to_equ);
+	printf("split[0] = [%s] /// prefix = [%s] // str to equ = [%s]\n", split[0], prefix, str_to_equ);
 	while (split[i])
 	{
 		directory = opendir(split[i]);
@@ -50,40 +50,19 @@ static void    	init_autocomplete(t_data *data, char **split, char *str_to_equ, 
 	free(prefix);
 }
 
-// void	get_pos_after_quote_auto(size_t *i, char *str)
-// {
-// 	char open;
-//
-// 	open = str[*i];
-// 	while (str[*i + 1] && !(is_quote_close(open, str[*i + 1]) && !is_escaped_char(str, *i + 1)))
-// 		(*i)++;
-// 	if (str[*i])
-// 		(*i)++;
-// }
-
-
 void   	jump_all_quote_for_arg(char *str, size_t *i)
 {
-	// char   		open_quote;
-	// size_t 	begin_quote;
-
-	// printf("FIRST CHAR = '%c'\n", str[*i]);
 	while (str[*i] && !ft_isspace2(str[*i]) && !is_sep(i, str, 0, NULL))
 	{
 		if (is_quote_open(str[*i]))
 		{
-			// open_quote = str[*i];
 			get_pos_after_quote(i, str);
 			if (str[*i])
 				(*i)++;
-			// begin_quote = *i;
-			// printf("char after quote = [%c]\n", str[*i]);
-			// printf("car = '%c'\n", str[*i]);
 		}
 		else
 			(*i)++;
 	}
-	// printf("END CHAR = '%c' && index = %zu\n", str[*i - 1], *i);
 }
 
 char   	*find_ptr(char *cmd)
@@ -96,11 +75,8 @@ char   	*find_ptr(char *cmd)
 	// printf("Un : [%s]\n", cmd + i);
 	while (i > 0 && !ft_isspace2(cmd[i]) && !is_sep(&i, cmd, 0, NULL))
 		i--;
-	// printf("cmd[i]: %c - i : %zu\n", cmd[i], i);
-	// printf("Deux : [%s]\n", cmd + i);
 	if (!ft_isspace2(cmd[i]) && i == 0)
 	{
-		// DO NOTHING
 	}
 	else if (!is_sep(&i, cmd, 1, NULL) && !is_sep(&i, cmd, 0, NULL) && cmd[i] && cmd[i + 1])
 		i++;
@@ -108,11 +84,8 @@ char   	*find_ptr(char *cmd)
 		i++;
 	if (cmd[i] == ' ')
 	{
-		// printf("DUP DE \" \"\n");
 		return (cmd + ft_strlen(cmd));
 	}
-	// printf("Trois : [%s]\n", cmd + i);
-	// printf("le pointeur est sur [%c] - %zu\n", (cmd + i)[0] , i);
 	return (cmd + i);
 }
 
@@ -144,12 +117,6 @@ static int     	is_auto_arg(char *cmd, char **ptr) // Note : ptr est la chaine a
 		}
 	}
 	*ptr = ft_strdup(find_ptr(cmd));
-	// if (ft_strequ(*ptr, ""))
-	//     	*ptr = NULL;
-	// else
-	// *ptr = ft_strdup(*ptr);
-	// printf("i = %zu [%c] // *ptr = [%s]\n", i, cmd[i], *ptr);
-	// printf("ON RENVOIT %d DANS TON RETURN\n", first_word);
 	return (!first_word);
 }
 
@@ -180,8 +147,7 @@ int    		is_empty_border_between_cmd(char *str)
 
 int    		is_empty_border_in_actual_cmd(char *str, size_t i)
 {
-	// if (!str[i] && i > 0)
-	while (i > 0 && !is_sep(&i, str, 1, NULL))
+	while (!is_sep(&i, str, 1, NULL) && i > 0)
 		i--;
 	while (ft_isspace2(str[i]))
 		i++;
@@ -200,6 +166,8 @@ void ft_autocomplete(t_data *data)
 	int    		index_to_go;
 	char   	*tmp;
 
+	if (is_empty_border_in_actual_cmd(data->cmd, data->index))
+		return ;
 	if (!data->list_auto)
 	{
 		data->absolute_index_before_move = data->index;
