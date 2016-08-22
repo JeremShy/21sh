@@ -31,3 +31,6 @@ ls 1>&2 | cat -e
 stdin : -1
 stdout : 2
 stderr : -1
+
+ls pouet ls ; caca
+ls pouet

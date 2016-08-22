@@ -50,28 +50,40 @@ static void    	init_autocomplete(t_data *data, char **split, char *str_to_equ, 
 	free(prefix);
 }
 
+// void	get_pos_after_quote_auto(size_t *i, char *str)
+// {
+// 	char open;
+//
+// 	open = str[*i];
+// 	while (str[*i + 1] && !(is_quote_close(open, str[*i + 1]) && !is_escaped_char(str, *i + 1)))
+// 		(*i)++;
+// 	if (str[*i])
+// 		(*i)++;
+// }
+
 
 void   	jump_all_quote_for_arg(char *str, size_t *i)
 {
-	char   		open_quote;
-	size_t 	begin_quote;
+	// char   		open_quote;
+	// size_t 	begin_quote;
 
 	// printf("FIRST CHAR = '%c'\n", str[*i]);
-	while (ft_isspace2(str[*i]) == 0 && str[*i] && !is_sep(i, str, 0, NULL))
+	while (str[*i] && !ft_isspace2(str[*i]) && !is_sep(i, str, 0, NULL))
 	{
 		if (is_quote_open(str[*i]))
 		{
-			open_quote = str[*i];
+			// open_quote = str[*i];
 			get_pos_after_quote(i, str);
-			begin_quote = *i;
+			if (str[*i])
+				(*i)++;
+			// begin_quote = *i;
 			// printf("char after quote = [%c]\n", str[*i]);
-			(*i)++;
 			// printf("car = '%c'\n", str[*i]);
 		}
 		else
 			(*i)++;
 	}
-	// printf("END CHAR = '%c'\n", str[*i - 1]);
+	// printf("END CHAR = '%c' && index = %zu\n", str[*i - 1], *i);
 }
 
 char   	*find_ptr(char *cmd)
@@ -188,20 +200,17 @@ void ft_autocomplete(t_data *data)
 	int    		index_to_go;
 	char   	*tmp;
 
-	if (is_empty_border_in_actual_cmd(data->cmd, data->index))
-		return ;
-	if (!data->absolute_cmd_before_auto)
+	if (!data->list_auto)
 	{
-		data->index_before_move = data->index;
+		data->absolute_index_before_move = data->index;
 		while (data->cmd[data->index] && data->cmd[data->index] != ' ')
 		{
 			move_right_without_mod(data);
 		}
+		data->index_before_move = data->index;
 		data->absolute_cmd_before_auto = data->cmd;
-		data->cmd = ft_strsub(data->absolute_cmd_before_auto, 0, data->index);
-	}
-	if (!data->list_auto)
-	{
+		data->cmd = ft_strsub(data->cmd, 0, data->index);
+		data->absolute_cmd_before_cmd_before_move = ft_strdup(data->cmd);
 		if (is_auto_arg(data->cmd, &ptr))
 		{
 			// printf("premier\n");
@@ -265,8 +274,7 @@ void ft_autocomplete(t_data *data)
 		data->list_auto = data->list_auto->next;
 	if (!data->list_auto)
 	{
-		index_to_go = data->index_before_move;
-		// data->cmd = ft_strjoinaf1(data->cmd, data->absolute_cmd_before_auto + data->index_before_auto);
+		index_to_go = data->absolute_index_before_move;
 		while (data->index > 0)
 			move_left_without_mod(data);
 		ft_putstr(data->absolute_cmd_before_auto);
@@ -281,25 +289,22 @@ void ft_autocomplete(t_data *data)
 		data->index_before_move = 0;
 		return ;
 	}
-	if (!data->cmd_before_auto)
-	{
-		data->cmd_before_auto = ft_strdup(data->cmd);
-		data->index_before_auto = data->index;
-	}
-	// exec_tcap("vb");
-	// printf("data->index = %d /// data->index_before_move = %d\n", data->index, data->index_before_move);
+	// commentaire qui ne sert à rien
 	while (data->index > data->index_before_move)
 		move_left_without_mod(data);
 	exec_tcap("cd");
-	ft_putstr(data->list_auto->str + data->index_in_word_before_auto);
-	data->index = data->index_before_move + ft_strlen(data->list_auto->str + data->index_in_word_before_auto);
-	free(data->cmd);
-	data->cmd = ft_strjoin(data->cmd_before_auto, data->list_auto->str + data->index_in_word_before_auto);
+	tmp = data->cmd;
+	data->cmd = ft_strsub(data->cmd, 0, data->index);
+	free(tmp);
+	tmp = data->list_auto->str + ft_strlen(find_ptr(data->absolute_cmd_before_cmd_before_move));
+	ft_putstr(tmp);
+	data->index += ft_strlen(tmp);
+	data->cmd = ft_strjoinaf1(data->cmd, tmp);
+	tmp = data->absolute_cmd_before_auto + data->index_before_move;
 	index_to_go = data->index;
-	data->cmd = ft_strjoinaf1(data->cmd, data->absolute_cmd_before_auto + data->index_before_auto);
-	ft_putstr(data->absolute_cmd_before_auto + data->index_before_auto);
-	data->index = ft_strlen(data->cmd);
-	while(data->index > index_to_go)
+	ft_putstr(tmp);
+	data->index += ft_strlen(tmp);
+	data->cmd = ft_strjoinaf1(data->cmd, tmp);
+	while (data->index > index_to_go)
 		move_left_without_mod(data);
-	// printf("data->index_before_move %d data->index : %d\n", data->index_before_move, data->index);
 }

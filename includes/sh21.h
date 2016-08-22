@@ -123,6 +123,8 @@ typedef struct	s_data {
 	int				index_in_word_before_auto; // Index dans le mot avant l'autocompletion (pour ls pou<tab>, ca va etre 3 par exemple);
 	char			*absolute_cmd_before_auto; //Veritable cmd au cas ou l'index n'est pas au bout;
 	int				index_before_move;
+	int				absolute_index_before_move;
+	char			*absolute_cmd_before_cmd_before_move;
 	int				ret; // Retour de la derniere commande (Pour $?).
 }				t_data;
 

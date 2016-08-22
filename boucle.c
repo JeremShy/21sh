@@ -349,7 +349,7 @@ void	boucle(t_env *env, t_data *data)
 				data->index_before_auto = 0;
 				// TODO : Free la list_auto;
 				data->list_auto = NULL;
-				if (data->index == data->index_max_copy)
+				if (data->mode_copy && data->index == data->index_max_copy)
 					data->index_max_copy = data->index_min_copy;
 				while(data->index > 0 && data->cmd[data->index - 1] != '\n')
 					move_left_without_mod(data);
@@ -405,15 +405,8 @@ void	boucle(t_env *env, t_data *data)
 				data->index = (int)ft_strlen(data->cmd);
 			}
 		}
-			// while((data->mode_copy == 0 && data->index < (int)ft_strlen(data->cmd)) || (data->mode_copy && data->index < (int)ft_strlen(data->cmd) - 1))
-			// 	move_right(data);
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 53 && buf[3] == 126 && buf[4] == 0) // Page up
 		{
-			// if (data->mode_copy)
-			// {
-			//
-			// }
-			// else
 			if (data->cmd_before_auto)
 				free(data->cmd_before_auto);
 			data->cmd_before_auto = NULL;
@@ -428,11 +421,6 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 54 && buf[3] == 126 && buf[4] == 0) // Page down
 		{
-			// if (data->mode_copy)
-			// {
-			//
-			// }
-			// else
 			if (data->cmd_before_auto)
 				free(data->cmd_before_auto);
 			data->cmd_before_auto = NULL;
@@ -560,6 +548,7 @@ void	boucle(t_env *env, t_data *data)
 				free(data->absolute_cmd_before_auto);
 			data->absolute_cmd_before_auto = NULL;
 			data->index_before_auto = 0;
+			delete_list_auto(data->list_auto);
 			// TODO : Free la list_auto;
 			data->list_auto = NULL;
 			if (!data->mode_copy)
