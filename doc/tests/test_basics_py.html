@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>test_basics.py - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script src="../js/jquery.js"></script>
+<script src="../js/darkfish.js"></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="file">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="project-metadata">
+    <div id="fileindex-section" class="nav-section">
+  <h3>Pages</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Makefile.html">Makefile</a>
+  
+    <li><a href="../README_md.html">README</a>
+  
+    <li><a href="../auteur.html">auteur</a>
+  
+    <li><a href="../cmd_pipe_sh.html">cmd_pipe.sh</a>
+  
+    <li><a href="../libsrcs/ft_printf/Makefile.html">Makefile</a>
+  
+    <li><a href="../libsrcs/ft_printf/auteur.html">auteur</a>
+  
+    <li><a href="../libsrcs/libft/Makefile.html">Makefile</a>
+  
+    <li><a href="../libsrcs/libft/auteur.html">auteur</a>
+  
+    <li><a href="../lsappinfo.html">lsappinfo</a>
+  
+    <li><a href="../makebordel.html">makebordel</a>
+  
+    <li><a href="../notes.html">notes</a>
+  
+    <li><a href="../poulet.html">poulet</a>
+  
+    <li><a href="../tests/__init___py.html">__init__.py</a>
+  
+    <li><a href="../tests/test_advanced_py.html">test_advanced.py</a>
+  
+    <li><a href="../tests/test_basics_py.html">test_basics.py</a>
+  
+    <li><a href="../todo.html">todo</a>
+  
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-label="Page tests/test_basics.py">
+
+<p>import os import subprocess import unittest</p>
+
+<p>BINARY_NAME = “21sh”</p>
+
+<p>class TestBasics(unittest.TestCase):</p>
+
+<pre>tests_dir = os.path.split(__file__)[0]
+binary = &quot;%s/../%s&quot; % (tests_dir, BINARY_NAME)
+prompt = &quot;&quot;
+
+@classmethod
+def setUpClass(cls):
+    if os.path.isfile(cls.binary) is False:
+        raise IOError(&quot;Make the project: %s not here\n&quot; % cls.binary)
+    cls.prompt = cls.get_prompt(cls.binary)
+
+@staticmethod
+def get_prompt(binary):
+    cmd_list = [&quot;/bin/echo&quot;, &quot;-n&quot;]
+    p_command = subprocess.Popen(cmd_list, stdout=subprocess.PIPE)
+    p_minishell = subprocess.Popen(
+        [&quot;%s&quot; % binary], stdin=p_command.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p_command.stdout.close()
+    stdout, stderr = p_minishell.communicate()
+    return stdout
+
+def execute_my_shell(self, command):
+    &quot;&quot;&quot;
+    Here my shell
+    :param command: list of command like [&quot;/bin/ls&quot;, &quot;-l&quot;]
+    :return: 
+    &quot;&quot;&quot;
+    cmd_list = [&quot;/bin/echo&quot;, &quot;-n&quot;] + command
+    p_command = subprocess.Popen(cmd_list, stdout=subprocess.PIPE)
+    p_minishell = subprocess.Popen(
+        [&quot;%s&quot; % self.binary], stdin=p_command.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p_command.stdout.close()
+    stdout, stderr = p_minishell.communicate()
+
+    stdout = stdout.replace(&quot;%s\n&quot; % self.prompt, &quot;&quot;)
+    stdout = stdout.replace(&quot;%s&quot; % self.prompt, &quot;&quot;)
+
+    return stdout, stderr
+
+@staticmethod
+def execute_real_shell(command):
+    &quot;&quot;&quot;
+    Here the real shell
+    :param command: list of command like [&quot;/bin/ls&quot;, &quot;-l&quot;]
+    :return: 
+    &quot;&quot;&quot;
+    cmd_list = [&quot;/bin/echo&quot;] + command
+    p_command = subprocess.Popen(cmd_list, stdout=subprocess.PIPE)
+    p_real_shell = subprocess.Popen(
+        [&quot;/bin/bash&quot;], stdin=p_command.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p_command.stdout.close()
+    stdout, stderr = p_real_shell.communicate()
+    return stdout, stderr.replace(&quot;/bin/bash: line 1: &quot;, &quot;&quot;)  # because of bash piping
+
+def compare_shells(self, command):
+    real_std = self.execute_real_shell(command)
+    my_std = self.execute_my_shell(command)
+    self.assertEqual(real_std, my_std)
+
+def test_00_prompt_is_removed(self):
+    stdout, stderr = self.execute_my_shell([&quot;&quot;])
+    self.assertEqual(&quot;&quot;, stdout)
+    self.assertEqual(&quot;&quot;, stderr)
+
+def test_ls_00(self):
+    self.compare_shells([&quot;ls&quot;])
+
+def test_ls_01(self):
+    self.compare_shells([&quot;/bin/ls&quot;])
+
+def test_ls_02(self):
+    self.compare_shells([&quot;/bin/ls&quot;, &quot;-r&quot;])
+
+def test_ls_03(self):
+    self.compare_shells([&quot;/bin/ls&quot;, &quot;-rt&quot;])
+
+def test_ls_04(self):
+    self.compare_shells([&quot;/bin/ls&quot;, &quot;-r&quot;, &quot;-l&quot;])
+
+def test_ls_05(self):
+    self.compare_shells([&quot;/bin/ls&quot;, &quot;-r&quot;, &quot;-l&quot;, &quot;.&quot;])
+
+def test_ls_06(self):
+    self.compare_shells([&quot;/bin/ls&quot;, &quot;-r&quot;, &quot;-l&quot;, &quot;notherefile&quot;])
+
+def test_ls_07(self):
+    self.compare_shells([&quot;  ls&quot;])
+
+def test_ls_08(self):
+    self.compare_shells([&quot;  ls    &quot;])
+
+def test_ls_09(self):
+    self.compare_shells([&quot;  ls    &quot;, &quot;  -r  &quot;])
+
+def test_env_00(self):
+    my_env = self.execute_my_shell([&quot;env&quot;])[0]
+    self.assertIn(&quot;PATH=&quot;, my_env)
+    self.assertIn(&quot;PWD=&quot;, my_env)
+
+def test_env_01(self):
+    my_env = self.execute_my_shell([&quot;env&quot;, &quot;-i&quot;])
+    self.assertEqual((&quot;&quot;, &quot;&quot;), my_env)
+
+def test_setenv_00(self):
+    my_shell = self.execute_my_shell([&quot;setenv&quot;, &quot;key&quot;, &quot;value&quot;])
+    self.assertEqual((&quot;&quot;, &quot;&quot;), my_shell)
+
+def test_setenv_01(self):
+    my_shell = self.execute_my_shell([&quot;setenv&quot;])
+    self.assertEqual((&quot;&quot;, &quot;&quot;), my_shell)
+
+def test_setenv_02(self):
+    my_shell = self.execute_my_shell([&quot;setenv&quot;, &quot;one_arg&quot;])
+    self.assertEqual((&quot;&quot;, &quot;&quot;), my_shell)
+
+def test_setenv_03(self):
+    my_shell = self.execute_my_shell([&quot;setenv&quot;, &quot;one&quot;, &quot;two&quot;, &quot;more&quot;])
+    self.assertEqual((&quot;&quot;, &quot;&quot;), my_shell)
+
+def test_setenv_04(self):
+    my_shell = self.execute_my_shell([&quot;setenv&quot;, &quot;one&quot;, &quot;two&quot;, &quot;more&quot;, &quot;more&quot;])
+    self.assertEqual((&quot;&quot;, &quot;&quot;), my_shell)
+
+def test_nocommand_00(self):
+    cmd = &quot;inexistcommandinpathandbuiltin&quot;
+    my_shell = self.execute_my_shell([cmd])
+    self.assertEqual((&quot;&quot;, &quot;21sh: command not found: %s\n&quot; % cmd), my_shell)
+
+def test_nocommand_01(self):
+    cmd = &quot;inexistcommandinpathandbuiltin&quot;
+    my_shell = self.execute_my_shell([cmd, &quot;-flag&quot;])
+    self.assertEqual((&quot;&quot;, &quot;21sh: command not found: %s\n&quot; % cmd), my_shell)
+
+def test_exit_00(self):
+    self.compare_shells([&quot;exit&quot;])
+
+def test_exit_01(self):
+    self.compare_shells([&quot;exit&quot;, &quot;0&quot;])
+
+def test_exit_02(self):
+    self.compare_shells([&quot;exit&quot;, &quot;1&quot;])
+
+def test_exit_03(self):
+    my_shell = self.execute_my_shell([&quot;exit&quot;, &quot;not numeric&quot;])
+    self.assertEqual((&quot;&quot;, &quot;&quot;), my_shell)
+
+def test_cd_00(self):
+    home = &quot;/tmp&quot;
+    os.environ[&quot;HOME&quot;] = home
+    my_shell = self.execute_my_shell([&quot;cd&quot;])
+    self.assertIn(home, my_shell[0])
+
+def test_cd_01(self):
+    oldpwd = &quot;/tmp&quot;
+    os.environ[&quot;OLDPWD&quot;] = oldpwd
+    my_shell = self.execute_my_shell([&quot;cd&quot;, &quot;-&quot;])
+    self.assertIn(oldpwd, my_shell[0])
+
+def test_cd_02(self):
+    my_shell = self.execute_my_shell([&quot;cd&quot;, &quot;.&quot;])
+    self.assertEqual(&quot;&quot;, my_shell[0])
+
+def test_cd_03(self):
+    my_shell = self.execute_my_shell([&quot;cd&quot;, &quot;////&quot;])
+    self.assertIn(&quot;/&quot;, my_shell[0])
+
+def test_cd_04(self):
+    dot_dot = &quot;/../..&quot; * 50
+    my_shell = self.execute_my_shell([&quot;cd&quot;, dot_dot])
+    self.assertIn(&quot;/&quot;, my_shell[0])
+
+def test_exec_dir_00(self):
+    directory = &quot;/bin&quot;
+    my_shell = self.execute_my_shell([directory])
+    self.assertEqual(&quot;21sh: exec format error: %s\n&quot; % directory, my_shell[1])
+    self.assertEqual(&quot;&quot;, my_shell[0])
+
+def test_exec_fake_00(self):
+    exe = &quot;./fakeexec&quot;
+    if os.path.isfile(exe):
+        os.remove(exe)
+    with open(exe, &quot;w&quot;) as f:
+        f.write(&quot;fake exec\n&quot;)
+    os.chmod(exe, 0755)
+    my_shell = self.execute_my_shell([exe])
+    os.remove(exe)
+    self.assertEqual(&quot;21sh: exec format error: %s\n&quot; % exe, my_shell[1])
+
+def test_exec_fake_01(self):
+    exe = &quot;./fakeexec&quot;
+    if os.path.isfile(exe):
+        os.remove(exe)
+    with open(exe, &quot;w&quot;) as f:
+        f.write(&quot;fake exec\n&quot;)
+    os.chmod(exe, 0000)
+    my_shell = self.execute_my_shell([exe])
+    os.remove(exe)
+    self.assertEqual(&quot;21sh: permission denied: %s\n&quot; % exe, my_shell[1])
+
+def test_exec_fake_02(self):
+    exe = &quot;./fakeexec&quot;
+    if os.path.isfile(exe):
+        os.remove(exe)
+    with open(exe, &quot;w&quot;) as f:
+        f.write(&quot;fake exec\n&quot;)
+    os.chmod(exe, 0444)
+    my_shell = self.execute_my_shell([exe])
+    os.remove(exe)
+    self.assertEqual(&quot;21sh: permission denied: %s\n&quot; % exe, my_shell[1])
+
+def test_exec_fake_03(self):
+    exe = &quot;./fakeexec&quot;
+    if os.path.isfile(exe):
+        os.remove(exe)
+    with open(exe, &quot;w&quot;) as f:
+        f.write(&quot;fake exec\n&quot;)
+    os.chmod(exe, 0666)
+    my_shell = self.execute_my_shell([exe])
+    os.remove(exe)
+    self.assertEqual(&quot;21sh: permission denied: %s\n&quot; % exe, my_shell[1])
+
+def test_exec_fake_04(self):
+    exe = &quot;./fakeexec&quot;
+    if os.path.isfile(exe):
+        os.remove(exe)
+    with open(exe, &quot;w&quot;) as f:
+        f.write(&quot;fake exec\n&quot;)
+    os.chmod(exe, 0333)
+    my_shell = self.execute_my_shell([exe])
+    os.remove(exe)
+    self.assertEqual(&quot;21sh: exec format error: %s\n&quot; % exe, my_shell[1])
+
+def test_exec_fake_05(self):
+    exe = &quot;./fakeexec&quot;
+    if os.path.isfile(exe):
+        os.remove(exe)
+    with open(exe, &quot;w&quot;) as f:
+        f.write(&quot;fake exec\n&quot;)
+    os.chmod(exe, 0222)
+    my_shell = self.execute_my_shell([exe])
+    os.remove(exe)
+    self.assertEqual(&quot;21sh: permission denied: %s\n&quot; % exe, my_shell[1])
+
+def test_exec_fake_06(self):
+    exe = &quot;./fakeexec&quot;
+    if os.path.isfile(exe):
+        os.remove(exe)
+    with open(exe, &quot;w&quot;) as f:
+        f.write(&quot;fake exec\n&quot;)
+    os.chmod(exe, 0111)
+    my_shell = self.execute_my_shell([exe])
+    os.remove(exe)
+    self.assertEqual(&quot;21sh: exec format error: %s\n&quot; % exe, my_shell[1])</pre>
+
+<p>if __name__ == “__main__”:</p>
+
+<pre class="ruby"><span class="ruby-identifier">unittest</span>.<span class="ruby-identifier">main</span>()
+</pre>
+</main>
+
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
