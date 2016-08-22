@@ -61,6 +61,7 @@ void	move_up_history(t_data *data, t_env *env)
 		}
 		exec_tcap("dl");
 		exec_tcap("cr");
+		free(data->prompt);
 		data->prompt = print_prompt(env, data);
 		data->len_prompt = ft_strlen(data->prompt);
 		ft_putstr((data->history_en_cours)->line);
@@ -118,6 +119,7 @@ void	move_down_history(t_data *data, t_env *env)
 			}
 			exec_tcap("dl");
 			exec_tcap("cr");
+			free(data->prompt);
 			data->prompt = print_prompt(env, data);
 			data->len_prompt = ft_strlen(data->prompt);
 			ft_putstr(data->cmd);
@@ -145,10 +147,11 @@ int	create_history(t_data *data, t_env **env)
 		if (data->cmd_tmp[0] == '\0')
 		{
 			free(data->cmd_tmp);
+			data->cmd_tmp = ft_strdup("");
 		}
 		else
 		{
-			if (data->quote_or_hd == 0) // Il ne faut pas jindre les heredocs à la commande.
+			if (data->quote_or_hd == 0) // Il ne faut pas joindre les heredocs à la commande.
 				data->cmd = ft_strjoinaf1(data->cmd_tmp, data->cmd);
 		}
 		// data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
@@ -164,7 +167,6 @@ int	create_history(t_data *data, t_env **env)
 		data->c = '\0';
 		//-------------------------
 		reinitialise_heredoc(data, 1);
-
 		data->cmd_tmp = ft_strdup("");
 		data->quote_old_index = 0;
 		if (data->cmd_before_auto)
@@ -228,8 +230,8 @@ int	create_history(t_data *data, t_env **env)
 	}
 	data->first_search = 1;
 	data->history_en_cours = NULL;
-	if (data->cmd)
-		free(data->cmd);
+	// if (data->cmd)
+	// 	free(data->cmd);
 	data->cmd = ft_strdup("");
 	data->index = 0;
 	return (0);

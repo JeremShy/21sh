@@ -85,7 +85,7 @@ int			main(int ac, char **av, char **env)
 	data.heredocs = NULL;
 	data.key_here = NULL;
 	data.heredocs_tmp = ft_strdup("");
-	data.command_save = ft_strdup("");
+	// data.command_save = ft_strdup("");
 	data.end_hd = 0;
 	data.quote_or_hd = 0;
 	data.first_line_of_hd = 1;
