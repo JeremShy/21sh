@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/03 12:51:49 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/15 20:09:59 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/08/19 00:21:33 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void init_history(t_data *data)
 		data->history = add_history_elem(data->history, create_history_elem(line + get_history_command_part(line)));
 		data->history->time = ft_atoi(line);// HOTFIXE DEGUEULASSE CAR FLEMME DE CHANGER LES HEADERS POUR RAJOUTER LE TIME DU FICHIER
 		data->history->get_from_file = 1; // SAME AS ABOVE
+		free(line);
 	}
 	if (close(data->history_fd) == -1)
 		ft_putstr_fd("42sh: history: Failed to open/close history file\n", 2);

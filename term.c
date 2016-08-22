@@ -63,7 +63,6 @@ void invert_term(void)
 	current = (t_termios *)malloc(sizeof(t_termios));
 	// Adding this feature because of SEGV
 	// Invalid read of size 4 invert_term (term.c:74) tcsetattr (tcsetattr.c:73)
-
 	if (current && (tmp = singleton_termios(NULL, 0)))
 	{
 		tcgetattr(0, current);

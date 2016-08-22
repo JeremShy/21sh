@@ -28,14 +28,6 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data, int fd)
 	if ((pid = fork ()) == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		// printf("XX on execute : %s\n", cmd->av[0]);
-		// if (is_builtin(cmd->av[0]))
-		// {
-		// 	cmd->ret = exec_builtin(cmd, &env, data);
-		// 	exit(cmd->ret);
-		// }
-		// else
-		// {
 			dup2(fd, out);
 			if (in != 0)
 			{
@@ -60,17 +52,11 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data, int fd)
 				close(err);
 			}
 			if (in == -2)
-			{
 				close(0);
-			}
 			if (out == -2)
-			{
 				close(1);
-			}
 			if (err == -2)
-			{
 				close(2);
-			}
 			if (is_builtin(cmd->av[0]))
 			{
 				cmd->fd_in->fd = 0;
@@ -138,16 +124,24 @@ int	fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 		close(2);
 	else if (cmd->fd_err->fd != 2)
 		dup2(cmd->fd_err->fd, 2);
-	file = find_exec(cmd->av[0], data, env);
-	environ = make_env_char(env);
-	ret_execve = 0;
 	fork_exec = fork();
 	if (fork_exec != 0)
 		waitpid(fork_exec, &ret_execve, 0);
 	else
+	{
+		if (is_builtin(cmd->av[0]))
+		{
+			cmd->fd_in->fd = 0;
+			cmd->fd_out->fd = 1;
+			cmd->fd_err->fd = 2;
+			cmd->ret = exec_builtin(cmd, &env, data);
+			exit(cmd->ret);
+		}
+		file = find_exec(cmd->av[0], data, env);
+		environ = make_env_char(env);
+		ret_execve = 0;
 		return (execve(file, cmd->av, environ));
-	// waitpid(son_proc, NULL, 0);
+	}
 	wait(NULL);
-	// printf("SON_PROC = %d\n", son_proc);
 	exit(get_ret(ret_execve, data));
 }
