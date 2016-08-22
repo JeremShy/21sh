@@ -193,7 +193,6 @@ void ft_autocomplete(t_data *data)
 	if (!data->absolute_cmd_before_auto)
 	{
 		data->index_before_move = data->index;
-		// printf("data->index_in_word_before_auto : %d\n", data->index_in_word_before_auto);
 		while (data->cmd[data->index] && data->cmd[data->index] != ' ')
 		{
 			move_right_without_mod(data);
@@ -294,7 +293,6 @@ void ft_autocomplete(t_data *data)
 	exec_tcap("cd");
 	ft_putstr(data->list_auto->str + data->index_in_word_before_auto);
 	data->index = data->index_before_move + ft_strlen(data->list_auto->str + data->index_in_word_before_auto);
-	// printf("data->index : %d\n", data->index);
 	free(data->cmd);
 	data->cmd = ft_strjoin(data->cmd_before_auto, data->list_auto->str + data->index_in_word_before_auto);
 	index_to_go = data->index;
@@ -303,5 +301,5 @@ void ft_autocomplete(t_data *data)
 	data->index = ft_strlen(data->cmd);
 	while(data->index > index_to_go)
 		move_left_without_mod(data);
-	printf("data->index_before_move : %d\n", data->index);
+	// printf("data->index_before_move %d data->index : %d\n", data->index_before_move, data->index);
 }
