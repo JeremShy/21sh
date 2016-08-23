@@ -24,7 +24,10 @@ void reinitialise_heredoc(t_data *data, int flag)
 		data->index = data->old_index;
 		data->real_len_cmd = 0;
 		data->quote_or_hd = 1;
-		data->cmd = data->command_save;
+		data->cmd = ft_strdup(data->command_save);
+			if (data->command_save)
+			free(data->command_save);
+		data->command_save = NULL;
 	}
 	if (data->key_here)
 	{

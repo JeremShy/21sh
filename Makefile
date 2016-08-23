@@ -107,10 +107,10 @@ fclean: clean
 re: fclean all
 
 leaks: all
-	 ~/custom_src/bin/valgrind --leak-check=full ./21sh
+	 valgrind --leak-check=full ./21sh
 
 leaks-le-pen: all
-	~/custom_src/bin/valgrind --leak-check=full --show-leak-kinds=all ./21sh
+	valgrind --leak-check=full --show-leak-kinds=all ./21sh
 
 check: $(NAME)
 	python -m unittest discover tests/

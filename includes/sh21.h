@@ -132,6 +132,7 @@ typedef struct	s_data {
 	int				absolute_index_before_move;
 	char			*absolute_cmd_before_cmd_before_move;
 	int				ret; // Retour de la derniere commande (Pour $?).
+	int				cd_ret; //flemme de changer toutes les fonctions pour le ret de cd
 }				t_data;
 
 t_env				*ft_parse_env(char **env);

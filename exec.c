@@ -151,9 +151,11 @@ t_cmd		*cmd_not_found(t_cmd *command, t_data *data, t_env *env)
 	char		*exec;
 	int			ok;
 	int			was_ok;
+	int			absolute_ok;
 
 	last_found = NULL;
 	ok = 0;
+	absolute_ok = 1;
 	was_ok = 1;
 	if (command->sep != '|')
 		return (command);
@@ -165,6 +167,7 @@ t_cmd		*cmd_not_found(t_cmd *command, t_data *data, t_env *env)
 		if (!is_builtin(command->av[0]) && !(exec = find_exec(command->av[0], data, env)))
 		{
 			ok = 0;
+			absolute_ok = 0;
 			// printf("COMMAND NOT FOUND CONNARD\n");
 			last_found = NULL;
 		}
@@ -180,6 +183,8 @@ t_cmd		*cmd_not_found(t_cmd *command, t_data *data, t_env *env)
 		}
 		command = command->next;
 	}
+	if (!absolute_ok)
+		return (NULL);
 	return (last_found);
 }
 

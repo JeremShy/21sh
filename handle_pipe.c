@@ -37,7 +37,6 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data, int fd)
 			}
 			if (out != 1)
 			{
-				// dup2(out, 1);
 				if (cmd->fd_out->fd_pointe == 2)
 					dup2(err, 1);
 				else

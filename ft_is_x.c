@@ -35,7 +35,7 @@ int		is_pipe_e_parse_error(char *str)
 	last_spe_char = 0;
 	while (str[i])
 	{
-		printf("str[i] : %c\n", str[i]);
+		// printf("str[i] : %c\n", str[i]);
 		while (ft_isspace2(str[i]))
 			i++;
 		if (!str[i])

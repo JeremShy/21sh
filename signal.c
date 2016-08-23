@@ -23,6 +23,7 @@ void sigint(int sig)
   data->cmd = ft_strdup("");
   data->index = 0;
   data->c = 0;
+	free(data->prompt);
   data->prompt = print_prompt(data->env, data);
   data->len_prompt = ft_strlen(data->prompt);
 	if (data->cmd_tmp) // TEST DE TRUC CHELOU
@@ -157,6 +158,8 @@ void sigwinch(int sig)
 	if (((data->len_prompt + (int)ft_strlen(data->cmd)) - (data->win_x)) >= 0)
 	{
 		// sleep(1);
+		// if (data->mode_copy)
+		data->mode_copy = 0;
 		exec_tcap("cl");
 		ft_putstr("\e[38;5;208m");
 		ft_putstr(data->prompt);
