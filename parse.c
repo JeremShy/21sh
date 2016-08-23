@@ -108,7 +108,6 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 	return (count);
 }
 
-
 t_cmd	*parse(char *str, t_hc *heredocs, t_env **env, t_data *data)
 {
 	int		count;

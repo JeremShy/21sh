@@ -39,6 +39,7 @@ int ft_echo(char **scmd, t_cmd *cmd)
 	int				i;
 	int				j;
 	char			c;
+	(void)			c;
 	// char			*str;
 
 	i = 0;

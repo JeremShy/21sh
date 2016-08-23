@@ -49,9 +49,11 @@
 		 export.c \
 		 signals.c \
 		 delete_list.c \
-		 exit.c
-
-
+		 exit.c \
+		 cd_islegal.c \
+		 cd_main.c \
+		 cd_goto.c \
+		 cd_misc.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes

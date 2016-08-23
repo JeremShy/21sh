@@ -2,14 +2,14 @@
 
 static int	chg_arg1(char **scmd, t_env *env, char *tmp)
 {
-	char	*new;
+	char	*new_dir;
 
 	if (chdir(scmd[1]) == 0)
 	{
-		new = getcwd(NULL, 0);
+		new_dir = getcwd(NULL, 0);
 		change_arg(env, "OLDPWD", tmp);
-		change_arg(env, "PWD", new);
-		free(new);
+		change_arg(env, "PWD", new_dir);
+		free(new_dir);
 		free(tmp);
 		return (1);
 	}
@@ -35,27 +35,52 @@ static void	goto_home(t_env *env, char *tmp, t_data *data)
 	free(temp);
 }
 
-int			ft_cd(char **scmd, t_env *env, t_data *data)
+void	goto_oldpwd(t_env *env, t_data *data)
 {
-	char	*tmp;
-	char	*temp;
+	char *old_pwd;
+	char *pwd;
 
-	tmp = getcwd(NULL, 0);
-	if (!scmd[1])
-		goto_home(env, tmp, data);
-	else if (!ft_strequ(scmd[1], "-"))
-		return (chg_arg1(scmd, env, tmp));
+	if ((old_pwd = (char *)find_var_env(data, "OLDPWD", data->env)))
+	{
+		chdir(old_pwd);
+		if ((pwd = getcwd(NULL, 0)))
+		{
+			change_arg(env, "OLDPWD", find_var_env(data, "PWD", data->env));
+			change_arg(env, "PWD", pwd);
+			free(pwd);
+		}
+		else
+		{
+			write(2, ERR_GETCWD, ft_strlen(ERR_GETCWD));
+		}
+	}
 	else
 	{
-		temp = ft_strdup(find_var_env(data, "OLDPWD", data->env));
-		chdir(temp);
-		free(tmp);
-		tmp = getcwd(NULL, 0);
-		change_arg(env, "OLDPWD", find_var_env(data, "PWD", data->env));
-		change_arg(env, "PWD", tmp);
-		free(temp);
+		write(2, ERR_GETOLDWD, ft_strlen(ERR_GETOLDWD));
 	}
-	if (tmp)
-		free(tmp);
-	return (1);
+}
+
+int			ft_cd(char **scmd, t_env *env, t_data *data)
+{
+	/*char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		write(2, ERR_GETCWD, ft_strlen(ERR_GETCWD));
+		return (0);
+	}
+	else if (!scmd[1])
+		goto_home(env, cwd, data);
+	else if (!ft_strequ(scmd[1], "-"))
+		return (chg_arg1(scmd, env, cwd));
+	else
+		goto_oldpwd(env, data);
+	free(cwd);
+	return (1);*/
+	(void)goto_home;
+	(void)chg_arg1;
+	(void)env;
+
+	return cd(scmd, data);
 }

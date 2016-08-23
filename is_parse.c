@@ -30,6 +30,7 @@ char	*is_redir(size_t *i, char *str, int jump, t_cmd	*cmd)
 {
 	size_t	tmp;
 	char		*quote;
+	(void)		quote;
 
 	tmp = *i;
 	if ((str[tmp] == '<' && str[tmp + 1] == '<') || (str[tmp] == '>' && str[tmp + 1] == '>')) // Il faut commence par deux chevrons...
