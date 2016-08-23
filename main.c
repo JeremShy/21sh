@@ -95,6 +95,7 @@ int			main(int ac, char **av, char **env)
 	data.cmd_before_auto = NULL;
 	data.index_before_auto = 0;
 	data.absolute_cmd_before_auto = NULL;
+	data.absolute_cmd_before_cmd_before_move = NULL;
 	data.index_before_move = 0;
 	data.ret = 0;
 	data.index_max_copy = 0;

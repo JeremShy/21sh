@@ -34,11 +34,9 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 	elem->fd_in = create_fd(-1, -1); // On initialise les trois fds.
 	elem->fd_out = create_fd(-1, -1);
 	elem->fd_err = create_fd(-1, -1);
-	// printf("str : [%s]\n", str);
 	elem->p_error	= 0;
 	elem->error = 0;
 	elem->sep = NONE;
-	// printf("STR3 = [%s]\n", str);
 	if (split_cmd(count, &str, elem, heredocs) == -1)
 	{
 		delete_list_fd(elem->fd_in);

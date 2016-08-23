@@ -71,6 +71,11 @@ void	move_up_history(t_data *data, t_env *env)
 		data->real_len_cmd = ft_strlen(data->cmd);
 		data->index = ft_strlen(data->cmd);
 		data->curs_x = data->len_prompt + data->real_len_cmd + 1;
+		if (data->list_auto)
+		{
+			delete_list_auto(data->list_auto);
+			data->list_auto = NULL;
+		}
 	}
 	else
 	{
@@ -127,6 +132,11 @@ void	move_down_history(t_data *data, t_env *env)
 			data->index = ft_strlen(data->cmd);
 			data->curs_x = data->len_prompt + data->real_len_cmd + 1;
 			data->curs_y = 0;
+			if (data->list_auto)
+			{
+				delete_list_auto(data->list_auto);
+				data->list_auto = NULL;
+			}
 		}
 	}
 }
@@ -171,16 +181,11 @@ int	create_history(t_data *data, t_env **env)
 			free(data->cmd_tmp);
 		data->cmd_tmp = ft_strdup("");
 		data->quote_old_index = 0;
-		if (data->cmd_before_auto)
-			free(data->cmd_before_auto);
-		data->cmd_before_auto = NULL;
-		if (data->absolute_cmd_before_auto)
-			free(data->absolute_cmd_before_auto);
-		data->absolute_cmd_before_auto = NULL;
-		data->index_before_auto = 0;
-		data->index_before_move = 0;
-		// TODO : Free la list_auto;
-		data->list_auto = NULL;
+		if (data->list_auto)
+		{
+			delete_list_auto(data->list_auto);
+			data->list_auto = NULL;
+		}
 		delete_list_command(data->command);
 				data->command = NULL;
 	}
@@ -269,13 +274,11 @@ void	boucle(t_env *env, t_data *data)
 		data->in_env_i = 0;
 		if ((ft_isalpha(buf[0]) || (buf[0] >= 32 && buf[0] <= 64) || (buf[0] >= 123 && buf[0] <= 126) || (buf[0] >= 91 && buf[0] <= 96)) && buf[1] == '\0' && !data->mode_copy)
 		{
-			//TODO free list_auto
-			data->list_auto = NULL;
-			data->cmd_before_auto = NULL;
-			if (data->absolute_cmd_before_auto)
-				free(data->absolute_cmd_before_auto);
-			data->absolute_cmd_before_auto = NULL;
-			data->index_before_auto = 0;
+			if (data->list_auto)
+			{
+				delete_list_auto(data->list_auto);
+				data->list_auto = NULL;
+			}
 			data->curs_x++;
 			if (data->index == (int)data->real_len_cmd)
 			{
@@ -317,13 +320,11 @@ void	boucle(t_env *env, t_data *data)
 		else if (buf[0] == 127 && buf[1] == 0 && !data->mode_copy)
 		{
 			//TODO free list_auto
-			data->list_auto = NULL;
-			data->cmd_before_auto = NULL;
-			if (data->absolute_cmd_before_auto)
-				free(data->absolute_cmd_before_auto);
-			data->absolute_cmd_before_auto = NULL;
-			data->index_before_auto = 0;
-
+			if (data->list_auto)
+			{
+				delete_list_auto(data->list_auto);
+				data->list_auto = NULL;
+			}
 			if (data->index > 0)
 			{
 				delete_mode(data);
@@ -342,15 +343,11 @@ void	boucle(t_env *env, t_data *data)
 		else if ((buf[0] == 27	&&	buf[1] == 91 && buf[2] == 72 && buf[3] == 0) ||
 							(buf[0] == 1 && buf[1] == 0)) // HOME
 			{
-				if (data->cmd_before_auto)
-					free(data->cmd_before_auto);
-				data->cmd_before_auto = NULL;
-				if (data->absolute_cmd_before_auto)
-					free(data->absolute_cmd_before_auto);
-				data->absolute_cmd_before_auto = NULL;
-				data->index_before_auto = 0;
-				// TODO : Free la list_auto;
-				data->list_auto = NULL;
+				if (data->list_auto)
+				{
+					delete_list_auto(data->list_auto);
+					data->list_auto = NULL;
+				}
 				if (data->mode_copy && data->index == data->index_max_copy)
 					data->index_max_copy = data->index_min_copy;
 				while(data->index > 0 && data->cmd[data->index - 1] != '\n')
@@ -374,15 +371,11 @@ void	boucle(t_env *env, t_data *data)
 		else if ((buf[0] == 27 && buf[1] == 91	&& buf[2] == 70 && buf[3] == 0) ||
 							(buf[0] == 5 && buf[1] == 0)) // END
 		{
-			if (data->cmd_before_auto)
-				free(data->cmd_before_auto);
-			data->cmd_before_auto = NULL;
-			if (data->absolute_cmd_before_auto)
-				free(data->absolute_cmd_before_auto);
-			data->absolute_cmd_before_auto = NULL;
-			data->index_before_auto = 0;
-			// TODO : Free la list_auto;
-			data->list_auto = NULL;
+			if (data->list_auto)
+			{
+				delete_list_auto(data->list_auto);
+				data->list_auto = NULL;
+			}
 			if (data->mode_copy)
 			{
 				if (data->index_min_copy == data->index)
@@ -409,29 +402,20 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 53 && buf[3] == 126 && buf[4] == 0) // Page up
 		{
-			if (data->cmd_before_auto)
-				free(data->cmd_before_auto);
-			data->cmd_before_auto = NULL;
-			if (data->absolute_cmd_before_auto)
-				free(data->absolute_cmd_before_auto);
-			data->absolute_cmd_before_auto = NULL;
-			data->index_before_auto = 0;
-			data->index_before_move = 0;
-			// TODO : Free la list_auto;
-			data->list_auto = NULL;
+			if (data->list_auto)
+			{
+				delete_list_auto(data->list_auto);
+				data->list_auto = NULL;
+			}
 			page_up(data);
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 54 && buf[3] == 126 && buf[4] == 0) // Page down
 		{
-			if (data->cmd_before_auto)
-				free(data->cmd_before_auto);
-			data->cmd_before_auto = NULL;
-			if (data->absolute_cmd_before_auto)
-				free(data->absolute_cmd_before_auto);
-			data->absolute_cmd_before_auto = NULL;
-			data->index_before_auto = 0;
-			// TODO : Free la list_auto;
-			data->list_auto = NULL;
+			if (data->list_auto)
+			{
+				delete_list_auto(data->list_auto);
+				data->list_auto = NULL;
+			}
 			page_down(data);
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 65 && buf[3] == 0 && !data->mode_copy)
@@ -457,6 +441,11 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == 12 && buf[1] == 0  && buf[2] == 0 && !data->mode_copy)
 		{
+			if (data->list_auto)
+			{
+				delete_list_auto(data->list_auto);
+				data->list_auto = NULL;
+			}
 			exec_tcap("cl");
 			ft_putstr("\e[38;5;208m");
 			ft_putstr(data->prompt);
@@ -471,6 +460,11 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == -62 && buf[1] == -75 && buf[2] == 0) // MODE COPY
 		{
+			if (data->list_auto)
+			{
+				delete_list_auto(data->list_auto);
+				data->list_auto = NULL;
+			}
 			if (data->mode_copy == 0 && data->cmd[0] != '\0' && data->index != (int)ft_strlen(data->cmd))
 			{
 				int	origin;
@@ -506,6 +500,11 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == -61 && buf[1] == -89 && buf[2] == 0) // copie
 		{
+			if (data->list_auto)
+			{
+				delete_list_auto(data->list_auto);
+				data->list_auto = NULL;
+			}
 			int	index_origine;
 			if (data->mode_copy)
 			{
@@ -527,6 +526,11 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else if (buf[0] == -30 && buf[1] == -119 && buf[2] == -120 && buf[3] == 0) // cut
 		{
+			if (data->list_auto)
+			{
+				delete_list_auto(data->list_auto);
+				data->list_auto = NULL;
+			}
 			if (data->mode_copy)
 			{
 				data->mode_copy = 0;
@@ -543,16 +547,11 @@ void	boucle(t_env *env, t_data *data)
 		{
 			int	i;
 
-			if (data->cmd_before_auto)
-				free(data->cmd_before_auto);
-			data->cmd_before_auto = NULL;
-			if (data->absolute_cmd_before_auto)
-				free(data->absolute_cmd_before_auto);
-			data->absolute_cmd_before_auto = NULL;
-			data->index_before_auto = 0;
-			delete_list_auto(data->list_auto);
-			// TODO : Free la list_auto;
-			data->list_auto = NULL;
+			if (data->list_auto)
+			{
+				delete_list_auto(data->list_auto);
+				data->list_auto = NULL;
+			}
 			if (!data->mode_copy)
 			{
 				if (data->clipboard)
@@ -567,9 +566,23 @@ void	boucle(t_env *env, t_data *data)
 			}
 		}
 		else if (buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 68 && buf[4] == 0) // Previous word
+		{
+			if (data->list_auto)
+			{
+				delete_list_auto(data->list_auto);
+				data->list_auto = NULL;
+			}
 			previous_word(data);
+		}
 		else if (buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 67 && buf[4] == 0) // Next Word
+		{
+			if (data->list_auto)
+			{
+				delete_list_auto(data->list_auto);
+				data->list_auto = NULL;
+			}
 			next_word(data);
+		}
 		else if (buf[0] == 27 && buf[1] == 0) // AFFICHE MESSAGE DE DEBUG 1
 		{
 			// printf("index - %d AND index_min_copy = %d AND index_max_copy = %d\n", data->index, data->index_min_copy, data->index_max_copy);

@@ -1,4 +1,4 @@
-	#include <sh21.h>
+#include <sh21.h>
 
 t_auto *create_auto_elem (char *content)
 {
@@ -165,6 +165,7 @@ void ft_autocomplete(t_data *data)
 	char   	*ptr_for_chr;
 	int    		index_to_go;
 	char   	*tmp;
+	t_auto		*next;
 
 	if (is_empty_border_in_actual_cmd(data->cmd, data->index))
 		return ;
@@ -176,8 +177,12 @@ void ft_autocomplete(t_data *data)
 			move_right_without_mod(data);
 		}
 		data->index_before_move = data->index;
+		if (data->absolute_cmd_before_auto)
+			free(data->absolute_cmd_before_auto);
 		data->absolute_cmd_before_auto = data->cmd;
 		data->cmd = ft_strsub(data->cmd, 0, data->index);
+		if (data->absolute_cmd_before_cmd_before_move)
+			free(data->absolute_cmd_before_cmd_before_move);
 		data->absolute_cmd_before_cmd_before_move = ft_strdup(data->cmd);
 		if (is_auto_arg(data->cmd, &ptr))
 		{
@@ -227,8 +232,9 @@ void ft_autocomplete(t_data *data)
 			}
 			split = ft_strsplit(path, ':');
 			// ptr = ft_strdup(data->cmd);
+			free(ptr);
 			if (find_ptr(data->cmd) > 0)
-				ptr = ft_strdup(find_ptr(data->cmd));
+						ptr = ft_strdup(find_ptr(data->cmd));
 			else
 				ptr = ft_strdup(data->cmd);
 			prefix = ft_strdup("");
@@ -243,7 +249,12 @@ void ft_autocomplete(t_data *data)
 		free_char_tab(split);
 	}
 	else if (data->list_auto->next)
-		data->list_auto = data->list_auto->next;
+	{
+		next = data->list_auto->next;
+		free(data->list_auto->str);
+		free(data->list_auto);
+		data->list_auto = next;
+	}
 	if (!data->list_auto)
 	{
 		index_to_go = data->absolute_index_before_move;

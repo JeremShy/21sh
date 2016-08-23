@@ -29,14 +29,18 @@ int		is_pipe_e_parse_error(char *str)
 	size_t	i;
 	int			first_char;
 	int			last_spe_char;
+
 	i = 0;
 	first_char = 1;
 	last_spe_char = 0;
 	while (str[i])
 	{
+		printf("str[i] : %c\n", str[i]);
 		while (ft_isspace2(str[i]))
 			i++;
-		if (is_aggr(&i, str, 1))
+		if (!str[i])
+			continue ;
+		else if (is_aggr(&i, str, 1))
 		{
 			// printf("Just do it !\n");
 		}

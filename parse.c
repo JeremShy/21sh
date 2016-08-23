@@ -91,7 +91,7 @@ int nb_arg(size_t *i, char *str, t_cmd *cmd)
 			// printf("on rentre dans le poulet ET C'EST BON\n");
 			return (count);
 		}
-		else if (skip_quotes_nb_arg(str, i, cmd) != NULL) // Sinon  on augmente notre count.
+		else if (str[*i] && skip_quotes_nb_arg(str, i, cmd) != NULL) // Sinon  on augmente notre count.
 		{
 			// printf("J'AIME LE CACA\n");
 			if (tmp_i != *i)

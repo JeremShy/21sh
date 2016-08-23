@@ -8,6 +8,7 @@ void exit_ctrl_d(t_env *env, t_data *data)
 	delete_heredocs(data);
 	delete_list_history(data->history);
 	delete_list_var(data->var);
+	delete_list_auto(data->list_auto);
 	delete_data(data);
 	// free(data->prompt);
 	exit(EXIT_SUCCESS);
