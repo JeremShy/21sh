@@ -141,7 +141,7 @@ int					is_builtin(char *cmd);
 int					exec_builtin(t_cmd *cmd, t_env **env, t_data *data);
 void				change_arg(t_env *list, char *name, char *new_arg);
 char				*find_arg(t_env *list, char *name);
-int					ft_cd(char **scmd, t_env *env, t_data *data);
+int					ft_cd(char **scmd, t_env **env, t_data *data);
 int					isset_arg(t_env *list, char *name);
 void				delete_elem(t_env **list, char *name);
 void				delete_list(t_env *list);
@@ -300,6 +300,6 @@ void				delete_list_var(t_var *list);
 void				reinitialise_heredoc(t_data *data, int flag);
 //------------------------------------------------------------------------------
 
-int cd(char **cmd, t_data *data);
+int cd(char **command, t_env **env, t_data *data, t_cmd *cmd);
 
 #endif

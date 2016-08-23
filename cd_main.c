@@ -1,21 +1,21 @@
 #include <stdlib.h>
 #include <sh21.h>
 
-void		display_not_such(char *who, char *where)
+void		display_not_such(char *who, char *where, t_cmd *cmd)
 {
-	ft_putstr_fd(who, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(where, 2);
-	ft_putstr_fd(": No such file or directory\n", 2);
+	putstr_builtin(cmd, who, 2);
+	putstr_builtin(cmd, ": ", 2);
+	putstr_builtin(cmd, where, 2);
+	putstr_builtin(cmd, ": No such file or directory\n", 2);
 }
 
 
 
-void	display_cd_permission(char *path)
+void	display_cd_permission(char *path, t_cmd *cmd)
 {
-	ft_putstr_fd("cd: ", 2);
-	ft_putstr_fd(path, 2);
-	ft_putstr_fd(": Permission denied\n", 2);
+	putstr_builtin(cmd, "cd: ", 2);
+	putstr_builtin(cmd, path, 2);
+	putstr_builtin(cmd, ": Permission denied\n", 2);
 }
 
 size_t		ft_nstrlen(const char *s)
@@ -206,12 +206,12 @@ char		**ft_lz_strsplit(char *str, char c)
 	return (split);
 }
 
-void	display_cd_invalid_option(char *opt)
+void	display_cd_invalid_option(char *opt, t_cmd *cmd)
 {
-	ft_putstr_fd("cd: ", 2);
-	ft_putstr_fd(opt, 2);
-	ft_putstr_fd(": invalid option\n", 2);
-	ft_putstr_fd("cd: usage: cd [-L OR -P] [dir]\n", 2);
+	putstr_builtin(cmd, "cd: ", 2);
+	putstr_builtin(cmd, opt, 2);
+	putstr_builtin(cmd, ": invalid option\n", 2);
+	putstr_builtin(cmd, "cd: usage: cd [-L OR -P] [dir]\n", 2);
 }
 
 int		is_physical(char *str)
@@ -235,7 +235,7 @@ int		is_minus(char *str)
 	return (0);
 }
 
-int		operate_legal_opts(char **str)
+int		operate_legal_opts(char **str, t_cmd *cmd)
 {
 	size_t	i;
 	int		o;
@@ -252,7 +252,7 @@ int		operate_legal_opts(char **str)
 				return (0);
 			else
 			{
-				display_cd_invalid_option(str[i]);
+				display_cd_invalid_option(str[i], cmd);
 				return (-1);
 			}
 		}
@@ -263,14 +263,14 @@ int		operate_legal_opts(char **str)
 	return (1);
 }
 
-int		is_legal_options(char **str)
+int		is_legal_options(char **str, t_cmd *cmd)
 {
 	int		ret;
 
-	ret = operate_legal_opts(str);
+	ret = operate_legal_opts(str, cmd);
 	if (ret == 0)
 	{
-		ft_putstr_fd("cd: usage: cd [-L OR -P] [dir]\n", 2);
+		putstr_builtin(cmd, "cd: usage: cd [-L OR -P] [dir]\n", 2);
 		return (0);
 	}
 	if (ret == -1)
@@ -313,14 +313,15 @@ int		is_logical_goto_oldpwd(char **str)
 }
 
 
-char	*concat_chdir(char *path, t_data *data)
+char	*concat_chdir(char *path,  t_env **env, t_data *data)
 {
 	char	*dirs;
 	char	*full;
 	char	**dir_l;
 	int		i;
 
-	if ((dirs = find_var_env(data, "CHDIR")))
+	dirs = find_var_env(data, "CHDIR", *env);
+	if (!ft_strequ(dirs, ""))
 	{
 		dir_l = ft_lz_strsplit(dirs, ':');
 		i = 0;
@@ -337,16 +338,18 @@ char	*concat_chdir(char *path, t_data *data)
 		}
 		ft_str2del(dir_l);
 	}
+	else
+		free(dirs);
 	return (NULL);
 }
 
-char	*create_chdir_path(char *path, t_data *data)
+char	*create_chdir_path(char *path, t_env **env, t_data *data)
 {
 	char	*good;
 
 	if (access(path, F_OK) == 0)
 		return (ft_strdup(path));
-	if ((good = concat_chdir(path, data)))
+	if ((good = concat_chdir(path, env, data)))
 		return (good);
 	return (ft_strdup(path));
 }
@@ -377,34 +380,34 @@ char	*remove_duplicate_slash(char *path)
 	}
 }
 
-void	native_full(char *path, char *old_pwd, t_data *data)
+void	native_full(char *path, t_env **env, char *old_pwd)
 {
 	if (chdir(path) == 0)
 	{
-		change_arg(data->env, "OLDPWD", old_pwd);
-		change_arg(data->env, "PWD", path);
+		change_arg(*env, "OLDPWD", old_pwd);
+		change_arg(*env, "PWD", path);
 	}
 }
 
-void	made_full(char *path, char *full, char *old_pwd, t_data *data)
+void	made_full(char *path,  t_env **env, char *full, char *old_pwd)
 {
 	if (chdir(path) == 0)
 	{
-		change_arg(data->env, "OLDPWD", old_pwd);
-		change_arg(data->env, "PWD", full);
+		change_arg(*env, "OLDPWD", old_pwd);
+		change_arg(*env, "PWD", full);
 	}
 	ft_strdel(&full);
 }
 
-void	just_path(char *path, char *old_pwd, t_data *data)
+void	just_path(char *path, t_env **env, char *old_pwd)
 {
 	char	*wd;
 
 	if (chdir(path) == 0)
 	{
-		change_arg(data->env, "OLDPWD", old_pwd);
+		change_arg(*env, "OLDPWD", old_pwd);
 		wd = triple_join(old_pwd, "/", path);
-		change_arg(data->env, "PWD", wd);
+		change_arg(*env, "PWD", wd);
 		free(wd);
 	}
 }
@@ -485,12 +488,12 @@ char	*troncate_dots(char *path)
 	return (str);
 }
 
-void	cd_symblink(char *path, t_data *data)
+void	cd_symblink(char *path,  t_env **env, t_data *data)
 {
 	char	*old_pwd;
 	char	*full;
 
-	old_pwd = find_var_env(data, "PWD");
+	old_pwd = find_var_env(data, "PWD", *env);
 	full = NULL;
 	if (ft_strstr(path, "..") || ft_strstr(path, "./"))
 	{
@@ -498,11 +501,12 @@ void	cd_symblink(char *path, t_data *data)
 		full = troncate_dots(full);
 	}
 	if (path[0] == '/' && !full)
-		native_full(path, old_pwd, data);
+		native_full(path, env, old_pwd);
 	else if (full)
-		made_full(path, full, old_pwd, data);
+		made_full(path, env, full, old_pwd);
 	else
-		just_path(path, old_pwd, data);
+		just_path(path, env, old_pwd);
+	free(old_pwd);
 }
 
 int		is_goto_home(char **command)
@@ -526,7 +530,7 @@ int		is_goto_home(char **command)
 }
 
 
-void		cd_physical(char *path, t_data *data)
+void		cd_physical(char *path, t_env **env, t_data *data, t_cmd *cmd)
 {
 	int		ret;
 	char	*buf_wd;
@@ -534,26 +538,27 @@ void		cd_physical(char *path, t_data *data)
 
 	if ((buf_wd = (char *)malloc(sizeof(char) * 1024)))
 	{
-		old_pwd = find_var_env(data, "PWD");
+		old_pwd = find_var_env(data, "PWD", *env);
 		if ((ret = chdir(path)) == 0)
 		{
-			change_arg(data->env, "OLDPWD", old_pwd);
-			change_arg(data->env, "PWD", getcwd(buf_wd, 1024));
+			change_arg(*env, "OLDPWD", old_pwd);
+			change_arg(*env, "PWD", getcwd(buf_wd, 1024));
 		}
 		else
-			display_cd_permission(path);
+			display_cd_permission(path, cmd);
 		free(buf_wd);
+		free(old_pwd);
 	}
 }
 
-void		change_dir(char *path, t_data *data, int p)
+void		change_dir(char *path, t_env **env, t_data *data, int p, t_cmd *cmd)
 {
 	struct	stat	*st;
 	char		*ready;
 
 	if (path && (st = (struct stat *)malloc(sizeof(struct stat))))
 	{
-		path = create_chdir_path(path, data);
+		path = create_chdir_path(path, env, data);
 		if (lstat(path, st) == 0)
 		{
 			if (p == 0 && (S_ISLNK(st->st_mode)))
@@ -561,31 +566,33 @@ void		change_dir(char *path, t_data *data, int p)
 				if (ft_strlen(path) > 2)
 					ft_remove_endchar(path, '/');
 				ready = remove_duplicate_slash(path);
-				cd_symblink(ready, data);
+				cd_symblink(ready, env, data);
 				ft_strdel(&ready);
 			}
 			else
-				cd_physical(path, data);
+				cd_physical(path, env, data, cmd);
 		}
 		else
-			display_not_such("cd", path);
+			display_not_such("cd", path, cmd);
 		free(st);
 		free(path);
 	}
 }
 
-void		go_to_home_directory(t_data *data)
+void		go_to_home_directory(t_env **env, t_data *data, t_cmd *cmd)
 {
 	char	*home;
 
-	if ((home = (char *)find_var_env(data, "HOME")))
+	home = (char *)find_var_env(data, "HOME", *env);
+	if (!ft_strequ(home, ""))
 	{
-		change_dir(home, data, 0);
+		change_dir(home, env, data, 0, cmd);
 	}
 	else
 	{
 		ft_putendl_fd("cd: HOME not set", 2);
 	}
+	free(home);
 }
 
 char *get_cwd(size_t size)
@@ -618,32 +625,26 @@ char *get_cwd(size_t size)
 }
 
 
-void	go_to_old_pwd(t_data *data, int p)
+void	go_to_old_pwd(t_data *data, t_env **env, int p, t_cmd *cmd)
 {
 	char	*old_pwd;
+	char	*tmp;
 
-	if (find_var_env(data, "OLDPWD"))
+	tmp = find_var_env(data, "OLDPWD", *env);
+	if (!ft_strequ(tmp, ""))
 	{
-		if ((old_pwd = ft_strdup(find_var_env(data, "OLDPWD"))))
+		old_pwd = find_var_env(data, "OLDPWD", *env);
+		if (!ft_strequ(old_pwd, ""))
 		{
-			change_dir(old_pwd, data, p);
-/*			if (shell->l_ret == 0)
-			{
-				ft_putendl(old_pwd);
-			}*/
-			free(old_pwd);
+			change_dir(old_pwd, env, data, p, cmd);
 		}
-		else
-		{
-//			shell->l_ret = 2;
-			;
-		}
+		free(old_pwd);
 	}
 	else
 	{
 		ft_putendl_fd("cd: OLDPWD not set", 2);
-//		shell->l_ret = 1;
 	}
+	free(tmp);
 }
 
 int		is_physical_goto_oldpwd(char **str)
@@ -662,31 +663,28 @@ int		is_physical_goto_oldpwd(char **str)
 	return (0);
 }
 
-int cd(char **command, t_data *data)
+int cd(char **command, t_env **env, t_data *data, t_cmd *cmd)
 {
 	char *cwd;
 
-	if (!is_legal_options(command))
+	if (!is_legal_options(command, cmd))
 		return (-1);
 	cwd = get_cwd(BUF_CWD);
 	if (!cwd)
 		return (-2);
 
 	if (is_goto_home(command))
-		go_to_home_directory(data);
-
+		go_to_home_directory(env, data, cmd);
 	else if (is_logical_goto_oldpwd(command))
-		go_to_old_pwd(data, 0);
+		go_to_old_pwd(data, env, 0, cmd);
 	else if (is_physical_goto_oldpwd(command))
-		go_to_old_pwd(data, 1);
+		go_to_old_pwd(data, env, 1, cmd);
 	else if (ft_strcmp(command[1], "-P") == 0)
-		change_dir(command[2], data, 1);
+		change_dir(command[2], env, data, 1, cmd);
 	else if (ft_strcmp(command[1], "-L") == 0)
-		change_dir(command[2], data, 0);
+		change_dir(command[2], env, data, 0, cmd);
 	else
-		change_dir(command[1], data, 0);
-
-
+		change_dir(command[1], env, data, 0, cmd);
 	free(cwd);
 	return (0);
 }

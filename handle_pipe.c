@@ -32,7 +32,8 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data, int fd)
 			if (in != 0)
 			{
 				dup2(in, 0);
-				close(in);
+			if (in != -2)
+					close(in);
 			}
 			if (out != 1)
 			{
@@ -41,7 +42,8 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data, int fd)
 					dup2(err, 1);
 				else
 					dup2(out, 1);
-				close(out);
+				if (out != -2)
+					close(out);
 			}
 			if (err != 2)
 			{
@@ -49,7 +51,8 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data, int fd)
 					dup2(fd, 2);
 				else
 					dup2(err, 2);
-				close(err);
+				if (err != -2)
+					close(err);
 			}
 			if (in == -2)
 				close(0);

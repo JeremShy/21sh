@@ -107,7 +107,7 @@ int			exec_builtin(t_cmd *cmd, t_env **env, t_data *data)
 {
 	// printf("+-+-+-+-+-+-+-+-+-+ ON PASSE DANS LES BUILTINS\n");
 	if (ft_strequ((cmd->av)[0], "cd"))
-		return (ft_cd((cmd->av), *env, data));
+		return (cd((cmd->av), env, data, cmd));
 	else if (ft_strequ((cmd->av)[0], "env"))
 		return (ft_env(env, cmd, data));
 	else if (ft_strequ((cmd->av)[0], "setenv"))

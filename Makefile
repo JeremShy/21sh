@@ -4,7 +4,6 @@
 	   special_split.c \
 	   utils.c \
 	   builtins.c \
-	   ft_cd.c \
 	   list2.c \
 	   exec.c \
 	   singelton.c \
@@ -50,10 +49,10 @@
 		 signals.c \
 		 delete_list.c \
 		 exit.c \
-		 cd_islegal.c \
-		 cd_main.c \
-		 cd_goto.c \
-		 cd_misc.c
+		 cd_main.c
+		#  cd_misc.c
+		#  cd_islegal.c \
+		# cd_goto.c \
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes
