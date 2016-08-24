@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 16:57:59 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/17 18:16:08 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/08/24 14:33:27 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ t_env *create_tmp_env(t_data *data, t_env *env, char **scmd)
 				tmp_when_we_have_to_do_something[0] = new_elem[0];
 				tmp_when_we_have_to_do_something[1] = ft_strdup("");
 				tmp_when_we_have_to_do_something[2] = NULL;
-				free(new_elem);
+				// free(new_elem);
+				free_char_tab(new_elem);
 				new_elem = tmp_when_we_have_to_do_something;
 			}
 			if (isset_arg(tmp, new_elem[0]))
@@ -67,6 +68,7 @@ t_env *create_tmp_env(t_data *data, t_env *env, char **scmd)
 			else
 				tmp = add_elem_end(tmp, new_elem[0], new_elem[1]);
 			i++;
+			free_char_tab(new_elem);
 		}
 	}
 	return (tmp);
@@ -77,19 +79,26 @@ int	env_tmp_exec(t_env **env, t_data *data, char **scmd, t_cmd *cmd)
 	t_env	*tmp;
 	t_env	*new;
 	char	*new_str;
+	t_cmd	*orig_cmd;
 	int	i;
 
 	i = 0;
+	orig_cmd = data->command;
 	new = create_tmp_env(data, *env, scmd + i);
 	tmp = create_tmp_env(data, *env, scmd + i);
 	while (scmd[i] && ft_strchr(scmd[i], '='))
 		i++;
 	if (scmd[i] && ft_strequ(scmd[i], "env") && !scmd[i + 1])
-		return (print_env(new, cmd));
+	{
+		print_env(new, cmd);
+		delete_list(new);
+		delete_list(tmp);
+		return (0);
+	}
 	new_str = ft_strdup("");
 	while (scmd[i])
 	{
-		new_str = ft_strjoinaf1(new_str, ft_strjoin(" ", scmd[i]));
+		new_str = ft_strjoinaf12(new_str, ft_strjoin(" ", scmd[i]));
 		i++;
 	}
 	if (data->in_env_i == 0)
@@ -101,5 +110,8 @@ int	env_tmp_exec(t_env **env, t_data *data, char **scmd, t_cmd *cmd)
 	}
 	delete_list(new);
 	delete_list(tmp);
+	free(new_str);
+	delete_list_command(data->command);
+	data->command = orig_cmd;
 	return (0);
 }

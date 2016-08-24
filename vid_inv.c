@@ -28,8 +28,6 @@ void	move_left_without_mod(t_data *data)
 		return ;
 	if (data->index_min_win != -1 && data->index_min_win == data->index)
 	{
-		// printf("MDR GROS CON\n");
-		// exec_tcap("vb");
 		return ;
 	}
 	if (get_actual_line(data) > get_prompt_line(data)) // Si on est pas sur la premiere ligne

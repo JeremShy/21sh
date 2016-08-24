@@ -1,7 +1,6 @@
  	SRC_NAME = main.c \
 	   env.c \
 	   list.c \
-	   special_split.c \
 	   utils.c \
 	   builtins.c \
 	   list2.c \
