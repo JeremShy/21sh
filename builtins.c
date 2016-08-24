@@ -15,7 +15,7 @@ int			ft_env(t_env **env, t_cmd *cmd, t_data *data)
 			data->in_env_i = 1;
 		i++;
 	}
-	return (env_tmp_exec(env, data, cmd->av + i, cmd));
+	return (env_tmp_exc(env, data, cmd->av + i, cmd));
 }
 
 int			ft_setenv(char **scmd, t_env **env)

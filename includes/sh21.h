@@ -133,6 +133,11 @@ typedef struct	s_data {
 	char			*absolute_cmd_before_cmd_before_move;
 	int				ret; // Retour de la derniere commande (Pour $?).
 	int				cd_ret; //flemme de changer toutes les fonctions pour le ret de cd
+
+	char			**new_elem; // norminette flemme
+	char			**tmp_when_must_do_something; // norminette flemme
+	int				i; // norminette flemme
+	t_cmd			*orig_cmd; // norminette flemme
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
@@ -260,8 +265,6 @@ char				*history_subsitution_nb_arg(t_data *data, char *command);
 int					is_substitution(char *str, size_t *i, t_cmd *cmd, t_data *data);
 void				history_exit(t_data *data);
 void				ft_autocomplete(t_data *data);
-int					env_tmp_exec(t_env **env, t_data *data, char **scmd, t_cmd *cmd);
-int					print_env(t_env *env, t_cmd *cmd);
 int   			true_var_and_subs(t_data *data, char **str);
 int					ft_setvar(char **scmd, t_data *data, t_cmd *cmd);
 char				*find_var_env(t_data *data, char *name, t_env *env);
@@ -276,11 +279,17 @@ int					ft_unset(char **scmd, t_env **env, t_cmd *cmd, t_data *data);
 int					ft_export(char **scmd, t_env **env, t_cmd *cmd);
 int					get_ret(int status, t_data *data);
 void				signal_handler(void);
-void				jump_all_quote_for_arg(char *str, size_t *i);
 
 // ---------------------------BUILTIN EXIT--------------------------------------
 int					ft_exit_bi(char **scmd, t_env *env, t_data *data);
 void				exit_ctrl_d(t_env *env, t_data *data);
+//------------------------------------------------------------------------------
+
+// ---------------------------BUILTIN ENV---------------------------------------
+int					env_tmp_exc(t_env **env, t_data *d, char **scmd, t_cmd *cmd);
+int					print_env(t_env *new, t_cmd *cmd);
+t_env				*copy_env(t_env *env);
+t_env				*create_tmp_env(t_data *data, t_env *env, char **scmd, int i);
 //------------------------------------------------------------------------------
 
 // -------------------------------LIST------------------------------------------
@@ -297,6 +306,16 @@ void				delete_data(t_data *data);
 void				delete_list_var(t_var *list);
 //------------------------------------------------------------------------------
 
+// ---------------------------AUTOCOMPLETE--------------------------------------
+
+t_auto			*create_auto_elem(char *content);
+t_auto			*add_auto_elem(t_auto *list, t_auto *elem);
+int					is_auto_arg(char *cmd, char **ptr, size_t i, int first_word);
+int					is_empty_border_in_actual_cmd(char *str, size_t i);
+void				jump_all_quote_for_arg(char *str, size_t *i);
+void				init_autocomplete(t_data *data, char **split,
+		char *str_to_equ, char *prefix);
+char		*find_ptr(char *cmd);
 // ---------------------------HEREDOCS------------------------------------------
 void				reinitialise_heredoc(t_data *data, int flag);
 //------------------------------------------------------------------------------
