@@ -30,6 +30,7 @@ t_hc *create_hc_elem (char *content)
 {
 	t_hc	*elem;
 
+	// printf("JE SUIS NILHASARAAAAAAAAAAAAAAAAAAAAAN\n");
 	elem = malloc(sizeof(t_hc));
 	elem->content = content;
 	elem->next = NULL;

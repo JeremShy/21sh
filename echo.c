@@ -10,7 +10,7 @@ int eot(t_cmd *cmd)
 	return (1);
 }
 
-int	special_car(char c, t_cmd *cmd)
+int	special_car(char c, t_cmd *cmd,int *j)
 {
 	if (c == 'a')
 		putchar_builtin(cmd, '\a', 1);
@@ -30,6 +30,11 @@ int	special_car(char c, t_cmd *cmd)
 		putchar_builtin(cmd, '\\', 1);
 	else if (c == 'c')
 		return (1);
+	else
+	{
+		(*j)--;
+		putchar_builtin(cmd, '\\', 1);
+	}
 	return (0);
 }
 
@@ -40,7 +45,6 @@ int ft_echo(char **scmd, t_cmd *cmd)
 	int				j;
 	char			c;
 	(void)			c;
-	// char			*str;
 
 	i = 0;
 	flag = 0;
@@ -57,11 +61,8 @@ int ft_echo(char **scmd, t_cmd *cmd)
 		{
 			if (scmd[i][j] == '\\')
 			{
-				// j++;
-				// if (scmd[i][j] == '\\')
-				// {
 					c = scmd[i][j + 1];
-					if (special_car(scmd[i][j + 1], cmd))
+					if (special_car(scmd[i][j + 1], cmd, &j))
 						return (0);
 					j++;
 				// }

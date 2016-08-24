@@ -3,6 +3,7 @@
 	   list.c \
 	   utils.c \
 	   builtins.c \
+		 builtin_print.c \
 	   list2.c \
 	   exec.c \
 	   singelton.c \
@@ -56,8 +57,26 @@
 		 move.c\
 		 move_simple.c\
 		 get_things.c\
-		 page.c\
 		 words.c\
+		 delete_list_1.c \
+		 delete_list_2.c \
+		 exit.c \
+		 cd_main.c \
+		 cd_function_1.c \
+		 cd_function_2.c \
+		 cd_function_3.c \
+		 cd_function_4.c \
+		 cd_path_1.c \
+		 cd_path_2.c \
+		 cd_is_x_1.c \
+		 cd_is_x_2.c \
+		 cd_print.c \
+		 sigwinch.c \
+		 sigwinch_2.c \
+		 sigint.c \
+		 quote_is.c\
+		 page_down.c\
+		 page_up.c\
 		#  cd_misc.c
 		#  cd_islegal.c \
 		# cd_goto.c \
