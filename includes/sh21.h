@@ -296,6 +296,16 @@ void				delete_data(t_data *data);
 void				delete_list_var(t_var *list);
 //------------------------------------------------------------------------------
 
+// ---------------------------AUTOCOMPLETE--------------------------------------
+
+t_auto			*create_auto_elem(char *content);
+t_auto			*add_auto_elem(t_auto *list, t_auto *elem);
+int					is_auto_arg(char *cmd, char **ptr, size_t i, int first_word);
+int					is_empty_border_in_actual_cmd(char *str, size_t i);
+void				jump_all_quote_for_arg(char *str, size_t *i);
+void				init_autocomplete(t_data *data, char **split,
+		char *str_to_equ, char *prefix);
+char		*find_ptr(char *cmd);
 // ---------------------------HEREDOCS------------------------------------------
 void				reinitialise_heredoc(t_data *data, int flag);
 //------------------------------------------------------------------------------

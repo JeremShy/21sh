@@ -43,6 +43,8 @@
 		 setvar.c \
 		 history_exit.c \
 		 autocomplete.c \
+		 autocomplete_function_1.c \
+		 autocomplete_function_2.c \
 		 unset.c \
 		 export.c \
 		 signals.c \
