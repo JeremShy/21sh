@@ -125,8 +125,14 @@ int		handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs)
 		quote = skip_quotes(str, &tmp, cmd); // on vire les quotes
 		if (!quote)
 			quote = ft_strdup("");
-		if (fd > 2)
+		if (fd > 2 || ft_strequ(quote, ""))
 		{
+			if (ft_strequ(quote, ""))
+			{
+				*i = tmp;
+				free(quote);
+				return (0);
+			}
 			free(quote);
 			return(1);
 		}
@@ -156,9 +162,7 @@ int		handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs)
 				free(quote);
 				return (1);
 			}
-			// printf("value of (*heredocs) = [%s]\n", (*heredocs)->content);
 			write(pipe_tab[1], (*heredocs)->content, ft_strlen((*heredocs)->content));
-			// printf("We write in heredocs : %s\n", (*heredocs)->content);
 			close(pipe_tab[1]);
 			fd_file = pipe_tab[0];
 			*heredocs = (*heredocs)->next;

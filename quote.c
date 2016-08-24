@@ -68,6 +68,34 @@ int 	is_quote_close(char car, char open)
 	return (0);
 }
 
+static int	is_weird_heredoc(char *str, size_t i)
+{
+	while (str[i])
+	{
+		if (is_quote_open(str[i]))
+			get_pos_after_quote(&i, str);
+		else
+		{
+			if (ft_strnequ(str + i, ">>", 2) || ft_strnequ(str + i, "<<", 2)
+				|| str[i] == '<' || str[i] == '>')
+			{
+				i += (str[i + 1] == '<' || str[i + 1] == '>') ? 2 : 1;
+				while (ft_isspace2(str[i]))
+					i++;
+				if (!str[i] || is_sep(&i, str, 0, NULL) || is_redir(&i, str, 0, NULL)
+					|| is_aggr(&i, str, 0) || ft_strnequ(str + i, ">>", 2)
+					|| ft_strnequ(str + i, "<<", 2) || str[i] == '<' || str[i] == '>')
+					return (0);
+				else
+					jump_all_quote_for_arg(str, &i);
+			}
+		}
+		if (str[i])
+			i++;
+	}
+	return (1);
+}
+
 int		is_quote_end(t_data *data)
 {
 	size_t	i;
@@ -99,6 +127,12 @@ int		is_quote_end(t_data *data)
 	// Au dessus : Si y a une quote. En dessous : Si y a un heredoc
 	i = data->end_hd;
 	boucle_cmd = ft_strjoin(data->cmd_tmp, data->cmd);
+	if (!is_weird_heredoc(boucle_cmd, 0))
+	{
+		free(boucle_cmd);
+		ft_putstr_fd("21sh: parse error near '\\n'\n", 2);
+		return (-1);
+	}
 	while (data->c == '\0' && boucle_cmd[i])
 	{
 		if (ft_strnstr(boucle_cmd + i, "<<", 2))
@@ -112,6 +146,7 @@ int		is_quote_end(t_data *data)
 				i++;
 			if (!boucle_cmd[i])
 			{
+				free(boucle_cmd);
 				ft_putstr_fd("21sh: parse error near '\\n'\n", 2);
 				return (-1);
 			}
@@ -119,7 +154,8 @@ int		is_quote_end(t_data *data)
 			if (data->key_here == NULL)
 			{
 				free(boucle_cmd);
-				data->key_here = ft_strdup("");
+				// data->key_here = ft_strdup("");
+				return (0);
 			}
 			data->end_hd = i;
 			if (data->cmd_tmp)
@@ -131,7 +167,8 @@ int		is_quote_end(t_data *data)
 		}
 		i++;
 	}
-	free(boucle_cmd);
+	if (boucle_cmd)
+		free(boucle_cmd);
 	if (data->c)
 	{
 		return (1);

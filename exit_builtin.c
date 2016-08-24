@@ -10,6 +10,7 @@ void reinitialise_heredoc(t_data *data, int flag)
 		data->end_hd = 0;
 		data->quote_or_hd = 0;
 		data->first_line_of_hd = 1;
+		data->quote_old_index = 0;
 	}
 	else
 	{
