@@ -439,7 +439,7 @@ void	boucle(t_env *env, t_data *data)
 			ft_putstr(pb);
 			data->cmd = ft_strjoinaf12(data->cmd, pb);
 		}
-		else if (buf[0] == 12 && buf[1] == 0  && buf[2] == 0 && !data->mode_copy)
+		else if (buf[0] == 12 && buf[1] == 0  && buf[2] == 0 && !data->mode_copy) // CTRL + L
 		{
 			if (data->list_auto)
 			{

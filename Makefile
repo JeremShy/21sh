@@ -24,7 +24,6 @@
 		 exit_builtin.c \
 		 handle_pipe.c \
 		 get_pb.c \
-		 signal.c \
 		 echo.c \
 		 line_2.c \
 		 history_builtin.c \
@@ -50,7 +49,8 @@
 		 exit.c \
 		 cd_main.c \
 		 sigwinch.c \
-		 sigwinch_2.c
+		 sigwinch_2.c \
+		 sigint.c \
 		#  cd_misc.c
 		#  cd_islegal.c \
 		# cd_goto.c \
