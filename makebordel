@@ -1,0 +1,36 @@
+programme  a b c 2>&1 > /dev/null
+
+stderr > stdout
+stdout > /dev/null
+
+programme >/dev/null 2>&1
+
+stdout > /dev/null
+stderr > stdout
+
+ls 1>&2 2> a
+
+stdin : -1
+stdout : 3
+stderr : 3
+
+2>&1
+cmd-> stdin ->> -1
+elem1
+elem1, elem2
+elem1, elem2
+
+MORE THAN ONE FD
+{
+	on fait ls dans le premier
+	on fait ls dans le deuxieme
+}
+
+ls 1>&2 | cat -e
+
+stdin : -1
+stdout : 2
+stderr : -1
+
+ls pouet ls ; caca
+ls pouet
