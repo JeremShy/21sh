@@ -1,10 +1,10 @@
 #include <sh21.h>
 
-void delete_list_fd(t_fd *list)
+void	delete_list_fd(t_fd *list)
 {
 	t_fd *tmp;
 
-	while(list)
+	while (list)
 	{
 		tmp = list->next;
 		free(list);
@@ -12,24 +12,24 @@ void delete_list_fd(t_fd *list)
 	}
 }
 
-void delete_list_auto(t_auto *list)
+void	delete_list_auto(t_auto *list)
 {
- 	t_auto *tmp;
+	t_auto *tmp;
 
- 	while(list)
- 	{
- 		tmp = list->next;
- 		free(list->str);
- 		free(list);
- 		list = tmp;
- 	}
+	while (list)
+	{
+		tmp = list->next;
+		free(list->str);
+		free(list);
+		list = tmp;
+	}
 }
 
-void delete_list_command(t_cmd *list)
+void	delete_list_command(t_cmd *list)
 {
 	t_cmd *tmp;
 
-	while(list)
+	while (list)
 	{
 		tmp = list->next;
 		free_char_tab(list->av);
@@ -41,11 +41,11 @@ void delete_list_command(t_cmd *list)
 	}
 }
 
-void delete_list_history(t_history *list)
+void	delete_list_history(t_history *list)
 {
 	t_history *tmp;
 
-	while(list)
+	while (list)
 	{
 		tmp = list->prec;
 		free(list->line);
@@ -54,7 +54,7 @@ void delete_list_history(t_history *list)
 	}
 }
 
-void delete_data(t_data *data)
+void	delete_data(t_data *data)
 {
 	if (data->prompt)
 		free(data->prompt);
