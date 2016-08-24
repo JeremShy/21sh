@@ -55,7 +55,9 @@
 		 sigint.c \
 		 move.c\
 		 move_simple.c\
-		 get_things.c
+		 get_things.c\
+		 page.c\
+		 words.c\
 		#  cd_misc.c
 		#  cd_islegal.c \
 		# cd_goto.c \
