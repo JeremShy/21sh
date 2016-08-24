@@ -19,21 +19,17 @@ void	display_heredoc(t_hc *elem)
 	int	i;
 
 	i = 0;
-	printf("--- LIST HEREDOC ---\n");
 	while (elem)
 	{
-		printf("N° %d --> [%s]\n", i, elem->content);
 		i++;
 		elem = elem->next;
 	}
-	printf("--- END HEREDOC  ---\n");
 }
 
 t_hc *create_hc_elem (char *content)
 {
 	t_hc	*elem;
 
-	// printf("JE SUIS NILHASARAAAAAAAAAAAAAAAAAAAAAN\n");
 	elem = malloc(sizeof(t_hc));
 	elem->content = content;
 	elem->next = NULL;

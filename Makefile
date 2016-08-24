@@ -25,7 +25,6 @@
 		 handle_pipe.c \
 		 get_pb.c \
 		 echo.c \
-		 line_2.c \
 		 history_builtin.c \
 		 history_flag_none.c \
 		 history_flag_c.c \
