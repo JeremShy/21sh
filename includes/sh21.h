@@ -305,7 +305,9 @@ void				reinitialise_heredoc(t_data *data, int flag);
 void chose_putchar_or_vi_char(t_data *data, int i);
 //------------------------------------------------------------------------------
 
-
+// -----------------------------NORME-------------------------------------------
+void	petit_rectangle(t_data *data);
+// -----------------------------------------------------------------------------
 int cd(char **command, t_env **env, t_data *data, t_cmd *cmd);
 
 #endif

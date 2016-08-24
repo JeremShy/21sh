@@ -13,8 +13,6 @@ void	get_winsize(t_data *data)
 
 void	get_index_min_win(t_data *data)
 {
-	int		rectangle;
-	int		len_prompt_cmd;
 	int		max_cursor;
 
 	if (isatty(0))
@@ -28,23 +26,7 @@ void	get_index_min_win(t_data *data)
 			(data->win_y * data->win_x);
 		return ;
 	}
-	if ((len_prompt_cmd = (data->len_prompt + (int)ft_strlen(data->cmd))) >=
-		(rectangle = (data->win_x * data->win_y)))
-	{
-		data->index_min_win = (int)ft_strlen(data->cmd);
-		rectangle = rectangle - (data->win_x - (len_prompt_cmd % data->win_x));
-		while (rectangle > 0)
-		{
-			data->index_min_win--;
-			rectangle--;
-		}
-		if (data->index_min_win > data->index)
-		{
-			data->index = data->index_min_win;
-		}
-	}
-	else
-		data->index_min_win = -1;
+	petit_rectangle(data);
 }
 
 void	print_command_mod(t_data *data)

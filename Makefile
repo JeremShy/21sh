@@ -49,7 +49,8 @@
 		 delete_list.c \
 		 exit.c \
 		 cd_main.c \
-		 sigwinch.c
+		 sigwinch.c \
+		 sigwinch_2.c
 		#  cd_misc.c
 		#  cd_islegal.c \
 		# cd_goto.c \
