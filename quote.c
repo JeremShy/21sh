@@ -126,7 +126,9 @@ int			is_quote_end(t_data *data)
 		if (data->c == '\0')
 		{
 			if (is_quote_open(b[i]) && !is_escaped_char(b, i))
+			{
 				data->c = b[i];
+			}
 		}
 		else if (is_quote_close(data->c, b[i]) && !is_escaped_char(b, i))
 			data->c = '\0';

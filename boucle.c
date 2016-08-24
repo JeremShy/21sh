@@ -152,7 +152,7 @@ int	create_history(t_data *data, t_env **env)
 	// if (data->cmd[0] == '!')
 	// 	if (get_history_substutition_for_boucle(data, data->cmd + 1) == 0)
 	// 		return (0);
-	if (true_var_and_subs(data, &data->cmd) && data->c != '<' && (i = is_quote_end(data)) >= 0 && (data->cmd[0] != '\0')) // Si la quote est terminée...
+	if (true_var_and_subs(data, &data->cmd) && data->c != '<' && (i = is_quote_end(data)) == 0 && (data->cmd[0] != '\0')) // Si la quote est terminée...
 	{
 		if (data->cmd_tmp[0] == '\0')
 		{
