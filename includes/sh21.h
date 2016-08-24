@@ -276,7 +276,6 @@ int					ft_unset(char **scmd, t_env **env, t_cmd *cmd, t_data *data);
 int					ft_export(char **scmd, t_env **env, t_cmd *cmd);
 int					get_ret(int status, t_data *data);
 void				signal_handler(void);
-void				jump_all_quote_for_arg(char *str, size_t *i);
 
 // ---------------------------BUILTIN EXIT--------------------------------------
 int					ft_exit_bi(char **scmd, t_env *env, t_data *data);
