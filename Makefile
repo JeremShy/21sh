@@ -54,6 +54,9 @@
 		 sigwinch.c \
 		 sigwinch_2.c \
 		 sigint.c \
+		 move.c\
+		 move_simple.c\
+		 get_things.c
 		#  cd_misc.c
 		#  cd_islegal.c \
 		# cd_goto.c \
