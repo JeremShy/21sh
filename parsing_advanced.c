@@ -60,6 +60,22 @@ int		delete_var(char **str, size_t index, size_t length, char *arg)
 	return (1);
 }
 
+void	while_arg_add_backslah(char *arg, int *i, int *j, char *ret)
+{
+	while (arg[*i])
+	{
+		if (is_quote(arg[*i]) || arg[*i] == '$'
+			|| arg[*i] == '!' || arg[*i] == '\\')
+		{
+			ret[*j] = '\\';
+			(*j)++;
+		}
+		ret[*j] = arg[*i];
+		(*j)++;
+		(*i)++;
+	}
+}
+
 char	*arg_add_backslash(char *arg)
 {
 	size_t		count;
@@ -80,18 +96,7 @@ char	*arg_add_backslash(char *arg)
 	ret = malloc(sizeof(char) * (count + 1));
 	i = 0;
 	j = 0;
-	while (arg[i])
-	{
-		if (is_quote(arg[i]) || arg[i] == '$'
-			|| arg[i] == '!' || arg[i] == '\\')
-		{
-			ret[j] = '\\';
-			j++;
-		}
-		ret[j] = arg[i];
-		j++;
-		i++;
-	}
+	while_arg_add_backslah(arg, &i, &j, ret);
 	free(arg);
 	ret[j] = '\0';
 	return (ret);
