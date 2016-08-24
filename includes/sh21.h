@@ -138,6 +138,7 @@ typedef struct	s_data {
 	char			**tmp_when_must_do_something; // norminette flemme
 	int				i; // norminette flemme
 	t_cmd			*orig_cmd; // norminette flemme
+	t_cmd			*cd_cmd; // norminette flemme
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
@@ -327,6 +328,38 @@ void chose_putchar_or_vi_char(t_data *data, int i);
 // -----------------------------NORME-------------------------------------------
 void	petit_rectangle(t_data *data);
 // -----------------------------------------------------------------------------
-int cd(char **command, t_env **env, t_data *data, t_cmd *cmd);
+
+// ---------------------------BUILTIN CD----------------------------------------
+int					cd(char **command, t_env **env, t_data *data, t_cmd *cmd);
+int					is_legal_options(char **str, t_cmd *cmd, t_data *data);
+int					is_goto_home(char **command);
+void				go_to_home_directory(t_env **env, t_data *data);
+int					is_logical_goto_oldpwd(char **str);
+void				go_to_old_pwd(t_data *data, t_env **env, int p);
+void				change_dir(char *path, t_env **env, t_data *data, int p);
+int					is_physical_goto_oldpwd(char **str);
+size_t			ft_nstrlen(const char *s);
+int					ft_count_string(char *str, char c);
+char				**ft_lz_strsplit(char *str, char c);
+char				*triple_join(char *s1, char *s2, char *s3);
+void				ft_str2del(char **array);
+char				*strdup_skip(char *str);
+void				ft_str2defrag(char **array, size_t origin_size);
+size_t			ft_str2len(char **array);
+char				*join_slash(char **s);
+int					is_minus(char *str);
+int					is_physical(char *str);
+int					is_logical(char *str);
+void				display_not_such(char *who, char *where, t_cmd *cmd, t_data *data);
+void				display_cd_permission(char *path, t_cmd *cmd, t_data *data);
+void				display_cd_invalid_option(char *opt, t_cmd *cmd, t_data *data);
+char				*troncate_dots(char *path);
+char				*concat_chdir(char *path, t_env **env, t_data *data, int i);
+void				ft_remove_endchar(char *str, char c);
+char				*remove_duplicate_slash(char *path);
+void				cd_symblink(char *path, t_env **env, t_data *data);
+void				cd_physical(char *path, t_env **env, t_data *data, t_cmd *cmd);
+int					operate_legal_opts(char **str, t_cmd *cmd, t_data *data);
+// -----------------------------------------------------------------------------
 
 #endif

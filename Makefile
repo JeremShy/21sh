@@ -3,6 +3,7 @@
 	   list.c \
 	   utils.c \
 	   builtins.c \
+		 builtin_print.c \
 	   list2.c \
 	   exec.c \
 	   singelton.c \
@@ -51,6 +52,15 @@
 		 delete_list.c \
 		 exit.c \
 		 cd_main.c \
+		 cd_function_1.c \
+		 cd_function_2.c \
+		 cd_function_3.c \
+		 cd_function_4.c \
+		 cd_path_1.c \
+		 cd_path_2.c \
+		 cd_is_x_1.c \
+		 cd_is_x_2.c \
+		 cd_print.c \
 		 sigwinch.c \
 		 sigwinch_2.c \
 		 sigint.c \
