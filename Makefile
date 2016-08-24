@@ -49,7 +49,8 @@
 		 unset.c \
 		 export.c \
 		 signals.c \
-		 delete_list.c \
+		 delete_list_1.c \
+		 delete_list_2.c \
 		 exit.c \
 		 cd_main.c \
 		 cd_function_1.c \
