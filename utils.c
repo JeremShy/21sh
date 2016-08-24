@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 16:51:55 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/08/15 23:11:34 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/08/24 16:06:22 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		is_builtin(char *cmd)
 			return (0);
 	}
 	else if (ft_strequ(cmd, "cd") || ft_strequ(cmd, "setenv") || ft_strequ(cmd, "unsetenv") ||
-			ft_strequ(cmd, "source") || ft_strequ(cmd, "history") || ft_strequ(cmd, "setvar") || ft_strequ(cmd, "unset"))
+			ft_strequ(cmd, "history") || ft_strequ(cmd, "setvar") || ft_strequ(cmd, "unset"))
 		return (1);
 	else
 		return (0);
