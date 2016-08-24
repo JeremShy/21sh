@@ -48,7 +48,8 @@
 		 signals.c \
 		 delete_list.c \
 		 exit.c \
-		 cd_main.c
+		 cd_main.c \
+		 sigwinch.c
 		#  cd_misc.c
 		#  cd_islegal.c \
 		# cd_goto.c \

@@ -1,14 +1,23 @@
 #include <sh21.h>
 
-void 		signal_end_prog(int sig)
+void	signal_end_prog(int sig)
 {
+	t_data *data;
+
 	invert_term();
 	free(singleton_termios(NULL, 0));
-	// TODO: Free data
+	data = singleton_data(NULL, 0);
+	history_exit(data);
+	delete_list(data->env);
+	delete_heredocs(data);
+	delete_list_history(data->history);
+	delete_list_var(data->var);
+	delete_list_auto(data->list_auto);
+	delete_data(data);
 	exit(sig);
 }
 
-void		signal_handler(void)
+void	signal_handler(void)
 {
 	int	i;
 

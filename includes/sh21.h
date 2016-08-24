@@ -301,6 +301,11 @@ void				delete_list_var(t_var *list);
 void				reinitialise_heredoc(t_data *data, int flag);
 //------------------------------------------------------------------------------
 
+// ------------------------------COPY-------------------------------------------
+void chose_putchar_or_vi_char(t_data *data, int i);
+//------------------------------------------------------------------------------
+
+
 int cd(char **command, t_env **env, t_data *data, t_cmd *cmd);
 
 #endif
