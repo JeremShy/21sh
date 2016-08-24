@@ -62,7 +62,12 @@ int			main(int ac, char **av, char **env)
 	}
 	data.env = ft_parse_env(env);
 	data.var = NULL;
-	singleton_termios(init_term(&data), 1); // Mets le term en mode non canonique et tout le bordel
+	if (singleton_termios(init_term(&data), 1) == NULL)
+	{
+		ft_putstr_fd("21sh: Can't find terminal definition. Exiting now.\n", 2);
+		delete_list(data.env);
+		return 0;
+	}
 	signal(SIGINT, sigint);
 	signal(SIGWINCH, sigwinch);
 	get_winsize(&data);
@@ -85,7 +90,7 @@ int			main(int ac, char **av, char **env)
 	data.heredocs = NULL;
 	data.key_here = NULL;
 	data.heredocs_tmp = ft_strdup("");
-	// data.command_save = ft_strdup("");
+	data.command_save = NULL;
 	data.end_hd = 0;
 	data.quote_or_hd = 0;
 	data.first_line_of_hd = 1;
@@ -95,8 +100,10 @@ int			main(int ac, char **av, char **env)
 	data.cmd_before_auto = NULL;
 	data.index_before_auto = 0;
 	data.absolute_cmd_before_auto = NULL;
+	data.absolute_cmd_before_cmd_before_move = NULL;
 	data.index_before_move = 0;
 	data.ret = 0;
+	data.index_max_copy = 0;
 	get_index_min_win(&data);
 	init_history(&data);
 	singleton_data(&data, 1);

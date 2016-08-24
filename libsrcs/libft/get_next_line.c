@@ -3,125 +3,122 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/03 12:34:18 by jcamhi            #+#    #+#             */
-/*   Updated: 2015/12/17 18:09:07 by jcamhi           ###   ########.fr       */
+/*   Created: 2016/02/07 16:20:59 by vsteffen          #+#    #+#             */
+/*   Updated: 2016/08/23 16:42:32 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+#include <unistd.h>
+#include <stdlib.h>
 #include <libft.h>
 
-static t_list	*ft_lstdict(t_list *lst, const int n)
+static t_gnl	*ft_lstdict(t_gnl *lst, const int n)
 {
 	while (lst)
 	{
-		if (lst->content_size == (size_t)n)
+		if (lst->fd == n)
 			return (lst);
 		lst = lst->next;
 	}
 	return (NULL);
 }
 
-static	char	*handle_first_buff(t_list *prec)
+static t_gnl	*gnl_add_elem(t_gnl **list, const int fd)
 {
-	int		i;
-	char	*ret;
+	t_gnl	*beginning;
+	t_gnl	*elem;
 
-	i = 0;
-	if (!prec->content)
-		return (NULL);
-	while (((char*)prec->content)[i] != '\n' &&
-			((char*)prec->content)[i] != '\0')
-		i++;
-	if (((char*)prec->content)[i] == '\n')
+	elem = malloc(sizeof(t_gnl));
+	elem->fd = fd;
+	elem->line = NULL;
+	elem->next = NULL;
+	if (!(*list))
 	{
-		if (i == 0)
-		{
-			ret = ft_strdup((char*)prec->content + 1);
-			prec->content = (void*)ft_strdup(ret);
-			ret = ft_memalloc(1);
-		}
-		else
-		{
-			ret = ft_strsub((char*)prec->content, 0, i);
-			prec->content = (void*)((char*)prec->content + i + 1);
-		}
-		return (ret);
+		*list = elem;
+		return (elem);
+	}
+	beginning = (*list);
+	while ((*list)->next)
+		(*list) = (*list)->next;
+	(*list)->next = elem;
+	*list = beginning;
+	return (elem);
+}
+
+static char		*strjoin_secure(char *s1, char *s2)
+{
+	char	*join;
+
+	if (s1 == NULL && s2 == NULL)
+		return (NULL);
+	if (s1 == NULL)
+	{
+		join = ft_strdup(s2);
+		return (join);
+	}
+	if (s2 == NULL)
+	{
+		join = ft_strdup(s1);
+		ft_strdel(&s1);
+		return (join);
+	}
+	if (s1 != NULL && s2 != NULL)
+	{
+		join = ft_strjoin(s1, s2);
+		ft_strdel(&s1);
+		return (join);
 	}
 	return (NULL);
 }
 
-static int		handle_buffer(t_list *prec, char **ret, int fd, int *r)
+static int		newline_detected(char *stbuff, char **line,
+		int flag, t_gnl **elem)
 {
-	int		i;
-	char	buff[BUFF_SIZE + 1];
+	char			*nl;
 
-	i = -1;
-	while ((*r = read(fd, buff, BUFF_SIZE)) && *r != -1)
+	if (flag == 0)
 	{
-		i = 0;
-		buff[*r] = '\0';
-		while (buff[i] != '\0')
-		{
-			if (buff[i] == '\n')
-			{
-				buff[i] = '\0';
-				*ret = ft_strjoin(*ret, buff);
-				prec->content = (void*)ft_strdup(buff + i + 1);
-				return (1);
-			}
-			i++;
-		}
-		*ret = ft_strjoin(*ret, buff);
+		nl = ft_strchr(stbuff, '\n');
+		*line = ft_strsub(stbuff, 0, nl - stbuff);
+		ft_strcpy(stbuff, nl + 1);
+		return (1);
 	}
-	if (i == -1 || *r == -1)
-		return (-1);
-	return (0);
+	else
+	{
+		*line = ft_strdup((*elem)->line);
+		ft_strdel(&((*elem)->line));
+		return (1);
+	}
 }
 
-static	char	*read_one_line(t_list *prec, int const fd, int *r)
+int				get_next_line(const int fd, char **line)
 {
-	int		i;
-	char	*ret;
+	char			buff[BUFF_SIZE + 1];
+	static t_gnl	*lst = NULL;
+	t_gnl			*elem;
+	int				ret;
 
-	if ((ret = handle_first_buff(prec)))
-		return (ret);
-	ret = ft_strjoin("", (char*)prec->content);
-	i = handle_buffer(prec, &ret, fd, r);
-	if (*r == -1)
-		return (NULL);
-	if (i == 1)
-		return (ret);
-	if (i != -1)
+	if (line == NULL || fd < 0)
+		return (-1);
+	if ((elem = ft_lstdict(lst, fd)) == NULL)
+		elem = gnl_add_elem(&lst, fd);
+	if ((elem->line && ft_strchr(elem->line, '\n') != NULL)
+			&& elem->line && elem->line[0])
+		return (newline_detected(elem->line, line, 0, NULL));
+	while ((ret = read(fd, buff, BUFF_SIZE)) > 0)
 	{
-		prec->content = "";
-		return (ret);
+		buff[ret] = '\0';
+		if ((elem->line = strjoin_secure(elem->line, buff)) == NULL)
+			return (-1);
+		if (ft_strchr(elem->line, '\n') != NULL)
+			return (newline_detected(elem->line, line, 0, NULL));
 	}
+	if (ret == -1)
+		return (-1);
+	if (elem->line && *(elem->line))
+		return (newline_detected(NULL, line, 1, &elem));
 	return (0);
-}
-
-int				get_next_line(int const fd, char **line)
-{
-	static t_list	*list = NULL;
-	t_list			*maillon;
-	int				r;
-
-	maillon = NULL;
-	if (fd < 0 || !line)
-		return (-1);
-	if (list == NULL)
-		list = ft_lstnew("", fd);
-	maillon = ft_lstdict(list, fd);
-	if (!maillon)
-	{
-		maillon = ft_lstnew("", fd);
-		ft_lstadd(&list, maillon);
-	}
-	*line = read_one_line(maillon, fd, &r);
-	if (r == -1)
-		return (-1);
-	if (*line == NULL)
-		return (0);
-	return (1);
 }

@@ -10,6 +10,7 @@ void reinitialise_heredoc(t_data *data, int flag)
 		data->end_hd = 0;
 		data->quote_or_hd = 0;
 		data->first_line_of_hd = 1;
+		data->quote_old_index = 0;
 	}
 	else
 	{
@@ -24,7 +25,10 @@ void reinitialise_heredoc(t_data *data, int flag)
 		data->index = data->old_index;
 		data->real_len_cmd = 0;
 		data->quote_or_hd = 1;
-		data->cmd = data->command_save;
+		data->cmd = ft_strdup(data->command_save);
+			if (data->command_save)
+			free(data->command_save);
+		data->command_save = NULL;
 	}
 	if (data->key_here)
 	{
@@ -65,7 +69,11 @@ int	ft_exit_bi(char **scmd, t_env *env, t_data *data)
 	delete_list_history(data->history);
 	if (data->command)
 		delete_list_command(data->command);
-	free(data->prompt);
+	// delete_list_env_and_var(data);
+	delete_list_var(data->var);
+	delete_list_auto(data->list_auto);
+	delete_data(data);
+	// free(data->prompt);
 	if (tmp != -1)
 	{
 		exit(tmp);

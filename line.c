@@ -154,16 +154,11 @@ void	move_left(t_data *data)
 		exec_tcap("vb");
 		return ;
 	}
-	if (data->cmd_before_auto)
-		free(data->cmd_before_auto);
-	data->cmd_before_auto = NULL;
-	if (data->absolute_cmd_before_auto)
-		free(data->absolute_cmd_before_auto);
-	data->absolute_cmd_before_auto = NULL;
-	data->index_before_auto = 0;
-	data->index_before_move = 0;
-	// TODO : Free la list_auto;
-	data->list_auto = NULL;
+	if (data->list_auto)
+	{
+		delete_list_auto(data->list_auto);
+		data->list_auto = NULL;
+	}
 	if (data->mode_copy && data->index == data->index_max_copy && data->index_min_copy != data->index_max_copy) // Le left quand on est à droite (#Nicolas_Sarkozy)
 	{
 		ft_putchar(data->cmd[data->index]);
@@ -203,16 +198,11 @@ void move_right(t_data *data)
 		exec_tcap("vb");
 		return ;
 	}
-	if (data->cmd_before_auto)
-		free(data->cmd_before_auto);
-	data->cmd_before_auto = NULL;
-	if (data->absolute_cmd_before_auto)
-		free(data->absolute_cmd_before_auto);
-	data->absolute_cmd_before_auto = NULL;
-	data->index_before_auto = 0;
-	data->index_before_move = 0;
-	// TODO : Free la list_auto;
-	data->list_auto = NULL;
+	if (data->list_auto)
+	{
+		delete_list_auto(data->list_auto);
+		data->list_auto = NULL;
+	}
 	if (data->mode_copy && data->index == data->index_min_copy && data->index_min_copy != data->index_max_copy)
 	{
 		ft_putchar(data->cmd[data->index]);

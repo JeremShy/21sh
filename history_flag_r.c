@@ -15,7 +15,7 @@ int history_flag_r(t_data *data, char *scmd, t_cmd *cmd)
 	while (get_next_line(data->history_fd, &line) == 1)
 	{
 		get_history_command_part(line);
-		data->history = add_history_elem(data->history, create_history_elem(ft_strdup(line + get_history_command_part(line))));
+		data->history = add_history_elem(data->history, create_history_elem(line + get_history_command_part(line)));
 		data->history->time = ft_atoi(line);// HOTFIXE DEGUEULASSE CAR FLEMME DE CHANGER LES HEADERS POUR RAJOUTER LE TIME DU FICHIER
     free(line);
 	}

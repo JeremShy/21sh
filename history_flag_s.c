@@ -51,7 +51,7 @@ int history_flag_s(t_data *data, char **scmd)
   j = 0;
   while (scmd[j] != NULL)
   {
-    data->history = add_history_elem(data->history, create_history_elem(ft_strdup(scmd[j])));
+    data->history = add_history_elem(data->history, create_history_elem(scmd[j]));
     j++;
   }
   return (0);

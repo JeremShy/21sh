@@ -34,30 +34,26 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 	elem->fd_in = create_fd(-1, -1); // On initialise les trois fds.
 	elem->fd_out = create_fd(-1, -1);
 	elem->fd_err = create_fd(-1, -1);
-	// printf("str : [%s]\n", str);
 	elem->p_error	= 0;
 	elem->error = 0;
 	elem->sep = NONE;
-	// printf("STR3 = [%s]\n", str);
 	if (split_cmd(count, &str, elem, heredocs) == -1)
 	{
-		//faire quelque
-		printf("ARGH\n");
+		delete_list_fd(elem->fd_in);
+		delete_list_fd(elem->fd_out);
+		delete_list_fd(elem->fd_err);
+		free(elem);
+		free(str);
 		return (NULL);
 	}
-	// printf("sep : %d\n", elem->sep);
-	// printf("on cree une liste.\n");
 	elem->next = NULL;
-	// print_list(elem);
 	if (elem->fd_in->fd == -1)
 		elem->fd_in->fd = 0;
 	if (elem->fd_out->fd == -1)
 		elem->fd_out->fd = 1;
 	if (elem->fd_err->fd == -1)
 		elem->fd_err->fd = 2;
-	// printf("KUKOU, CA FREEZ\n");
  	free(str);
-	// print_fd_list(elem);
 	return (elem);
 }
 

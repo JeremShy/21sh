@@ -27,16 +27,13 @@ void	move_left_without_mod(t_data *data)
 	if (data->index == 0 || data->cmd[data->index - 1] == '\n')
 		return ;
 	if (data->index_min_win != -1 && data->index_min_win == data->index)
-	{
-		printf("MDR GROS CON\n");
-		exec_tcap("vb");
 		return ;
-	}
-	if (get_actual_line(data) > get_prompt_line(data)) // Si on est pas sur la premiere ligne
+	if (get_actual_line(data) > get_prompt_line(data))
 	{
 		if (get_actual_cursor(data) > 0)
 			move_left_simple(data);
-		else if (get_actual_cursor(data) == 0 && data->index == (int)ft_strlen(data->cmd))
+		else if (get_actual_cursor(data) == 0
+			&& data->index == (int)ft_strlen(data->cmd))
 		{
 			move_left_simple(data);
 			exec_tcap("nd");
@@ -47,22 +44,21 @@ void	move_left_without_mod(t_data *data)
 	else
 	{
 		if (data->index > 0)
-		{
 			move_left_simple(data);
-		}
 		else
 			exec_tcap("vb");
 	}
 }
 
-void move_right_without_mod(t_data *data)
+void	move_right_without_mod(t_data *data)
 {
 	if (data->index == (int)ft_strlen(data->cmd))
 	{
 		exec_tcap("vb");
 		return ;
 	}
-	if (get_actual_cursor(data) + 1 == data->win_x && data->index == (int)ft_strlen(data->cmd) - 1)
+	if (get_actual_cursor(data) + 1 == data->win_x
+		&& data->index == (int)ft_strlen(data->cmd) - 1)
 	{
 		ft_putchar(data->cmd[data->index]);
 		data->index++;

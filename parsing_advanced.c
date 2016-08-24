@@ -122,16 +122,18 @@ void   is_var_and_replace(t_data *data, char **str, size_t *index)
   size_t  length;
   char    *arg;
   char    tmp_char;
-  size_t  real_length; // Length de la variable ajouté avec ou non backslash
+	size_t	index_begin;
 
   if (!is_escaped_char(*str, *index) && (*str)[*index] == '$')
   {
+		index_begin = *index;
+		printf("JE SUIS PASSE PAR TA MERE\n");
     length = *index + 1;
 		if ((*str)[*index + 1] == '?')
 		{
 			length++;
 			arg = ft_strdup(ft_itoa_base(data->ret, 10));
-			real_length = delete_var_and_replace(str, *index, length, arg);
+			delete_var_and_replace(str, *index, length, arg);
 			return ;
 		}
     while (ft_isalnum((*str)[length]))
@@ -148,12 +150,14 @@ void   is_var_and_replace(t_data *data, char **str, size_t *index)
     }
     if (ft_strequ(arg, ""))
     {
-      real_length = delete_var(str, *index + 1, length, arg);
-      // printf("str = [%s]\n", *str);
+      delete_var(str, *index + 1, length, arg);
+			*index = index_begin;
+			return ;
+			// printf("str = [%s]\n", *str);
     }
     else
     {
-      real_length = delete_var_and_replace(str, *index, length, arg);
+      delete_var_and_replace(str, *index, length, arg);
       // printf("str = [%s]\n", *str);
     }
     *index = length - (*index + 1);
@@ -211,6 +215,7 @@ int   is_subs_and_replace(t_data *data, char **str, size_t *index, int flag)
   char    *arg;
   // int     line_number;
   int     flag_special;
+	(void)     flag_special;
 
   length = *index + 1;
   flag_special = 0;
@@ -270,7 +275,7 @@ int   is_tilde_and_replace(t_data *data, char **str, size_t *index)
   char    *home;
   char    *tmp;
 
-  if (!is_escaped_char(*str, *index) && ((*str)[*index] == '~' && (ft_isspace2((*str)[*index]) || (*str)[*index + 1] == '/' || (*str)[*index + 1] == '\0')))
+  if (((*str)[*index] == '~' && !is_escaped_char(*str, *index) && (ft_isspace2((*str)[*index]) || (*str)[*index + 1] == '/' || (*str)[*index + 1] == '\0')))
   {
     home = find_var_env(data, "HOME", data->env);
     if (home)
@@ -297,8 +302,6 @@ int   true_var_and_subs(t_data *data, char **str)
   // char    *new_str;
   size_t  index;
   char    open_quote;
-  size_t  tmp_index; // flag qui sert a ne passer qu'une fois dans is_var et is_subs si un des deux est ok + reanalyser le premier caractere de la chaine obtenue
-  size_t  first_true_char;
 
   // old_str = ft_strdup(*str);
   index = 0;
@@ -307,10 +310,10 @@ int   true_var_and_subs(t_data *data, char **str)
   {
     while (ft_isspace2((*str)[index]))
 			index++;
-    first_true_char = 0;
-    while (!ft_isspace2((*str)[index]) && (*str)[index])
+		if (!(*str)[index])
+			continue ;
+    while ((*str)[index] && !ft_isspace2((*str)[index]))
     {
-      tmp_index = index;
       if (open_quote == '\0' && is_quote_true_open((*str)[index], *str, index)) // Si on tombe sur une quote pas echappée
       {
         open_quote = (*str)[index];
@@ -319,24 +322,26 @@ int   true_var_and_subs(t_data *data, char **str)
       {
         open_quote = '\0';
       }
-      else if (open_quote == '\0') // Variables hors d'une quote
+      else if (open_quote == '\0' && (*str)[index]) // Variables hors d'une quote
       {
         if (is_subs_and_replace(data, str, &index, 0) == 0)
           return (0);
-        if (data->flag_enter) // sert a ne pas entrer dans is_var si on est entré dans is_subs
+        if (data->flag_enter && (*str)[index]) // sert a ne pas entrer dans is_var si on est entré dans is_subs
         {
           is_var_and_replace(data, str, &index);
-          is_tilde_and_replace(data, str, &index);
+					if ((*str)[index])
+          	is_tilde_and_replace(data, str, &index);
         }
       }
-      else if (open_quote == '"') // Variables dans une quote
+      else if (open_quote == '"' && (*str)[index]) // Variables dans une quote
       {
         if (is_subs_and_replace(data, str, &index, 1) == 0)
           return (0);
-        if (data->flag_enter) // sert a ne pas entrer dans is_var si on est entré dans is_subs
+        if (data->flag_enter && (*str)[index]) // sert a ne pas entrer dans is_var si on est entré dans is_subs
           is_var_and_replace(data, str, &index);
       }
-      index++;
+			if ((*str)[index])
+      	index++;
     }
   }
   return (1);

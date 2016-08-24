@@ -19,6 +19,12 @@
 # define	POINT_VIRGULE ';'
 # define	ETET (char)1
 # define	OUOU (char)2
+# define	ERR_GETOLDWD "Error: Get OLDPWD\n"
+# define	ERR_GETCWD "Error: Get PWD\n"
+# define	BUF_CWD 1024
+# define	BUF_CWD_MAX BUF_CWD * 1024
+# define	BUF_CWD_ERR "Error in Get CWD\n"
+
 
 # undef tab
 
@@ -123,7 +129,15 @@ typedef struct	s_data {
 	int				index_in_word_before_auto; // Index dans le mot avant l'autocompletion (pour ls pou<tab>, ca va etre 3 par exemple);
 	char			*absolute_cmd_before_auto; //Veritable cmd au cas ou l'index n'est pas au bout;
 	int				index_before_move;
+	int				absolute_index_before_move;
+	char			*absolute_cmd_before_cmd_before_move;
 	int				ret; // Retour de la derniere commande (Pour $?).
+	int				cd_ret; //flemme de changer toutes les fonctions pour le ret de cd
+
+	char			**new_elem; // norminette flemme
+	char			**tmp_when_must_do_something; // norminette flemme
+	int				i; // norminette flemme
+	t_cmd			*orig_cmd; // norminette flemme
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
@@ -133,7 +147,7 @@ int					is_builtin(char *cmd);
 int					exec_builtin(t_cmd *cmd, t_env **env, t_data *data);
 void				change_arg(t_env *list, char *name, char *new_arg);
 char				*find_arg(t_env *list, char *name);
-int					ft_cd(char **scmd, t_env *env, t_data *data);
+int					ft_cd(char **scmd, t_env **env, t_data *data);
 int					isset_arg(t_env *list, char *name);
 void				delete_elem(t_env **list, char *name);
 void				delete_list(t_env *list);
@@ -179,7 +193,7 @@ t_fd				*create_fd(int fd, int fd_pointe);
 int					split_cmd(int count, char **str, t_cmd *cmd, t_hc **heredocs);
 char				*skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd);
 int					is_empty(char *str, size_t *i);
-char				*handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs);
+int					handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs);
 t_fd				*copy_list_fd(t_fd *list);
 t_fd				*copy_fd(t_fd *list);
 int					handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd);
@@ -251,8 +265,6 @@ char				*history_subsitution_nb_arg(t_data *data, char *command);
 int					is_substitution(char *str, size_t *i, t_cmd *cmd, t_data *data);
 void				history_exit(t_data *data);
 void				ft_autocomplete(t_data *data);
-int					env_tmp_exec(t_env **env, t_data *data, char **scmd, t_cmd *cmd);
-int					print_env(t_env *env, t_cmd *cmd);
 int   			true_var_and_subs(t_data *data, char **str);
 int					ft_setvar(char **scmd, t_data *data, t_cmd *cmd);
 char				*find_var_env(t_data *data, char *name, t_env *env);
@@ -267,11 +279,17 @@ int					ft_unset(char **scmd, t_env **env, t_cmd *cmd, t_data *data);
 int					ft_export(char **scmd, t_env **env, t_cmd *cmd);
 int					get_ret(int status, t_data *data);
 void				signal_handler(void);
-void				jump_all_quote_for_arg(char *str, size_t *i);
 
 // ---------------------------BUILTIN EXIT--------------------------------------
 int					ft_exit_bi(char **scmd, t_env *env, t_data *data);
 void				exit_ctrl_d(t_env *env, t_data *data);
+//------------------------------------------------------------------------------
+
+// ---------------------------BUILTIN ENV---------------------------------------
+int					env_tmp_exc(t_env **env, t_data *d, char **scmd, t_cmd *cmd);
+int					print_env(t_env *new, t_cmd *cmd);
+t_env				*copy_env(t_env *env);
+t_env				*create_tmp_env(t_data *data, t_env *env, char **scmd, int i);
 //------------------------------------------------------------------------------
 
 // -------------------------------LIST------------------------------------------
@@ -283,9 +301,32 @@ void				delete_list_command(t_cmd *list);
 void				delete_list_history(t_history *list);
 void				delete_heredocs(t_data *data);
 void				delete_list_auto(t_auto *list);
+void				delete_list_env_and_var(t_data *data);
+void				delete_data(t_data *data);
+void				delete_list_var(t_var *list);
 //------------------------------------------------------------------------------
 
+// ---------------------------AUTOCOMPLETE--------------------------------------
+
+t_auto			*create_auto_elem(char *content);
+t_auto			*add_auto_elem(t_auto *list, t_auto *elem);
+int					is_auto_arg(char *cmd, char **ptr, size_t i, int first_word);
+int					is_empty_border_in_actual_cmd(char *str, size_t i);
+void				jump_all_quote_for_arg(char *str, size_t *i);
+void				init_autocomplete(t_data *data, char **split,
+		char *str_to_equ, char *prefix);
+char		*find_ptr(char *cmd);
 // ---------------------------HEREDOCS------------------------------------------
 void				reinitialise_heredoc(t_data *data, int flag);
 //------------------------------------------------------------------------------
+
+// ------------------------------COPY-------------------------------------------
+void chose_putchar_or_vi_char(t_data *data, int i);
+//------------------------------------------------------------------------------
+
+// -----------------------------NORME-------------------------------------------
+void	petit_rectangle(t_data *data);
+// -----------------------------------------------------------------------------
+int cd(char **command, t_env **env, t_data *data, t_cmd *cmd);
+
 #endif

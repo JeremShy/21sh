@@ -79,7 +79,7 @@ int	history_flag_file(t_data *data, char **scmd, t_cmd *cmd)
 		if (history_flag_w(data, scmd[0]) == 1)
 			return (1);
 	if (data->history_flag[4])
-		if (history_flag_r(data, scmd[0], cmd) == 1)
+	 	if (history_flag_r(data, scmd[0], cmd) == 1)
 			return (1);
 	if (data->history_flag[5])
 		if (history_flag_n(data, scmd[0], cmd) == 1)

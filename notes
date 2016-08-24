@@ -23,8 +23,23 @@ Alt + V       : -30 - -120 - -102 - 0 - 0 - 0
 Alt - M       :-62 - -75 - 0 - 0 - 0 - 0 // Mode copie
 Alt + gauche	: 27 - 27 - 91 - 68 - 0 // Deplacement mot à mot vers la gauche
 Alt + droite	: 27 - 27 - 91 - 67 - 0 // Deplacement mot à mot vers la droite
+Tab						:	9 - 0 - 0 - 0 - 0 - 0 // Autocompletion
+Shift + Tab		: 27 - 91 - 90 - 0 - 0 - 0
+
 PIPES :
 http://stackoverflow.com/questions/8082932/connecting-n-commands-with-pipes-in-a-shell
+
+QUOTES WITH VAR, SUBS AND BACKSLASH :
+---> VAR : 
+- no quote et dquote : interpretation lorsque alphanum apres $
+- quote : pas de changement
+---> SUBS :
+- no quote et dquote : interpretation dans tous les cas jusqu'a espace, quote fermante (! : prends TOUS les autres en compte)
+- quote : pas d'interpretation
+---> BACKSLASH : 
+- no quote : interprete tous les cas et disparait
+- quote : interprete aucun cas et ne disparait pas
+- dquote : interprete tous les cas MAIS disparait pour les dquote et $
 
 
 TERMCAPS :

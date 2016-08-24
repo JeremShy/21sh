@@ -15,7 +15,7 @@ int			ft_env(t_env **env, t_cmd *cmd, t_data *data)
 			data->in_env_i = 1;
 		i++;
 	}
-	return (env_tmp_exec(env, data, cmd->av + i, cmd));
+	return (env_tmp_exc(env, data, cmd->av + i, cmd));
 }
 
 int			ft_setenv(char **scmd, t_env **env)
@@ -107,7 +107,7 @@ int			exec_builtin(t_cmd *cmd, t_env **env, t_data *data)
 {
 	// printf("+-+-+-+-+-+-+-+-+-+ ON PASSE DANS LES BUILTINS\n");
 	if (ft_strequ((cmd->av)[0], "cd"))
-		return (ft_cd((cmd->av), *env, data));
+		return (cd((cmd->av), env, data, cmd));
 	else if (ft_strequ((cmd->av)[0], "env"))
 		return (ft_env(env, cmd, data));
 	else if (ft_strequ((cmd->av)[0], "setenv"))
