@@ -1,7 +1,12 @@
-
 #include <sh21.h>
 
-int		get_history_path_anrw(t_data *data, char **path, char *scmd)
+static void	get_history_path_anrw_last_if(char **path, char *history_name)
+{
+	*path = ft_strjoinaf1(*path, "/");
+	*path = ft_strjoinaf1(*path, history_name);
+}
+
+int			get_history_path_anrw(t_data *data, char **path, char *scmd)
 {
 	char	*history_name;
 
@@ -13,28 +18,31 @@ int		get_history_path_anrw(t_data *data, char **path, char *scmd)
 	}
 	else
 	{
-    history_name = find_var_env(data, "HISTFILE", data->env);
-    if (scmd != NULL)
-    {
-      *path = ft_strjoinaf1(*path, "/");
-      *path = ft_strjoinaf1(*path, scmd);
-    }
-    else if (history_name[0] == '\0')
-      *path = ft_strjoinaf1(*path, "/42sh_history");
-    else
-    {
-      *path = ft_strjoinaf1(*path, "/");
-      *path = ft_strjoinaf1(*path, history_name);
-    }
-    free(history_name);
+		history_name = find_var_env(data, "HISTFILE", data->env);
+		if (scmd != NULL)
+		{
+			*path = ft_strjoinaf1(*path, "/");
+			*path = ft_strjoinaf1(*path, scmd);
+		}
+		else if (history_name[0] == '\0')
+			*path = ft_strjoinaf1(*path, "/42sh_history");
+		else
+			get_history_path_anrw_last_if(path, history_name);
+		free(history_name);
 	}
 	return (0);
 }
 
-int history_flag_a(t_data *data, char *scmd)
+static void	write_in_file_and_free_path(char **path, int fd)
 {
-  char			*path;
-	int				fd;
+	write(fd, *path, ft_strlen(*path));
+	free(*path);
+}
+
+int			history_flag_a(t_data *data, char *scmd)
+{
+	char		*path;
+	int			fd;
 	t_history	*history;
 
 	if (get_history_path_anrw(data, &path, scmd) == 1)
@@ -53,10 +61,9 @@ int history_flag_a(t_data *data, char *scmd)
 		path = ft_strjoinaf1(path, ";");
 		path = ft_strjoinaf1(path, history->line);
 		path = ft_strjoinaf1(path, "\n");
-		write(fd, path, ft_strlen(path));
-		free(path);
+		write_in_file_and_free_path(&path, fd);
 		history = history->next;
 	}
 	close(fd);
-  return (0);
+	return (0);
 }

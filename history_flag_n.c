@@ -1,4 +1,3 @@
-
 #include <sh21.h>
 
 int   get_current_time(void)
