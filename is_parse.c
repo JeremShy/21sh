@@ -52,7 +52,8 @@ char	*is_redir(size_t *i, char *str, int jump, t_cmd	*cmd)
 			tmp++;
 		if (is_empty(str, &tmp)) // Si la chaine est vide, on parse error (ls <           			)
 		{
-			cmd->p_error = 1;
+			if (cmd)
+				cmd->p_error = 1;
 			return (NULL);
 		}
 		quote = skip_quotes_nb_arg(str, &tmp, cmd); // On enleve les quotes.

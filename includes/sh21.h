@@ -133,6 +133,12 @@ typedef struct	s_data {
 	char			*absolute_cmd_before_cmd_before_move;
 	int				ret; // Retour de la derniere commande (Pour $?).
 	int				cd_ret; //flemme de changer toutes les fonctions pour le ret de cd
+
+	char			**new_elem; // norminette flemme
+	char			**tmp_when_must_do_something; // norminette flemme
+	int				i; // norminette flemme
+	t_cmd			*orig_cmd; // norminette flemme
+	t_cmd			*cd_cmd; // norminette flemme
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
@@ -204,7 +210,6 @@ char				*find_exec(char *scmd, t_data *data, t_env *env);
 int					fork_pipes(t_cmd *cmd, t_env *env, t_data *data);
 char				*get_pb(void);
 int					is_empty_border(char *str, size_t beg, size_t end);
-int					is_parse_error(char *str);
 void				get_pos_after_quote(size_t *i, char *str);
 void				close_fd_cmd(t_cmd *cmd);
 void				close_fd(t_fd *fd);
@@ -240,11 +245,12 @@ void				previous_word(t_data *data);
 void				next_word(t_data *data);
 void				init_history(t_data *data);
 int					ft_history(char **scmd, t_data *data, t_cmd *cmd);
-void				init_flag(t_data *data);
+int					get_history_flag(t_data *data, char **scmd, int *j, t_cmd *cmd);
 int					get_history_command_part(char *line);
 int					get_history_path(t_data *data, char **path);
 int					get_history_fd(t_data *data);
 int					history_flag_none(t_data *data, char **scmd, t_cmd *cmd);
+void				print_line_info(t_history *list, int i, int flg, t_cmd *cmd);
 int					history_flag_c(t_data *data);
 int					history_flag_d(t_data *data, char **scmd, t_cmd *cmd);
 int					get_history_path_anrw(t_data *data, char **path, char *scmd);
@@ -260,13 +266,11 @@ char				*history_subsitution_nb_arg(t_data *data, char *command);
 int					is_substitution(char *str, size_t *i, t_cmd *cmd, t_data *data);
 void				history_exit(t_data *data);
 void				ft_autocomplete(t_data *data);
-int					env_tmp_exec(t_env **env, t_data *data, char **scmd, t_cmd *cmd);
-int					print_env(t_env *env, t_cmd *cmd);
 int   			true_var_and_subs(t_data *data, char **str);
 int					ft_setvar(char **scmd, t_data *data, t_cmd *cmd);
 char				*find_var_env(t_data *data, char *name, t_env *env);
 int  			 	is_escaped_char(char *str, int index);
-int					is_pipe_e_parse_error(char *str);
+int					is_pipe_error(char *str, size_t i, int first_char, int last_spe_char);
 void				putstr_builtin(t_cmd *cmd, char *str, int fd);
 void				putendl_builtin(t_cmd *cmd, char *str, int fd);
 void				putchar_builtin(t_cmd *cmd, char car, int fd);
@@ -276,11 +280,18 @@ int					ft_unset(char **scmd, t_env **env, t_cmd *cmd, t_data *data);
 int					ft_export(char **scmd, t_env **env, t_cmd *cmd);
 int					get_ret(int status, t_data *data);
 void				signal_handler(void);
-void				jump_all_quote_for_arg(char *str, size_t *i);
+int					is_wrong_pipe(char *str, int index);
 
 // ---------------------------BUILTIN EXIT--------------------------------------
 int					ft_exit_bi(char **scmd, t_env *env, t_data *data);
 void				exit_ctrl_d(t_env *env, t_data *data);
+//------------------------------------------------------------------------------
+
+// ---------------------------BUILTIN ENV---------------------------------------
+int					env_tmp_exc(t_env **env, t_data *d, char **scmd, t_cmd *cmd);
+int					print_env(t_env *new, t_cmd *cmd);
+t_env				*copy_env(t_env *env);
+t_env				*create_tmp_env(t_data *data, t_env *env, char **scmd, int i);
 //------------------------------------------------------------------------------
 
 // -------------------------------LIST------------------------------------------
@@ -297,10 +308,59 @@ void				delete_data(t_data *data);
 void				delete_list_var(t_var *list);
 //------------------------------------------------------------------------------
 
+// ---------------------------AUTOCOMPLETE--------------------------------------
+
+t_auto			*create_auto_elem(char *content);
+t_auto			*add_auto_elem(t_auto *list, t_auto *elem);
+int					is_auto_arg(char *cmd, char **ptr, size_t i, int first_word);
+int					is_empty_border_in_actual_cmd(char *str, size_t i);
+void				jump_all_quote_for_arg(char *str, size_t *i);
+void				init_autocomplete(t_data *data, char **split,
+		char *str_to_equ, char *prefix);
+char		*find_ptr(char *cmd);
 // ---------------------------HEREDOCS------------------------------------------
 void				reinitialise_heredoc(t_data *data, int flag);
 //------------------------------------------------------------------------------
 
-int cd(char **command, t_env **env, t_data *data, t_cmd *cmd);
+// ------------------------------COPY-------------------------------------------
+void chose_putchar_or_vi_char(t_data *data, int i);
+//------------------------------------------------------------------------------
+
+// -----------------------------NORME-------------------------------------------
+void	petit_rectangle(t_data *data);
+// -----------------------------------------------------------------------------
+
+// ---------------------------BUILTIN CD----------------------------------------
+int					cd(char **command, t_env **env, t_data *data, t_cmd *cmd);
+int					is_legal_options(char **str, t_cmd *cmd, t_data *data);
+int					is_goto_home(char **command);
+void				go_to_home_directory(t_env **env, t_data *data);
+int					is_logical_goto_oldpwd(char **str);
+void				go_to_old_pwd(t_data *data, t_env **env, int p);
+void				change_dir(char *path, t_env **env, t_data *data, int p);
+int					is_physical_goto_oldpwd(char **str);
+size_t			ft_nstrlen(const char *s);
+int					ft_count_string(char *str, char c);
+char				**ft_lz_strsplit(char *str, char c);
+char				*triple_join(char *s1, char *s2, char *s3);
+void				ft_str2del(char **array);
+char				*strdup_skip(char *str);
+void				ft_str2defrag(char **array, size_t origin_size);
+size_t			ft_str2len(char **array);
+char				*join_slash(char **s);
+int					is_minus(char *str);
+int					is_physical(char *str);
+int					is_logical(char *str);
+void				display_not_such(char *who, char *where, t_cmd *cmd, t_data *data);
+void				display_cd_permission(char *path, t_cmd *cmd, t_data *data);
+void				display_cd_invalid_option(char *opt, t_cmd *cmd, t_data *data);
+char				*troncate_dots(char *path);
+char				*concat_chdir(char *path, t_env **env, t_data *data, int i);
+void				ft_remove_endchar(char *str, char c);
+char				*remove_duplicate_slash(char *path);
+void				cd_symblink(char *path, t_env **env, t_data *data);
+void				cd_physical(char *path, t_env **env, t_data *data, t_cmd *cmd);
+int					operate_legal_opts(char **str, t_cmd *cmd, t_data *data);
+// -----------------------------------------------------------------------------
 
 #endif

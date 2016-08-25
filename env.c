@@ -1,6 +1,6 @@
 #include <sh21.h>
 
-static t_env	*parse_line(t_env *ret, char *env)
+static t_env		*parse_line(t_env *ret, char *env)
 {
 	char	**split;
 
@@ -21,7 +21,7 @@ static t_env	*parse_line(t_env *ret, char *env)
 	return (ret);
 }
 
-char	*get_path(void)
+static char			*get_path(void)
 {
 	char	path[255];
 	int		r;
@@ -43,7 +43,7 @@ char	*get_path(void)
 	return (ft_strdup(path));
 }
 
-int	var_exist(char **env, char *check)
+static int			var_exist(char **env, char *check)
 {
 	int	i;
 
@@ -57,7 +57,7 @@ int	var_exist(char **env, char *check)
 	return (0);
 }
 
-static t_env	*init_list_no_env(char **env)
+static t_env		*init_list_no_env(char **env)
 {
 	t_env	*ret;
 	char	*tmp;
@@ -85,7 +85,7 @@ static t_env	*init_list_no_env(char **env)
 	return (ret);
 }
 
-t_env			*ft_parse_env(char **env)
+t_env				*ft_parse_env(char **env)
 {
 	int		i;
 	t_env	*ret;

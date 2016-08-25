@@ -10,12 +10,12 @@ int			ft_env(t_env **env, t_cmd *cmd, t_data *data)
 	while ((cmd->av)[i] && (cmd->av)[i][0] == '-')
 	{
 		if ((cmd->av)[i][1] == '-')
-			break;
+			break ;
 		if (ft_strchr((cmd->av)[i], 'i'))
 			data->in_env_i = 1;
 		i++;
 	}
-	return (env_tmp_exec(env, data, cmd->av + i, cmd));
+	return (env_tmp_exc(env, data, cmd->av + i, cmd));
 }
 
 int			ft_setenv(char **scmd, t_env **env)
@@ -42,70 +42,8 @@ int			ft_unsetenv(char **scmd, t_env **env, t_cmd *cmd)
 	return (0);
 }
 
-void putstr_builtin(t_cmd *cmd, char *str, int fd)
-{
-	t_fd *fd_ptr;
-
-	if (fd == 1)
-		fd_ptr = cmd->fd_out;
-	else if (fd == 2)
-		fd_ptr = cmd->fd_err;
-	else
-		return ;
-	if (!fd_ptr)
-		return ;
-	ft_putstr_fd(str, fd_ptr->fd);
-}
-
-void putchar_builtin(t_cmd *cmd, char car, int fd)
-{
-	t_fd *fd_ptr;
-
-	if (fd == 1)
-		fd_ptr = cmd->fd_out;
-	else if (fd == 2)
-		fd_ptr = cmd->fd_err;
-	else
-		return ;
-	if (!fd_ptr)
-		return ;
-	ft_putchar_fd(car, fd_ptr->fd);
-}
-
-void putnbr_builtin(t_cmd *cmd, int nb, int fd)
-{
-	t_fd *fd_ptr;
-
-	if (fd == 1)
-		fd_ptr = cmd->fd_out;
-	else if (fd == 2)
-		fd_ptr = cmd->fd_err;
-	else
-		return ;
-	if (!fd_ptr)
-		return ;
-	ft_putnbr_fd(nb, fd_ptr->fd);
-}
-
-void putendl_builtin(t_cmd *cmd, char *str, int fd)
-{
-	t_fd *fd_ptr;
-
-	if (fd == 1)
-		fd_ptr = cmd->fd_out;
-	else if (fd == 2)
-		fd_ptr = cmd->fd_err;
-	else
-		return ;
-	if (!fd_ptr)
-		return ;
-	ft_putstr_fd(str, fd_ptr->fd);
-	ft_putchar_fd('\n', fd_ptr->fd);
-}
-
 int			exec_builtin(t_cmd *cmd, t_env **env, t_data *data)
 {
-	// printf("+-+-+-+-+-+-+-+-+-+ ON PASSE DANS LES BUILTINS\n");
 	if (ft_strequ((cmd->av)[0], "cd"))
 		return (cd((cmd->av), env, data, cmd));
 	else if (ft_strequ((cmd->av)[0], "env"))
@@ -126,7 +64,5 @@ int			exec_builtin(t_cmd *cmd, t_env **env, t_data *data)
 		return (ft_unset((cmd->av), env, cmd, data));
 	else if (ft_strequ((cmd->av)[0], "export"))
 		return (ft_export((cmd->av), env, cmd));
-	// else if (ft_strequ(sc	md[0], "source"))
-		// return (ft_source(scmd, env));
 	return (0);
 }

@@ -3,6 +3,7 @@
 	   list.c \
 	   utils.c \
 	   builtins.c \
+		 builtin_print.c \
 	   list2.c \
 	   exec.c \
 	   singelton.c \
@@ -10,12 +11,13 @@
 	   boucle.c \
 		 ft_string.c \
 		 line.c \
-		 ft_is_x.c \
-		 history.c\
+		 ft_is_x_1.c \
+		 ft_is_x_2.c \
 		 list_parse.c \
 		 parse.c \
 		 parse_function.c \
-		 fd_functions.c \
+		 fd_function_1.c \
+		 fd_function_2.c \
 		 handle.c \
 		 is_parse.c \
 		 quote.c \
@@ -24,11 +26,14 @@
 		 exit_builtin.c \
 		 handle_pipe.c \
 		 get_pb.c \
-		 signal.c \
 		 echo.c \
 		 line_2.c \
-		 history_builtin.c \
-		 history_flag_none.c \
+		 history_1.c\
+		 history_2.c\
+		 history_builtin_1.c \
+		 history_builtin_2.c \
+		 history_flag_none_1.c \
+		 history_flag_none_2.c \
 		 history_flag_c.c \
 		 history_flag_d.c \
 		 history_flag_a.c \
@@ -40,15 +45,32 @@
 		 parsing_advanced.c \
 		 vid_inv.c \
 		 builtin_env.c \
+		 builtin_env_function.c \
 		 setvar.c \
 		 history_exit.c \
 		 autocomplete.c \
+		 autocomplete_function_1.c \
+		 autocomplete_function_2.c \
 		 unset.c \
 		 export.c \
 		 signals.c \
-		 delete_list.c \
+		 delete_list_1.c \
+		 delete_list_2.c \
 		 exit.c \
-		 cd_main.c
+		 cd_main.c \
+		 cd_function_1.c \
+		 cd_function_2.c \
+		 cd_function_3.c \
+		 cd_function_4.c \
+		 cd_path_1.c \
+		 cd_path_2.c \
+		 cd_is_x_1.c \
+		 cd_is_x_2.c \
+		 cd_print.c \
+		 sigwinch.c \
+		 sigwinch_2.c \
+		 sigint.c \
+		 quote_is.c
 		#  cd_misc.c
 		#  cd_islegal.c \
 		# cd_goto.c \

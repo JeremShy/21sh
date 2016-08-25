@@ -62,7 +62,12 @@ int			main(int ac, char **av, char **env)
 	}
 	data.env = ft_parse_env(env);
 	data.var = NULL;
-	singleton_termios(init_term(&data), 1); // Mets le term en mode non canonique et tout le bordel
+	if (singleton_termios(init_term(&data), 1) == NULL)
+	{
+		ft_putstr_fd("21sh: Can't find terminal definition. Exiting now.\n", 2);
+		delete_list(data.env);
+		return 0;
+	}
 	signal(SIGINT, sigint);
 	signal(SIGWINCH, sigwinch);
 	get_winsize(&data);
@@ -102,7 +107,7 @@ int			main(int ac, char **av, char **env)
 	get_index_min_win(&data);
 	init_history(&data);
 	singleton_data(&data, 1);
-	signal_handler();
+	// signal_handler();
 	boucle(data.env, &data); // Entre dans la boucle principale du programme.
 	return (0);
 }

@@ -1,8 +1,8 @@
 #include <sh21.h>
 
-int history_flag_w(t_data *data, char *scmd)
+int		history_flag_w(t_data *data, char *scmd)
 {
-  char			*path;
+	char		*path;
 	t_history	*history;
 
 	if (get_history_path_anrw(data, &path, scmd) == 1)
@@ -24,5 +24,5 @@ int history_flag_w(t_data *data, char *scmd)
 		history = history->next;
 	}
 	close(data->history_fd);
-  return (0);
+	return (0);
 }

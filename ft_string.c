@@ -1,6 +1,6 @@
 #include <sh21.h>
 
-char *insert_char(char *str, int index, char c)
+char	*insert_char(char *str, int index, char c)
 {
 	char *ret;
 
@@ -12,7 +12,7 @@ char *insert_char(char *str, int index, char c)
 	return (ret);
 }
 
-char *delete_char(char *str, int index)
+char	*delete_char(char *str, int index)
 {
 	char *ret;
 
@@ -20,5 +20,5 @@ char *delete_char(char *str, int index)
 	ft_strncpy(ret, str, index - 1);
 	ft_strcpy(ret + index - 1, str + index);
 	free(str);
-	return(ret);
+	return (ret);
 }

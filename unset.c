@@ -24,13 +24,12 @@ void	delete_elem_var(t_var **list, char *name)
 			free(head->next->arg);
 			free(head->next);
 			head->next = ptr;
-			// printf("JAI SUPPR LA VALEUR\n");
 		}
 		head = head->next;
 	}
 }
 
-int			ft_unset(char **scmd, t_env **env, t_cmd *cmd, t_data *data)
+int		ft_unset(char **scmd, t_env **env, t_cmd *cmd, t_data *data)
 {
 	int		ret;
 
@@ -40,16 +39,14 @@ int			ft_unset(char **scmd, t_env **env, t_cmd *cmd, t_data *data)
 		return (1);
 	}
 	ret = 1;
-  if (isset_arg(*env, scmd[1]))
+	if (isset_arg(*env, scmd[1]))
 	{
 		delete_elem(env, scmd[1]);
-		printf("SUPPR DE ARG\n");
 		ret = 0;
 	}
 	if (isset_var(data->var, scmd[1]))
 	{
 		delete_elem_var(&(data->var), scmd[1]);
-		printf("SUPPR DE VAR\n");
 		ret = 0;
 	}
 	return (ret);

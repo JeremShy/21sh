@@ -2,8 +2,8 @@
 
 void	history_exit(t_data *data)
 {
-	char			*path;
-	int				fd;
+	char		*path;
+	int			fd;
 	t_history	*history;
 
 	if (get_history_path(data, &path) == 1)
