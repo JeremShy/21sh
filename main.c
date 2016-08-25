@@ -62,7 +62,6 @@ void	init_heredocs(t_data *data)
 	data->end_hd = 0;
 	data->quote_or_hd = 0;
 	data->first_line_of_hd = 1;
-	get_winsize(data);
 	get_index_min_win(data);
 	init_history(data);
 	singleton_data(data, 1);
@@ -71,6 +70,7 @@ void	init_heredocs(t_data *data)
 void	init_data(t_data *data)
 {
 	data->c = '\0';
+	get_winsize(data);
 	data->prompt = print_prompt(data->env, data);
 	data->len_prompt = ft_strlen(data->prompt);
 	data->curs_x = data->len_prompt + 1;
