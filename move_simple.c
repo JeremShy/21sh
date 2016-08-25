@@ -14,7 +14,7 @@ void	move_right_simple(t_data *data)
 	data->index++;
 }
 
-void move_r2l(t_data *data)
+void	move_r2l(t_data *data)
 {
 	exec_tcap("do");
 	exec_tcap("cr");

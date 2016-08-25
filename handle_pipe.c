@@ -1,8 +1,8 @@
 #include <sh21.h>
 
-int find_number(t_cmd *cmd)
+int		find_number(t_cmd *cmd)
 {
-	int n;
+	int		n;
 
 	n = 1;
 	while (cmd && cmd->sep == '|')
@@ -13,9 +13,9 @@ int find_number(t_cmd *cmd)
 	return (n);
 }
 
-int spawn_proc (t_cmd *cmd, t_env *env, t_data *data, int fd)
+int		spawn_proc (t_cmd *cmd, t_env *env, t_data *data, int fd)
 {
-	pid_t pid;
+	pid_t	pid;
 	int		in;
 	int		out;
 	int		err;
@@ -28,61 +28,59 @@ int spawn_proc (t_cmd *cmd, t_env *env, t_data *data, int fd)
 	if ((pid = fork ()) == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-			dup2(fd, out);
-			if (in != 0)
-			{
-				dup2(in, 0);
+		dup2(fd, out);
+		if (in != 0)
+		{
+			dup2(in, 0);
 			if (in != -2)
-					close(in);
-			}
-			if (out != 1)
-			{
-				if (cmd->fd_out->fd_pointe == 2)
-					dup2(err, 1);
-				else
-					dup2(out, 1);
-				if (out != -2)
-					close(out);
-			}
-			if (err != 2)
-			{
-				if (cmd->fd_err->fd_pointe == 1)
-					dup2(fd, 2);
-				else
-					dup2(err, 2);
-				if (err != -2)
-					close(err);
-			}
-			if (in == -2)
-				close(0);
-			if (out == -2)
-				close(1);
-			if (err == -2)
-				close(2);
-			if (is_builtin(cmd->av[0]))
-			{
-				cmd->fd_in->fd = 0;
-				cmd->fd_out->fd = 1;
-				cmd->fd_err->fd = 2;
-				cmd->ret = exec_builtin(cmd, &env, data);
-				exit(cmd->ret);
-			}
-			file = find_exec(cmd->av[0], data, env);
-			environ = make_env_char(env);
-			return execve(file, cmd->av, environ);
+				close(in);
+		}
+		if (out != 1)
+		{
+			if (cmd->fd_out->fd_pointe == 2)
+				dup2(err, 1);
+			else
+				dup2(out, 1);
+			if (out != -2)
+				close(out);
+		}
+		if (err != 2)
+		{
+			if (cmd->fd_err->fd_pointe == 1)
+				dup2(fd, 2);
+			else
+				dup2(err, 2);
+			if (err != -2)
+				close(err);
+		}
+		if (in == -2)
+			close(0);
+		if (out == -2)
+			close(1);
+		if (err == -2)
+			close(2);
+		if (is_builtin(cmd->av[0]))
+		{
+			cmd->fd_in->fd = 0;
+			cmd->fd_out->fd = 1;
+			cmd->fd_err->fd = 2;
+			cmd->ret = exec_builtin(cmd, &env, data);
+			exit(cmd->ret);
+		}
+		file = find_exec(cmd->av[0], data, env);
+		environ = make_env_char(env);
+		return execve(file, cmd->av, environ);
 		// }
-	}
-	// else
-	// 	waitpid(pid, NULL, 0);
- 	if (in != 0)
-		close(in);
-	return pid;
 }
+if (in != 0)
+	close(in);
+	return pid;
+	}
 
-int	fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
+int		fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 {
-	int i;
-	int fd[2];
+	int		i;
+	int		fd[2];
 	char	*file;
 	char	**environ;
 	int		n;
@@ -90,7 +88,6 @@ int	fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 	int		son_proc;
 	int		ret_execve;
 
-	// cmd->fd_in->fd = 0;
 	i = 0;
 	n = find_number(cmd);
 	while (i < n - 1)
@@ -100,11 +97,8 @@ int	fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 			close(fd[1]);
 		else
 		{
-			// dup2(fd[1], cmd->fd_out->fd);
-			// cmd->fd_out->fd = fd[1];
 		}
 		son_proc = spawn_proc(cmd, env, data, fd[1]);
-		// printf("SON_PROC = %d\n", son_proc);
 		close(fd[1]);
 		cmd = cmd->next;
 		if (cmd == NULL)
@@ -115,7 +109,6 @@ int	fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 		cmd->fd_in->fd = fd[0];
 		i++;
 	}
-	// printf("on execute : %s\n", cmd->av[0]);
 	if (cmd->fd_in->fd != 0)
 		dup2(cmd->fd_in->fd, 0);
 	if (!cmd->fd_out || cmd->fd_out->fd == -2)
