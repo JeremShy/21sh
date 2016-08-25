@@ -134,14 +134,17 @@ typedef struct	s_data {
 	int				ret; // Retour de la derniere commande (Pour $?).
 	int				cd_ret; //flemme de changer toutes les fonctions pour le ret de cd
 
+
+//----------------------------------TRASH---------------------------------------
 	char			**new_elem; // norminette flemme
 	char			**tmp_when_must_do_something; // norminette flemme
 	int				i; // norminette flemme
 	t_cmd			*orig_cmd; // norminette flemme
-// <<<<<<< HEAD
-// =======
 	t_cmd			*cd_cmd; // norminette flemme
-// >>>>>>> origin/vsteffen
+	size_t		subs_index; // norminette flemme
+	int				subs_flag; // norminette flemme
+	size_t		var_index_begin; // norminette flemme
+	size_t		var_length; // norminette flemme
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
@@ -274,6 +277,7 @@ int					ft_setvar(char **scmd, t_data *data, t_cmd *cmd);
 char				*find_var_env(t_data *data, char *name, t_env *env);
 int  			 	is_escaped_char(char *str, int index);
 int					is_pipe_error(char *str, size_t i, int first_char, int last_spe_char);
+int					is_pipe_e_parse_error(char *str);
 void				putstr_builtin(t_cmd *cmd, char *str, int fd);
 void				putendl_builtin(t_cmd *cmd, char *str, int fd);
 void				putchar_builtin(t_cmd *cmd, char car, int fd);
@@ -331,6 +335,24 @@ void chose_putchar_or_vi_char(t_data *data, int i);
 
 // -----------------------------NORME-------------------------------------------
 void	petit_rectangle(t_data *data);
+// -----------------------------------------------------------------------------
+
+// -----------------------------PARSING-----------------------------------------
+int					is_subs_and_replace(t_data *d, char **str, size_t *index, int flag);
+int					subs_for_last_command(t_data *data, char **arg, size_t *length);
+int					subs_for_command_number(t_data *data, char **arg,
+	char **str, size_t *length);
+int					subs_default(t_data *data, char **arg, char **str, size_t *length);
+void				delete_subs_and_replace(char **str,
+	size_t index, size_t length, char *arg);
+void				is_var_and_replace(t_data *data, char **str, size_t *index);
+int					delete_var_and_replace(char **str,
+	size_t index, size_t length, char *arg);
+int					is_tilde_and_replace(t_data *data, char **str, size_t *index);
+int					is_escaped_char(char *str, int index);
+int					is_quote_true_open(char car, char *str, int prec);
+int					is_quote_true_close(char car, char open, char *str, int prec);
+char				*find_subs_in_parsing(t_data *data, char *str, size_t length);
 // -----------------------------------------------------------------------------
 
 // ---------------------------BUILTIN CD----------------------------------------
