@@ -38,6 +38,12 @@
 		 history_flag_p.c \
 		 history_flag_s.c \
 		 parsing_advanced.c \
+		 parsing_advanced_subs_1.c \
+		 parsing_advanced_subs_2.c \
+		 parsing_advanced_var_1.c \
+		 parsing_advanced_var_2.c \
+		 parsing_advanced_tilde.c \
+		 parsing_advanced_function.c \
 		 vid_inv.c \
 		 builtin_env.c \
 		 builtin_env_function.c \
