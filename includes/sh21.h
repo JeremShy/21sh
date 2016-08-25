@@ -250,6 +250,7 @@ int					get_history_command_part(char *line);
 int					get_history_path(t_data *data, char **path);
 int					get_history_fd(t_data *data);
 int					history_flag_none(t_data *data, char **scmd, t_cmd *cmd);
+void				print_line_info(t_history *list, int i, int flg, t_cmd *cmd);
 int					history_flag_c(t_data *data);
 int					history_flag_d(t_data *data, char **scmd, t_cmd *cmd);
 int					get_history_path_anrw(t_data *data, char **path, char *scmd);

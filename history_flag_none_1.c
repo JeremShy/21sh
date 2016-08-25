@@ -1,12 +1,12 @@
 
 #include <sh21.h>
 
-int					get_history_flag_time(t_data *data)
+static int			get_history_flag_time(t_data *data)
 {
-	char  *str;
-	int   nb;
+	char	*str;
+	int		nb;
 
-	str = find_var_env(data, "HISTTIMEFORMAT", data->env);
+	str = find_var_env(data, "HISTTIMEFORMAT", data);
 	if (str[0] == '1' && str[1] == '\0')
 		nb = 1;
 	else
@@ -15,7 +15,7 @@ int					get_history_flag_time(t_data *data)
 	return (nb);
 }
 
-int					get_history_flag_none_arg(char **scmd, t_cmd *cmd)
+static int			get_history_flag_none_arg(char **scmd, t_cmd *cmd)
 {
 	if (scmd[0] == NULL)
 		return (-1);
@@ -33,22 +33,6 @@ int					get_history_flag_none_arg(char **scmd, t_cmd *cmd)
 	return (-2);
 }
 
-static void			print_history_line_info(t_history *list, int i, int flag_time, t_cmd *cmd)
-{
-	putnbr_builtin(cmd, i, 1);
-	if (flag_time == 1)
-	{
-		putchar_builtin(cmd, ' ', 1);
-		if (list->time > 0)
-			putnbr_builtin(cmd, list->time, 1);
-		else
-			putstr_builtin(cmd, "[NO TIMESTAMP]", 1);
-	}
-	putchar_builtin(cmd, ' ', 1);
-	putstr_builtin(cmd, list->line, 1);
-	putchar_builtin(cmd, '\n', 1);
-}
-
 static t_history	*history_flag_none_no_nb(t_history *list, int *i)
 {
 	while (list->prec)
@@ -59,7 +43,7 @@ static t_history	*history_flag_none_no_nb(t_history *list, int *i)
 
 static t_history	*history_flag_none_with_nb(t_history *list, int *i, int arg)
 {
-	t_history   *tmp;
+	t_history	*tmp;
 
 	if (arg == 0)
 		list = NULL;
@@ -81,7 +65,7 @@ static t_history	*history_flag_none_with_nb(t_history *list, int *i, int arg)
 	return (list);
 }
 
-int			history_flag_none(t_data *data, char **scmd, t_cmd *cmd)
+int					history_flag_none(t_data *data, char **scmd, t_cmd *cmd)
 {
 	t_history	*tmp_deb;
 	int			flag_time;
@@ -98,7 +82,7 @@ int			history_flag_none(t_data *data, char **scmd, t_cmd *cmd)
 	flag_time = get_history_flag_time(data);
 	while (tmp_deb)
 	{
-		print_history_line_info(tmp_deb, i, flag_time, cmd);
+		print_line_info(tmp_deb, i, flag_time, cmd);
 		i++;
 		tmp_deb = tmp_deb->next;
 	}
