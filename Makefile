@@ -13,7 +13,6 @@
 		 line.c \
 		 ft_is_x_1.c \
 		 ft_is_x_2.c \
-		 history.c\
 		 list_parse.c \
 		 parse.c \
 		 parse_function.c \
@@ -29,9 +28,12 @@
 		 get_pb.c \
 		 echo.c \
 		 line_2.c \
+		 history_1.c\
+		 history_2.c\
 		 history_builtin_1.c \
 		 history_builtin_2.c \
-		 history_flag_none.c \
+		 history_flag_none_1.c \
+		 history_flag_none_2.c \
 		 history_flag_c.c \
 		 history_flag_d.c \
 		 history_flag_a.c \

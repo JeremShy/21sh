@@ -1,4 +1,3 @@
-
 #include <sh21.h>
 
 static int			get_history_flag_time(t_data *data)
@@ -6,7 +5,7 @@ static int			get_history_flag_time(t_data *data)
 	char	*str;
 	int		nb;
 
-	str = find_var_env(data, "HISTTIMEFORMAT", data);
+	str = find_var_env(data, "HISTTIMEFORMAT", data->env);
 	if (str[0] == '1' && str[1] == '\0')
 		nb = 1;
 	else
