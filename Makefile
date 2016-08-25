@@ -16,7 +16,8 @@
 		 list_parse.c \
 		 parse.c \
 		 parse_function.c \
-		 fd_functions.c \
+		 fd_function_1.c \
+		 fd_function_2.c \
 		 handle.c \
 		 is_parse.c \
 		 quote.c \
