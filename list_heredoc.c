@@ -4,7 +4,7 @@ void	free_heredoc(t_data *data, t_hc *list)
 {
 	t_hc *tmp;
 
-	while(list)
+	while (list)
 	{
 		tmp = list->next;
 		free(list->content);
@@ -19,28 +19,24 @@ void	display_heredoc(t_hc *elem)
 	int	i;
 
 	i = 0;
-	printf("--- LIST HEREDOC ---\n");
 	while (elem)
 	{
-		printf("N° %d --> [%s]\n", i, elem->content);
 		i++;
 		elem = elem->next;
 	}
-	printf("--- END HEREDOC  ---\n");
 }
 
-t_hc *create_hc_elem (char *content)
+t_hc	*create_hc_elem(char *content)
 {
 	t_hc	*elem;
 
-	// printf("JE SUIS NILHASARAAAAAAAAAAAAAAAAAAAAAN\n");
 	elem = malloc(sizeof(t_hc));
 	elem->content = content;
 	elem->next = NULL;
 	return (elem);
 }
 
-t_hc 	*add_hc_elem(t_hc *list, t_hc *elem)
+t_hc	*add_hc_elem(t_hc *list, t_hc *elem)
 {
 	t_hc *tmp;
 
@@ -48,7 +44,7 @@ t_hc 	*add_hc_elem(t_hc *list, t_hc *elem)
 	if (list == NULL)
 		return (elem);
 	while (list->next != NULL)
-  		list = list->next;
+		list = list->next;
 	list->next = elem;
 	return (tmp);
 }

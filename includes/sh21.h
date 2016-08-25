@@ -138,7 +138,10 @@ typedef struct	s_data {
 	char			**tmp_when_must_do_something; // norminette flemme
 	int				i; // norminette flemme
 	t_cmd			*orig_cmd; // norminette flemme
+// <<<<<<< HEAD
+// =======
 	t_cmd			*cd_cmd; // norminette flemme
+// >>>>>>> origin/vsteffen
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
@@ -362,5 +365,10 @@ void				cd_symblink(char *path, t_env **env, t_data *data);
 void				cd_physical(char *path, t_env **env, t_data *data, t_cmd *cmd);
 int					operate_legal_opts(char **str, t_cmd *cmd, t_data *data);
 // -----------------------------------------------------------------------------
+
+// -----------------------------MOVE-------------------------------------------
+void				move_index(t_data *data);
+// -----------------------------------------------------------------------------
+
 
 #endif

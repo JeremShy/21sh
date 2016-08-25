@@ -27,7 +27,6 @@
 		 handle_pipe.c \
 		 get_pb.c \
 		 echo.c \
-		 line_2.c \
 		 history_1.c\
 		 history_2.c\
 		 history_builtin_1.c \
@@ -54,6 +53,16 @@
 		 unset.c \
 		 export.c \
 		 signals.c \
+		 delete_list.c \
+		 exit.c \
+		 cd_main.c \
+		 sigwinch.c \
+		 sigwinch_2.c \
+		 sigint.c \
+		 move.c\
+		 move_simple.c\
+		 get_things.c\
+		 words.c\
 		 delete_list_1.c \
 		 delete_list_2.c \
 		 exit.c \
@@ -70,7 +79,12 @@
 		 sigwinch.c \
 		 sigwinch_2.c \
 		 sigint.c \
-		 quote_is.c
+		 quote_is.c\
+		 page_down.c\
+		 page_up.c\
+		#  cd_misc.c
+		#  cd_islegal.c \
+		# cd_goto.c \
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes
