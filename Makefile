@@ -71,9 +71,6 @@
 		 sigwinch_2.c \
 		 sigint.c \
 		 quote_is.c
-		#  cd_misc.c
-		#  cd_islegal.c \
-		# cd_goto.c \
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes
@@ -96,9 +93,6 @@ SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
 INC = $(addprefix -I,$(INC_PATH))
 
-# parsing:
-	# gcc -I includes ft_is_x.c list_parse.c parse_function.c fd_functions.c lib/libft.a parse.c handle.c is_parse.c quote.c -g
-
 all : $(NAME)
 
 $(NAME) : $(OBJ)
@@ -115,7 +109,7 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 
 clean:
 	rm -fv $(OBJ)
-	#@rmdir -p $(OBJ_PATH)
+	rmdir -p $(OBJ_PATH) 2> /dev/null || true
 	make -C libsrcs/libft clean
 	make -C libsrcs/ft_printf clean
 
