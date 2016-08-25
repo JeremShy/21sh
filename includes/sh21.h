@@ -210,7 +210,6 @@ char				*find_exec(char *scmd, t_data *data, t_env *env);
 int					fork_pipes(t_cmd *cmd, t_env *env, t_data *data);
 char				*get_pb(void);
 int					is_empty_border(char *str, size_t beg, size_t end);
-int					is_parse_error(char *str);
 void				get_pos_after_quote(size_t *i, char *str);
 void				close_fd_cmd(t_cmd *cmd);
 void				close_fd(t_fd *fd);
@@ -270,7 +269,7 @@ int   			true_var_and_subs(t_data *data, char **str);
 int					ft_setvar(char **scmd, t_data *data, t_cmd *cmd);
 char				*find_var_env(t_data *data, char *name, t_env *env);
 int  			 	is_escaped_char(char *str, int index);
-int					is_pipe_e_parse_error(char *str);
+int					is_pipe_error(char *str, size_t i, int first_char, int last_spe_char);
 void				putstr_builtin(t_cmd *cmd, char *str, int fd);
 void				putendl_builtin(t_cmd *cmd, char *str, int fd);
 void				putchar_builtin(t_cmd *cmd, char car, int fd);
@@ -280,6 +279,7 @@ int					ft_unset(char **scmd, t_env **env, t_cmd *cmd, t_data *data);
 int					ft_export(char **scmd, t_env **env, t_cmd *cmd);
 int					get_ret(int status, t_data *data);
 void				signal_handler(void);
+int					is_wrong_pipe(char *str, int index);
 
 // ---------------------------BUILTIN EXIT--------------------------------------
 int					ft_exit_bi(char **scmd, t_env *env, t_data *data);

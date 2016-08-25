@@ -11,7 +11,8 @@
 	   boucle.c \
 		 ft_string.c \
 		 line.c \
-		 ft_is_x.c \
+		 ft_is_x_1.c \
+		 ft_is_x_2.c \
 		 history.c\
 		 list_parse.c \
 		 parse.c \
