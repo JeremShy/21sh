@@ -28,7 +28,7 @@ static int		special_car(char c, t_cmd *cmd, int *j)
 	return (0);
 }
 
-static void	ft_echo_begin(char **scmd, int *i, int *flag)
+static void		ft_echo_begin(char **scmd, int *i, int *flag)
 {
 	*i = 0;
 	*flag = 0;
@@ -40,21 +40,21 @@ static void	ft_echo_begin(char **scmd, int *i, int *flag)
 	}
 }
 
-static void	ft_echo_boucle_end(char **scmd, int *i, t_cmd *cmd)
+static void		ft_echo_boucle_end(char **scmd, int *i, t_cmd *cmd)
 {
 	if (scmd[*i + 1])
 		putchar_builtin(cmd, ' ', 1);
 	(*i)++;
 }
 
-static int	ft_echo_end(int flag, t_cmd *cmd)
+static int		ft_echo_end(int flag, t_cmd *cmd)
 {
 	if (flag == 0)
 		putchar_builtin(cmd, '\n', 1);
 	return (0);
 }
 
-int					ft_echo(char **scmd, t_cmd *cmd)
+int				ft_echo(char **scmd, t_cmd *cmd)
 {
 	int				flag;
 	int				i;
