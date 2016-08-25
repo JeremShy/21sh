@@ -29,7 +29,8 @@
 		 get_pb.c \
 		 echo.c \
 		 line_2.c \
-		 history_builtin.c \
+		 history_builtin_1.c \
+		 history_builtin_2.c \
 		 history_flag_none.c \
 		 history_flag_c.c \
 		 history_flag_d.c \

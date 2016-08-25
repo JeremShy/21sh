@@ -245,7 +245,7 @@ void				previous_word(t_data *data);
 void				next_word(t_data *data);
 void				init_history(t_data *data);
 int					ft_history(char **scmd, t_data *data, t_cmd *cmd);
-void				init_flag(t_data *data);
+int					get_history_flag(t_data *data, char **scmd, int *j, t_cmd *cmd);
 int					get_history_command_part(char *line);
 int					get_history_path(t_data *data, char **path);
 int					get_history_fd(t_data *data);

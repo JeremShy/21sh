@@ -1,10 +1,11 @@
 #include <sh21.h>
 
-char *get_pb(void)
+char	*get_pb(void)
 {
-	int tab[2];
-	pipe(tab);
-	char **av;
+	int		tab[2];
+	pipe	(tab);
+	char	**av;
+
 	av = malloc(2 * sizeof(char*));
 	av[0] = "./pbpaste";
 	av[1] = NULL;
@@ -27,5 +28,5 @@ char *get_pb(void)
 	free(av[1]);
 	free(av);
 	free(env);
-	return(str);
+	return (str);
 }
