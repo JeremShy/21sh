@@ -93,7 +93,16 @@ class TestBasics(unittest.TestCase):
     def test_pipe_04(self):
         self.compare_shells(["ls", "|", "cat -e", "|", "sort", "|", "rev", "|", "sort", "|", "cat -e",
                              "|", "cat -e", "|", "sort", "|", "rev", "|", "sort", "|", "cat -e",
-                             "|", "cat -e", "|", "cat -e"])
+                             "|", "cat -e", "|", "cat -e", "|", "cat -e"])
+
+    def test_pipe_100_pipe(self):
+        base = ["ls"]
+
+        for i in range(20):
+            base.append("|")
+            base.append("cat -e")
+
+        self.compare_shells(base)
 
     def test_right_00(self):
         out = "out"
@@ -187,9 +196,8 @@ class TestBasics(unittest.TestCase):
 
         with open(my_out, 'r') as my:
             with open(ref_out, 'r') as ref:
-                # self.assertEqual(ref.read(), my.read())
-                # TODO fix me
-                pass
+                self.assertEqual(ref.read(), my.read())
+
         for f in [data_in, my_out, ref_out]:
             os.remove(f)
 
