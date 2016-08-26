@@ -43,7 +43,8 @@ void	exec_cmd_1(t_env **env, t_cmd **command, t_data *data)
 		(*command)->ret = get_ret((*command)->ret, data);
 	}
 	tmp = 0;
-	if ((*command)->fd_out->next || (*command)->fd_err->next || (*command)->fd_in->next)
+	if ((*command)->fd_out->next || (*command)->fd_err->next ||\
+			(*command)->fd_in->next)
 	{
 		tmp = 1;
 		if ((*command)->fd_in->next)

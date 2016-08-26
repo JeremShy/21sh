@@ -87,6 +87,10 @@
 		 quote_is.c\
 		 page_down.c\
 		 page_up.c\
+		 exec_cmd.c\
+		 exec_file.c\
+		 print_errors.c\
+		 cmd_not_found.c\
 		#  cd_misc.c
 		#  cd_islegal.c \
 		# cd_goto.c \
