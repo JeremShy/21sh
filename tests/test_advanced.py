@@ -179,7 +179,7 @@ class TestBasics(unittest.TestCase):
         os.remove(my_in)
 
     def test_left_pipe_right_00(self):
-        data_in = "in.my"
+        data_in = "in.data"
         my_out = "out.my"
         ref_out = "out.ref"
         for f in [my_out, ref_out]:
