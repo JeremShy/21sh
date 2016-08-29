@@ -68,13 +68,13 @@ void			ft_autocomplete(t_data *data)
 			}
 			split = ft_strsplit(path, ':');
 			free(ptr);
-			if (find_ptr(data->cmd) > 0)
+			if (find_ptr(data->cmd))
 				ptr = ft_strdup(find_ptr(data->cmd));
 			else
 				ptr = ft_strdup(data->cmd);
 			prefix = ft_strdup("");
 			free(path);
-			if (find_ptr(data->cmd) > 0)
+			if (find_ptr(data->cmd))
 				data->index_in_word_before_auto = data->index_before_move - (find_ptr(data->cmd) - data->cmd);
 			else
 				data->index_in_word_before_auto = 0;

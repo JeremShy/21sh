@@ -25,7 +25,7 @@ void	signal_handler(void)
 	while (i < 28)
 	{
 		if (i != SIGSTOP && i != SIGTTOU && i != SIGTSTP && i != SIGTTIN
-			&& i != SIGWINCH && i != SIGINFO && i != SIGINT && i != SIGURG
+			&& i != SIGWINCH && i != SIGINT && i != SIGURG
 			&& i != SIGIO && i != SIGCHLD && i != SIGCONT)
 			signal(i, signal_end_prog);
 		if (i == SIGCONT || i == SIGTSTP)

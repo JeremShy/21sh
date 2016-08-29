@@ -85,7 +85,6 @@ int		fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 	char	**environ;
 	int		n;
 	int		fork_exec;
-	int		son_proc;
 	int		ret_execve;
 
 	i = 0;
@@ -98,7 +97,6 @@ int		fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 		else
 		{
 		}
-		son_proc = spawn_proc(cmd, env, data, fd[1]);
 		close(fd[1]);
 		cmd = cmd->next;
 		if (cmd == NULL)
