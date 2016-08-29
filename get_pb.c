@@ -1,5 +1,16 @@
 #include <sh21.h>
 
+void	do_get_pb(t_data *data)
+{
+	char *pb;
+
+	pb = get_pb();
+	data->real_len_cmd += ft_strlen(pb);
+	data->index += ft_strlen(pb);
+	ft_putstr(pb);
+	data->cmd = ft_strjoinaf12(data->cmd, pb);
+}
+
 char	*get_pb(void)
 {
 	int		tab[2];

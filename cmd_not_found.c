@@ -20,7 +20,7 @@ void		cmd_not_found_1(int *ok, int *absolute_ok, t_cmd *last_found)
 t_cmd		*cmd_not_found_0(t_cmd *command, t_data *data, t_env *env,\
 		int *absolute_ok)
 {
-	t_cmd	*last_found;
+	t_cmd		*last_found;
 	char		*exec;
 	int			ok;
 	int			was_ok;

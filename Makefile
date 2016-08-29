@@ -99,7 +99,9 @@
 		 boucle_move.c \
 		 boucle_home_end.c \
 		 boucle_mode_copy.c \
-		 boucle_mode_copy_init_or_end.c
+		 boucle_mode_copy_init_or_end.c \
+		 boucle_move_history.c \
+		 boucle_ctrl_d_and_l.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes
