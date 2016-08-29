@@ -1,5 +1,20 @@
 #include <sh21.h>
 
+void	change_arg(t_env *list, char *name, char *new_arg)
+{
+	if (!list)
+		return ;
+	while (list)
+	{
+		if (ft_strequ(list->name, name))
+		{
+			free(list->arg);
+			list->arg = ft_strdup(new_arg);
+		}
+		list = list->next;
+	}
+}
+
 void	delete_elem(t_env **list, char *name)
 {
 	t_env	*ptr;

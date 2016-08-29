@@ -1,10 +1,9 @@
-SRC_NAME = main.c \
+ 	SRC_NAME = main.c \
 	   env.c \
 	   list.c \
-	   special_split.c \
 	   utils.c \
 	   builtins.c \
-	   ft_cd.c \
+		 builtin_print.c \
 	   list2.c \
 	   exec.c \
 	   singelton.c \
@@ -12,24 +11,28 @@ SRC_NAME = main.c \
 	   boucle.c \
 		 ft_string.c \
 		 line.c \
-		 ft_is_x.c \
-		 history.c\
+		 ft_is_x_1.c \
+		 ft_is_x_2.c \
 		 list_parse.c \
 		 parse.c \
 		 parse_function.c \
-		 fd_functions.c \
+		 fd_function_1.c \
+		 fd_function_2.c \
 		 handle.c \
 		 is_parse.c \
 		 quote.c \
 		 heredoc.c \
 		 list_heredoc.c \
+		 exit_builtin.c \
 		 handle_pipe.c \
 		 get_pb.c \
-		 signal.c \
 		 echo.c \
-		 line_2.c \
-		 history_builtin.c \
-		 history_flag_none.c \
+		 history_1.c\
+		 history_2.c\
+		 history_builtin_1.c \
+		 history_builtin_2.c \
+		 history_flag_none_1.c \
+		 history_flag_none_2.c \
 		 history_flag_c.c \
 		 history_flag_d.c \
 		 history_flag_a.c \
@@ -38,10 +41,55 @@ SRC_NAME = main.c \
 		 history_flag_w.c \
 		 history_flag_p.c \
 		 history_flag_s.c \
+		 parsing_advanced.c \
+		 parsing_advanced_subs_1.c \
+		 parsing_advanced_subs_2.c \
+		 parsing_advanced_var_1.c \
+		 parsing_advanced_var_2.c \
+		 parsing_advanced_tilde.c \
+		 parsing_advanced_function.c \
 		 vid_inv.c \
 		 builtin_env.c \
+		 builtin_env_function.c \
+		 setvar.c \
 		 history_exit.c \
-		 autocomplete.c
+		 autocomplete.c \
+		 autocomplete_function_1.c \
+		 autocomplete_function_2.c \
+		 unset.c \
+		 export.c \
+		 signals.c \
+		 exit.c \
+		 cd_main.c \
+		 sigwinch.c \
+		 sigwinch_2.c \
+		 sigint.c \
+		 move.c\
+		 move_simple.c\
+		 get_things.c\
+		 words.c\
+		 delete_list_1.c \
+		 delete_list_2.c \
+		 exit.c \
+		 cd_main.c \
+		 cd_function_1.c \
+		 cd_function_2.c \
+		 cd_function_3.c \
+		 cd_function_4.c \
+		 cd_path_1.c \
+		 cd_path_2.c \
+		 cd_is_x_1.c \
+		 cd_is_x_2.c \
+		 cd_print.c \
+		 sigwinch.c \
+		 sigwinch_2.c \
+		 sigint.c \
+		 quote_is.c\
+		 page_down.c\
+		 page_up.c\
+		#  cd_misc.c
+		#  cd_islegal.c \
+		# cd_goto.c \
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes
@@ -64,9 +112,6 @@ SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
 INC = $(addprefix -I,$(INC_PATH))
 
-# parsing:
-	# gcc -I includes ft_is_x.c list_parse.c parse_function.c fd_functions.c lib/libft.a parse.c handle.c is_parse.c quote.c -g
-
 all : $(NAME)
 
 $(NAME) : $(OBJ)
@@ -83,7 +128,7 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 
 clean:
 	rm -fv $(OBJ)
-	#@rmdir -p $(OBJ_PATH)
+	rmdir -p $(OBJ_PATH) 2> /dev/null || true
 	make -C libsrcs/libft clean
 	make -C libsrcs/ft_printf clean
 
@@ -94,6 +139,12 @@ fclean: clean
 	#@rmdir lib 2> /dev/null || true
 
 re: fclean all
+
+leaks: all
+	 valgrind --leak-check=full ./21sh
+
+leaks-le-pen: all
+	valgrind --leak-check=full --show-leak-kinds=all ./21sh
 
 check: $(NAME)
 	python -m unittest discover tests/

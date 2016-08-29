@@ -25,3 +25,12 @@ MORE THAN ONE FD
 	on fait ls dans le premier
 	on fait ls dans le deuxieme
 }
+
+ls 1>&2 | cat -e
+
+stdin : -1
+stdout : 2
+stderr : -1
+
+ls pouet ls ; caca
+ls pouet

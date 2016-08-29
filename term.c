@@ -1,6 +1,6 @@
 #include <sh21.h>
 
-t_termios	*init_term(t_env *env)
+t_termios	*init_term(t_data *data)
 {
 	t_termios	term;
 	t_termios	*ret;
@@ -13,28 +13,28 @@ t_termios	*init_term(t_env *env)
 	term.c_lflag &= ~(ECHO);
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
-	if (tcsetattr(0, TCSADRAIN, &term) == -1)
+	if (isatty(0) && tcsetattr(0, TCSADRAIN, &term) == -1)
 		return (NULL);
-	name_term = find_arg(env, "TERM");
-	if (ft_strequ(name_term, ""))
+	name_term = find_arg(data->env, "TERM");
+	if (ft_strequ(name_term, "") || tgetent(NULL, name_term) == ERR)
 	{
 		free(name_term);
+		free(ret);
 		return (NULL);
 	}
-	if (tgetent(NULL, name_term) == ERR)
-		return (NULL);
+	free(name_term);
 	return (ret);
 }
 
-int		my_putchar(int c)
+int			my_putchar(int c)
 {
-	static int  fd = 0;
+	static int	fd = 0;
 
 	if (!fd)
 		fd = open("/dev/tty", O_RDWR);
 	if (!isatty(fd))
 	{
-		ft_printf("/dev/tty is not a valid tty.\n");
+		ft_putstr("/dev/tty is not a valid tty.\n");
 		exit(EXIT_FAILURE);
 	}
 	if (c == -1)
@@ -46,20 +46,17 @@ int		my_putchar(int c)
 	return (c);
 }
 
-void exec_tcap(char *tcap)
+void		exec_tcap(char *tcap)
 {
 	tputs(tgetstr(tcap, NULL), 1, my_putchar);
 }
 
-void invert_term(void)
+void		invert_term(void)
 {
 	t_termios	*tmp;
 	t_termios	*current;
 
 	current = (t_termios *)malloc(sizeof(t_termios));
-	// Adding this feature because of SEGV
-	// Invalid read of size 4 invert_term (term.c:74) tcsetattr (tcsetattr.c:73)
-
 	if (current && (tmp = singleton_termios(NULL, 0)))
 	{
 		tcgetattr(0, current);

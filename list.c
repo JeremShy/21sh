@@ -24,21 +24,6 @@ t_env			*add_elem_end(t_env *list, char *name, char *arg)
 	return (tmp);
 }
 
-void			change_arg(t_env *list, char *name, char *new_arg)
-{
-	if (!list)
-		return ;
-	while (list)
-	{
-		if (ft_strequ(list->name, name))
-		{
-			free(list->arg);
-			list->arg = ft_strdup(new_arg);
-		}
-		list = list->next;
-	}
-}
-
 int				isset_arg(t_env *list, char *name)
 {
 	while (list)
@@ -48,6 +33,30 @@ int				isset_arg(t_env *list, char *name)
 		list = list->next;
 	}
 	return (0);
+}
+
+char			*find_var_env(t_data *data, char *name, t_env *env)
+{
+	t_var	*list_var;
+	t_env	*list_env;
+
+	list_var = data->var;
+	list_env = env;
+	if (!list_var && !list_env)
+		return (ft_strdup(""));
+	while (list_env)
+	{
+		if (ft_strequ(list_env->name, name))
+			return (ft_strdup(list_env->arg));
+		list_env = list_env->next;
+	}
+	while (list_var)
+	{
+		if (ft_strequ(list_var->name, name))
+			return (ft_strdup(list_var->arg));
+		list_var = list_var->next;
+	}
+	return (ft_strdup(""));
 }
 
 char			*find_arg(t_env *list, char *name)
