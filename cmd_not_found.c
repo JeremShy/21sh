@@ -5,12 +5,13 @@ void		free_exec(char *exec)
 	if (exec)
 	{
 		free(exec);
-		exec = NULL;	
+		exec = NULL;
 	}
 }
 
 void		cmd_not_found_1(int *ok, int *absolute_ok, t_cmd *last_found)
 {
+	(void)last_found;
 	*ok = 0;
 	*absolute_ok = 0;
 	last_found = NULL;
