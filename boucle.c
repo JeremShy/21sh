@@ -42,7 +42,7 @@ void	move_up_history(t_data *data, t_env *env)
 			else if (data->history_en_cours->prec) // Sinon on part de celui d'avant(pour eviter de stagner sur le meme element)
 				data->history_en_cours = data->history_en_cours->prec;
 			while(!ft_strnequ(data->history_en_cours->line, data->first, ft_strlen(data->first)) //Tant que celui sur lequel on est ne correspond pas à notre recherche, et qu'il y en a un avant..
-				&& data->history_en_cours->prec)
+					&& data->history_en_cours->prec)
 			{
 				data->history_en_cours = data->history_en_cours->prec; // On recule dans notre historique
 			}
@@ -99,7 +99,7 @@ void	move_down_history(t_data *data, t_env *env)
 			{
 				data->history_en_cours = data->history_en_cours->next;
 				while (data->history_en_cours &&
-					!ft_strnequ(data->history_en_cours->line, data->first, ft_strlen(data->first)))
+						!ft_strnequ(data->history_en_cours->line, data->first, ft_strlen(data->first)))
 				{
 					data->history_en_cours = data->history_en_cours->next;
 				}
@@ -298,7 +298,7 @@ void	boucle(t_env *env, t_data *data)
 			}
 		}
 		else if (buf[0] == 4 && buf[1] == 0) // Ctrl + D
-		// FREE DATA;
+			// FREE DATA;
 		{
 			if (data->c == '<')
 			{
@@ -313,9 +313,9 @@ void	boucle(t_env *env, t_data *data)
 			}
 		}
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 68 && buf[3] == 0)
-				move_left(data);
+			move_left(data);
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 67 && buf[3] == 0)
-				move_right(data);
+			move_right(data);
 		else if (buf[0] == 127 && buf[1] == 0 && !data->mode_copy)
 		{
 			//TODO free list_auto
@@ -340,35 +340,35 @@ void	boucle(t_env *env, t_data *data)
 		else if (buf[0] == 10 && buf[1] == 0 && !data->mode_copy)
 			create_history(data, &env);
 		else if ((buf[0] == 27	&&	buf[1] == 91 && buf[2] == 72 && buf[3] == 0) ||
-							(buf[0] == 1 && buf[1] == 0)) // HOME
+				(buf[0] == 1 && buf[1] == 0)) // HOME
+		{
+			if (data->list_auto)
 			{
-				if (data->list_auto)
+				delete_list_auto(data->list_auto);
+				data->list_auto = NULL;
+			}
+			if (data->mode_copy && data->index == data->index_max_copy)
+				data->index_max_copy = data->index_min_copy;
+			while(data->index > 0 && data->cmd[data->index - 1] != '\n')
+				move_left_without_mod(data);
+			if (data->mode_copy)
+			{
+				data->index_min_copy = data->index;
+				while (data->cmd[data->index])
 				{
-					delete_list_auto(data->list_auto);
-					data->list_auto = NULL;
+					if (data->index == data->index_min_copy || data->index == data->index_max_copy)
+						exec_tcap("mr");
+					ft_putchar(data->cmd[data->index]);
+					if (data->index == data->index_max_copy)
+						exec_tcap("me");
+					data->index++;
 				}
-				if (data->mode_copy && data->index == data->index_max_copy)
-					data->index_max_copy = data->index_min_copy;
 				while(data->index > 0 && data->cmd[data->index - 1] != '\n')
 					move_left_without_mod(data);
-				if (data->mode_copy)
-				{
-					data->index_min_copy = data->index;
-					while (data->cmd[data->index])
-					{
-						if (data->index == data->index_min_copy || data->index == data->index_max_copy)
-							exec_tcap("mr");
-						ft_putchar(data->cmd[data->index]);
-						if (data->index == data->index_max_copy)
-							exec_tcap("me");
-						data->index++;
-					}
-					while(data->index > 0 && data->cmd[data->index - 1] != '\n')
-						move_left_without_mod(data);
-				}
 			}
+		}
 		else if ((buf[0] == 27 && buf[1] == 91	&& buf[2] == 70 && buf[3] == 0) ||
-							(buf[0] == 5 && buf[1] == 0)) // END
+				(buf[0] == 5 && buf[1] == 0)) // END
 		{
 			if (data->list_auto)
 			{
@@ -599,7 +599,7 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else
 		{
-				// ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
+			// ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
 		}
 		data->env = env;
 		get_index_min_win(data);
