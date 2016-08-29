@@ -2,22 +2,20 @@
 
 static t_env		*parse_line(t_env *ret, char *env)
 {
-	char	**split;
+	char	*ptr;
+	char	*s1;
+	char	*s2;
 
-	split = ft_strsplit(env, '=');
-	if (split[1])
-	{
-		ret = add_elem_end(ret, split[0], split[1]);
-		free(split[0]);
-		free(split[1]);
-		free(split);
-	}
-	else
-	{
-		ret = add_elem_end(ret, split[0], "");
-		free(split[0]);
-		free(split);
-	}
+	ptr = ft_strchr(env, '=');
+	if (!ptr)
+		return (ret);
+	s1 = ft_strsub(env, 0, ptr - env);
+	s2 = ft_strsub(ptr, 1, ft_strlen(ptr) - 1);
+	if (!s2)
+		s2 = ft_strdup("");
+	ret = add_elem_end(ret, s1, s2);
+	free(s1);
+	free(s2);
 	return (ret);
 }
 
