@@ -187,7 +187,7 @@ int	create_history(t_data *data, t_env **env)
 			data->list_auto = NULL;
 		}
 		delete_list_command(data->command);
-				data->command = NULL;
+		data->command = NULL;
 	}
 	else
 	{
@@ -255,13 +255,12 @@ void	boucle(t_env *env, t_data *data)
 	ft_bzero(buf, 11);
 	if (!isatty(0)) // Pour les tests fonctionnels
 	{
-		char str[101];
+		char *str = malloc(1001);
 		data->in_env_i = 0;
-		if ((r = read(0, str, 100)))
+		if ((r = read(0, str, 1000)))
 		{
 			str[r] = '\0';
 			data->cmd = str;
-			//printf ("str : [%s]\n", str);
 			create_history(data, &env);
 			data->env = env;
 			get_index_min_win(data);

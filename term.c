@@ -13,7 +13,7 @@ t_termios	*init_term(t_data *data)
 	term.c_lflag &= ~(ECHO);
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
-	if (tcsetattr(0, TCSADRAIN, &term) == -1)
+	if (isatty(0) && tcsetattr(0, TCSADRAIN, &term) == -1)
 		return (NULL);
 	name_term = find_arg(data->env, "TERM");
 	if (ft_strequ(name_term, "") || tgetent(NULL, name_term) == ERR)
