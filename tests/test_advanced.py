@@ -5,7 +5,7 @@ import unittest
 BINARY_NAME = "21sh"
 
 
-class TestBasics(unittest.TestCase):
+class TestAdvanced(unittest.TestCase):
     tests_dir = os.path.split(__file__)[0]
     binary = "%s/../%s" % (tests_dir, BINARY_NAME)
     prompt = ""
