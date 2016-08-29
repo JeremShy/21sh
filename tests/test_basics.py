@@ -179,7 +179,7 @@ class TestBasics(unittest.TestCase):
     def test_exec_dir_00(self):
         directory = "/bin"
         my_shell = self.execute_my_shell([directory])
-        self.assertEqual("21sh: exec format error: %s\n" % directory, my_shell[1])
+        self.assertEqual("21sh: permission denied: %s\n" % directory, my_shell[1])
         self.assertEqual("", my_shell[0])
 
     def test_exec_fake_00(self):
