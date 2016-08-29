@@ -106,77 +106,91 @@ class TestBasics(unittest.TestCase):
 
     def test_right_00(self):
         out = "out"
-        self.compare_shells(["ls", ">", "%s" % out])
-        os.remove(out)
+        try:
+            self.compare_shells(["ls", ">", "%s" % out])
+        finally:
+            os.remove(out)
 
     def test_right_01(self):
         my_out = "out.my"
         ref_out = "out.ref"
-        for f in [my_out, ref_out]:
-            with open(f, 'w') as fd:
-                fd.write("")
-        self.execute_my_shell(["ls", ">", "%s" % my_out])
-        self.execute_real_shell(["ls", ">", "%s" % ref_out])
-        with open(my_out, 'r') as my:
-            with open(ref_out, 'r') as ref:
-                self.assertEqual(ref.read(), my.read())
-        for f in [my_out, ref_out]:
-            os.remove(f)
+        try:
+            for f in [my_out, ref_out]:
+                with open(f, 'w') as fd:
+                    fd.write("")
+            self.execute_my_shell(["ls", ">", "%s" % my_out])
+            self.execute_real_shell(["ls", ">", "%s" % ref_out])
+            with open(my_out, 'r') as my:
+                with open(ref_out, 'r') as ref:
+                    self.assertEqual(ref.read(), my.read())
+        finally:
+            for f in [my_out, ref_out]:
+                os.remove(f)
 
     def test_right_02(self):
         my_out = "out.my"
         ref_out = "out.ref"
-        for f in [my_out, ref_out]:
-            with open(f, 'w') as fd:
-                fd.write("")
-        self.execute_my_shell(["ls", ">", "%s" % my_out])
-        self.execute_my_shell(["ls", ">>", "%s" % my_out])
-        self.execute_real_shell(["ls", ">", "%s" % ref_out])
-        self.execute_real_shell(["ls", ">>", "%s" % ref_out])
-        with open(my_out, 'r') as my:
-            with open(ref_out, 'r') as ref:
-                self.assertEqual(ref.read(), my.read())
-        for f in [my_out, ref_out]:
-            os.remove(f)
+        try:
+            for f in [my_out, ref_out]:
+                with open(f, 'w') as fd:
+                    fd.write("")
+            self.execute_my_shell(["ls", ">", "%s" % my_out])
+            self.execute_my_shell(["ls", ">>", "%s" % my_out])
+            self.execute_real_shell(["ls", ">", "%s" % ref_out])
+            self.execute_real_shell(["ls", ">>", "%s" % ref_out])
+            with open(my_out, 'r') as my:
+                with open(ref_out, 'r') as ref:
+                    self.assertEqual(ref.read(), my.read())
+        finally:
+            for f in [my_out, ref_out]:
+                os.remove(f)
 
     def test_right_03(self):
         my_out = "out.my"
         ref_out = "out.ref"
-        for f in [my_out, ref_out]:
-            with open(f, 'w') as fd:
-                fd.write("")
-        self.execute_my_shell(["ls", ">", "%s" % my_out])
-        self.execute_my_shell(["ls", ">>", "%s" % my_out])
-        self.execute_my_shell(["ls", ">", "%s" % my_out])
-        self.execute_real_shell(["ls", ">", "%s" % ref_out])
-        self.execute_real_shell(["ls", ">>", "%s" % ref_out])
-        self.execute_real_shell(["ls", ">", "%s" % ref_out])
-        with open(my_out, 'r') as my:
-            with open(ref_out, 'r') as ref:
-                self.assertEqual(ref.read(), my.read())
-        for f in [my_out, ref_out]:
-            os.remove(f)
+        try:
+            for f in [my_out, ref_out]:
+                with open(f, 'w') as fd:
+                    fd.write("")
+            self.execute_my_shell(["ls", ">", "%s" % my_out])
+            self.execute_my_shell(["ls", ">>", "%s" % my_out])
+            self.execute_my_shell(["ls", ">", "%s" % my_out])
+            self.execute_real_shell(["ls", ">", "%s" % ref_out])
+            self.execute_real_shell(["ls", ">>", "%s" % ref_out])
+            self.execute_real_shell(["ls", ">", "%s" % ref_out])
+            with open(my_out, 'r') as my:
+                with open(ref_out, 'r') as ref:
+                    self.assertEqual(ref.read(), my.read())
+        finally:
+            for f in [my_out, ref_out]:
+                os.remove(f)
 
     def test_left_00(self):
         my_in = "in.my"
-        with open(my_in, 'w') as fd:
-            fd.write("data")
-        self.compare_shells(["cat", "<", "%s" % my_in])
-        os.remove(my_in)
+        try:
+            with open(my_in, 'w') as fd:
+                fd.write("data")
+            self.compare_shells(["cat", "<", "%s" % my_in])
+        finally:
+            os.remove(my_in)
 
     def test_left_pipe_00(self):
         my_in = "in.my"
-        with open(my_in, 'w') as fd:
-            fd.write("data")
-        self.compare_shells(["cat", "<", "%s" % my_in, "|", "cat -e"])
-        os.remove(my_in)
+        try:
+            with open(my_in, 'w') as fd:
+                fd.write("data")
+            self.compare_shells(["cat", "<", "%s" % my_in, "|", "cat -e"])
+        finally:
+            os.remove(my_in)
 
     def test_left_pipe_01(self):
         my_in = "in.my"
-        with open(my_in, 'w') as fd:
-            fd.write("3\n2\n1\n")
-        self.compare_shells(["cat", "<", "%s" % my_in, "|", "cat -e", "|", "sort"])
-        os.remove(my_in)
+        try:
+            with open(my_in, 'w') as fd:
+                fd.write("3\n2\n1\n")
+            self.compare_shells(["cat", "<", "%s" % my_in, "|", "cat -e", "|", "sort"])
+        finally:
+            os.remove(my_in)
 
     def test_left_pipe_right_00(self):
         data_in = "in.data"
