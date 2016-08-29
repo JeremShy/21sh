@@ -29,8 +29,6 @@ int		is_aggr(size_t *i, char *str, int jump)
 char	*is_redir(size_t *i, char *str, int jump, t_cmd	*cmd)
 {
 	size_t	tmp;
-	char		*quote;
-	(void)		quote;
 
 	tmp = *i;
 	if ((str[tmp] == '<' && str[tmp + 1] == '<') || (str[tmp] == '>' && str[tmp + 1] == '>')) // Il faut commence par deux chevrons...
@@ -56,7 +54,7 @@ char	*is_redir(size_t *i, char *str, int jump, t_cmd	*cmd)
 				cmd->p_error = 1;
 			return (NULL);
 		}
-		quote = skip_quotes_nb_arg(str, &tmp, cmd); // On enleve les quotes.
+		skip_quotes_nb_arg(str, &tmp, cmd); // On enleve les quotes.
  		if (jump)
 			*i = tmp;
 		return ("KAKA"); // On se barre à la fin.

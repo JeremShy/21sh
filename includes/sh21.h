@@ -396,6 +396,11 @@ void				move_up_history(t_data *data, t_env *env);
 void				move_down_history(t_data *data, t_env *env);
 int					create_history(t_data *data, t_env **env);
 int					is_add_or_del_char(t_data *data, char buf[11]);
+int					is_boucle_move(t_data *data, char *buf);
+int					is_boucle_mode_copy(t_data *data, char buf[11]);
+void				boucle_home(t_data *data);
+void				boucle_end(t_data *data);
+void				init_or_end_mode_copy(t_data *data);
 // -----------------------------------------------------------------------------
 
 t_cmd		*cmd_not_found(t_cmd *command, t_data *data, t_env *env);

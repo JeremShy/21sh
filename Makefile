@@ -95,7 +95,11 @@
 		 move_down_history.c \
 		 ft_is_x_3.c \
 		 create_history.c \
-		 boucle_add_or_del_char.c
+		 boucle_add_or_del_char.c \
+		 boucle_move.c \
+		 boucle_home_end.c \
+		 boucle_mode_copy.c \
+		 boucle_mode_copy_init_or_end.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes
