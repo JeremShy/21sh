@@ -182,24 +182,25 @@ class TestBasics(unittest.TestCase):
         data_in = "in.data"
         my_out = "out.my"
         ref_out = "out.ref"
-        for f in [my_out, ref_out]:
-            with open(f, 'w') as fd:
-                fd.write("")
-        with open(data_in, 'w') as fd:
-            fd.write("3\n2\n1\n")
+        try:
+            for f in [my_out, ref_out]:
+                with open(f, 'w') as fd:
+                    fd.write("")
+            with open(data_in, 'w') as fd:
+                fd.write("3\n2\n1\n")
 
-        def cli(output):
-            return ["cat", "<", "%s" % data_in, "|", "cat -e", "|", "sort", ">", "%s" % output]
+            def cli(output):
+                return ["cat", "<", "%s" % data_in, "|", "cat -e", "|", "sort", ">", "%s" % output]
 
-        self.execute_my_shell(cli(my_out))
-        self.execute_real_shell(cli(ref_out))
+            self.execute_my_shell(cli(my_out))
+            self.execute_real_shell(cli(ref_out))
 
-        with open(my_out, 'r') as my:
-            with open(ref_out, 'r') as ref:
-                self.assertEqual(ref.read(), my.read())
-
-        for f in [data_in, my_out, ref_out]:
-            os.remove(f)
+            with open(my_out, 'r') as my:
+                with open(ref_out, 'r') as ref:
+                    self.assertEqual(ref.read(), my.read())
+        finally:
+            for f in [data_in, my_out, ref_out]:
+                os.remove(f)
 
 
 if __name__ == "__main__":
