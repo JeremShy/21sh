@@ -7,7 +7,6 @@ int verif_empty_quote(char *str, size_t *i) // ne supprime pas les quotes, si pa
 	tmp = *i + 1;
 	if (!str[tmp] || ft_isspace2(str[tmp]))
 	{
-		// printf("J'AIME LE KAKA AUX AMANDES GRILLEES\n");
 		return (1);
 	}
 	while ((!is_quote_close(str[*i], str[tmp]) && str[tmp]) || is_escaped_char(str, tmp))
@@ -16,7 +15,6 @@ int verif_empty_quote(char *str, size_t *i) // ne supprime pas les quotes, si pa
 			return(1);
 		tmp++;
 	}
-	//  printf("tmp = %zu and current char = [%c]\n", tmp, str[tmp]);
 	if (str[tmp])
 		*i = tmp + 1;
 	return (0);
@@ -46,7 +44,6 @@ char *skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd)
 	{
 		if (is_redir(i, str, 0, cmd) && ft_isdigit(str[*i]))
 		{
-			// printf("CHAR ACTUEL : [%c] avec i = %zu (after %c)\n", str[*i], *i, str[*i + 1]);
 			break ;
 		}
 		if (!is_escaped_char(str, *i) && is_quote_open(str[*i]))
@@ -56,7 +53,7 @@ char *skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd)
 		(*i)++;
 	}
 	if (start != *i)
-		return ((void*)1);//(ft_strsub(str, start, *i - start));
+		return ((void*)1);
 	return(NULL);
 }
 
@@ -67,38 +64,28 @@ char *skip_quotes(char **str, size_t *i, t_cmd *cmd)
 	if (is_quote_open((*str)[*i]) && !is_escaped_char(*str, *i) && !verif_empty_quote(*str, i))
 		return (NULL);
  	start = *i;
-	// printf("glblblbl %s\n", str + *i);
 	while((*str)[*i] && !ft_isspace2((*str)[*i]) && !is_sep(i, *str, 0, cmd))
 	{
 		if ((*str)[*i] == '\\')
 		{
-			printf("before : [%s]\n", *str);
 			if ((*str)[*i + 1])
 				*str = delete_char(*str, *i + 1);
-			printf("after : [%s]\n", *str);
 		}
 		else
 		{
 			if ((is_redir(i, *str, 0, cmd) || is_aggr(i, *str, 0)) && ft_isdigit((*str)[*i]))
 			{
-				printf("CHAR ACTUEL : [%c] avec i = %zu (after %c)\n", (*str)[*i], *i, (*str)[*i + 1]);
 				(*i)++;
 				break ;
 			}
 			if (is_quote_open((*str)[*i]) && !is_escaped_char(*str, *i) )
-			{
-				printf("before1 : [%s]\n", *str);
 				join_inside_quote(i, str);
-				printf("after1 : [%s]\n", *str);
-			}
 		}
 		if ((*str)[*i])
 			(*i)++;
 	}
 	if (start != *i)
 	{
-		// printf("blblbl [%s]\n", ft_strsub(*str, start, *i - start));
-		// printf("[%s] - [%s] - [%s] - %zu - %zu\n",*str, *str + *i, *str + start, start, *i);
  		return(ft_strsub(*str, start, *i - start));
 	}
 	return(NULL);

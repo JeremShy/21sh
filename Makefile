@@ -92,7 +92,10 @@
 		 print_errors.c \
 		 cmd_not_found.c \
 		 move_up_history.c \
-		 move_down_history.c
+		 move_down_history.c \
+		 ft_is_x_3.c \
+		 create_history.c \
+		 boucle_add_or_del_char.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes

@@ -1,126 +1,5 @@
 #include <sh21.h>
 
-void	prompt_quote(t_data *data)
-{
-	if (data->c == '\'')
-		data->prompt = ft_strdup("quote> ");
-	else if (data->c == '"')
-		data->prompt = ft_strdup("dquote> ");
-	else if (data->c == '`')
-		data->prompt = ft_strdup("bquote> ");
-	else if (data->c == '(')
-		data->prompt = ft_strdup("subsh> ");
-	else if (data->c == '[')
-		data->prompt = ft_strdup("crochet> ");
-	else if (data->c == '{')
-		data->prompt = ft_strdup("cursh> ");
-	else if (data->c == '<')
-		data->prompt = ft_strdup("heredoc> ");
-	ft_putstr(data->prompt);
-	// printf("------- data->cmd = [%s]\n", data->cmd);
-}
-
-int	create_history(t_data *data, t_env **env)
-{
-	int i;
-
-	i = 0;
-	// printf("DATA->INDEX = %d\n", data->index);
-	// printf("CURSEUR = [%d] /// INDEX  = [%d] /// DATA->WIN_X = [%d]\n", get_actual_cursor(data), data->index, data->win_x);
-	ft_putstr("\n");
-	// if (data->cmd[0] == '!')
-	// 	if (get_history_substutition_for_boucle(data, data->cmd + 1) == 0)
-	// 		return (0);
-	if (true_var_and_subs(data, &data->cmd) && data->c != '<' && (i = is_quote_end(data)) == 0 && (data->cmd[0] != '\0')) // Si la quote est terminée...
-	{
-		if (data->cmd_tmp[0] == '\0')
-		{
-			free(data->cmd_tmp);
-			data->cmd_tmp = ft_strdup("");
-		}
-		else
-		{
-			if (data->quote_or_hd == 0) // Il ne faut pas joindre les heredocs à la commande.
-				data->cmd = ft_strjoinaf2(data->cmd_tmp, data->cmd);
-		}
-		// data->history = add_history_elem(data->history, create_history_elem(data->cmd)); // On rajoute la ligne dans l'historique.
-		// printf("\nexecuting command now...\n");
-		data->index = 0;
-		invert_term();
-		signal(SIGINT, SIG_IGN);
-		exec_cmd(env, parse(data->cmd, data->heredocs, env, data), data); // On execute la commande.
-		signal(SIGINT, sigint);
-		invert_term();
-		// printf("\nthe command has been executed\n");
-		// display_heredoc(data->heredocs);
-		data->c = '\0';
-		//-------------------------
-		reinitialise_heredoc(data, 1);
-		if (data->cmd_tmp)
-			free(data->cmd_tmp);
-		data->cmd_tmp = ft_strdup("");
-		data->quote_old_index = 0;
-		if (data->list_auto)
-		{
-			delete_list_auto(data->list_auto);
-			data->list_auto = NULL;
-		}
-		delete_list_command(data->command);
-		data->command = NULL;
-	}
-	else
-	{
-		if (i == -1)
-		{
-			reinitialise_heredoc(data, 1);
-		}
-		else if (data->c == '<')
-		{
-			if (is_key(data))
-			{
-				reinitialise_heredoc(data, 0);
-				return (create_history(data, env));
-			}
-			else
-			{
-				if (data->first_line_of_hd == 0)
-				{
-					data->heredocs_tmp = ft_strjoinaf1(data->heredocs_tmp, data->cmd);
-					data->heredocs_tmp = ft_strjoinaf1(data->heredocs_tmp, "\n");
-				}
-				data->first_line_of_hd = 0;
-			}
-		}
-		else if (data->c == '\0')
-		{
-			free(data->cmd_tmp);
-			data->cmd_tmp = ft_strdup("");
-		}
-		else
-		{
-			data->cmd_tmp = ft_strjoinaf1(data->cmd_tmp, data->cmd);
-			data->cmd_tmp = ft_strjoinaf1(data->cmd_tmp, "\n");
-		}
-		data->index++;
-	}
-	free(data->prompt);
-	data->prompt = print_prompt(*env, data);
-	data->len_prompt = ft_strlen(data->prompt);
-	data->real_len_cmd = 0;
-	if (data->first)
-	{
-		free(data->first);
-		data->first = NULL;
-	}
-	data->first_search = 1;
-	data->history_en_cours = NULL;
-	if (data->cmd)
-		free(data->cmd);
-	data->cmd = ft_strdup("");
-	data->index = 0;
-	return (0);
-}
-
 void	boucle(t_env *env, t_data *data)
 {
 	char	buf[11];
@@ -148,39 +27,15 @@ void	boucle(t_env *env, t_data *data)
 	while ((r = read(0, buf, 10)))
 	{
 		data->in_env_i = 0;
-		if ((ft_isalpha(buf[0]) || (buf[0] >= 32 && buf[0] <= 64) || (buf[0] >= 123 && buf[0] <= 126) || (buf[0] >= 91 && buf[0] <= 96)) && buf[1] == '\0' && !data->mode_copy)
+		if (is_add_or_del_char(data, buf))
 		{
-			if (data->list_auto)
-			{
-				delete_list_auto(data->list_auto);
-				data->list_auto = NULL;
-			}
-			if (data->index == (int)data->real_len_cmd)
-			{
-				data->cmd = ft_strjoinaf1(data->cmd, buf);
-				ft_putchar(buf[0]);
-				data->index++;
-			}
-			else
-			{
-				insert_mode(data, buf[0]);
-			}
-			data->real_len_cmd++;
-			data->first_search = 1;
-			if (data->first)
-			{
-				free(data->first);
-				data->first = NULL;
-			}
 		}
 		else if (buf[0] == 4 && buf[1] == 0) // Ctrl + D
-			// FREE DATA;
 		{
 			if (data->c == '<')
 			{
 				reinitialise_heredoc(data, 0);
 				create_history(data, &env);
-				// create_history(data, env);
 			}
 			else if (ft_strequ(data->cmd, ""))
 			{
@@ -192,27 +47,6 @@ void	boucle(t_env *env, t_data *data)
 			move_left(data);
 		else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 67 && buf[3] == 0)
 			move_right(data);
-		else if (buf[0] == 127 && buf[1] == 0 && !data->mode_copy)
-		{
-			//TODO free list_auto
-			if (data->list_auto)
-			{
-				delete_list_auto(data->list_auto);
-				data->list_auto = NULL;
-			}
-			if (data->index > 0)
-			{
-				delete_mode(data);
-				data->first_search = 1;
-				if (data->first)
-				{
-					free(data->first);
-					data->first = NULL;
-				}
-				if (ft_strequ(data->cmd, ""))
-					data->history_en_cours = NULL; // Voir si on veut le mettre
-			}
-		}
 		else if (buf[0] == 10 && buf[1] == 0 && !data->mode_copy)
 			create_history(data, &env);
 		else if ((buf[0] == 27	&&	buf[1] == 91 && buf[2] == 72 && buf[3] == 0) ||

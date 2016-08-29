@@ -1,24 +1,5 @@
 #include <sh21.h>
 
-int		is_builtin(char *cmd)
-{
-	if (cmd[0] == 'e')
-	{
-		if (ft_strequ(cmd, "exit") || ft_strequ(cmd, "env") ||
-			ft_strequ(cmd, "echo") || ft_strequ(cmd, "export"))
-			return (1);
-		else
-			return (0);
-	}
-	else if (ft_strequ(cmd, "cd") || ft_strequ(cmd, "setenv")
-		|| ft_strequ(cmd, "unsetenv") || ft_strequ(cmd, "source")
-		|| ft_strequ(cmd, "history") || ft_strequ(cmd, "setvar")
-		|| ft_strequ(cmd, "unset"))
-		return (1);
-	else
-		return (0);
-}
-
 void	free_char_tab(char **tab)
 {
 	int	i;
@@ -32,4 +13,23 @@ void	free_char_tab(char **tab)
 		i++;
 	}
 	free(tab);
+}
+
+void	prompt_quote(t_data *data)
+{
+	if (data->c == '\'')
+		data->prompt = ft_strdup("quote> ");
+	else if (data->c == '"')
+		data->prompt = ft_strdup("dquote> ");
+	else if (data->c == '`')
+		data->prompt = ft_strdup("bquote> ");
+	else if (data->c == '(')
+		data->prompt = ft_strdup("subsh> ");
+	else if (data->c == '[')
+		data->prompt = ft_strdup("crochet> ");
+	else if (data->c == '{')
+		data->prompt = ft_strdup("cursh> ");
+	else if (data->c == '<')
+		data->prompt = ft_strdup("heredoc> ");
+	ft_putstr(data->prompt);
 }
