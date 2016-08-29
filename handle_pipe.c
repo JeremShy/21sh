@@ -97,6 +97,7 @@ int		fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 		else
 		{
 		}
+		spawn_proc(cmd, env, data, fd[1]);
 		close(fd[1]);
 		cmd = cmd->next;
 		if (cmd == NULL)
