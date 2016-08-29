@@ -391,5 +391,14 @@ int					operate_legal_opts(char **str, t_cmd *cmd, t_data *data);
 void				move_index(t_data *data);
 // -----------------------------------------------------------------------------
 
+/*
+	
+*/
+t_cmd		*cmd_not_found(t_cmd *command, t_data *data, t_env *env);
+
+/*
+print_errors.c
+*/
+void	print_cmd_not_found(char *scmd);
 
 #endif
