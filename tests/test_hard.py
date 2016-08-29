@@ -9,6 +9,7 @@ class TestAdvanced(unittest.TestCase):
     tests_dir = os.path.split(__file__)[0]
     binary = "%s/../%s" % (tests_dir, BINARY_NAME)
     prompt = ""
+    dev_null = None
 
     @classmethod
     def setUpClass(cls):
@@ -16,9 +17,11 @@ class TestAdvanced(unittest.TestCase):
         if os.path.isfile(cls.binary) is False:
             raise IOError("Make the project: %s not here\n" % cls.binary)
         cls.prompt = cls.get_prompt(cls.binary)
+        cls.dev_null = open("/dev/null", 'w')
 
     @classmethod
     def tearDownClass(cls):
+        cls.dev_null.close()
         os.write(1, "\n")
 
     @staticmethod
@@ -74,148 +77,70 @@ class TestAdvanced(unittest.TestCase):
         self.assertEqual("", stdout)
         self.assertEqual("", stderr)
 
-    def test_semi_00(self):
-        self.compare_shells(["ls", ";", "ls"])
-
-    def test_pipe_00(self):
-        self.compare_shells(["ls", "|", "cat -e"])
-
-    def test_pipe_01(self):
-        self.compare_shells(["ls", "|", "cat -e", "|", "sort"])
-
-    def test_pipe_02(self):
-        self.compare_shells(["ls", "|", "cat -e", "|", "sort", "|", "rev", "|", "sort", "|", "cat -e"])
-
-    def test_pipe_03(self):
-        self.compare_shells(["ls", "|", "cat -e", "|", "sort", "|", "rev", "|", "sort", "|", "cat -e",
-                             "|", "cat -e", "|", "sort", "|", "rev", "|", "sort", "|", "cat -e"])
-
-    def test_pipe_04(self):
-        self.compare_shells(["ls", "|", "cat -e", "|", "sort", "|", "rev", "|", "sort", "|", "cat -e",
-                             "|", "cat -e", "|", "sort", "|", "rev", "|", "sort", "|", "cat -e",
-                             "|", "cat -e", "|", "cat -e", "|", "cat -e"])
-
-    def test_pipe_100_pipe(self):
-        base = ["ls"]
-
-        for i in range(20):
-            base.append("|")
-            base.append("cat -e")
-
-        self.compare_shells(base)
-
-    def test_right_00(self):
-        out = "out"
+    def test_00_semi(self):
+        folder = "%s.d" % self.test_00_semi.__name__
+        cli = ["mkdir", "-p", "%s" % folder, ";", "cd", "%s" % folder, ";", "ls -a"]
         try:
-            self.compare_shells(["ls", ">", "%s" % out])
+            stdout, stderr = self.execute_my_shell(cli)
+            self.assertEqual(stdout[:5], ".\n..\n")
+            self.assertEqual(stderr, "")
         finally:
-            os.remove(out)
+            os.rmdir(folder)
 
-    def test_right_01(self):
-        my_out = "out.my"
-        ref_out = "out.ref"
+    def test_01_semi(self):
+        folder = "%s.d" % self.test_01_semi.__name__
+
+        cli = ["mkdir", "-p", "%s" % folder, ";", "cd", "%s" % folder, ";", "pwd",
+               ";", "unsetenv", "OLDPWD", ";", "cd", "-"]
         try:
-            for f in [my_out, ref_out]:
-                with open(f, 'w') as fd:
-                    fd.write("")
-            self.execute_my_shell(["ls", ">", "%s" % my_out])
-            self.execute_real_shell(["ls", ">", "%s" % ref_out])
-            with open(my_out, 'r') as my:
-                with open(ref_out, 'r') as ref:
-                    self.assertEqual(ref.read(), my.read())
+            stdout, stderr = self.execute_my_shell(cli)
+            e_path = os.path.abspath(folder)
+            self.assertEqual(stdout[:len(e_path)], e_path)
+            self.assertEqual(stderr, "cd: OLDPWD not set\n")
         finally:
-            for f in [my_out, ref_out]:
-                os.remove(f)
+            os.rmdir(folder)
 
-    def test_right_02(self):
-        my_out = "out.my"
-        ref_out = "out.ref"
+    def test_02_semi(self):
+        folder = "%s.d" % self.test_02_semi.__name__
+
+        cli = ["mkdir", "-p", "%s" % folder, ";", "ln", "-s", "%s" % folder, "%s.link" % folder, ";"
+                                                                                                 "cd", "-L",
+               "%s.link" % folder, ";", "pwd -L"]
         try:
-            for f in [my_out, ref_out]:
-                with open(f, 'w') as fd:
-                    fd.write("")
-            self.execute_my_shell(["ls", ">", "%s" % my_out])
-            self.execute_my_shell(["ls", ">>", "%s" % my_out])
-            self.execute_real_shell(["ls", ">", "%s" % ref_out])
-            self.execute_real_shell(["ls", ">>", "%s" % ref_out])
-            with open(my_out, 'r') as my:
-                with open(ref_out, 'r') as ref:
-                    self.assertEqual(ref.read(), my.read())
+            stdout, stderr = self.execute_my_shell(cli)
+            e_path = os.path.abspath(folder)
+            self.assertEqual(stderr, "")
+            self.assertEqual(stdout[:len("%s.link" % e_path)], "%s.link" % e_path)
         finally:
-            for f in [my_out, ref_out]:
-                os.remove(f)
+            os.rmdir(folder)
+            os.remove("%s.link" % folder)
 
-    def test_right_03(self):
-        my_out = "out.my"
-        ref_out = "out.ref"
+    def test_03_semi(self):
+        folder = "%s.d" % self.test_03_semi.__name__
+
+        cli = ["mkdir", "-p", "%s" % folder, ";", "ln", "-s", "%s" % folder, "%s.link" % folder, ";"
+                                                                                                 "cd", "-P",
+               "%s.link" % folder, ";", "pwd -L"]
         try:
-            for f in [my_out, ref_out]:
-                with open(f, 'w') as fd:
-                    fd.write("")
-            self.execute_my_shell(["ls", ">", "%s" % my_out])
-            self.execute_my_shell(["ls", ">>", "%s" % my_out])
-            self.execute_my_shell(["ls", ">", "%s" % my_out])
-            self.execute_real_shell(["ls", ">", "%s" % ref_out])
-            self.execute_real_shell(["ls", ">>", "%s" % ref_out])
-            self.execute_real_shell(["ls", ">", "%s" % ref_out])
-            with open(my_out, 'r') as my:
-                with open(ref_out, 'r') as ref:
-                    self.assertEqual(ref.read(), my.read())
+            stdout, stderr = self.execute_my_shell(cli)
+            e_path = os.path.abspath(folder)
+            self.assertEqual(stderr, "")
+            self.assertEqual(stdout[:len("%s" % e_path)], "%s" % e_path)
         finally:
-            for f in [my_out, ref_out]:
-                os.remove(f)
+            os.rmdir(folder)
+            os.remove("%s.link" % folder)
 
-    def test_left_00(self):
-        my_in = "in.my"
+    def test_04_semi(self):
+        folder = "%s.d" % self.test_04_semi.__name__
+
+        cli = ["mkdir", "-p", "%s" % folder, ";", "ln", "-s", "%s" % folder,
+               "%s.link" % folder, ";", "cd", "-P",
+               "%s.link" % folder, ";", "pwd -L"]
         try:
-            with open(my_in, 'w') as fd:
-                fd.write("data")
-            self.compare_shells(["cat", "<", "%s" % my_in])
+            stdout, stderr = self.execute_my_shell(cli)
+            e_path = os.path.abspath(folder)
+            self.assertEqual(stderr, "")
+            self.assertEqual(stdout[:len("%s" % e_path)], "%s" % e_path)
         finally:
-            os.remove(my_in)
-
-    def test_left_pipe_00(self):
-        my_in = "in.my"
-        try:
-            with open(my_in, 'w') as fd:
-                fd.write("data")
-            self.compare_shells(["cat", "<", "%s" % my_in, "|", "cat -e"])
-        finally:
-            os.remove(my_in)
-
-    def test_left_pipe_01(self):
-        my_in = "in.my"
-        try:
-            with open(my_in, 'w') as fd:
-                fd.write("3\n2\n1\n")
-            self.compare_shells(["cat", "<", "%s" % my_in, "|", "cat -e", "|", "sort"])
-        finally:
-            os.remove(my_in)
-
-    def test_left_pipe_right_00(self):
-        data_in = "in.data"
-        my_out = "out.my"
-        ref_out = "out.ref"
-        try:
-            for f in [my_out, ref_out]:
-                with open(f, 'w') as fd:
-                    fd.write("")
-            with open(data_in, 'w') as fd:
-                fd.write("3\n2\n1\n")
-
-            def cli(output):
-                return ["cat", "<", "%s" % data_in, "|", "cat -e", "|", "sort", ">", "%s" % output]
-
-            self.execute_my_shell(cli(my_out))
-            self.execute_real_shell(cli(ref_out))
-
-            with open(my_out, 'r') as my:
-                with open(ref_out, 'r') as ref:
-                    self.assertEqual(ref.read(), my.read())
-        finally:
-            for f in [data_in, my_out, ref_out]:
-                os.remove(f)
-
-
-if __name__ == "__main__":
-    unittest.main()
+            os.rmdir(folder)
+            os.remove("%s.link" % folder)
