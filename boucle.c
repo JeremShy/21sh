@@ -20,127 +20,6 @@ void	prompt_quote(t_data *data)
 	// printf("------- data->cmd = [%s]\n", data->cmd);
 }
 
-void	move_up_history(t_data *data, t_env *env)
-{
-	t_history	*temp;
-
-	if (data->c == '\0' && data->history != NULL)
-	{
-		if (!data->first && data->first_search) // Si c'est la premiere fois qu'on appuie sur haut..
-		{
-			data->first_search = 0; // On change le fait que c'est la premiere fois
-			if (!ft_strequ(data->cmd, "")) // Et si y a qqc dans notre commande, on s'en sert pour notre recherche future.
-				data->first = ft_strdup(data->cmd);
-		}
-		if (!data->first && data->history_en_cours == NULL) //Si on est sorti de l'historique et qu'on a pas de recherche a faire, on part du depart (empeche de sauter le 1er element)
-			data->history_en_cours = data->history;
-		else if (data->first) // Sinon si on a une recherche a faire..
-		{
-			temp = data->history_en_cours; // On sauvegarde l'historique, au cas où on doive sortir plus tard
-			if (!data->history_en_cours) // Si on est sorti, on part du premier
-				data->history_en_cours = data->history;
-			else if (data->history_en_cours->prec) // Sinon on part de celui d'avant(pour eviter de stagner sur le meme element)
-				data->history_en_cours = data->history_en_cours->prec;
-			while(!ft_strnequ(data->history_en_cours->line, data->first, ft_strlen(data->first)) //Tant que celui sur lequel on est ne correspond pas à notre recherche, et qu'il y en a un avant..
-					&& data->history_en_cours->prec)
-			{
-				data->history_en_cours = data->history_en_cours->prec; // On recule dans notre historique
-			}
-			if (!ft_strnequ(data->history_en_cours->line, data->first, ft_strlen(data->first))) // Si on s'est pas arrete parce que le truc correspond, alors c'est qu'on s'est arrete parce qu'on etait a la fin. auquel cas, on fait comme si on avait rien fait.
-			{
-				data->history_en_cours = temp;
-				return ;
-			}
-		}
-		else
-		{
-			if (data->history_en_cours->prec)
-				data->history_en_cours = data->history_en_cours->prec;
-			else
-				return ;
-		}
-		exec_tcap("dl");
-		exec_tcap("cr");
-		free(data->prompt);
-		data->prompt = print_prompt(env, data);
-		data->len_prompt = ft_strlen(data->prompt);
-		ft_putstr((data->history_en_cours)->line);
-		if (data->cmd)
-			free(data->cmd);
-		data->cmd = ft_strdup((data->history_en_cours)->line);
-		data->real_len_cmd = ft_strlen(data->cmd);
-		data->index = ft_strlen(data->cmd);
-		data->curs_x = data->len_prompt + data->real_len_cmd + 1;
-		if (data->list_auto)
-		{
-			delete_list_auto(data->list_auto);
-			data->list_auto = NULL;
-		}
-	}
-	else
-	{
-		//On fait des trucs. (important).
-	}
-}
-
-void	move_down_history(t_data *data, t_env *env)
-{
-	if (data->c == '\0')
-	{
-		if (data->history != NULL)
-		{
-			if (data->history_en_cours == NULL)
-			{
-				return ;
-			}
-			if (data->cmd)
-				free(data->cmd);
-			if (data->first)
-			{
-				data->history_en_cours = data->history_en_cours->next;
-				while (data->history_en_cours &&
-						!ft_strnequ(data->history_en_cours->line, data->first, ft_strlen(data->first)))
-				{
-					data->history_en_cours = data->history_en_cours->next;
-				}
-				if (!data->history_en_cours)
-				{
-					data->cmd = ft_strdup(data->first);
-				}
-				else
-					data->cmd = ft_strdup(data->history_en_cours->line);
-			}
-			else if ((data->history_en_cours)->next)
-			{
-				data->history_en_cours = (data->history_en_cours)->next;
-				data->cmd = ft_strdup(data->history_en_cours->line);
-			}
-			else
-			{
-				data->history_en_cours = NULL;
-				// data->cmd = old_cmd;
-				data->cmd = ft_strdup("");
-				// return ;
-			}
-			exec_tcap("dl");
-			exec_tcap("cr");
-			free(data->prompt);
-			data->prompt = print_prompt(env, data);
-			data->len_prompt = ft_strlen(data->prompt);
-			ft_putstr(data->cmd);
-			data->real_len_cmd = ft_strlen(data->cmd);
-			data->index = ft_strlen(data->cmd);
-			data->curs_x = data->len_prompt + data->real_len_cmd + 1;
-			data->curs_y = 0;
-			if (data->list_auto)
-			{
-				delete_list_auto(data->list_auto);
-				data->list_auto = NULL;
-			}
-		}
-	}
-}
-
 int	create_history(t_data *data, t_env **env)
 {
 	int i;
@@ -228,8 +107,6 @@ int	create_history(t_data *data, t_env **env)
 	data->prompt = print_prompt(*env, data);
 	data->len_prompt = ft_strlen(data->prompt);
 	data->real_len_cmd = 0;
-	data->curs_x = data->len_prompt + 1;
-	data->curs_y = -1;
 	if (data->first)
 	{
 		free(data->first);
@@ -278,7 +155,6 @@ void	boucle(t_env *env, t_data *data)
 				delete_list_auto(data->list_auto);
 				data->list_auto = NULL;
 			}
-			data->curs_x++;
 			if (data->index == (int)data->real_len_cmd)
 			{
 				data->cmd = ft_strjoinaf1(data->cmd, buf);
@@ -432,7 +308,6 @@ void	boucle(t_env *env, t_data *data)
 		else if (buf[0] == 16 && buf[1] == 0 && !data->mode_copy)
 		{
 			char *pb = get_pb();
-			data->curs_x += ft_strlen(pb);
 			data->real_len_cmd += ft_strlen(pb);
 			data->index += ft_strlen(pb);
 			ft_putstr(pb);
@@ -599,7 +474,6 @@ void	boucle(t_env *env, t_data *data)
 		}
 		else
 		{
-			// ft_printf("%d - %d - %d - %d - %d - %d - cursor: x : %d, y : %d\n", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], data->curs_x, data->curs_y);
 		}
 		data->env = env;
 		get_index_min_win(data);

@@ -3,14 +3,12 @@
 void	move_left_simple(t_data *data)
 {
 	exec_tcap("le");
-	data->curs_x--;
 	data->index--;
 }
 
 void	move_right_simple(t_data *data)
 {
 	exec_tcap("nd");
-	data->curs_x++;
 	data->index++;
 }
 

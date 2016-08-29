@@ -73,8 +73,6 @@ void	init_data(t_data *data)
 	get_winsize(data);
 	data->prompt = print_prompt(data->env, data);
 	data->len_prompt = ft_strlen(data->prompt);
-	data->curs_x = data->len_prompt + 1;
-	data->curs_y = 0;
 	data->cmd = ft_strdup("");
 	data->index = 0;
 	data->real_len_cmd = 0;

@@ -312,6 +312,7 @@ void				delete_list_auto(t_auto *list);
 void				delete_list_env_and_var(t_data *data);
 void				delete_data(t_data *data);
 void				delete_list_var(t_var *list);
+void				reinit_list_auto(t_data *data);
 //------------------------------------------------------------------------------
 
 // ---------------------------AUTOCOMPLETE--------------------------------------
@@ -387,18 +388,15 @@ void				cd_physical(char *path, t_env **env, t_data *data, t_cmd *cmd);
 int					operate_legal_opts(char **str, t_cmd *cmd, t_data *data);
 // -----------------------------------------------------------------------------
 
-// -----------------------------MOVE-------------------------------------------
+// -----------------------------MOVE--------------------------------------------
 void				move_index(t_data *data);
+
+// ----------------------------BOUCLE-------------------------------------------
+void				move_up_history(t_data *data, t_env *env);
+void				move_down_history(t_data *data, t_env *env);
 // -----------------------------------------------------------------------------
 
-/*
-	
-*/
 t_cmd		*cmd_not_found(t_cmd *command, t_data *data, t_env *env);
-
-/*
-print_errors.c
-*/
 void	print_cmd_not_found(char *scmd);
 
 #endif
