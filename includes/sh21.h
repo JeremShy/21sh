@@ -25,7 +25,6 @@
 # define	BUF_CWD_MAX BUF_CWD * 1024
 # define	BUF_CWD_ERR "Error in Get CWD\n"
 
-
 # undef tab
 
 typedef struct dirent		t_dirent;
