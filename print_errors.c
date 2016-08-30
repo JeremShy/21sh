@@ -6,3 +6,9 @@ void	print_cmd_not_found(char *scmd)
 	ft_putstr_fd(scmd, 2);
 	ft_putchar_fd('\n', 2);
 }
+
+int		print_pipe_error(void)
+{
+	ft_putstr_fd("42sh: parse error near '|' or '&'\n", 2);
+	return (1);
+}

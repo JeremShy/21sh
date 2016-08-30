@@ -32,7 +32,7 @@ int			is_pipe_error(char *s, size_t i, int first_char, int last_spe_char)
 	{
 		jump_space(s, &i);
 		if (!s[i])
-			continue ;
+			break ;
 		else if (is_aggr(&i, s, 1))
 		{
 		}

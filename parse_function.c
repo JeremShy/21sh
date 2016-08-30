@@ -1,6 +1,6 @@
 #include <sh21.h>
 
-int verif_empty_quote(char *str, size_t *i) // ne supprime pas les quotes, si pas ok, renvoi un caractere apres la quote qui close
+int				verif_empty_quote(char *str, size_t *i)
 {
 	size_t tmp;
 
@@ -9,10 +9,12 @@ int verif_empty_quote(char *str, size_t *i) // ne supprime pas les quotes, si pa
 	{
 		return (1);
 	}
-	while ((!is_quote_close(str[*i], str[tmp]) && str[tmp]) || is_escaped_char(str, tmp))
+	while ((!is_quote_close(str[*i], str[tmp]) && str[tmp]) ||
+	is_escaped_char(str, tmp))
 	{
-		if ((!is_quote(str[tmp]) && !ft_isspace2(str[tmp])) || is_escaped_char(str, tmp))
-			return(1);
+		if ((!is_quote(str[tmp]) && !ft_isspace2(str[tmp])) ||
+		is_escaped_char(str, tmp))
+			return (1);
 		tmp++;
 	}
 	if (str[tmp])
@@ -20,18 +22,19 @@ int verif_empty_quote(char *str, size_t *i) // ne supprime pas les quotes, si pa
 	return (0);
 }
 
-void	get_pos_after_quote(size_t *i, char *str)
+void			get_pos_after_quote(size_t *i, char *str)
 {
 	char open;
 
 	open = str[*i];
-	while (!(is_quote_close(open, str[*i + 1]) && !is_escaped_char(str, *i + 1)) && str[*i + 1])
+	while (!(is_quote_close(open, str[*i + 1]) &&
+	!is_escaped_char(str, *i + 1)) && str[*i + 1])
 		(*i)++;
 	if (str[*i])
 		(*i)++;
 }
 
-char *skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd)
+char			*skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd)
 {
 	size_t		start;
 
@@ -39,8 +42,8 @@ char *skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd)
 	{
 		return (NULL);
 	}
- 	start = *i;
-	while(str[*i] && !ft_isspace2(str[*i]) && !is_sep(i, str, 0, cmd))
+	start = *i;
+	while (str[*i] && !ft_isspace2(str[*i]) && !is_sep(i, str, 0, cmd))
 	{
 		if (is_redir(i, str, 0, cmd) && ft_isdigit(str[*i]))
 		{
@@ -54,17 +57,12 @@ char *skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd)
 	}
 	if (start != *i)
 		return ((void*)1);
-	return(NULL);
+	return (NULL);
 }
 
-char *skip_quotes(char **str, size_t *i, t_cmd *cmd)
+static void		skip_quotes_replace_string(t_cmd *cmd, char **str, size_t *i)
 {
-	size_t		start;
-
-	if (is_quote_open((*str)[*i]) && !is_escaped_char(*str, *i) && !verif_empty_quote(*str, i))
-		return (NULL);
- 	start = *i;
-	while((*str)[*i] && !ft_isspace2((*str)[*i]) && !is_sep(i, *str, 0, cmd))
+	while ((*str)[*i] && !ft_isspace2((*str)[*i]) && !is_sep(i, *str, 0, cmd))
 	{
 		if ((*str)[*i] == '\\')
 		{
@@ -73,20 +71,32 @@ char *skip_quotes(char **str, size_t *i, t_cmd *cmd)
 		}
 		else
 		{
-			if ((is_redir(i, *str, 0, cmd) || is_aggr(i, *str, 0)) && ft_isdigit((*str)[*i]))
+			if ((is_redir(i, *str, 0, cmd) || is_aggr(i, *str, 0)) &&
+			ft_isdigit((*str)[*i]))
 			{
 				(*i)++;
 				break ;
 			}
-			if (is_quote_open((*str)[*i]) && !is_escaped_char(*str, *i) )
+			if (is_quote_open((*str)[*i]) && !is_escaped_char(*str, *i))
 				join_inside_quote(i, str);
 		}
 		if ((*str)[*i])
 			(*i)++;
 	}
+}
+
+char			*skip_quotes(char **str, size_t *i, t_cmd *cmd)
+{
+	size_t		start;
+
+	if (is_quote_open((*str)[*i]) && !is_escaped_char(*str, *i) &&
+	!verif_empty_quote(*str, i))
+		return (NULL);
+	start = *i;
+	skip_quotes_replace_string(cmd, str, i);
 	if (start != *i)
 	{
- 		return(ft_strsub(*str, start, *i - start));
+		return (ft_strsub(*str, start, *i - start));
 	}
-	return(NULL);
+	return (NULL);
 }

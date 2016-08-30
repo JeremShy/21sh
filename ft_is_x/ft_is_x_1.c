@@ -14,6 +14,20 @@ int			is_empty_border(char *str, size_t beg, size_t end)
 	return (1);
 }
 
+int			is_wrong_pipe(char *str, int index)
+{
+	size_t	fuck;
+
+	printf("a\n");
+	while (str[index] && ft_isspace2(str[index]))
+		index++;
+	fuck = index;
+	printf("Actual char [%c]\n", str[index]);
+	if (str[index] == '|' || str[index] == '&' || is_sep(&fuck, str, 0, NULL))
+		return (1);
+	return (0);
+}
+
 int			is_empty(char *str, size_t *i)
 {
 	size_t tmp;

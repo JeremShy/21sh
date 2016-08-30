@@ -144,6 +144,9 @@ typedef struct	s_data {
 	int				subs_flag; // norminette flemme
 	size_t		var_index_begin; // norminette flemme
 	size_t		var_length; // norminette flemme
+	int				parse_count; // norminette flemme
+	size_t		parse_old_i; // norminette flemme
+	t_hc			**parse_heredocs;
 }				t_data;
 
 t_env				*ft_parse_env(char **env);
@@ -275,8 +278,7 @@ int   			true_var_and_subs(t_data *data, char **str);
 int					ft_setvar(char **scmd, t_data *data, t_cmd *cmd);
 char				*find_var_env(t_data *data, char *name, t_env *env);
 int  			 	is_escaped_char(char *str, int index);
-int					is_pipe_error(char *str, size_t i, int first_char, int last_spe_char);
-int					is_pipe_e_parse_error(char *str);
+int					is_pipe_error(char *str);
 void				putstr_builtin(t_cmd *cmd, char *str, int fd);
 void				putendl_builtin(t_cmd *cmd, char *str, int fd);
 void				putchar_builtin(t_cmd *cmd, char car, int fd);
@@ -405,6 +407,11 @@ void				init_or_end_mode_copy(t_data *data);
 int					is_boucle_move_history(t_data *data, char buf[11], int *flag, t_env *env);
 void				do_get_pb(t_data *data);
 // -----------------------------------------------------------------------------
+
+// ----------------------------PARSING------------------------------------------
+int					add_command(t_data *data, char *str, size_t *i, t_env **env);
+int					nb_arg(size_t *i, char *str, t_cmd *cmd);
+int					print_pipe_error(void);
 
 // ---------------------------EXEC----------------------------------------------
 int					spawn_proc(t_cmd *cmd, t_env *env, t_data *data, int fd);

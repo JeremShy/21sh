@@ -12,16 +12,18 @@
 		 ft_string.c \
 		 line.c \
 		 ft_is_x_1.c \
-		 ft_is_x_2.c \
+		 ft_is_x_3.c \
+		 ft_is_x.c \
 		 list_parse.c \
 		 parse.c \
+		 parse_add_command.c \
+		 parse_nb_arg.c \
 		 parse_function.c \
 		 fd_function_1.c \
 		 fd_function_2.c \
 		 handle.c \
 		 is_parse.c \
 		 quote.c \
-		 heredoc.c \
 		 list_heredoc.c \
 		 exit_builtin.c \
 		 handle_pipe.c \
@@ -94,7 +96,6 @@
 		 cmd_not_found.c \
 		 move_up_history.c \
 		 move_down_history.c \
-		 ft_is_x_3.c \
 		 create_history.c \
 		 boucle_add_or_del_char.c \
 		 boucle_move.c \
