@@ -412,8 +412,10 @@ void				do_get_pb(t_data *data);
 int					add_command(t_data *data, char *str, size_t *i, t_env **env);
 int					nb_arg(size_t *i, char *str, t_cmd *cmd);
 int					print_pipe_error(void);
-
+int					verif_wrong_sep(int *pipe_last, int *first_char);
+int					verif_first_pipe_error(char *str, size_t *i, int *pipe_last, int first_char);
 // ---------------------------EXEC----------------------------------------------
+
 int					spawn_proc(t_cmd *cmd, t_env *env, t_data *data, int fd);
 t_cmd				*cmd_not_found(t_cmd *command, t_data *data, t_env *env);
 void				print_cmd_not_found(char *scmd);

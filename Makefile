@@ -12,13 +12,14 @@
 		 ft_string.c \
 		 line.c \
 		 ft_is_x_1.c \
-		 ft_is_x_3.c \
-		 ft_is_x.c \
+		 ft_is_x_2.c \
 		 list_parse.c \
 		 parse.c \
 		 parse_add_command.c \
 		 parse_nb_arg.c \
 		 parse_function.c \
+		 parse_error.c \
+		 parse_error_verif.c \
 		 fd_function_1.c \
 		 fd_function_2.c \
 		 handle.c \
@@ -103,7 +104,7 @@
 		 boucle_mode_copy.c \
 		 boucle_mode_copy_init_or_end.c \
 		 boucle_move_history.c \
-		 boucle_ctrl_d_and_l.c \
+		 boucle_ctrl_d_and_l.c
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes
