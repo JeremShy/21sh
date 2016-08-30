@@ -1,6 +1,6 @@
 #include <sh21.h>
 
-int		find_number(t_cmd *cmd)
+static int	find_number(t_cmd *cmd)
 {
 	int		n;
 
@@ -13,101 +13,35 @@ int		find_number(t_cmd *cmd)
 	return (n);
 }
 
-int		spawn_proc (t_cmd *cmd, t_env *env, t_data *data, int fd)
-{
-	pid_t	pid;
-	int		in;
-	int		out;
-	int		err;
-	char	*file;
-	char	**environ;
-
-	in = cmd->fd_in->fd;
-	out = cmd->fd_out->fd;
-	err = cmd->fd_err->fd;
-	if ((pid = fork ()) == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		dup2(fd, out);
-		if (in != 0)
-		{
-			dup2(in, 0);
-			if (in != -2)
-				close(in);
-		}
-		if (out != 1)
-		{
-			if (cmd->fd_out->fd_pointe == 2)
-				dup2(err, 1);
-			else
-				dup2(out, 1);
-			if (out != -2)
-				close(out);
-		}
-		if (err != 2)
-		{
-			if (cmd->fd_err->fd_pointe == 1)
-				dup2(fd, 2);
-			else
-				dup2(err, 2);
-			if (err != -2)
-				close(err);
-		}
-		if (in == -2)
-			close(0);
-		if (out == -2)
-			close(1);
-		if (err == -2)
-			close(2);
-		if (is_builtin(cmd->av[0]))
-		{
-			cmd->fd_in->fd = 0;
-			cmd->fd_out->fd = 1;
-			cmd->fd_err->fd = 2;
-			cmd->ret = exec_builtin(cmd, &env, data);
-			exit(cmd->ret);
-		}
-		file = find_exec(cmd->av[0], data, env);
-		environ = make_env_char(env);
-		return execve(file, cmd->av, environ);
-		// }
-}
-if (in != 0)
-	close(in);
-	return pid;
-	}
-
-int		fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
+static int	exec_all_except_last(t_cmd **cmd, t_env *env, t_data *data)
 {
 	int		i;
-	int		fd[2];
-	char	*file;
-	char	**environ;
 	int		n;
-	int		fork_exec;
-	int		ret_execve;
+	int		fd[2];
 
 	i = 0;
-	n = find_number(cmd);
+	n = find_number(*cmd);
 	while (i < n - 1)
 	{
 		pipe(fd);
-		if (cmd->fd_out->fd == -2)
+		if ((*cmd)->fd_out->fd == -2)
 			close(fd[1]);
-		else
-		{
-		}
-		spawn_proc(cmd, env, data, fd[1]);
+		spawn_proc(*cmd, env, data, fd[1]);
 		close(fd[1]);
-		cmd = cmd->next;
-		if (cmd == NULL)
+		*cmd = (*cmd)->next;
+		if (*cmd == NULL)
 		{
 			ft_putstr_fd("221sh: parse error near '|'\n", 2);
-			return (-1);
+			return (0);
 		}
-		cmd->fd_in->fd = fd[0];
+		(*cmd)->fd_in->fd = fd[0];
 		i++;
 	}
+	return (1);
+}
+
+static void	init_fd_for_last(t_cmd *cmd)
+{
 	if (cmd->fd_in->fd != 0)
 		dup2(cmd->fd_in->fd, 0);
 	if (!cmd->fd_out || cmd->fd_out->fd == -2)
@@ -118,19 +52,34 @@ int		fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
 		close(2);
 	else if (cmd->fd_err->fd != 2)
 		dup2(cmd->fd_err->fd, 2);
+}
+
+void	exec_builtin_pipe(t_cmd *cmd, t_env **env, t_data *data)
+{
+	cmd->fd_in->fd = 0;
+	cmd->fd_out->fd = 1;
+	cmd->fd_err->fd = 2;
+	cmd->ret = exec_builtin(cmd, env, data);
+	exit(cmd->ret);
+}
+
+int			fork_pipes(t_cmd *cmd, t_env *env, t_data *data)
+{
+	char	*file;
+	char	**environ;
+	int		fork_exec;
+	int		ret_execve;
+
+	if (!exec_all_except_last(&cmd, env, data))
+		return (-1);
+	init_fd_for_last(cmd);
 	fork_exec = fork();
 	if (fork_exec != 0)
 		waitpid(fork_exec, &ret_execve, 0);
 	else
 	{
 		if (is_builtin(cmd->av[0]))
-		{
-			cmd->fd_in->fd = 0;
-			cmd->fd_out->fd = 1;
-			cmd->fd_err->fd = 2;
-			cmd->ret = exec_builtin(cmd, &env, data);
-			exit(cmd->ret);
-		}
+			exec_builtin_pipe(cmd, &env, data);
 		file = find_exec(cmd->av[0], data, env);
 		environ = make_env_char(env);
 		ret_execve = 0;

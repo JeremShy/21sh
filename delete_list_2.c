@@ -34,7 +34,7 @@ void	delete_list_env_and_var(t_data *data)
 	delete_list_var(data->var);
 }
 
-void		reinit_list_auto(t_data *data)
+void	reinit_list_auto(t_data *data)
 {
 	if (data->list_auto)
 	{

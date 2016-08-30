@@ -25,6 +25,7 @@
 		 list_heredoc.c \
 		 exit_builtin.c \
 		 handle_pipe.c \
+		 handle_pipe_spawn_proc.c \
 		 get_pb.c \
 		 echo.c \
 		 history_1.c\
@@ -101,7 +102,7 @@
 		 boucle_mode_copy.c \
 		 boucle_mode_copy_init_or_end.c \
 		 boucle_move_history.c \
-		 boucle_ctrl_d_and_l.c
+		 boucle_ctrl_d_and_l.c \
 
 OBJ_PATH = ./obj/
 INC_PATH = ./includes

@@ -406,7 +406,11 @@ int					is_boucle_move_history(t_data *data, char buf[11], int *flag, t_env *env
 void				do_get_pb(t_data *data);
 // -----------------------------------------------------------------------------
 
-t_cmd		*cmd_not_found(t_cmd *command, t_data *data, t_env *env);
-void	print_cmd_not_found(char *scmd);
+// ---------------------------EXEC----------------------------------------------
+int					spawn_proc(t_cmd *cmd, t_env *env, t_data *data, int fd);
+t_cmd				*cmd_not_found(t_cmd *command, t_data *data, t_env *env);
+void				print_cmd_not_found(char *scmd);
+void				exec_builtin_pipe(t_cmd *cmd, t_env **env, t_data *data);
+// -----------------------------------------------------------------------------
 
 #endif

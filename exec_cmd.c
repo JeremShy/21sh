@@ -28,10 +28,8 @@ void	exec_cmd_2(t_env **env, t_cmd **command, t_data *data)
 	}
 }
 
-void	exec_cmd_1(t_env **env, t_cmd **command, t_data *data)
+void	exec_cmd_1(t_env **env, t_cmd **command, t_data *data, int tmp)
 {
-	int		tmp;
-
 	if (is_builtin((*command)->av[0]))
 	{
 		(*command)->ret = exec_builtin((*command), env, data);
@@ -75,10 +73,11 @@ void	exec_cmd(t_env **env, t_cmd *command, t_data *data)
 		if (command->av[0] && (command->sep == NONE ||\
 					command->sep == POINT_VIRGULE || command->sep == ETET ||\
 					command->sep == OUOU))
-			exec_cmd_1(env, &command, data);
+			exec_cmd_1(env, &command, data, 0);
 		else if (command->sep == '|')
 			exec_cmd_2(env, &command, data);
-	}	temp->fd_in = fd_save[0];
+	}
+	temp->fd_in = fd_save[0];
 	temp->fd_out = fd_save[1];
 	temp->fd_err = fd_save[2];
 	close_fd_cmd(temp);
