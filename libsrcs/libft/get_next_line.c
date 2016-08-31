@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/07 16:20:59 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/08/23 16:42:32 by jcamhi           ###   ########.fr       */
+/*   Created: 2016/08/31 18:52:58 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/08/31 18:53:03 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include <unistd.h>
 #include <stdlib.h>

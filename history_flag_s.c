@@ -1,4 +1,3 @@
-
 #include <sh21.h>
 
 void		delete_last_history(t_data *data)
