@@ -62,6 +62,26 @@ typedef	struct		s_cmd {
 	int						ret;
 }								t_cmd;
 
+typedef struct	s_aggr {
+	int						avant;
+	int						apres;
+	int						chevron;
+}								t_aggr;
+
+typedef struct	s_hc {
+	struct s_hc		*next;
+	char					*content;
+}								t_hc;
+
+typedef struct	s_redir {
+	char					*quote;
+	int						fd;
+	int						fd_file;
+	int						redir_type;
+	t_cmd					*cmd;
+	t_hc					**heredocs;
+}								t_redir;
+
 typedef struct	s_history {
 	char							*line;
 	int								time;
@@ -70,11 +90,6 @@ typedef struct	s_history {
 	struct s_history	*prec;
 
 }								t_history;
-
-typedef struct	s_hc {
-	struct s_hc	*next;
-	char				*content;
-}								t_hc;
 
 typedef struct	s_auto {
 	char 					*str;
@@ -202,7 +217,7 @@ t_fd				*create_fd(int fd, int fd_pointe);
 int					split_cmd(int count, char **str, t_cmd *cmd, t_hc **heredocs);
 char				*skip_quotes_nb_arg(char *str, size_t *i, t_cmd *cmd);
 int					is_empty(char *str, size_t *i);
-int					handle_redir(size_t *i, char **str, int jump, t_cmd *cmd, t_hc **heredocs);
+int					handle_redir(size_t *i, char **str, t_cmd *cmd, t_hc **heredocs);
 t_fd				*copy_list_fd(t_fd *list);
 t_fd				*copy_fd(t_fd *list);
 int					handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd);
@@ -355,6 +370,10 @@ int					is_escaped_char(char *str, int index);
 int					is_quote_true_open(char car, char *str, int prec);
 int					is_quote_true_close(char car, char open, char *str, int prec);
 char				*find_subs_in_parsing(t_data *data, char *str, size_t length);
+int					print_error_fd_file(t_redir redir, t_cmd *cmd);
+int					error_open_file(t_redir *redir, t_cmd *cmd);
+int					error_handling_heredoc(t_redir *redir, t_cmd *cmd);
+
 // -----------------------------------------------------------------------------
 
 // ---------------------------BUILTIN CD----------------------------------------
@@ -416,6 +435,7 @@ int					print_pipe_error(void);
 int					verif_wrong_sep(int *pipe_last, int *first_char);
 int					verif_first_pipe_error(char *str, size_t *i, int *pipe_last, int first_char);
 void				find_list_auto(t_data *data);
+int					find_if_is_redir(char *str, size_t *tmp, int *fd, int *redir_type);
 // ----------------------------------------------------------------------------
 
 // ---------------------------EXEC----------------------------------------------

@@ -32,25 +32,19 @@ int				split_cmd(int count, char **str, t_cmd *cmd, t_hc **heredocs)
 		if (handle_aggr(&i, (*str), 1, cmd))
 		{
 		}
-		else if (handle_redir(&i, &(*str), 1, cmd, heredocs))
+		else if (handle_redir(&i, &(*str), cmd, heredocs))
 		{
 		}
 		else if (is_sep(&i, (*str), 1, cmd))
-		{
 			return (1);
-		}
 		else if ((tmp = skip_quotes(&(*str), &i, cmd)) != NULL)
-		{
 			if (tmp_i != i)
 			{
 				cmd->av[n_av] = tmp;
 				n_av++;
 			}
-		}
 		if (cmd->error)
-		{
 			return (-1);
-		}
 	}
 	return (1);
 }

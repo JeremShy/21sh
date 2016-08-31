@@ -22,7 +22,10 @@
 		 parse_error_verif.c \
 		 fd_function_1.c \
 		 fd_function_2.c \
-		 handle.c \
+		 handle_aggr.c \
+		 handle_redir.c \
+		 handle_redir_check_redir.c \
+		 handle_redir_error.c \
 		 is_parse.c \
 		 quote.c \
 		 list_heredoc.c \
