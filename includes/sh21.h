@@ -1,6 +1,5 @@
 #ifndef SH21_H
 # define SH21_H
-# include <ft_printf.h>
 # include <libft.h>
 # include <dirent.h>
 # include <stdlib.h>
@@ -219,7 +218,6 @@ int						handle_redir(size_t *i, char **str, t_cmd *cmd,
 t_fd					*copy_list_fd(t_fd *list);
 t_fd					*copy_fd(t_fd *list);
 int						handle_aggr(size_t *i, char *str, int jump, t_cmd *cmd);
-void					print_fd_list(t_cmd *list);
 void					print_fd(t_fd *list);
 int						def_sep(char *str);
 int						is_key(t_data *data);

@@ -22,7 +22,6 @@
 		 parse_error_verif.c \
 		 parse_split_cmd.c \
 		 fd_function_1.c \
-		 fd_function_2.c \
 		 handle_aggr.c \
 		 handle_redir.c \
 		 handle_redir_check_redir.c \
@@ -124,7 +123,7 @@ CFLAGS = -Werror -Wextra -Wall -g
 LFLAGS = -ltermcap
 
 LIB_DIR=./lib
-STATIC_LIBS= $(LIB_DIR)/libft.a $(LIB_DIR)/libftprintf.a
+STATIC_LIBS= $(LIB_DIR)/libft.a
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
@@ -137,7 +136,6 @@ all : $(NAME)
 $(NAME) : $(OBJ)
 	@mkdir -p $(LIB_DIR)
 	make -C libsrcs/libft
-	make -C libsrcs/ft_printf
 	@ar -cr $(NAMELIB) $^
 	@ranlib $(NAMELIB)
 	$(CC) $(CFLAGS) $(NAMELIB) $(STATIC_LIBS) $(LFLAGS) -o $@
@@ -150,21 +148,16 @@ clean:
 	rm -fv $(OBJ)
 	rmdir -p $(OBJ_PATH) 2> /dev/null || true
 	make -C libsrcs/libft clean
-	make -C libsrcs/ft_printf clean
 
 fclean: clean
 	rm -fv $(NAME) $(NAMELIB)
 	make -C libsrcs/libft fclean
-	make -C libsrcs/ft_printf fclean
-	#@rmdir lib 2> /dev/null || true
+	@rmdir lib 2> /dev/null || true
 
 re: fclean all
 
 leaks: all
 	 valgrind --leak-check=full ./21sh
-
-leaks-le-pen: all
-	valgrind --leak-check=full --show-leak-kinds=all ./21sh
 
 check: $(NAME)
 	python -m unittest discover tests/

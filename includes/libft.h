@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/23 12:40:08 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/07/06 19:38:25 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/08/31 18:44:41 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
-# include <libft.h>
 # include <stdarg.h>
 # define BUFF_SIZE 1000
 # define ABS(x) (x > 0 ? x : x * -1)

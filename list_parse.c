@@ -1,26 +1,5 @@
 #include <sh21.h>
 
-void	print_list(t_cmd *lst)
-{
-	size_t	i;
-	char	**av;
-	size_t	j;
-
-	i = 0;
-	while (lst != NULL)
-	{
-		av = lst->av;
-		j = 0;
-		while (av[j])
-		{
-			j++;
-		}
-		i++;
-		print_fd_list(lst);
-		lst = lst->next;
-	}
-}
-
 void	init_fd(t_cmd *elem)
 {
 	if (elem->fd_in->fd == -1)

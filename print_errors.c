@@ -9,6 +9,6 @@ void	print_cmd_not_found(char *scmd)
 
 int		print_pipe_error(void)
 {
-	ft_putstr_fd("42sh: parse error near '|' or '&'\n", 2);
+	ft_putstr_fd("21sh: parse error near '|' or '&'\n", 2);
 	return (1);
 }

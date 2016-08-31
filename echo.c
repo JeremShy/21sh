@@ -60,7 +60,6 @@ int				ft_echo(char **scmd, t_cmd *cmd)
 	int				i;
 	int				j;
 
-	printf("[%s]\n", scmd[0]);
 	ft_echo_begin(scmd, &i, &flag);
 	while (scmd[i])
 	{

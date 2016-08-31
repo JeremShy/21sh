@@ -77,13 +77,13 @@ int			subs_default(t_data *data, char **arg, char **str, size_t *length)
 	}
 	if (*length - (data->subs_index + 1) == 0)
 	{
-		ft_putstr_fd("42sh: incorrect pattern for '!'\n", 2);
+		ft_putstr_fd("21sh: incorrect pattern for '!'\n", 2);
 		return (0);
 	}
 	if ((*arg = find_subs_in_parsing(data, *str + data->subs_index + 1,
 		*length - (data->subs_index + 1))) == NULL)
 	{
-		ft_putstr_fd("42sh: event not found\n", 2);
+		ft_putstr_fd("21sh: event not found\n", 2);
 		return (0);
 	}
 	return (1);

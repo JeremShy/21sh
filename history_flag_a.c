@@ -25,7 +25,7 @@ int			get_history_path_anrw(t_data *data, char **path, char *scmd)
 			*path = ft_strjoinaf1(*path, scmd);
 		}
 		else if (history_name[0] == '\0')
-			*path = ft_strjoinaf1(*path, "/42sh_history");
+			*path = ft_strjoinaf1(*path, "/21sh_history");
 		else
 			get_history_path_anrw_last_if(path, history_name);
 		free(history_name);
