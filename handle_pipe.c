@@ -54,7 +54,7 @@ static void	init_fd_for_last(t_cmd *cmd)
 		dup2(cmd->fd_err->fd, 2);
 }
 
-void	exec_builtin_pipe(t_cmd *cmd, t_env **env, t_data *data)
+void		exec_builtin_pipe(t_cmd *cmd, t_env **env, t_data *data)
 {
 	cmd->fd_in->fd = 0;
 	cmd->fd_out->fd = 1;

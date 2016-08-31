@@ -9,6 +9,7 @@ static int	invalid_fd_or_empty_quote(char *quote, size_t *i, size_t tmp)
 		return (0);
 	}
 	free(quote);
+	*i = tmp;
 	return (1);
 }
 
