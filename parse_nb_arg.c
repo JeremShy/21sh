@@ -19,7 +19,7 @@ static int	jump_depending_on_type(size_t *i, char *str, t_cmd *cmd, int *count)
 	return (1);
 }
 
-int				nb_arg(size_t *i, char *str, t_cmd *cmd)
+int			nb_arg(size_t *i, char *str, t_cmd *cmd)
 {
 	int			count;
 

@@ -20,6 +20,7 @@
 		 parse_function.c \
 		 parse_error.c \
 		 parse_error_verif.c \
+		 parse_split_cmd.c \
 		 fd_function_1.c \
 		 fd_function_2.c \
 		 handle_aggr.c \

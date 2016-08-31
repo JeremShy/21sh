@@ -13,42 +13,6 @@ int				def_sep(char *str)
 	return (0);
 }
 
-int				split_cmd(int count, char **str, t_cmd *cmd, t_hc **heredocs)
-{
-	size_t		tmp_i;
-	char		*tmp;
-	size_t		i;
-	int			n_av;
-
-	i = 0;
-	cmd->av = (char**)malloc((count + 1) * sizeof(char*));
-	cmd->av[count] = 0;
-	n_av = 0;
-	while ((*str)[i])
-	{
-		while (ft_isspace2((*str)[i]))
-			i++;
-		tmp_i = i;
-		if (handle_aggr(&i, (*str), 1, cmd))
-		{
-		}
-		else if (handle_redir(&i, &(*str), cmd, heredocs))
-		{
-		}
-		else if (is_sep(&i, (*str), 1, cmd))
-			return (1);
-		else if ((tmp = skip_quotes(&(*str), &i, cmd)) != NULL)
-			if (tmp_i != i)
-			{
-				cmd->av[n_av] = tmp;
-				n_av++;
-			}
-		if (cmd->error)
-			return (-1);
-	}
-	return (1);
-}
-
 static void		parse_init(t_data *data, size_t *i, t_hc **heredocs)
 {
 	*i = 0;
