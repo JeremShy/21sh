@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   boucle_ctrl_d_and_l.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:24 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:31 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 18:22:58 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	boucle_ctrl_d(t_data *data, t_env **env)
 		reinitialise_heredoc(data, 0);
 		create_history(data, env);
 	}
-	else if (ft_strequ(data->cmd, ""))
+	else if (ft_strequ(data->cmd, "") && data->c == '\0')
 	{
 		ft_putstr_fd("exit", 2);
 		exit_ctrl_d(*env, data);

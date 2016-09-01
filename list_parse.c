@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:25 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:32 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 18:58:03 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 		delete_list_fd(elem->fd_in);
 		delete_list_fd(elem->fd_out);
 		delete_list_fd(elem->fd_err);
+		free_char_tab(elem->av);
 		free(elem);
 		free(str);
 		return (NULL);

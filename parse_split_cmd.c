@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_split_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:26 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:33 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 18:56:25 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,14 @@ static int	handle_expression(char **str, int n_av, t_cmd *cmd, t_hc **heredocs)
 
 int			split_cmd(int count, char **str, t_cmd *cmd, t_hc **heredocs)
 {
-	cmd->av = (char**)malloc((count + 1) * sizeof(char*));
-	cmd->av[count] = 0;
+	int	i;
+
+	i = 0;
+	cmd->av = (char**)malloc((count + 2) * sizeof(char*));
+	while (i <= count + 1)
+	{
+		cmd->av[i] = NULL;
+		i++;
+	}
 	return (handle_expression(str, 0, cmd, heredocs));
 }
