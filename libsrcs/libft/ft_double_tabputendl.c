@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_alloc_str.c                                     :+:      :+:    :+:   */
+/*   ft_double_tabputendl.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/04 19:18:50 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/01/18 12:29:32 by jcamhi           ###   ########.fr       */
+/*   Created: 2015/08/25 01:02:08 by adomingu          #+#    #+#             */
+/*   Updated: 2015/10/14 02:51:42 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 
-char	*ft_alloc_str(const char *str)
+void	ft_double_tabputendl(char **tab)
 {
-	char	*truc;
+	int		i;
 
-	if (str == NULL)
-		return (ft_alloc_str("(null)"));
-	truc = (char*)malloc(ft_strlen(str) + 1);
-	ft_strcpy(truc, str);
-	return (truc);
+	i = 0;
+	while (tab && tab[i])
+	{
+		ft_putendl(tab[i]);
+		i++;
+	}
 }

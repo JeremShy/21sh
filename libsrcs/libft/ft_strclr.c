@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strclr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 13:39:47 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/02/01 15:34:36 by jcamhi           ###   ########.fr       */
+/*   Created: 2014/11/10 17:12:38 by adomingu          #+#    #+#             */
+/*   Updated: 2014/11/10 17:12:39 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
 void	ft_strclr(char *s)
 {
-	int i;
+	size_t	i;
 
-	if (!s)
-		return ;
 	i = 0;
-	while (s[i] != '\0')
+	while (s && s[i])
 	{
 		s[i] = '\0';
 		i++;

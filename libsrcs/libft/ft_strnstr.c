@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 10:23:51 by jcamhi            #+#    #+#             */
-/*   Updated: 2015/11/26 09:48:42 by jcamhi           ###   ########.fr       */
+/*   Created: 2014/11/03 21:24:53 by adomingu          #+#    #+#             */
+/*   Updated: 2014/11/10 21:36:57 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
 char	*ft_strnstr(const char *s1, const char *s2, size_t n)
 {
-	size_t i;
-	size_t j;
+	size_t	i;
+	size_t	len;
 
 	i = 0;
-	while (s1[i] != '\0' && i < n)
+	len = ft_strlen(s2);
+	if (!s2)
+		return ((char *)s1);
+	while (s1[i] && i + len <= n)
 	{
-		j = 0;
-		while (s1[i + j] == s2[j] && s1[i + j] && s2 && i + j < n)
-			j++;
-		if (s2[j] == '\0')
-			return ((char*)(s1 + i));
+		if (ft_strncmp(s1 + i, s2, len) == 0)
+			break ;
 		i++;
 	}
-	if (s1[0] == '\0' && s2[0] == '\0')
-		return ((char*)s1);
+	if (i + len <= n && ft_strncmp(s1 + i, s2, len) == 0)
+		return ((char *)s1 + i);
 	return (NULL);
 }

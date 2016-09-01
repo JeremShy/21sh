@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_alloc_str_with_char.c                           :+:      :+:    :+:   */
+/*   ft_double_tablen.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/30 09:14:31 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/01/07 12:30:46 by jcamhi           ###   ########.fr       */
+/*   Created: 2015/08/25 01:01:45 by adomingu          #+#    #+#             */
+/*   Updated: 2015/08/25 01:01:46 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 
-char	*ft_alloc_str_with_char(int c)
+int		ft_double_tablen(char **tab)
 {
-	char	*ret;
+	int		i;
 
-	ret = (char*)malloc(2 * sizeof(char));
-	ret[0] = c;
-	ret[1] = '\0';
-	return (ret);
+	i = 0;
+	if (tab)
+		while (tab[i])
+			i++;
+	return (i);
 }

@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_strnchri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/10 14:24:38 by adomingu          #+#    #+#             */
-/*   Updated: 2015/09/23 05:02:56 by adomingu         ###   ########.fr       */
+/*   Created: 2015/01/19 12:22:10 by adomingu          #+#    #+#             */
+/*   Updated: 2015/01/19 12:31:15 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr(int n)
+int		ft_strnchri(char *s, char c, size_t n)
 {
-	ft_putnbr_fd(n, 1);
+	size_t	i;
+
+	i = 0;
+	while (s && i < n && s[i] != c)
+		i++;
+	if (s && s[i] == c && i < n)
+		return (i);
+	return (-1);
 }

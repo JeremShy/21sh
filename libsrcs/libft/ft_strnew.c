@@ -3,25 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 13:29:36 by jcamhi            #+#    #+#             */
-/*   Updated: 2015/11/24 14:46:22 by jcamhi           ###   ########.fr       */
+/*   Created: 2014/11/10 17:52:13 by adomingu          #+#    #+#             */
+/*   Updated: 2014/11/18 14:40:09 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
 char	*ft_strnew(size_t size)
 {
 	size_t	i;
-	char	*res;
+	char	*mem_fresh;
 
-	res = (char*)malloc(size);
-	if (!res)
+	mem_fresh = (char *)malloc(sizeof(char) * size + 1);
+	if (mem_fresh == NULL)
 		return (NULL);
 	i = 0;
-	while (i < size)
-		res[i++] = '\0';
-	return (res);
+	while (i <= size)
+	{
+		mem_fresh[i] = '\0';
+		i++;
+	}
+	return (mem_fresh);
 }

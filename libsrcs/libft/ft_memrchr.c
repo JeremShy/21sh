@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_memrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/03 21:25:03 by adomingu          #+#    #+#             */
-/*   Updated: 2014/11/06 16:20:42 by adomingu         ###   ########.fr       */
+/*   Created: 2015/01/19 14:04:35 by adomingu          #+#    #+#             */
+/*   Updated: 2015/01/19 14:20:05 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strrchr(const char *s, int c)
+void	*ft_memrchr(const void *s, int c, size_t n)
 {
-	int	i;
+	size_t					i;
+	const unsigned char		*src;
+	unsigned char			ch;
 
-	i = ft_strlen(s);
-	while (i >= 0 && s[i] != (char)c)
+	i = 0;
+	ch = (unsigned char)c;
+	src = (unsigned char *)s;
+	i = ft_strlen(src);
+	while (i >= 0 && src[i] != ch)
 		i--;
 	if (i < 0)
 		return (NULL);
-	return ((char *)s + i);
+	return ((void *)s + i);
 }

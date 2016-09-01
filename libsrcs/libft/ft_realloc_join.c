@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_realloc_join.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 11:18:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/02/01 15:32:51 by jcamhi           ###   ########.fr       */
+/*   Created: 2014/11/18 17:32:14 by adomingu          #+#    #+#             */
+/*   Updated: 2015/01/19 11:59:11 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_strcmp(const char *s1, const char *s2)
-{
-	int i;
+#include "libft.h"
 
-	i = 0;
-	while ((unsigned char)s1[i] == (unsigned char)s2[i] && s1[i] && s2[i])
-		i++;
-	return (-1 * (int)((unsigned char)s1[i] - (unsigned char)s2[i]));
+char	*ft_realloc_join(char **dst, char *src)
+{
+	char	*tmpl;
+
+	tmpl = ft_strjoin(*dst, src);
+	ft_strdel(dst);
+	return (tmpl);
 }

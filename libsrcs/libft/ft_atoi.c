@@ -3,38 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/25 16:03:32 by jcamhi            #+#    #+#             */
-/*   Updated: 2015/11/25 18:46:01 by jcamhi           ###   ########.fr       */
+/*   Created: 2014/11/03 21:20:47 by adomingu          #+#    #+#             */
+/*   Updated: 2015/09/23 05:01:31 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 
-int	ft_atoi(const char *nptr)
+static int	ft_invalid(t_data r, int sign)
 {
-	int n;
-	int signe;
-	int result;
+	int		cond1;
+	int		cond2;
+	int		cond3;
 
-	n = 0;
-	result = 0;
-	signe = 1;
-	while (nptr[n] == ' ' || nptr[n] == '\n' || nptr[n] == '\t'
-			|| nptr[n] == '\r' || nptr[n] == '\v' || nptr[n] == '\f')
-		n++;
-	if (nptr[n] == '-')
+	cond1 = r.result != r.resultll && r.result * sign != r.resultll * sign;
+	cond2 = r.result != r.resultl && r.result * sign != r.resultl * sign;
+	cond3 = r.result != r.resulti && r.result * sign != r.resulti * sign;
+	return (cond1 && cond2 && cond3);
+}
+
+static void	ft_loop(t_data *r, const char *str, size_t i)
+{
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	while (str[i] && str[i] >= '0' && str[i] <= '9')
 	{
-		signe = -1;
-		n++;
+		r->result = r->result * 10 + str[i] - '0';
+		r->resultl = r->resultl * 10 + str[i] - '0';
+		r->resultll = r->resultll * 10 + str[i] - '0';
+		r->resulti = r->resulti * 10 + str[i] - '0';
+		i++;
 	}
-	else if (nptr[n] == '+')
-		n++;
-	while (nptr[n] > 47 && nptr[n] < 58)
+}
+
+int			ft_atoi(const char *str)
+{
+	t_data	r;
+	int		sign;
+	size_t	i;
+
+	i = 0;
+	r.result = 0;
+	r.resultl = 0;
+	r.resultll = 0;
+	r.resulti = 0;
+	while ((str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)) && str[i])
+		i++;
+	if (str[i] == '-')
+		sign = -1;
+	else
+		sign = 1;
+	ft_loop(&r, str, i);
+	if (ft_invalid(r, sign))
 	{
-		result = result * 10 + (nptr[n] - 48);
-		n++;
+		if (sign < 0)
+			return (0);
+		return (-sign);
 	}
-	return (result * signe);
+	return (r.resulti * sign);
 }

@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 11:48:31 by jcamhi            #+#    #+#             */
-/*   Updated: 2015/11/26 09:38:17 by jcamhi           ###   ########.fr       */
+/*   Created: 2014/11/03 21:21:20 by adomingu          #+#    #+#             */
+/*   Updated: 2014/11/10 14:41:21 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isalpha(int c)
+#include "libft.h"
+
+int		ft_isalpha(int c)
 {
-	return ((c >= (int)'A' && c <= (int)'Z') ||
-			(c >= (int)'a' && c <= (int)'z'));
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }

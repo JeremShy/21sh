@@ -1,18 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sbenning <sbenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/10 14:24:38 by adomingu          #+#    #+#             */
-/*   Updated: 2015/09/23 05:02:56 by adomingu         ###   ########.fr       */
+/*   Created: 2014/11/15 20:49:21 by sbenning          #+#    #+#             */
+/*   Updated: 2014/11/16 19:54:05 by sbenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr(int n)
+void		ft_lstadd_back(t_list **alst, t_list *elem)
 {
-	ft_putnbr_fd(n, 1);
+	t_list		*drive;
+
+	if (!elem || !alst)
+		return ;
+	drive = *alst;
+	if (drive)
+	{
+		while (drive->next)
+			drive = drive->next;
+		drive->next = elem;
+	}
+	else
+		*alst = elem;
 }

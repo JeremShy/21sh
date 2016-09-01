@@ -3,58 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/26 08:05:11 by jcamhi            #+#    #+#             */
-/*   Updated: 2015/11/26 09:47:48 by jcamhi           ###   ########.fr       */
+/*   Created: 2014/11/10 14:21:18 by adomingu          #+#    #+#             */
+/*   Updated: 2014/11/10 14:30:29 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <unistd.h>
+#include "libft.h"
 
-static	int		ft_pow(int nb, int pow)
+void	ft_putnbr_fd(int n, int fd)
 {
-	if (pow == 0)
-		return (1);
+	if (n != -2147483648)
+	{
+		if (n < 0)
+		{
+			ft_putchar_fd('-', fd);
+			n = n * -1;
+		}
+		if (n < 10)
+			ft_putchar_fd(n + '0', fd);
+		else
+		{
+			ft_putnbr_fd(n / 10, fd);
+			ft_putnbr_fd(n % 10, fd);
+		}
+	}
 	else
-		return (nb * ft_pow(nb, pow - 1));
-}
-
-static	void	ft_print_fd(int taille, int c, int fd)
-{
-	while (taille >= 0)
-	{
-		ft_putchar_fd((char)(c / (ft_pow(10, taille)) + (int)'0'), fd);
-		c %= ft_pow(10, taille);
-		taille--;
-	}
-}
-
-void			ft_putnbr_fd(int c, int fd)
-{
-	int	taille;
-	int	tmp;
-
-	if (c == 0)
-		ft_putchar_fd('0', fd);
-	if (c == -2147483648)
-	{
-		write(fd, "-2147483648", 11);
-		return ;
-	}
-	if (c < 0)
-	{
-		ft_putchar_fd('-', fd);
-		c = c * -1;
-	}
-	tmp = c;
-	taille = 0;
-	while (tmp != 0)
-	{
-		tmp /= 10;
-		taille += 1;
-	}
-	taille--;
-	ft_print_fd(taille, c, fd);
+		ft_putstr_fd("-2147483648", fd);
 }

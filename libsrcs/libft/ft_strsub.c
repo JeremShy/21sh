@@ -3,31 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/24 16:15:19 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/02/03 22:44:33 by jcamhi           ###   ########.fr       */
+/*   Created: 2014/11/10 17:52:54 by adomingu          #+#    #+#             */
+/*   Updated: 2014/11/18 23:02:30 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
 char	*ft_strsub(char const *s, unsigned int start, size_t len)
 {
-	size_t	i;
-	char	*res;
+	char	*mem_fresh;
+	char	c;
+	char	*tmp;
 
-	if (!s)
+	if (!s || strlen(s) < len)
 		return (NULL);
-	res = (char*)malloc((len + 1) * sizeof(char));
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		res[i] = s[start + (unsigned int)i];
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
+	tmp = ft_strdup(s);
+	c = tmp[start + len];
+	tmp[start + len] = '\0';
+	mem_fresh = ft_strdup(tmp + start);
+	tmp[start + len] = c;
+	free(tmp);
+	return (mem_fresh);
 }

@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/04 19:19:55 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/02/01 15:40:29 by jcamhi           ###   ########.fr       */
+/*   Created: 2016/09/01 14:19:18 by adomingu          #+#    #+#             */
+/*   Updated: 2016/09/01 15:46:42 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
+
+char		*ft_alloc_str(const char *str)
+{
+	char	*truc;
+
+	if (str == NULL)
+		return (ft_alloc_str("(null)"));
+	truc = (char*)malloc(ft_strlen(str) + 1);
+	ft_strcpy(truc, str);
+	return (truc);
+}
 
 static int	compte(unsigned long nbr, int base)
 {
