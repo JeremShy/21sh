@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:25 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:32 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 19:41:09 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int		main(int ac, char **av, char **env)
 	signal(SIGINT, sigint);
 	signal(SIGWINCH, sigwinch);
 	init_data(&data);
+	signal_handler();
 	boucle(data.env, &data);
 	return (0);
 }

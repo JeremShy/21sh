@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh21.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:35:40 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:35:40 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 19:41:06 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -459,5 +459,9 @@ t_cmd					*cmd_not_found(t_cmd *command, t_data *data,
 void					print_cmd_not_found(char *scmd);
 void					exec_builtin_pipe(t_cmd *cmd, t_env **env,
 		t_data *data);
+int						is_boucle_h_e_pu_pd(t_data *data, char *buf);
+int						is_boucle_h_e_pu_pd(t_data *data, char *buf);
+void					real_page_up(t_data *data);
+void					real_page_down(t_data *data);
 
 #endif
