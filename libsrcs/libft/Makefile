@@ -6,11 +6,11 @@
 #    By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/06 20:52:05 by vsteffen          #+#    #+#              #
-#    Updated: 2016/04/19 16:17:53 by vsteffen         ###   ########.fr        #
+#    Updated: 2016/09/01 15:58:30 by vsteffen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libft.a
+NAME = ../../lib/libft.a
 
 CC =	/usr/bin/clang
 RM =	/bin/rm
@@ -93,7 +93,11 @@ SRC = ft_atoi.c \
 	  ft_qsortr_tab_int.c \
 	  ft_qsort_tab_str.c \
 	  ft_qsortr_tab_str.c \
-	  ft_superstr.c
+	  ft_superstr.c \
+	  ft_itoa_base.c\
+	  ft_strjoinaf1.c \
+	  ft_strjoinaf2.c \
+	  ft_strjoinaf12.c
 
 OBJ = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 
