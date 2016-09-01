@@ -36,11 +36,11 @@ static int			get_history_flag_none_arg(char **scmd, t_cmd *cmd)
 			return (ft_atoi(scmd[0]));
 		else
 		{
-			putstr_builtin(cmd, "21sh: history: Too many arguments\n", 2);
+			putstr_builtin(cmd, "42sh: history: Too many arguments\n", 2);
 			return (-2);
 		}
 	}
-	putstr_builtin(cmd, "21sh: history: Numeric argument required\n", 2);
+	putstr_builtin(cmd, "42sh: history: Numeric argument required\n", 2);
 	return (-2);
 }
 

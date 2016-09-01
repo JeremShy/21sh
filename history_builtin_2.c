@@ -53,7 +53,7 @@ int				get_history_flag(t_data *data, char **scmd, int *j, t_cmd *cmd)
 				i++;
 			else
 			{
-				putstr_builtin(cmd, "21sh: history: usage: history [-c] ", 2);
+				putstr_builtin(cmd, "42sh: history: usage: history [-c] ", 2);
 				putstr_builtin(cmd, "[-d offset] [n] or history -awrn [fil", 2);
 				putstr_builtin(cmd, "ename] or history -ps arg [arg...]\n", 2);
 				return (1);

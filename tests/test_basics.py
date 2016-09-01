@@ -2,7 +2,7 @@ import os
 import subprocess
 import unittest
 
-BINARY_NAME = "21sh"
+BINARY_NAME = "42sh"
 
 
 class TestBasics(unittest.TestCase):
@@ -131,12 +131,12 @@ class TestBasics(unittest.TestCase):
     def test_nocommand_00(self):
         cmd = "inexistcommandinpathandbuiltin"
         my_shell = self.execute_my_shell([cmd])
-        self.assertEqual(("", "21sh: command not found: %s\n" % cmd), my_shell)
+        self.assertEqual(("", "42sh: command not found: %s\n" % cmd), my_shell)
 
     def test_nocommand_01(self):
         cmd = "inexistcommandinpathandbuiltin"
         my_shell = self.execute_my_shell([cmd, "-flag"])
-        self.assertEqual(("", "21sh: command not found: %s\n" % cmd), my_shell)
+        self.assertEqual(("", "42sh: command not found: %s\n" % cmd), my_shell)
 
     def test_exit_00(self):
         self.compare_shells(["exit"])
@@ -179,7 +179,7 @@ class TestBasics(unittest.TestCase):
     def test_exec_dir_00(self):
         directory = "/bin"
         my_shell = self.execute_my_shell([directory])
-        self.assertEqual("21sh: permission denied: %s\n" % directory, my_shell[1])
+        self.assertEqual("42sh: permission denied: %s\n" % directory, my_shell[1])
         self.assertEqual("", my_shell[0])
 
     def test_exec_fake_00(self):
@@ -191,7 +191,7 @@ class TestBasics(unittest.TestCase):
         os.chmod(exe, 0755)
         my_shell = self.execute_my_shell([exe])
         os.remove(exe)
-        self.assertEqual("21sh: exec format error: %s\n" % exe, my_shell[1])
+        self.assertEqual("42sh: exec format error: %s\n" % exe, my_shell[1])
 
     def test_exec_fake_01(self):
         exe = "./fakeexec"
@@ -202,7 +202,7 @@ class TestBasics(unittest.TestCase):
         os.chmod(exe, 0000)
         my_shell = self.execute_my_shell([exe])
         os.remove(exe)
-        self.assertEqual("21sh: permission denied: %s\n" % exe, my_shell[1])
+        self.assertEqual("42sh: permission denied: %s\n" % exe, my_shell[1])
 
     def test_exec_fake_02(self):
         exe = "./fakeexec"
@@ -213,7 +213,7 @@ class TestBasics(unittest.TestCase):
         os.chmod(exe, 0444)
         my_shell = self.execute_my_shell([exe])
         os.remove(exe)
-        self.assertEqual("21sh: permission denied: %s\n" % exe, my_shell[1])
+        self.assertEqual("42sh: permission denied: %s\n" % exe, my_shell[1])
 
     def test_exec_fake_03(self):
         exe = "./fakeexec"
@@ -224,7 +224,7 @@ class TestBasics(unittest.TestCase):
         os.chmod(exe, 0666)
         my_shell = self.execute_my_shell([exe])
         os.remove(exe)
-        self.assertEqual("21sh: permission denied: %s\n" % exe, my_shell[1])
+        self.assertEqual("42sh: permission denied: %s\n" % exe, my_shell[1])
 
     def test_exec_fake_04(self):
         exe = "./fakeexec"
@@ -235,7 +235,7 @@ class TestBasics(unittest.TestCase):
         os.chmod(exe, 0333)
         my_shell = self.execute_my_shell([exe])
         os.remove(exe)
-        self.assertEqual("21sh: exec format error: %s\n" % exe, my_shell[1])
+        self.assertEqual("42sh: exec format error: %s\n" % exe, my_shell[1])
 
     def test_exec_fake_05(self):
         exe = "./fakeexec"
@@ -246,7 +246,7 @@ class TestBasics(unittest.TestCase):
         os.chmod(exe, 0222)
         my_shell = self.execute_my_shell([exe])
         os.remove(exe)
-        self.assertEqual("21sh: permission denied: %s\n" % exe, my_shell[1])
+        self.assertEqual("42sh: permission denied: %s\n" % exe, my_shell[1])
 
     def test_exec_fake_06(self):
         exe = "./fakeexec"
@@ -257,7 +257,7 @@ class TestBasics(unittest.TestCase):
         os.chmod(exe, 0111)
         my_shell = self.execute_my_shell([exe])
         os.remove(exe)
-        self.assertEqual("21sh: exec format error: %s\n" % exe, my_shell[1])
+        self.assertEqual("42sh: exec format error: %s\n" % exe, my_shell[1])
 
 
 if __name__ == "__main__":

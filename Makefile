@@ -126,7 +126,7 @@
 OBJ_PATH = ./obj/
 INC_PATH = ./includes
 
-NAME = 21sh
+NAME = 42sh
 NAMELIB = lib$(NAME).a
 
 CC = gcc
@@ -170,7 +170,7 @@ fclean: clean
 re: fclean all
 
 leaks: all
-	 valgrind --leak-check=full ./21sh
+	 valgrind --leak-check=full ./42sh
 
 check: $(NAME)
 	python -m unittest discover tests/

@@ -51,7 +51,7 @@ char		*history_subsitution_nb_arg(t_data *data, char *command)
 	}
 	if (nb == i)
 		return (ft_strdup(list->line));
-	ft_putstr_fd("21sh: history position out of range\n", 2);
+	ft_putstr_fd("42sh: history position out of range\n", 2);
 	return (NULL);
 }
 

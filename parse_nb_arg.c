@@ -46,7 +46,7 @@ int			nb_arg(size_t *i, char *str, t_cmd *cmd)
 			return (count);
 		if (cmd->p_error)
 		{
-			ft_putstr_fd("21sh: parse error\n", 2);
+			ft_putstr_fd("42sh: parse error\n", 2);
 			return (-1);
 		}
 	}

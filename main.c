@@ -122,7 +122,7 @@ int		main(int ac, char **av, char **env)
 	data.var = NULL;
 	if (singleton_termios(init_term(&data), 1) == NULL)
 	{
-		ft_putstr_fd("21sh: Can't find terminal definition. Exiting now.\n", 2);
+		ft_putstr_fd("42sh: Can't find terminal definition. Exiting now.\n", 2);
 		delete_list(data.env);
 		return (0);
 	}

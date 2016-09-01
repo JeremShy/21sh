@@ -2,7 +2,7 @@ import os
 import subprocess
 import unittest
 
-BINARY_NAME = "21sh"
+BINARY_NAME = "42sh"
 
 
 class TestBasics(unittest.TestCase):

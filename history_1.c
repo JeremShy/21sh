@@ -28,7 +28,7 @@ int				get_history_path(t_data *data, char **path)
 		if (history_name[0] == '\0')
 		{
 			free(history_name);
-			*path = ft_strjoinaf1(*path, "/21sh_history");
+			*path = ft_strjoinaf1(*path, "/42sh_history");
 		}
 		else
 		{
@@ -86,5 +86,5 @@ void			init_history(t_data *data)
 		free(line);
 	}
 	if (close(data->history_fd) == -1)
-		ft_putstr_fd("21sh: history: Failed to open/close history file\n", 2);
+		ft_putstr_fd("42sh: history: Failed to open/close history file\n", 2);
 }

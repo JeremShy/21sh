@@ -21,7 +21,7 @@ int			verif_exec_file(t_cmd *cmd, int in_env_i, char *file)
 		if (in_env_i)
 			ft_putstr_fd("env: permission denied: ", 2);
 		else
-			ft_putstr_fd("21sh: permission denied: ", 2);
+			ft_putstr_fd("42sh: permission denied: ", 2);
 		ft_putendl_fd(cmd->av[0], 2);
 		free(file);
 		return (0);
@@ -32,7 +32,7 @@ int			verif_exec_file(t_cmd *cmd, int in_env_i, char *file)
 		if (in_env_i)
 			ft_putstr_fd("env: permission denied: ", 2);
 		else
-			ft_putstr_fd("21sh: permission denied: ", 2);
+			ft_putstr_fd("42sh: permission denied: ", 2);
 		ft_putendl_fd(cmd->av[0], 2);
 		free(file);
 		closedir(dir);
@@ -78,7 +78,7 @@ int			failure_exec(t_cmd *cmd, char **env, int in_env_i, char *file)
 		if (in_env_i)
 			ft_putstr_fd("env: exec format error: ", 2);
 		else
-			ft_putstr_fd("21sh: exec format error: ", 2);
+			ft_putstr_fd("42sh: exec format error: ", 2);
 		ft_putendl_fd(cmd->av[0], 2);
 		return (1);
 	}

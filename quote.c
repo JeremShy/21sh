@@ -78,7 +78,7 @@ static int	init_things_heredoc(t_data *data, char *boucle_cmd, size_t *i)
 	if (!boucle_cmd[*i])
 	{
 		free(boucle_cmd);
-		ft_putstr_fd("21sh: parse error near '\\n'\n", 2);
+		ft_putstr_fd("42sh: parse error near '\\n'\n", 2);
 		return (-1);
 	}
 	data->key_here = skip_quotes(&boucle_cmd, i, NULL);
@@ -104,7 +104,7 @@ static int	is_heredoc_end(t_data *data, size_t i, char *boucle_cmd)
 	if (!is_weird_heredoc(boucle_cmd, 0))
 	{
 		free(boucle_cmd);
-		ft_putstr_fd("21sh: parse error near '\\n'\n", 2);
+		ft_putstr_fd("42sh: parse error near '\\n'\n", 2);
 		return (-1);
 	}
 	while (data->c == '\0' && boucle_cmd[i])

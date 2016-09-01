@@ -66,7 +66,7 @@ int				ft_setvar(char **scmd, t_data *data, t_cmd *cmd)
 {
 	if (!scmd[1] || !scmd[2])
 	{
-		putstr_builtin(cmd, "21sh: invalid argument [arg1 arg2]\n", 2);
+		putstr_builtin(cmd, "42sh: invalid argument [arg1 arg2]\n", 2);
 		return (1);
 	}
 	if (isset_var(data->var, scmd[1]))

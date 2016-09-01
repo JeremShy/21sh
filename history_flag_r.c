@@ -34,7 +34,7 @@ int		history_flag_r(t_data *data, char *scmd, t_cmd *cmd)
 	}
 	if (close(data->history_fd) == -1)
 	{
-		putstr_builtin(cmd, "21sh: history: Failed \n", 2);
+		putstr_builtin(cmd, "42sh: history: Failed \n", 2);
 		putstr_builtin(cmd, "to open/close history file\n", 2);
 	}
 	return (0);

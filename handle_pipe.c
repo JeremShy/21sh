@@ -43,7 +43,7 @@ static int	exec_all_except_last(t_cmd **cmd, t_env *env, t_data *data)
 		*cmd = (*cmd)->next;
 		if (*cmd == NULL)
 		{
-			ft_putstr_fd("21sh: parse error near '|'\n", 2);
+			ft_putstr_fd("42sh: parse error near '|'\n", 2);
 			return (0);
 		}
 		(*cmd)->fd_in->fd = fd[0];

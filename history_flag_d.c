@@ -51,7 +51,7 @@ static int	history_flag_d_2(t_data *data, t_history *list,
 	}
 	if (list == NULL || nb == 0)
 	{
-		putstr_builtin(cmd, "21sh: history: history ", 2);
+		putstr_builtin(cmd, "42sh: history: history ", 2);
 		putstr_builtin(cmd, "position out of range\n", 2);
 		return (1);
 	}
@@ -61,7 +61,7 @@ static int	history_flag_d_2(t_data *data, t_history *list,
 
 static int	history_flag_d_write_error(t_cmd *cmd)
 {
-	putstr_builtin(cmd, "21sh: history: Invalid arg, ", 2);
+	putstr_builtin(cmd, "42sh: history: Invalid arg, ", 2);
 	putstr_builtin(cmd, "you must specify an positive integer\n", 2);
 	return (1);
 }
