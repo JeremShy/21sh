@@ -5,36 +5,41 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 17:30:27 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:28 by adomingu         ###   ########.fr       */
+/*   Created: 2016/09/01 21:51:52 by adomingu          #+#    #+#             */
+/*   Updated: 2016/09/01 21:51:53 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh21.h"
 
-void	previous_word(t_data *data)
+static void	boucle_previous_word(t_data *data)
 {
-	if (!(data->mode_copy))
+	int	tmp;
+
+	tmp = data->index - 1;
+	while (tmp != data->index && data->index > 0 && data->cmd[data->index - 1] \
+	!= '\n' && ft_isspace2(data->cmd[data->index - 1]))
 	{
-		while (data->index > 0 && data->cmd[data->index - 1] != '\n' && \
-		ft_isspace2(data->cmd[data->index - 1]))
-			move_left_without_mod(data);
-		while (data->index > 0 && data->cmd[data->index - 1] != '\n' && \
-		!(ft_isspace2(data->cmd[data->index - 1])))
-			move_left_without_mod(data);
+		tmp = data->index;
+		move_left(data);
 	}
-	else
+	while (tmp != data->index && data->index > 0 && data->cmd[data->index - 1] \
+	!= '\n' && !(ft_isspace2(data->cmd[data->index - 1])))
 	{
-		while (data->index > 0 && data->cmd[data->index - 1] != '\n' && \
-		ft_isspace2(data->cmd[data->index - 1]))
-			move_left(data);
-		while (data->index > 0 && data->cmd[data->index - 1] != '\n' && \
-		!(ft_isspace2(data->cmd[data->index - 1])))
-			move_left(data);
+		tmp = data->index;
+		move_left(data);
 	}
 }
 
-void	next_word(t_data *data)
+void		previous_word(t_data *data)
+{
+	if (!(data->mode_copy))
+		boucle_previous_word(data);
+	else
+		boucle_previous_word(data);
+}
+
+void		next_word(t_data *data)
 {
 	if (!(data->mode_copy))
 	{

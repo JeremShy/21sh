@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:24 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:31 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 22:52:40 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	arg(t_data *data, char ***split, char **prefix, char **ptr)
 	char	*ptr_for_chr;
 
 	data->index_in_word_before_auto = ft_strlen(*ptr);
-	*split = malloc(sizeof(char*) * 2);
+	*split = mallocp(sizeof(char*) * 2);
 	if ((ptr_for_chr = ft_strrchr(*ptr, '/')))
 	{
 		(*split)[0] = ft_strsub(*ptr, 0, ptr_for_chr - *ptr + 1);
@@ -68,7 +68,7 @@ static char	**exec_with_slash_heavens_door(t_data *data,
 	char *tmp;
 	char **split;
 
-	split = malloc(sizeof(char*) * 2);
+	split = mallocp(sizeof(char*) * 2);
 	split[0] = ft_strsub(*ptr, 0, *ptr_for_chr - *ptr + 1);
 	split[1] = NULL;
 	tmp = ft_strdup(*ptr_for_chr + 1);

@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:06:06 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 18:06:12 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 22:57:28 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char			*ft_itoa_ptr(void *ptr)
 		return (ft_alloc_str("0x0"));
 	ft_strcpy(tab, "0123456789abcdef");
 	nb = compte(nbr);
-	retour = malloc(nb + 1 + 2);
+	retour = mallocp(nb + 1 + 2);
 	ft_strcpy(retour, "0x");
 	i = 1;
 	while (nbr != 0)

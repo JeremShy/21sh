@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:24 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:31 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 22:50:02 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	unit_test(t_data *data, t_env **env)
 
 	if (!isatty(0))
 	{
-		str = malloc(1001);
+		str = mallocp(1001);
 		data->in_env_i = 0;
 		if ((r = read(0, str, 1000)))
 		{

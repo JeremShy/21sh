@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:26 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:33 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 22:51:16 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*arg_add_backslash(char *arg)
 		count++;
 		i++;
 	}
-	ret = malloc(sizeof(char) * (count + 1));
+	ret = mallocp(sizeof(char) * (count + 1));
 	i = 0;
 	j = 0;
 	while_arg_add_backslah(arg, &i, &j, ret);

@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:24 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:31 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 22:52:01 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_auto	*create_auto_elem(char *content)
 {
 	t_auto		*elem;
 
-	elem = malloc(sizeof(t_auto));
+	elem = mallocp(sizeof(t_auto));
 	elem->str = content;
 	elem->next = NULL;
 	return (elem);

@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:06:06 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 18:06:12 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 22:58:51 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_strjoinaf12(char *s1, char *s2)
 	if (!s1 && !s2)
 		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	res = (char*)malloc(len * sizeof(char));
+	res = (char*)mallocp(len * sizeof(char));
 	if (!res)
 		return (NULL);
 	i = -1;

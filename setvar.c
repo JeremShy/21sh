@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:26 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:33 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 22:51:47 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static t_var	*create_var_elem(char *name, char *arg)
 {
 	t_var	*ret;
 
-	ret = malloc(sizeof(t_list));
+	ret = mallocp(sizeof(t_list));
 	ret->name = ft_strdup(name);
 	ret->arg = ft_strdup(arg);
 	ret->next = NULL;

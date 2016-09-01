@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:24 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:31 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 22:51:34 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_env			*create_tmp_env(t_data *data, t_env *env, char **scmd, int i)
 			data->new_elem = ft_strsplit(scmd[i], '=');
 			if (!data->new_elem[1])
 			{
-				data->tmp_when_must_do_something = malloc(3 * sizeof(char*));
+				data->tmp_when_must_do_something = mallocp(3 * sizeof(char*));
 				data->tmp_when_must_do_something[0] = data->new_elem[0];
 				data->tmp_when_must_do_something[1] = ft_strdup("");
 				data->tmp_when_must_do_something[2] = NULL;

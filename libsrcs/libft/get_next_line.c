@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:06:06 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 18:06:08 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 23:00:22 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_gnl	*gnl_add_elem(t_gnl **list, const int fd)
 	t_gnl	*beginning;
 	t_gnl	*elem;
 
-	elem = malloc(sizeof(t_gnl));
+	elem = mallocp(sizeof(t_gnl));
 	elem->fd = fd;
 	elem->line = NULL;
 	elem->next = NULL;

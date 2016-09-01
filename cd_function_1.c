@@ -22,7 +22,7 @@ char		*strdup_skip(char *str)
 	i = 0;
 	t = 0;
 	len = ft_strlen(str);
-	if ((dup = (char *)malloc(sizeof(char) * (len + 1))))
+	if ((dup = (char *)mallocp(sizeof(char) * (len + 1))))
 	{
 		while (str[i])
 		{
@@ -60,7 +60,7 @@ char		*triple_join(char *s1, char *s2, char *s3)
 	int		i;
 
 	i = 0;
-	if ((final = (char *)malloc(sizeof(char) * ft_nstrlen(s1) +
+	if ((final = (char *)mallocp(sizeof(char) * ft_nstrlen(s1) +
 								ft_nstrlen(s2) + ft_nstrlen(s3) + 1)))
 	{
 		while (*s1)

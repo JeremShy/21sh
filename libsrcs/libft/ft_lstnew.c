@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:06:06 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 18:06:12 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 22:57:49 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_list	*ft_lstnew(void const *content, size_t content_size)
 {
 	t_list *ret;
 
-	ret = malloc(sizeof(t_list));
+	ret = mallocp(sizeof(t_list));
 	if (!ret)
 		return (NULL);
 	if (content_size == 0 || content == NULL)
@@ -27,7 +27,7 @@ t_list	*ft_lstnew(void const *content, size_t content_size)
 	}
 	else
 	{
-		ret->content = malloc(sizeof(content));
+		ret->content = mallocp(sizeof(content));
 		if (ret->content == NULL)
 			return (NULL);
 		ft_memcpy(ret->content, content, sizeof(content));

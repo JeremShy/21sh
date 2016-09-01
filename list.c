@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:25 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:32 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 22:49:06 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_env	*create_elem(char *name, char *arg)
 {
 	t_env	*ret;
 
-	ret = malloc(sizeof(t_list));
+	ret = mallocp(sizeof(t_list));
 	ret->name = ft_strdup(name);
 	ret->arg = ft_strdup(arg);
 	ret->next = NULL;

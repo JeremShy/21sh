@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:25 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:32 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 22:50:17 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_hc	*create_hc_elem(char *content)
 {
 	t_hc	*elem;
 
-	elem = malloc(sizeof(t_hc));
+	elem = mallocp(sizeof(t_hc));
 	elem->content = content;
 	elem->next = NULL;
 	return (elem);

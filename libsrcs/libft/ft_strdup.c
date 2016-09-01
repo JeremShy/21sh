@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:06:06 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 18:06:12 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 22:55:05 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ char	*ft_strdup(const char *s1)
 
 	res = (char*)malloc((ft_strlen(s1) + 1) * sizeof(char));
 	if (!res)
-		return (NULL);
+	{
+		exit(EXIT_FAILURE);
+	}
 	i = 0;
 	while (s1[i] != '\0')
 	{

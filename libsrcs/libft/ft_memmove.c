@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:06:06 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 18:06:12 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 22:58:18 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*ft_memmove(void *dst, const void *src, size_t n)
 {
 	char *tmp;
 
-	tmp = malloc(n * sizeof(char));
+	tmp = mallocp(n * sizeof(char));
 	ft_memcpy(tmp, src, n);
 	ft_memcpy(dst, tmp, n);
 	free(tmp);

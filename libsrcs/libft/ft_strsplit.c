@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:06:06 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 18:06:12 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 22:59:44 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char			**ft_strsplit(char const *s, char c)
 	char	**res;
 	size_t	x;
 
-	res = malloc((ft_strcount(s, c) + 1) * sizeof(char*));
+	res = mallocp((ft_strcount(s, c) + 1) * sizeof(char*));
 	if (!s || !res)
 		return (NULL);
 	if (ft_strcount(s, c) == 0)

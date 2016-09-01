@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:06:06 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 18:06:12 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 22:59:04 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strmap(char const *s, char (*f)(char))
 	if (!s)
 		return (NULL);
 	len = ft_strlen(s);
-	res = (char*)malloc(len + 1);
+	res = (char*)mallocp(len + 1);
 	if (!res)
 		return (NULL);
 	i = 0;

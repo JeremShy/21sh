@@ -5,14 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 17:30:24 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:31 by adomingu         ###   ########.fr       */
+/*   Created: 2016/09/01 21:52:03 by adomingu          #+#    #+#             */
+/*   Updated: 2016/09/01 21:52:04 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-void	boucle_home(t_data *data)
+static void	move_left_to_home(t_data *data)
+{
+	int	tmp;
+
+	tmp = data->index - 1;
+	while (tmp != data->index && data->index > 0
+			&& data->cmd[data->index - 1] != '\n')
+	{
+		tmp = data->index;
+		move_left_without_mod(data);
+	}
+}
+
+void		boucle_home(t_data *data)
 {
 	if (data->list_auto)
 	{
@@ -21,27 +34,25 @@ void	boucle_home(t_data *data)
 	}
 	if (data->mode_copy && data->index == data->index_max_copy)
 		data->index_max_copy = data->index_min_copy;
-	while (data->index > 0 && data->cmd[data->index - 1] != '\n')
-		move_left_without_mod(data);
+	move_left_to_home(data);
 	if (data->mode_copy)
 	{
 		data->index_min_copy = data->index;
 		while (data->cmd[data->index])
 		{
 			if (data->index == data->index_min_copy
-				|| data->index == data->index_max_copy)
+					|| data->index == data->index_max_copy)
 				exec_tcap("mr");
 			ft_putchar(data->cmd[data->index]);
 			if (data->index == data->index_max_copy)
 				exec_tcap("me");
 			data->index++;
 		}
-		while (data->index > 0 && data->cmd[data->index - 1] != '\n')
-			move_left_without_mod(data);
+		move_left_to_home(data);
 	}
 }
 
-void	boucle_end(t_data *data)
+void		boucle_end(t_data *data)
 {
 	reinit_list_auto(data);
 	if (data->mode_copy)

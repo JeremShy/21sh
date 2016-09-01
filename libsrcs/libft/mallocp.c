@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_alloc_str.c                                     :+:      :+:    :+:   */
+/*   mallocp.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 18:06:06 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 22:56:34 by adomingu         ###   ########.fr       */
+/*   Created: 2016/09/01 22:55:58 by adomingu          #+#    #+#             */
+/*   Updated: 2016/09/01 22:56:00 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <sh21.h>
 
-char	*ft_alloc_str(const char *str)
+void	*mallocp(size_t size)
 {
-	char	*truc;
+	void	*ret;
 
-	if (str == NULL)
-		return (ft_alloc_str("(null)"));
-	truc = (char*)mallocp(ft_strlen(str) + 1);
-	ft_strcpy(truc, str);
-	return (truc);
+	ret = malloc(size);
+	if (!ret)
+		exit(EXIT_FAILURE);
+	return (ret);
 }

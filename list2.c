@@ -83,7 +83,7 @@ char	**make_env_char(t_env *list)
 		tmp = tmp->next;
 		nb_elem++;
 	}
-	ret = (char**)malloc(sizeof(char*) * (nb_elem + 1));
+	ret = (char**)mallocp(sizeof(char*) * (nb_elem + 1));
 	nb_elem = 0;
 	while (list)
 	{
