@@ -1,119 +1,142 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    newMakefile                                        :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
+#    By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/11/25 18:15:40 by jcamhi            #+#    #+#              #
-#    Updated: 2016/08/03 23:38:42 by JeremShy         ###   ########.fr        #
+#    Created: 2016/02/06 20:52:05 by vsteffen          #+#    #+#              #
+#    Updated: 2016/04/19 16:17:53 by vsteffen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC_PATH = ./
+NAME = libft.a
 
-SRC_NAME = ft_atoi.c \
-		   ft_strrchr.c \
-		   ft_alloc_str_with_char.c \
-		   ft_strtoupper.c \
-		   ft_itoa_ptr.c \
-		   ft_go_on.c \
-		   ft_itoa_base.c \
-		   ft_itoa_base_ll.c \
-		   ft_itoa_base_ull.c \
-		   ft_alloc_str.c \
-		   ft_bzero.c \
-		   ft_isalnum.c \
-		   ft_isalpha.c \
-		   ft_isascii.c \
-		   ft_isdigit.c \
-		   ft_isprint.c \
-		   ft_memalloc.c \
-		   ft_memccpy.c \
-		   ft_memchr.c \
-		   ft_memcmp.c \
-		   ft_memset.c \
-		   ft_memmove.c \
-		   ft_memdel.c \
-		   ft_memcpy.c \
-		   ft_putchar.c \
-		   ft_putchar_fd.c \
-		   ft_putstr.c \
-		   ft_putstr_fd.c \
-		   ft_strcat.c \
-		   ft_strchr.c \
-		   ft_strclr.c \
-		   ft_strcmp.c \
-		   ft_strcpy.c \
-		   ft_strdel.c \
-		   ft_strdup.c \
-		   ft_strequ.c \
-		   ft_striter.c \
-		   ft_strjoin.c \
-		   ft_strjoinaf1.c \
-		   ft_strjoinaf2.c \
-		   ft_strjoinaf12.c \
-		   ft_strlcat.c \
-		   ft_strlen.c \
-		   ft_wstrlen.c \
-		   ft_strmap.c \
-		   ft_strmapi.c \
-		   ft_strncat.c \
-		   ft_strncmp.c \
-		   ft_strnequ.c \
-		   ft_strncpy.c \
-		   ft_strnew.c \
-		   ft_strnstr.c \
-		   ft_strsplit.c \
-		   ft_strstr.c \
-		   ft_strsub.c \
-		   ft_strtrim.c \
-		   ft_tolower.c \
-		   ft_toupper.c \
-		   ft_putendl.c \
-		   ft_putendl_fd.c \
-		   ft_putnbr.c \
-		   ft_putunbr.c \
-		   ft_putnbr_fd.c \
-		   ft_striteri.c \
-		   ft_lstadd.c \
-		   ft_lstdel.c \
-		   ft_lstdelone.c \
-		   ft_lstiter.c \
-		   ft_lstnew.c \
-		   ft_lstmap.c \
-		   get_next_line.c \
-		   ft_strrevcmp.c
-OBJ_PATH = ./
+CC =	/usr/bin/clang
+RM =	/bin/rm
+MAKE =	/usr/bin/make
+MKDIR =	/bin/mkdir
+AR =	/usr/bin/ar
+RANLIB = /usr/bin/ranlib
 
-INC_PATH = ./includes/
+SRC = ft_atoi.c \
+	  ft_bzero.c \
+	  ft_isalnum.c \
+	  ft_isalpha.c \
+	  ft_isascii.c \
+	  ft_isdigit.c \
+	  ft_islower.c \
+	  ft_isspace.c \
+	  ft_isupper.c \
+	  ft_isprint.c \
+	  ft_itoa.c \
+	  ft_lstadd.c \
+	  ft_lstdel.c \
+	  ft_lstdelone.c \
+	  ft_lstpcontent.c \
+	  ft_lstmap.c \
+	  ft_lstnew.c \
+	  ft_lstiter.c \
+	  ft_memalloc.c \
+	  ft_memccpy.c \
+	  ft_memchr.c \
+	  ft_memcmp.c \
+	  ft_memcpy.c \
+	  ft_memdel.c \
+	  ft_memmove.c \
+	  ft_memset.c \
+	  ft_putchar.c \
+	  ft_putchar_fd.c \
+	  ft_putendl.c \
+	  ft_putendl_fd.c \
+	  ft_putnbr.c \
+	  ft_putnbr_fd.c \
+	  ft_putstr.c \
+	  ft_putstr_fd.c \
+	  ft_strcat.c \
+	  ft_strchr.c \
+	  ft_strclr.c \
+	  ft_strcmp.c \
+	  ft_strcpy.c \
+	  ft_strdel.c \
+	  ft_strdup.c \
+	  ft_strequ.c \
+	  ft_striter.c \
+	  ft_striteri.c \
+	  ft_strjoin.c \
+	  ft_strlcat.c \
+	  ft_strlen.c \
+	  ft_strmap.c \
+	  ft_strmapi.c \
+	  ft_strncat.c \
+	  ft_strncmp.c \
+	  ft_strncpy.c \
+	  ft_strnequ.c \
+	  ft_strnew.c \
+	  ft_strnstr.c \
+	  ft_strrchr.c \
+	  ft_strsplit.c \
+	  ft_strstr.c \
+	  ft_strsub.c \
+	  ft_strtrim.c \
+	  ft_tolower.c \
+	  ft_toupper.c \
+	  ft_clear.c \
+	  ft_color_style.c \
+	  get_next_line.c \
+	  ft_exit_prog.c \
+	  ft_rounded.c \
+	  ft_swap_str.c \
+	  ft_swap_char.c \
+	  ft_swap_int.c \
+	  ft_qsort_tab_int.c \
+	  ft_qsortr_tab_int.c \
+	  ft_qsort_tab_str.c \
+	  ft_qsortr_tab_str.c \
+	  ft_superstr.c
 
-LIB_PATH = ./
+OBJ = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 
-NAME = ../../lib/libft.a
+CFLAGS = -Wall -Wextra -Werror -I $(HPATH)
 
-CC = gcc
+ROOT =		$(shell /bin/pwd)
+OPATH =		$(ROOT)/objs
+CPATH =		$(ROOT)/srcs
+HPATH =		$(ROOT)/include
 
-CFLAGS = -Werror -Wall -Wextra -c -g
+.PHONY: all clean fclean re
 
-OBJ_NAME = $(SRC_NAME:.c=.o)
+all: $(OPATH) $(NAME)
 
-SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
-OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
-LIB = $(addprefix -L,$(LIB_PATH))
-INC = $(addprefix -I,$(INC_PATH))
+$(NAME): $(OBJ)
+	@echo "Creating OBJ files"
+	@echo "Building $@"
+	@$(AR) rc $@ $(OBJ)
+	@$(RANLIB) $@
+	@echo "\033[32m ╔════════════════╗"
+	@echo " ║  All is done ! ║"
+	@echo " ╚════════════════╝\033[0m"
 
-all: $(NAME)
+$(OPATH)/%.o: $(CPATH)/%.c
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME):
-	    $(CC) $(CFLAGS) $(INC) $(SRC)
-		ar r $(NAME) $(OBJ_NAME)
-		ranlib $(NAME)
+$(OPATH):
+	@echo " \033[33m\033[4m\033[1m → Make rule \033[0m"
+	@echo "Creating OBJ directory"
+	@$(MKDIR) $@
 
 clean:
-	/bin/rm -f $(OBJ_NAME)
+	@echo " \033[33m\033[4m\033[1m → Clean rule \033[0m"
+	@echo "Deleting OBJS"
+	@$(RM) -Rf $(OPATH)
 
 fclean: clean
-	/bin/rm -f $(NAME)
+	@echo " \033[33m\033[4m\033[1m → Fclean rule \033[0m"
+	@echo "Deleting $(NAME)"
+	@$(RM) -f $(NAME)
+	@echo "\033[32m ╔═══════════════╗"
+	@echo " ║  All clear !  ║"
+	@echo " ╚═══════════════╝\033[0m"
+
 
 re: fclean all
