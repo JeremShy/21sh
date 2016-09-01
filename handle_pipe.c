@@ -6,7 +6,7 @@
 /*   By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:33:07 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/09/01 17:33:13 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/09/01 18:04:57 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	exec_all_except_last(t_cmd **cmd, t_env *env, t_data *data)
 		*cmd = (*cmd)->next;
 		if (*cmd == NULL)
 		{
-			ft_putstr_fd("221sh: parse error near '|'\n", 2);
+			ft_putstr_fd("21sh: parse error near '|'\n", 2);
 			return (0);
 		}
 		(*cmd)->fd_in->fd = fd[0];
