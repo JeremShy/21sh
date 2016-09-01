@@ -6,7 +6,7 @@
 /*   By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:33:07 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/09/01 17:33:13 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/09/01 19:01:23 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 		delete_list_fd(elem->fd_in);
 		delete_list_fd(elem->fd_out);
 		delete_list_fd(elem->fd_err);
+		free_char_tab(elem->av);
 		free(elem);
 		free(str);
 		return (NULL);

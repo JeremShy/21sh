@@ -6,7 +6,7 @@
 /*   By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:33:08 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/09/01 17:33:14 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/09/01 19:00:58 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,14 @@ static int	handle_expression(char **str, int n_av, t_cmd *cmd, t_hc **heredocs)
 
 int			split_cmd(int count, char **str, t_cmd *cmd, t_hc **heredocs)
 {
-	cmd->av = (char**)malloc((count + 1) * sizeof(char*));
-	cmd->av[count] = 0;
+	int		i;
+
+	i = 0;
+	cmd->av = (char**)malloc((count + 2) * sizeof(char*));
+	while (i <= count + 1)
+	{
+		cmd->av[i] = NULL;
+		i++;
+	}
 	return (handle_expression(str, 0, cmd, heredocs));
 }

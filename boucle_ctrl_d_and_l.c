@@ -6,7 +6,7 @@
 /*   By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:33:06 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/09/01 17:33:13 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/09/01 19:00:15 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	boucle_ctrl_d(t_data *data, t_env **env)
 		reinitialise_heredoc(data, 0);
 		create_history(data, env);
 	}
-	else if (ft_strequ(data->cmd, ""))
+	else if (ft_strequ(data->cmd, "") && data->c == '\0')
 	{
 		ft_putstr_fd("exit", 2);
 		exit_ctrl_d(*env, data);
