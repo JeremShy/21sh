@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_putunbr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/26 08:05:11 by jcamhi            #+#    #+#             */
-/*   Updated: 2015/11/26 09:47:48 by jcamhi           ###   ########.fr       */
+/*   Created: 2015/11/25 09:10:19 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/07/26 16:41:57 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <unistd.h>
 
-static	int		ft_pow(int nb, int pow)
+static unsigned int	ft_pow(int nb, int pow)
 {
 	if (pow == 0)
 		return (1);
@@ -21,33 +21,23 @@ static	int		ft_pow(int nb, int pow)
 		return (nb * ft_pow(nb, pow - 1));
 }
 
-static	void	ft_print_fd(int taille, int c, int fd)
+static void			ft_printing(int taille, unsigned int c)
 {
 	while (taille >= 0)
 	{
-		ft_putchar_fd((char)(c / (ft_pow(10, taille)) + (int)'0'), fd);
+		ft_putchar((char)(c / (ft_pow(10, taille)) + (int)'0'));
 		c %= ft_pow(10, taille);
 		taille--;
 	}
 }
 
-void			ft_putnbr_fd(int c, int fd)
+void				ft_putunbr(unsigned int c)
 {
-	int	taille;
-	int	tmp;
+	int				taille;
+	unsigned int	tmp;
 
 	if (c == 0)
-		ft_putchar_fd('0', fd);
-	if (c == -2147483648)
-	{
-		write(fd, "-2147483648", 11);
-		return ;
-	}
-	if (c < 0)
-	{
-		ft_putchar_fd('-', fd);
-		c = c * -1;
-	}
+		ft_putchar('0');
 	tmp = c;
 	taille = 0;
 	while (tmp != 0)
@@ -56,5 +46,5 @@ void			ft_putnbr_fd(int c, int fd)
 		taille += 1;
 	}
 	taille--;
-	ft_print_fd(taille, c, fd);
+	ft_printing(taille, c);
 }

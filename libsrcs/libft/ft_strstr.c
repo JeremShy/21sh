@@ -3,29 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/03 21:25:08 by adomingu          #+#    #+#             */
-/*   Updated: 2015/08/25 01:45:11 by adomingu         ###   ########.fr       */
+/*   Created: 2015/11/24 10:18:02 by jcamhi            #+#    #+#             */
+/*   Updated: 2015/11/25 20:27:57 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <string.h>
 
 char	*ft_strstr(const char *s1, const char *s2)
 {
-	size_t	i;
-	size_t	len;
+	int	i;
+	int	j;
 
 	i = 0;
-	len = ft_strlen(s2);
-	if (!s2[i])
-		return ((char *)s1);
-	while (s1[i])
+	while (s1[i] != '\0')
 	{
-		if (ft_strncmp(s1 + i, s2, len) == 0)
-			return ((char *)s1 + i);
+		j = 0;
+		while (s1[i + j] == s2[j] && s1[i + j] && s2[j])
+			j++;
+		if (s2[j] == '\0')
+			return ((char*)(s1 + i));
 		i++;
 	}
+	if (s1[0] == '\0' && s2[0] == '\0')
+		return ((char*)s1);
 	return (NULL);
 }

@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstaddlast.c                                    :+:      :+:    :+:   */
+/*   ft_strtoupper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/14 22:33:21 by adomingu          #+#    #+#             */
-/*   Updated: 2014/11/18 16:29:12 by adomingu         ###   ########.fr       */
+/*   Created: 2016/01/06 18:56:06 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/02/01 15:33:56 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 
-void	ft_lstaddlast(t_list **alst, t_list *newe)
+char	*ft_strtoupper(char *str)
 {
-	t_list	*tmp;
+	int i;
 
-	if (!newe || !alst)
-		return ;
-	tmp = *alst;
-	if (tmp)
+	i = 0;
+	while (str[i] != '\0')
 	{
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = newe;
+		str[i] = ft_toupper(str[i]);
+		i++;
 	}
-	else
-		*alst = newe;
+	return (str);
 }

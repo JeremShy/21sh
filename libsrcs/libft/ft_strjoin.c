@@ -3,32 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/10 17:13:34 by adomingu          #+#    #+#             */
-/*   Updated: 2015/08/25 01:56:51 by adomingu         ###   ########.fr       */
+/*   Created: 2015/11/24 16:45:47 by jcamhi            #+#    #+#             */
+/*   Updated: 2015/11/25 09:47:57 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
+#include <stdlib.h>
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*mem_fresh;
-	size_t	n;
+	int		i;
+	size_t	len;
+	char	*res;
 
-	if (s1 == NULL && s2 == NULL)
-		return (NULL);
-	else if (s1 == NULL && s2 != NULL)
+	if (!s1 && s2)
 		return (ft_strdup(s2));
-	else if (s1 != NULL && s2 == NULL)
+	if (!s2 && s1)
 		return (ft_strdup(s1));
-	n = ft_strlen(s1) + ft_strlen(s2);
-	mem_fresh = (char *)malloc(sizeof(char) * n + 1);
-	if (mem_fresh == NULL)
+	if (!s1 && !s2)
 		return (NULL);
-	ft_strcpy(mem_fresh, s1);
-	ft_putchar(8);
-	ft_strcat(mem_fresh, s2);
-	return (mem_fresh);
+	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	res = (char*)malloc(len * sizeof(char));
+	if (!res)
+		return (NULL);
+	i = -1;
+	while (s1[++i] != '\0')
+		res[i] = s1[i];
+	len = i;
+	i = -1;
+	while (s2[++i] != '\0')
+		res[len + i] = s2[i];
+	res[len + i] = '\0';
+	return (res);
 }

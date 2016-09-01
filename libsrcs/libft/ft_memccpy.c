@@ -3,35 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/03 21:21:45 by adomingu          #+#    #+#             */
-/*   Updated: 2014/11/03 21:21:48 by adomingu         ###   ########.fr       */
+/*   Created: 2015/11/23 11:40:47 by jcamhi            #+#    #+#             */
+/*   Updated: 2015/11/26 11:45:17 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stddef.h>
 
-void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
+void	*ft_memccpy(void *dst,
+		const void *src, int c, size_t n)
 {
-	size_t			i;
-	unsigned char	*d;
-	unsigned char	*s;
+	unsigned char	*curdst;
+	unsigned char	*cursrc;
+	int				i;
 
+	curdst = (unsigned char *)dst;
+	cursrc = (unsigned char *)src;
 	i = 0;
-	d = (unsigned char *)dst;
-	s = (unsigned char *)src;
-	while (src && dst && s[i] != (unsigned char)c && i < n)
+	while (i < (int)n)
 	{
-		d[i] = s[i];
+		*curdst = *cursrc;
+		if (*cursrc == (unsigned char)c)
+			return (curdst + 1);
 		i++;
+		curdst++;
+		cursrc++;
 	}
-	if (src && dst && s[i] == (unsigned char)c && i < n)
-	{
-		d[i] = s[i];
-		i++;
-		return (dst + i);
-	}
-	else
-		return (NULL);
+	return (NULL);
 }

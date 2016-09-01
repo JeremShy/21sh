@@ -1,25 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnchr.c                                       :+:      :+:    :+:   */
+/*   ft_wstrlen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <adomingu@42.fr>                  +#+  +:+       +#+        */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/19 12:13:10 by adomingu          #+#    #+#             */
-/*   Updated: 2015/01/19 13:48:37 by adomingu         ###   ########.fr       */
+/*   Created: 2016/01/15 12:39:54 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/01/18 11:31:45 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <string.h>
+#include <stdio.h>
 
-int		ft_strchri(char *s, char c)
+size_t	ft_wstrlen(const char *s)
 {
-	size_t		i;
+	size_t	i;
+	int		b;
+	int		count;
 
 	i = 0;
-	while (s[i] && s[i] != c)
+	count = 0;
+	b = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] > 0)
+			count++;
+		else
+			b++;
+		if (b == 3)
+		{
+			count++;
+			b = 0;
+		}
 		i++;
-	if (s[i] && s[i] == c)
-		return (i);
-	return (-1);
+	}
+	return (count);
 }

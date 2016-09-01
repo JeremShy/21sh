@@ -3,20 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/14 22:33:38 by adomingu          #+#    #+#             */
-/*   Updated: 2014/11/14 22:40:16 by adomingu         ###   ########.fr       */
+/*   Created: 2015/11/26 11:17:13 by jcamhi            #+#    #+#             */
+/*   Updated: 2015/11/26 12:46:23 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
+#include <libft.h>
 
-void	ft_lstadd(t_list **alst, t_list *newe)
+void	ft_lstadd(t_list **alst, t_list *new)
 {
-	if (alst != NULL && newe != NULL)
-	{
-		newe->next = *alst;
-		*alst = newe;
-	}
+	new->next = *alst;
+	*alst = new;
 }

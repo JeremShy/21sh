@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_realloc_join_src.c                              :+:      :+:    :+:   */
+/*   ft_go_on.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <adomingu@42.fr>                  +#+  +:+       +#+        */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/19 11:59:29 by adomingu          #+#    #+#             */
-/*   Updated: 2015/01/19 12:03:37 by adomingu         ###   ########.fr       */
+/*   Created: 2016/01/05 14:05:59 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/01/05 14:10:11 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
+#include <stdlib.h>
 
-char	*ft_realloc_join_src(char *dst, char **src)
+void	*ft_go_on(void *str, int i)
 {
-	char	*tmpl;
+	char	*tmp;
 
-	tmpl = ft_strjoin(dst, *src);
-	ft_strdel(src);
-	return (tmpl);
+	tmp = (void*)ft_strdup((char*)str + i);
+	free(str);
+	return (tmp);
 }
