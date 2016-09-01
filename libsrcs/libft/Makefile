@@ -6,7 +6,7 @@
 #    By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/25 18:15:40 by jcamhi            #+#    #+#              #
-#    Updated: 2016/08/03 23:38:42 by JeremShy         ###   ########.fr        #
+#    Updated: 2016/09/01 23:13:43 by adomingu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,8 @@ SRC_NAME = ft_atoi.c \
 		   ft_lstnew.c \
 		   ft_lstmap.c \
 		   get_next_line.c \
-		   ft_strrevcmp.c
+		   ft_strrevcmp.c \
+		   mallocp.c
 OBJ_PATH = ./
 
 INC_PATH = ./includes/
