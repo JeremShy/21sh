@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_path_2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/01 17:34:14 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/01 17:34:19 by jcamhi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh21.h>
 
 static char		*create_chdir_path(char *path, t_env **env, t_data *data)
@@ -16,7 +28,7 @@ void			change_dir(char *path, t_env **env, t_data *data, int p)
 	struct stat		*st;
 	char			*ready;
 
-	if (path && (st = (struct stat *)malloc(sizeof(struct stat))))
+	if (path && (st = (struct stat *)mallocp(sizeof(struct stat))))
 	{
 		path = create_chdir_path(path, env, data);
 		if (lstat(path, st) == 0)

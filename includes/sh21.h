@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh21.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/01 19:47:59 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/02 00:05:52 by jcamhi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SH21_H
 # define SH21_H
 # include <libft.h>
@@ -447,5 +459,9 @@ t_cmd					*cmd_not_found(t_cmd *command, t_data *data,
 void					print_cmd_not_found(char *scmd);
 void					exec_builtin_pipe(t_cmd *cmd, t_env **env,
 		t_data *data);
+int						is_boucle_h_e_pu_pd(t_data *data, char *buf);
+int						is_boucle_h_e_pu_pd(t_data *data, char *buf);
+void					real_page_up(t_data *data);
+void					real_page_down(t_data *data);
 
 #endif

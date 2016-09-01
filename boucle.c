@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   boucle.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/01 17:34:14 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/01 17:34:19 by jcamhi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh21.h>
 
 static void	unit_test(t_data *data, t_env **env)
@@ -7,7 +19,7 @@ static void	unit_test(t_data *data, t_env **env)
 
 	if (!isatty(0))
 	{
-		str = malloc(1001);
+		str = mallocp(1001);
 		data->in_env_i = 0;
 		if ((r = read(0, str, 1000)))
 		{

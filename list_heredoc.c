@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_heredoc.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/01 17:34:15 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/01 17:34:19 by jcamhi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh21.h>
 
 void	free_heredoc(t_data *data, t_hc *list)
@@ -30,7 +42,7 @@ t_hc	*create_hc_elem(char *content)
 {
 	t_hc	*elem;
 
-	elem = malloc(sizeof(t_hc));
+	elem = mallocp(sizeof(t_hc));
 	elem->content = content;
 	elem->next = NULL;
 	return (elem);

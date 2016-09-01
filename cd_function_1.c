@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_function_1.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/01 17:34:14 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/01 17:34:19 by jcamhi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh21.h>
 
 char		*strdup_skip(char *str)
@@ -10,7 +22,7 @@ char		*strdup_skip(char *str)
 	i = 0;
 	t = 0;
 	len = ft_strlen(str);
-	if ((dup = (char *)malloc(sizeof(char) * (len + 1))))
+	if ((dup = (char *)mallocp(sizeof(char) * (len + 1))))
 	{
 		while (str[i])
 		{
@@ -48,7 +60,7 @@ char		*triple_join(char *s1, char *s2, char *s3)
 	int		i;
 
 	i = 0;
-	if ((final = (char *)malloc(sizeof(char) * ft_nstrlen(s1) +
+	if ((final = (char *)mallocp(sizeof(char) * ft_nstrlen(s1) +
 								ft_nstrlen(s2) + ft_nstrlen(s3) + 1)))
 	{
 		while (*s1)

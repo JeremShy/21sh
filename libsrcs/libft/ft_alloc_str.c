@@ -18,7 +18,7 @@ char	*ft_alloc_str(const char *str)
 
 	if (str == NULL)
 		return (ft_alloc_str("(null)"));
-	truc = (char*)malloc(ft_strlen(str) + 1);
+	truc = (char*)mallocp(ft_strlen(str) + 1);
 	ft_strcpy(truc, str);
 	return (truc);
 }

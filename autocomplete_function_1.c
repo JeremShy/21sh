@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   autocomplete_function_1.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/01 17:34:14 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/01 17:34:19 by jcamhi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh21.h>
 
 t_auto	*create_auto_elem(char *content)
 {
 	t_auto		*elem;
 
-	elem = malloc(sizeof(t_auto));
+	elem = mallocp(sizeof(t_auto));
 	elem->str = content;
 	elem->next = NULL;
 	return (elem);

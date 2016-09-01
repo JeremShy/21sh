@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/01 17:34:15 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/01 17:34:19 by jcamhi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh21.h>
 
 static t_env	*create_elem(char *name, char *arg)
 {
 	t_env	*ret;
 
-	ret = malloc(sizeof(t_list));
+	ret = mallocp(sizeof(t_list));
 	ret->name = ft_strdup(name);
 	ret->arg = ft_strdup(arg);
 	ret->next = NULL;

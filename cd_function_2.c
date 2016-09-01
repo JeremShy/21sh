@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_function_2.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/01 17:34:14 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/01 17:34:19 by jcamhi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh21.h>
 
 static char	*str_range_dup(char *str, int n)
@@ -6,7 +18,7 @@ static char	*str_range_dup(char *str, int n)
 	int		i;
 
 	i = 0;
-	if ((new_str = (char *)malloc(sizeof(char) * (n + 1))))
+	if ((new_str = (char *)mallocp(sizeof(char) * (n + 1))))
 	{
 		while (i < n)
 		{
@@ -52,7 +64,7 @@ char		**ft_lz_strsplit(char *str, char c)
 
 	nb_str = ft_count_string(str, c);
 	i = 0;
-	if ((split = (char **)malloc(sizeof(char *) * (nb_str + 1))))
+	if ((split = (char **)mallocp(sizeof(char *) * (nb_str + 1))))
 	{
 		while (i < nb_str)
 		{

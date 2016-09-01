@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_path_1.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/01 17:34:14 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/01 17:34:19 by jcamhi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh21.h>
 
 static void		native_full(char *path, t_env **env, char *old_pwd)
@@ -59,7 +71,7 @@ void			cd_physical(char *path, t_env **env, t_data *data, t_cmd *cmd)
 	char	*buf_wd;
 	char	*old_pwd;
 
-	if ((buf_wd = (char *)malloc(sizeof(char) * 1024)))
+	if ((buf_wd = (char *)mallocp(sizeof(char) * 1024)))
 	{
 		old_pwd = find_var_env(data, "PWD", *env);
 		if ((ret = chdir(path)) == 0)

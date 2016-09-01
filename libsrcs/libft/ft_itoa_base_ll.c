@@ -41,7 +41,7 @@ char			*ft_itoa_base_ll(long long nbr, int base)
 	nbr = nbr < 0 ? nbr * -1 : nbr;
 	nb = compte(nbr, base);
 	nb += i;
-	retour = malloc(nb + 1);
+	retour = mallocp(nb + 1);
 	retour[0] = (i == 1 ? '-' : retour[0]);
 	i = 1;
 	while (nbr != 0)

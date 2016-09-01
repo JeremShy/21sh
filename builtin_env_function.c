@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_env_function.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/01 17:34:14 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/01 17:34:19 by jcamhi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh21.h>
 
 int				print_env(t_env *new, t_cmd *cmd)
@@ -47,7 +59,7 @@ t_env			*create_tmp_env(t_data *data, t_env *env, char **scmd, int i)
 			data->new_elem = ft_strsplit(scmd[i], '=');
 			if (!data->new_elem[1])
 			{
-				data->tmp_when_must_do_something = malloc(3 * sizeof(char*));
+				data->tmp_when_must_do_something = mallocp(3 * sizeof(char*));
 				data->tmp_when_must_do_something[0] = data->new_elem[0];
 				data->tmp_when_must_do_something[1] = ft_strdup("");
 				data->tmp_when_must_do_something[2] = NULL;

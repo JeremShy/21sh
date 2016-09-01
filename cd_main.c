@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_main.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/01 17:34:14 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/01 17:34:19 by jcamhi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh21.h>
 
 static char		*get_cwd_end(t_data *data)
@@ -19,7 +31,7 @@ static char		*get_cwd(size_t size, t_data *data, char *cwd, char *buf_cwd)
 			putstr_builtin(data->cd_cmd, BUF_CWD_ERR, 2);
 		}
 	}
-	if ((buf_cwd = (char *)malloc(sizeof(char) * size)))
+	if ((buf_cwd = (char *)mallocp(sizeof(char) * size)))
 	{
 		if ((cwd = getcwd(buf_cwd, size)))
 			return (cwd);

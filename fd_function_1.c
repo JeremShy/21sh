@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fd_function_1.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/01 17:34:14 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/01 17:34:19 by jcamhi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh21.h>
 
 void		close_fd(t_fd *fd)
@@ -25,7 +37,7 @@ t_fd		*create_fd(int fd, int fd_pointe)
 {
 	t_fd	*elem;
 
-	elem = (t_fd*)malloc(sizeof(t_fd));
+	elem = (t_fd*)mallocp(sizeof(t_fd));
 	elem->next = NULL;
 	elem->fd = fd;
 	elem->fd_pointe = fd_pointe;

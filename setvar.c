@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   setvar.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/01 17:34:16 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/01 17:34:21 by jcamhi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh21.h>
 
 int				isset_var(t_var *list, char *name)
@@ -30,7 +42,7 @@ static t_var	*create_var_elem(char *name, char *arg)
 {
 	t_var	*ret;
 
-	ret = malloc(sizeof(t_list));
+	ret = mallocp(sizeof(t_list));
 	ret->name = ft_strdup(name);
 	ret->arg = ft_strdup(arg);
 	ret->next = NULL;

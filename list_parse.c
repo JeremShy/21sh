@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_parse.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/01 17:34:15 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/01 19:06:03 by jcamhi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh21.h>
 
 void	init_fd(t_cmd *elem)
@@ -14,7 +26,7 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 {
 	t_cmd	*elem;
 
-	elem = (t_cmd*)malloc(sizeof(t_cmd));
+	elem = (t_cmd*)mallocp(sizeof(t_cmd));
 	elem->ret = 23;
 	elem->fd_in = create_fd(-1, -1);
 	elem->fd_out = create_fd(-1, -1);
@@ -27,6 +39,7 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 		delete_list_fd(elem->fd_in);
 		delete_list_fd(elem->fd_out);
 		delete_list_fd(elem->fd_err);
+		free_char_tab(elem->av);
 		free(elem);
 		free(str);
 		return (NULL);

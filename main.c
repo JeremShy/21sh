@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/01 19:47:37 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/01 19:47:46 by jcamhi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh21.h>
 
 char	*print_prompt_2(t_env *env, t_data *data, char *prompt)
@@ -117,6 +129,7 @@ int		main(int ac, char **av, char **env)
 	signal(SIGINT, sigint);
 	signal(SIGWINCH, sigwinch);
 	init_data(&data);
+	signal_handler();
 	boucle(data.env, &data);
 	return (0);
 }
