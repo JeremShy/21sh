@@ -30,7 +30,7 @@ static t_gnl	*gnl_add_elem(t_gnl **list, const int fd)
 	t_gnl	*beginning;
 	t_gnl	*elem;
 
-	elem = malloc(sizeof(t_gnl));
+	elem = mallocp(sizeof(t_gnl));
 	elem->fd = fd;
 	elem->line = NULL;
 	elem->next = NULL;

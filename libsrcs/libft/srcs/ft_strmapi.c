@@ -19,7 +19,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 
 	if (!s || !f)
 		return (NULL);
-	mapstr = (char*)malloc(sizeof(char) * (ft_strlen(s) + 1));
+	mapstr = (char*)mallocp(sizeof(char) * (ft_strlen(s) + 1));
 	if (!mapstr)
 		return (NULL);
 	pos = -1;

@@ -18,7 +18,7 @@ static char	*str_range_dup(char *str, int n)
 	int		i;
 
 	i = 0;
-	if ((new_str = (char *)malloc(sizeof(char) * (n + 1))))
+	if ((new_str = (char *)mallocp(sizeof(char) * (n + 1))))
 	{
 		while (i < n)
 		{
@@ -64,7 +64,7 @@ char		**ft_lz_strsplit(char *str, char c)
 
 	nb_str = ft_count_string(str, c);
 	i = 0;
-	if ((split = (char **)malloc(sizeof(char *) * (nb_str + 1))))
+	if ((split = (char **)mallocp(sizeof(char *) * (nb_str + 1))))
 	{
 		while (i < nb_str)
 		{

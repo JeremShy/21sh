@@ -42,7 +42,7 @@ t_hc	*create_hc_elem(char *content)
 {
 	t_hc	*elem;
 
-	elem = malloc(sizeof(t_hc));
+	elem = mallocp(sizeof(t_hc));
 	elem->content = content;
 	elem->next = NULL;
 	return (elem);

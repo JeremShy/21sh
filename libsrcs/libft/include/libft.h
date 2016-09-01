@@ -6,7 +6,7 @@
 /*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/22 20:42:40 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/09/01 14:02:02 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/09/01 23:16:42 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,7 @@ void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list				*ft_lstpcontent(t_list **alst, t_list *new);
+
+void				*mallocp(size_t size);
 
 #endif

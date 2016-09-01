@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   mallocp.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vsteffen <vsteffen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/22 22:23:42 by vsteffen          #+#    #+#             */
-/*   Updated: 2015/12/22 23:51:45 by vsteffen         ###   ########.fr       */
+/*   Created: 2016/09/01 23:14:22 by vsteffen          #+#    #+#             */
+/*   Updated: 2016/09/01 23:14:56 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s)
+void	*mallocp(size_t size)
 {
-	int			pos;
-	char		*dest;
+	void	*ret;
 
-	pos = 0;
-	dest = (char*)mallocp(sizeof(char) * ft_strlen(s) + 1);
-	if (!dest)
-		return (NULL);
-	while (s[pos])
-	{
-		dest[pos] = s[pos];
-		pos++;
-	}
-	dest[pos] = '\0';
-	return (dest);
+	ret = malloc(size);
+	if (!ret)
+		exit(EXIT_FAILURE);
+	return (ret);
 }

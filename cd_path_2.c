@@ -28,7 +28,7 @@ void			change_dir(char *path, t_env **env, t_data *data, int p)
 	struct stat		*st;
 	char			*ready;
 
-	if (path && (st = (struct stat *)malloc(sizeof(struct stat))))
+	if (path && (st = (struct stat *)mallocp(sizeof(struct stat))))
 	{
 		path = create_chdir_path(path, env, data);
 		if (lstat(path, st) == 0)

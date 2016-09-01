@@ -18,7 +18,7 @@ char		*ft_alloc_str(const char *str)
 
 	if (str == NULL)
 		return (ft_alloc_str("(null)"));
-	truc = (char*)malloc(ft_strlen(str) + 1);
+	truc = (char*)mallocp(ft_strlen(str) + 1);
 	ft_strcpy(truc, str);
 	return (truc);
 }
@@ -47,7 +47,7 @@ char		*ft_itoa_base(unsigned int nbr, int base)
 		return (ft_alloc_str("0"));
 	ft_strcpy(tab, "0123456789abcdef");
 	nb = compte(nbr, base);
-	retour = malloc(nb + 1);
+	retour = mallocp(nb + 1);
 	i = 1;
 	while (nbr != 0)
 	{

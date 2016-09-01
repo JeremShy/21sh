@@ -35,7 +35,7 @@ char			*ft_itoa(int n)
 		tmp_nb = -n;
 		len++;
 	}
-	str = (char*)malloc(sizeof(char) * len + 1);
+	str = (char*)mallocp(sizeof(char) * len + 1);
 	if (!str)
 		return (NULL);
 	str[len] = 0;

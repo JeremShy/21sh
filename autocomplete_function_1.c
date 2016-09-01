@@ -16,7 +16,7 @@ t_auto	*create_auto_elem(char *content)
 {
 	t_auto		*elem;
 
-	elem = malloc(sizeof(t_auto));
+	elem = mallocp(sizeof(t_auto));
 	elem->str = content;
 	elem->next = NULL;
 	return (elem);
