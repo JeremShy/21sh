@@ -57,7 +57,7 @@ int			split_cmd(int count, char **str, t_cmd *cmd, t_hc **heredocs)
 	int		i;
 
 	i = 0;
-	cmd->av = (char**)malloc((count + 2) * sizeof(char*));
+	cmd->av = (char**)mallocp((count + 2) * sizeof(char*));
 	while (i <= count + 1)
 	{
 		cmd->av[i] = NULL;

@@ -18,7 +18,7 @@ t_termios	*init_term(t_data *data)
 	t_termios	*ret;
 	char		*name_term;
 
-	ret = (t_termios*)malloc(sizeof(t_termios));
+	ret = (t_termios*)mallocp(sizeof(t_termios));
 	tcgetattr(0, &term);
 	tcgetattr(0, ret);
 	term.c_lflag &= ~(ICANON);
@@ -68,7 +68,7 @@ void		invert_term(void)
 	t_termios	*tmp;
 	t_termios	*current;
 
-	current = (t_termios *)malloc(sizeof(t_termios));
+	current = (t_termios *)mallocp(sizeof(t_termios));
 	if (current && (tmp = singleton_termios(NULL, 0)))
 	{
 		tcgetattr(0, current);

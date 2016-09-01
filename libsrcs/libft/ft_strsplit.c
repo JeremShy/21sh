@@ -67,7 +67,7 @@ char			**ft_strsplit(char const *s, char c)
 	char	**res;
 	size_t	x;
 
-	res = malloc((ft_strcount(s, c) + 1) * sizeof(char*));
+	res = mallocp((ft_strcount(s, c) + 1) * sizeof(char*));
 	if (!s || !res)
 		return (NULL);
 	if (ft_strcount(s, c) == 0)

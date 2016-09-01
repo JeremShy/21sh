@@ -38,7 +38,7 @@ char			*ft_itoa_ptr(void *ptr)
 		return (ft_alloc_str("0x0"));
 	ft_strcpy(tab, "0123456789abcdef");
 	nb = compte(nbr);
-	retour = malloc(nb + 1 + 2);
+	retour = mallocp(nb + 1 + 2);
 	ft_strcpy(retour, "0x");
 	i = 1;
 	while (nbr != 0)

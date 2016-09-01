@@ -36,7 +36,7 @@ char		*ft_itoa_base_ull(unsigned long long nbr, int base)
 		return (ft_alloc_str("0"));
 	ft_strcpy(tab, "0123456789abcdef");
 	nb = compte(nbr, base);
-	retour = malloc(nb + 1);
+	retour = mallocp(nb + 1);
 	i = 1;
 	while (nbr != 0)
 	{

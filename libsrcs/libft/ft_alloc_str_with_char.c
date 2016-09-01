@@ -16,7 +16,7 @@ char	*ft_alloc_str_with_char(int c)
 {
 	char	*ret;
 
-	ret = (char*)malloc(2 * sizeof(char));
+	ret = (char*)mallocp(2 * sizeof(char));
 	ret[0] = c;
 	ret[1] = '\0';
 	return (ret);

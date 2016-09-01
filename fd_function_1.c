@@ -37,7 +37,7 @@ t_fd		*create_fd(int fd, int fd_pointe)
 {
 	t_fd	*elem;
 
-	elem = (t_fd*)malloc(sizeof(t_fd));
+	elem = (t_fd*)mallocp(sizeof(t_fd));
 	elem->next = NULL;
 	elem->fd = fd;
 	elem->fd_pointe = fd_pointe;

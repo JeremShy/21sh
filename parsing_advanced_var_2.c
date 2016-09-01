@@ -45,7 +45,7 @@ static char	*arg_add_backslash(char *arg)
 		count++;
 		i++;
 	}
-	ret = malloc(sizeof(char) * (count + 1));
+	ret = mallocp(sizeof(char) * (count + 1));
 	i = 0;
 	j = 0;
 	while_arg_add_backslah(arg, &i, &j, ret);

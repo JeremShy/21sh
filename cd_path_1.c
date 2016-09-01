@@ -71,7 +71,7 @@ void			cd_physical(char *path, t_env **env, t_data *data, t_cmd *cmd)
 	char	*buf_wd;
 	char	*old_pwd;
 
-	if ((buf_wd = (char *)malloc(sizeof(char) * 1024)))
+	if ((buf_wd = (char *)mallocp(sizeof(char) * 1024)))
 	{
 		old_pwd = find_var_env(data, "PWD", *env);
 		if ((ret = chdir(path)) == 0)

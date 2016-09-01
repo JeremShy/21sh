@@ -83,7 +83,8 @@ SRC_NAME = ft_atoi.c \
 		   ft_lstnew.c \
 		   ft_lstmap.c \
 		   get_next_line.c \
-		   ft_strrevcmp.c
+		   ft_strrevcmp.c \
+			 mallocp.c
 OBJ_PATH = ./
 
 INC_PATH = ./includes/

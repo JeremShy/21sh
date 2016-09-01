@@ -26,7 +26,7 @@ t_cmd	*create_cmd_elem(char *str, int count, t_hc **heredocs)
 {
 	t_cmd	*elem;
 
-	elem = (t_cmd*)malloc(sizeof(t_cmd));
+	elem = (t_cmd*)mallocp(sizeof(t_cmd));
 	elem->ret = 23;
 	elem->fd_in = create_fd(-1, -1);
 	elem->fd_out = create_fd(-1, -1);
