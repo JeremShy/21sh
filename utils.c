@@ -6,7 +6,7 @@
 /*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:27 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 23:04:09 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/02 00:13:23 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,4 @@ void	prompt_quote(t_data *data)
 	else if (data->c == '<')
 		data->prompt = ft_strdup("heredoc> ");
 	ft_putstr(data->prompt);
-}
-
-void	*mallocp(size_t size)
-{
-	void	*ret;
-
-	ret = malloc(size);
-	if (!ret)
-		exit(EXIT_FAILURE);
-	return (ret);
 }

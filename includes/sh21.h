@@ -6,7 +6,7 @@
 /*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:35:40 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 23:03:31 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/02 00:13:36 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -463,6 +463,5 @@ int						is_boucle_h_e_pu_pd(t_data *data, char *buf);
 int						is_boucle_h_e_pu_pd(t_data *data, char *buf);
 void					real_page_up(t_data *data);
 void					real_page_down(t_data *data);
-void					*mallocp(size_t size);
 
 #endif
