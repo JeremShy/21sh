@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 17:34:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/09/01 17:34:19 by jcamhi           ###   ########.fr       */
+/*   Created: 2016/09/01 19:48:48 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/01 19:48:49 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ static void	boucle_paste(t_data *data)
 
 int			is_boucle_mode_copy(t_data *data, char buf[11])
 {
+	signal(SIGINT, SIG_IGN);
 	if (buf[0] == -62 && buf[1] == -75 && buf[2] == 0)
 		init_or_end_mode_copy(data);
 	else if (buf[0] == -61 && buf[1] == -89 && buf[2] == 0)
@@ -93,6 +94,10 @@ int			is_boucle_mode_copy(t_data *data, char buf[11])
 	else if (buf[0] == -30 && buf[1] == -120 && buf[2] == -102 && buf[3] == 0)
 		boucle_paste(data);
 	else
+	{
+		signal(SIGINT, sigint);
 		return (0);
+	}
+	signal(SIGINT, sigint);
 	return (1);
 }

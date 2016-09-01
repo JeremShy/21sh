@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 17:34:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/09/01 17:34:19 by jcamhi           ###   ########.fr       */
+/*   Created: 2016/09/01 19:48:15 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/01 19:48:17 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh21.h>
 
-static void	real_page_up(t_data *data)
+void		real_page_up(t_data *data)
 {
 	if (data->list_auto)
 		delete_list_auto(data->list_auto);
@@ -20,7 +20,7 @@ static void	real_page_up(t_data *data)
 	page_up(data);
 }
 
-static void	real_page_down(t_data *data)
+void		real_page_down(t_data *data)
 {
 	if (data->list_auto)
 		delete_list_auto(data->list_auto);
@@ -50,22 +50,14 @@ static void	real_next_word(t_data *data)
 
 int			is_boucle_move(t_data *data, char *buf)
 {
+	signal(SIGINT, SIG_IGN);
 	if (buf[0] == 27 && buf[1] == 91 && buf[2] == 68 && buf[3] == 0)
 		move_left(data);
 	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 67 && buf[3] == 0)
 		move_right(data);
-	else if ((buf[0] == 27 && buf[1] == 91 && buf[2] == 72 && buf[3] == 0) ||
-			(buf[0] == 1 && buf[1] == 0))
-		boucle_home(data);
-	else if ((buf[0] == 27 && buf[1] == 91 && buf[2] == 70 && buf[3] == 0) ||
-			(buf[0] == 5 && buf[1] == 0))
-		boucle_end(data);
-	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 53
-		&& buf[3] == 126 && buf[4] == 0)
-		real_page_up(data);
-	else if (buf[0] == 27 && buf[1] == 91 && buf[2] == 54
-		&& buf[3] == 126 && buf[4] == 0)
-		real_page_down(data);
+	else if (is_boucle_h_e_pu_pd(data, buf))
+	{
+	}
 	else if (buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 68
 		&& buf[4] == 0)
 		real_previous_word(data);
@@ -73,6 +65,10 @@ int			is_boucle_move(t_data *data, char *buf)
 		&& buf[4] == 0)
 		real_next_word(data);
 	else
+	{
+		signal(SIGINT, sigint);
 		return (0);
+	}
+	signal(SIGINT, sigint);
 	return (1);
 }

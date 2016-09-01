@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/09/01 17:36:24 by jcamhi            #+#    #+#              #
-#    Updated: 2016/09/01 17:36:25 by jcamhi           ###   ########.fr        #
+#    Created: 2016/09/01 17:36:17 by adomingu          #+#    #+#              #
+#    Updated: 2016/09/01 19:41:02 by adomingu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -116,6 +116,7 @@
 		 create_history.c \
 		 boucle_add_or_del_char.c \
 		 boucle_move.c \
+		 boucle_move_2.c \
 		 boucle_home_end.c \
 		 boucle_mode_copy.c \
 		 boucle_mode_copy_init_or_end.c \
