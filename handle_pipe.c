@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:24 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:32 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/01 18:06:54 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	exec_all_except_last(t_cmd **cmd, t_env *env, t_data *data)
 		*cmd = (*cmd)->next;
 		if (*cmd == NULL)
 		{
-			ft_putstr_fd("221sh: parse error near '|'\n", 2);
+			ft_putstr_fd("21sh: parse error near '|'\n", 2);
 			return (0);
 		}
 		(*cmd)->fd_in->fd = fd[0];
