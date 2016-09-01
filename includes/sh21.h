@@ -6,7 +6,7 @@
 /*   By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 19:46:39 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/09/01 23:33:49 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/09/02 00:13:10 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -463,6 +463,4 @@ int						is_boucle_h_e_pu_pd(t_data *data, char *buf);
 int						is_boucle_h_e_pu_pd(t_data *data, char *buf);
 void					real_page_up(t_data *data);
 void					real_page_down(t_data *data);
-
-void    				*mallocp(size_t size);
 #endif

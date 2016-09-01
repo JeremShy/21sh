@@ -6,7 +6,7 @@
 /*   By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:33:09 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/09/01 23:34:43 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/09/02 00:12:30 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,4 @@ void	prompt_quote(t_data *data)
 	else if (data->c == '<')
 		data->prompt = ft_strdup("heredoc> ");
 	ft_putstr(data->prompt);
-}
-
-void	*mallocp(size_t size)
-{
-	void	*ret;
-
-	ret = malloc(size);
-	if (!ret)
-		exit(EXIT_FAILURE);
-	return (ret);
 }
