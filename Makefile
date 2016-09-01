@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/09/01 17:36:21 by vsteffen          #+#    #+#              #
-#    Updated: 2016/09/01 17:36:21 by vsteffen         ###   ########.fr        #
+#    Created: 2016/09/01 19:43:55 by vsteffen          #+#    #+#              #
+#    Updated: 2016/09/01 19:44:03 by vsteffen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -116,6 +116,7 @@
 		 create_history.c \
 		 boucle_add_or_del_char.c \
 		 boucle_move.c \
+		 boucle_move_2.c \
 		 boucle_home_end.c \
 		 boucle_mode_copy.c \
 		 boucle_mode_copy_init_or_end.c \

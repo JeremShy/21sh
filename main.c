@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 17:33:07 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/09/01 17:33:13 by vsteffen         ###   ########.fr       */
+/*   Created: 2016/09/01 19:45:15 by vsteffen          #+#    #+#             */
+/*   Updated: 2016/09/01 19:45:16 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int		main(int ac, char **av, char **env)
 	signal(SIGINT, sigint);
 	signal(SIGWINCH, sigwinch);
 	init_data(&data);
+	signal_handler();
 	boucle(data.env, &data);
 	return (0);
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 17:35:58 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/09/01 17:36:00 by vsteffen         ###   ########.fr       */
+/*   Created: 2016/09/01 19:46:39 by vsteffen          #+#    #+#             */
+/*   Updated: 2016/09/01 19:46:41 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -459,5 +459,9 @@ t_cmd					*cmd_not_found(t_cmd *command, t_data *data,
 void					print_cmd_not_found(char *scmd);
 void					exec_builtin_pipe(t_cmd *cmd, t_env **env,
 		t_data *data);
+int						is_boucle_h_e_pu_pd(t_data *data, char *buf);
+int						is_boucle_h_e_pu_pd(t_data *data, char *buf);
+void					real_page_up(t_data *data);
+void					real_page_down(t_data *data);
 
 #endif
