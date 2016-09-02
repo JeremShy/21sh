@@ -156,3 +156,20 @@ class TestAdvanced(unittest.TestCase):
         finally:
             shutil.rmtree(folder)
             os.remove("%s.link" % folder)
+
+    def test_ultra_pipe_00(self):
+        base = ["ls"]
+        tries = 1000
+
+        os.write(2, "\nStarting %s wait please\n" % self.test_ultra_pipe_00.__name__)
+
+        for i in xrange(tries):
+            base.append("|")
+            base.append("cat -e")
+            try:
+                self.compare_shells(base)
+            except AssertionError:
+                os.write(2, "%s failed at %d pipes\n" % (self.test_ultra_pipe_00.__name__, i))
+                if i < 20:
+                    raise AssertionError
+                break
