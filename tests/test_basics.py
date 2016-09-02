@@ -1,6 +1,7 @@
 import os
 import subprocess
 import unittest
+import tools
 
 BINARY_NAME = "42sh"
 
@@ -41,6 +42,8 @@ class TestBasics(unittest.TestCase):
 
         stdout = stdout.replace("%s\n" % self.prompt, "")
         stdout = stdout.replace("%s" % self.prompt, "")
+
+        tools.valgrind_wrapper(self.binary, command, True)
 
         return stdout, stderr
 
