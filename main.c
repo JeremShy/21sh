@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 19:47:37 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/09/02 13:27:26 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/09/02 15:27:38 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*print_prompt(t_env *env, t_data *data)
 	prompt = print_prompt_2(env, data, prompt);
 	ft_putstr(prompt);
 	ft_putstr("\e[39m");
-	if ((int)ft_strlen(prompt) == data->win_x)
+	if (isatty(0) && (int)ft_strlen(prompt) == data->win_x)
 	{
 		data->index = 0;
 		move_r2l(data);
