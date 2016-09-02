@@ -21,10 +21,11 @@ class TestAdvanced(unittest.TestCase):
             raise IOError("Make the project: %s not here\n" % cls.binary)
         cls.prompt = cls.get_prompt(cls.binary)
         cls.dev_null = open("/dev/null", 'w')
-        if subprocess.call(["valgrind", "--version"]) == 0:
-            cls.valgrind = True
-        else:
-            os.write(2, "Warning: No valgrind")
+        try:
+            if subprocess.call(["valgrind", "--version"]) == 0:
+                cls.valgrind = True
+        except OSError:
+            os.write(2, "WARNING: No valgrind\n")
 
     @classmethod
     def tearDownClass(cls):
