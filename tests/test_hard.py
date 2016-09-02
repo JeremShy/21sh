@@ -226,3 +226,9 @@ class TestAdvanced(unittest.TestCase):
 
     def test_redirection_05(self):
         self.compare_shells(["ls notherethefile 2>&1 1>&2 2>&1 | cat -e || echo 2>&1 ok"])
+
+    def test_redirection_06(self):
+        self.compare_shells(["ls notherethefile 2>&1 1>&2 2>&1 | cat -e || echo 1>&1 ok"])
+
+    def test_redirection_07(self):
+        self.compare_shells(["ls notherethefile 2>&1 1>&2 2>&1 | cat -e || echo 1>&1 ok"])
