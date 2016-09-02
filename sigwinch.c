@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sigwinch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:34:16 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/09/01 17:34:21 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/09/02 16:04:50 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	sigwinch(int sig)
 	t_data	*data;
 	int		old_index;
 
+	if (!isatty(0))
+		return ;
 	data = singleton_data(NULL, 0);
 	sig = 0;
 	(void)sig;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env_function.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:34:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/09/01 17:34:19 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/09/02 16:49:04 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_env			*create_tmp_env(t_data *data, t_env *env, char **scmd, int i)
 			if (!data->new_elem[1])
 			{
 				data->tmp_when_must_do_something = mallocp(3 * sizeof(char*));
-				data->tmp_when_must_do_something[0] = data->new_elem[0];
+				data->tmp_when_must_do_something[0] = ft_strdup(data->new_elem[0]);
 				data->tmp_when_must_do_something[1] = ft_strdup("");
 				data->tmp_when_must_do_something[2] = NULL;
 				free_char_tab(data->new_elem);

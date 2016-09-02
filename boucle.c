@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:34:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/09/02 13:31:20 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/09/02 15:28:09 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static void	unit_test(t_data *data, t_env **env)
 			data->env = *env;
 			get_index_min_win(data);
 			singleton_data(data, 1);
-			exit(3);
 		}
+		exit(3);
 	}
 }
 
