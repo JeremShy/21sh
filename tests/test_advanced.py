@@ -145,6 +145,8 @@ class TestBasics(unittest.TestCase):
             self.execute_my_shell(["ls", ">>", "%s" % my_out])
             self.execute_real_shell(["ls", ">", "%s" % ref_out])
             self.execute_real_shell(["ls", ">>", "%s" % ref_out])
+            if self.valgrind:
+                self.execute_real_shell(["ls", ">>", "%s" % ref_out])
             with open(my_out, 'r') as my:
                 with open(ref_out, 'r') as ref:
                     self.assertEqual(ref.read(), my.read())
