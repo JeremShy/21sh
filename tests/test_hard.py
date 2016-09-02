@@ -159,9 +159,10 @@ class TestAdvanced(unittest.TestCase):
 
     def test_ultra_pipe_00(self):
         base = ["ls"]
-        tries = 1000
 
-        os.write(2, "\nStarting %s wait please\n" % self.test_ultra_pipe_00.__name__)
+        tries = int("%d " % os.getenv("ULTRA_PIPES") if os.getenv("ULTRA_PIPES") else 10)
+
+        # os.write(2, "\nStarting %s wait please\n" % self.test_ultra_pipe_00.__name__)
 
         for i in xrange(tries):
             base.append("|")
