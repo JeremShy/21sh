@@ -52,7 +52,7 @@ class TestAdvanced(unittest.TestCase):
         stdout = stdout.replace("%s\n" % self.prompt, "")
         stdout = stdout.replace("%s" % self.prompt, "")
 
-        tools.valgrind_wrapper(self.binary, command, True)
+        tools.valgrind_wrapper(self.binary, command)
 
         return stdout, stderr
 

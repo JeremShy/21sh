@@ -2,16 +2,15 @@ import os
 import subprocess
 
 
-def valgrind_wrapper(program, command, full_leaks=False):
+def valgrind_wrapper(program, command):
     """
     Valgrind wrapper for unittesting in Python for minishell
     :param program: the binary to test
     :param command: the command to run into the minishell like ["ls", "-l"]
     :return: False if no issue was found else return the summary of issues by raising
     """
-    valgrind = ["valgrind"]
-    if full_leaks is True:
-        valgrind = ["valgrind", "--leak-check=full"]
+    valgrind = ["valgrind", "--leak-check=full"]
+
     cmd_list = ["/bin/echo"] + command
 
     p_command = subprocess.Popen(cmd_list, stdout=subprocess.PIPE)
@@ -22,9 +21,6 @@ def valgrind_wrapper(program, command, full_leaks=False):
 
     summary = [leak.split("==    ")[1] for leak in stderr.split("\n") if "lost:" in leak]
     if len(summary) > 0 and "definitely lost: 0 bytes in 0 blocks" not in summary:
-        if full_leaks is False:
-            valgrind_wrapper(program, command, True)
-            return False
         os.write(2, "\n\n%s\n" % str(command))
         os.write(2, "%s\n" % stderr)
         raise AssertionError("%s" % summary)
@@ -34,4 +30,3 @@ def valgrind_wrapper(program, command, full_leaks=False):
         os.write(2, "\n\n%s\n" % str(command))
         os.write(2, "%s\n" % stderr)
         raise AssertionError("%s" % summary)
-    return False
