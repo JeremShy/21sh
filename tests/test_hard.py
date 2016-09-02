@@ -208,3 +208,21 @@ class TestAdvanced(unittest.TestCase):
         out = self.execute_my_shell(["false", "|", "cat -e", "&&", "echo", "ok", "|", "false", "&&",
                                      "echo", "ok2", ";", "echo", "ok3"])
         self.assertEqual(("ok3", ""), out)
+
+    def test_redirection_00(self):
+        self.compare_shells(["ls notherethefile 2>&1 | cat -e"])
+
+    def test_redirection_01(self):
+        self.compare_shells(["ls notherethefile 2>&1 | cat -e 1>&2 | cat -e"])
+
+    def test_redirection_02(self):
+        self.compare_shells(["ls notherethefile 2>&1 | cat -e 1>&2 2>&1 | cat -e"])
+
+    def test_redirection_03(self):
+        self.compare_shells(["ls notherethefile 2>&1 1>&2 2>&1 | cat -e"])
+
+    def test_redirection_04(self):
+        self.compare_shells(["ls notherethefile 2>&1 1>&2 2>&1 | cat -e && echo 2>&1 ok"])
+
+    def test_redirection_05(self):
+        self.compare_shells(["ls notherethefile 2>&1 1>&2 2>&1 | cat -e || echo 2>&1 ok"])
