@@ -173,6 +173,15 @@ leaks: all
 	 valgrind --leak-check=full ./42sh
 
 check: $(NAME)
+	@echo "#####################################"
+	@echo "##    Test Driven Development    ##"
+	@echo "##                               ##"
+	@echo "##       . is OK                 ##"
+	@echo "##       F is ERROR              ##"
+	@echo "##       E is CRITICAL           ##"
+	@echo "##                               ##"
+	@echo "##       valgrind in PATH ?      ##"
+	@echo "#####################################"
 	python -m unittest discover tests/
 
 .PHONY : all clean fclean re check
