@@ -1,3 +1,4 @@
+import os
 import subprocess
 
 
@@ -18,13 +19,18 @@ def valgrind_wrapper(program, command):
     p_command.stdout.close()
     stdout, stderr = p_minishell.communicate()
 
-    if cmd_list[0] == "/bin/echo":
+    if cmd_list[0] == "/bin/echo" and cmd_list[1] == "-n":
+        cmd_list.pop(0)
         cmd_list.pop(0)
 
     summary = [leak.split("==    ")[1] for leak in stderr.split("\n") if "lost:" in leak]
     if len(summary) > 0 and "definitely lost: 0 bytes in 0 blocks" not in summary:
-        raise AssertionError("%s\n%s" % (" ".join(cmd_list), stderr))
+        os.write(2, "%s\n%s" % (" ".join(cmd_list), stderr))
+        os._exit(2)
+        # raise AssertionError("%s\n%s" % (" ".join(cmd_list), stderr))
 
     summary = stderr.split("\n")[-2].split("== ")[1]
     if "ERROR SUMMARY: 0 errors from 0 contexts" not in summary:
-        raise AssertionError("%s\n%s" % (" ".join(cmd_list), stderr))
+        os.write(2, "%s\n%s" % (" ".join(cmd_list), stderr))
+        os._exit(3)
+        # raise AssertionError("%s\n%s" % (" ".join(cmd_list), stderr))
