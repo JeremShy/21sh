@@ -6,7 +6,7 @@
 /*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:34:14 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/09/01 17:34:19 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/09/02 16:09:00 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,14 @@ static void	unit_test(t_data *data, t_env **env)
 		if ((r = read(0, str, 1000)))
 		{
 			str[r] = '\0';
+			free(data->cmd);
 			data->cmd = str;
 			create_history(data, env);
 			data->env = *env;
 			get_index_min_win(data);
 			singleton_data(data, 1);
-			exit(3);
 		}
+		exit(3);
 	}
 }
 
