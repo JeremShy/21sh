@@ -6,7 +6,7 @@
 /*   By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:33:06 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/09/02 13:38:24 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/09/02 16:09:11 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static void	unit_test(t_data *data, t_env **env)
 			data->env = *env;
 			get_index_min_win(data);
 			singleton_data(data, 1);
-			exit(3);
 		}
+		exit(3);
 	}
 }
 
