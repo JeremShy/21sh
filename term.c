@@ -6,7 +6,7 @@
 /*   By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:33:09 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/09/01 17:33:15 by vsteffen         ###   ########.fr       */
+/*   Updated: 2016/09/02 13:38:15 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void		invert_term(void)
 	if (current && (tmp = singleton_termios(NULL, 0)))
 	{
 		tcgetattr(0, current);
-		tcsetattr(0, TCSADRAIN, tmp);
+		if (isatty(0))
+			tcsetattr(0, TCSADRAIN, tmp);
 		free(tmp);
 		singleton_termios(current, 1);
 	}
