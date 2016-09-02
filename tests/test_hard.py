@@ -1,4 +1,5 @@
 import os
+import shutil
 import subprocess
 import unittest
 
@@ -22,7 +23,7 @@ class TestAdvanced(unittest.TestCase):
         cls.prompt = cls.get_prompt(cls.binary)
         cls.dev_null = open("/dev/null", 'w')
         try:
-            if subprocess.call(["valgrind", "--version"]) == 0:
+            if os.getenv("VALGRIND") == "TRUE" and subprocess.call(["valgrind", "--version"]) == 0:
                 cls.valgrind = True
         except OSError:
             os.write(2, "WARNING: No valgrind\n")
@@ -96,7 +97,7 @@ class TestAdvanced(unittest.TestCase):
             self.assertEqual(stdout[:5], ".\n..\n")
             self.assertEqual(stderr, "")
         finally:
-            os.rmdir(folder)
+            shutil.rmtree(folder)
 
     def test_01_semi(self):
         folder = "%s.d" % self.test_01_semi.__name__
@@ -109,7 +110,7 @@ class TestAdvanced(unittest.TestCase):
             self.assertEqual(stdout[:len(e_path)], e_path)
             self.assertEqual(stderr, "cd: OLDPWD not set\n")
         finally:
-            os.rmdir(folder)
+            shutil.rmtree(folder)
 
     def test_02_semi(self):
         folder = "%s.d" % self.test_02_semi.__name__
@@ -123,7 +124,7 @@ class TestAdvanced(unittest.TestCase):
             self.assertEqual(stderr, "")
             self.assertEqual(stdout[:len("%s.link" % e_path)], "%s.link" % e_path)
         finally:
-            os.rmdir(folder)
+            shutil.rmtree(folder)
             os.remove("%s.link" % folder)
 
     def test_03_semi(self):
@@ -138,7 +139,7 @@ class TestAdvanced(unittest.TestCase):
             self.assertEqual(stderr, "")
             self.assertEqual(stdout[:len("%s" % e_path)], "%s" % e_path)
         finally:
-            os.rmdir(folder)
+            shutil.rmtree(folder)
             os.remove("%s.link" % folder)
 
     def test_04_semi(self):
@@ -153,5 +154,5 @@ class TestAdvanced(unittest.TestCase):
             self.assertEqual(stderr, "")
             self.assertEqual(stdout[:len("%s" % e_path)], "%s" % e_path)
         finally:
-            os.rmdir(folder)
+            shutil.rmtree(folder)
             os.remove("%s.link" % folder)

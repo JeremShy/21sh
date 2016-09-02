@@ -184,6 +184,7 @@ check: $(NAME)
 	@echo "##   tests made from stdin        ##"
 	@echo "##   NO termcaps tests            ##"
 	@echo "####################################"
+	@echo "VALGRIND=TRUE for valgrind: VALGRIND=\"$(VALGRIND)\""
 	@python -m unittest discover tests/
 	@echo "ALL TESTS SUCCEED ASK FOR MORE TESTS"
 
