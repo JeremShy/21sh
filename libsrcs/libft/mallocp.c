@@ -6,11 +6,11 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 22:55:58 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 22:56:00 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/02 16:10:10 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sh21.h>
+#include <libft.h>
 
 void	*mallocp(size_t size)
 {

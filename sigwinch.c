@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:26 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:34 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/02 16:06:29 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	sigwinch(int sig)
 	t_data	*data;
 	int		old_index;
 
+	if (!isatty(0))
+		return ;
 	data = singleton_data(NULL, 0);
 	sig = 0;
 	(void)sig;
