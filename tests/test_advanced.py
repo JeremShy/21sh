@@ -140,15 +140,17 @@ class TestBasics(unittest.TestCase):
         for f in [my_out, ref_out]:
             with open(f, 'w') as fd:
                 fd.write("")
-        self.execute_my_shell(["ls", ">", "%s" % my_out])
-        self.execute_my_shell(["ls", ">>", "%s" % my_out])
-        self.execute_real_shell(["ls", ">", "%s" % ref_out])
-        self.execute_real_shell(["ls", ">>", "%s" % ref_out])
-        with open(my_out, 'r') as my:
-            with open(ref_out, 'r') as ref:
-                self.assertEqual(ref.read(), my.read())
-        for f in [my_out, ref_out]:
-            os.remove(f)
+        try:
+            self.execute_my_shell(["ls", ">", "%s" % my_out])
+            self.execute_my_shell(["ls", ">>", "%s" % my_out])
+            self.execute_real_shell(["ls", ">", "%s" % ref_out])
+            self.execute_real_shell(["ls", ">>", "%s" % ref_out])
+            with open(my_out, 'r') as my:
+                with open(ref_out, 'r') as ref:
+                    self.assertEqual(ref.read(), my.read())
+        finally:
+            for f in [my_out, ref_out]:
+                os.remove(f)
 
     def test_right_03(self):
         my_out = "out.my"
@@ -156,17 +158,19 @@ class TestBasics(unittest.TestCase):
         for f in [my_out, ref_out]:
             with open(f, 'w') as fd:
                 fd.write("")
-        self.execute_my_shell(["ls", ">", "%s" % my_out])
-        self.execute_my_shell(["ls", ">>", "%s" % my_out])
-        self.execute_my_shell(["ls", ">", "%s" % my_out])
-        self.execute_real_shell(["ls", ">", "%s" % ref_out])
-        self.execute_real_shell(["ls", ">>", "%s" % ref_out])
-        self.execute_real_shell(["ls", ">", "%s" % ref_out])
-        with open(my_out, 'r') as my:
-            with open(ref_out, 'r') as ref:
-                self.assertEqual(ref.read(), my.read())
-        for f in [my_out, ref_out]:
-            os.remove(f)
+        try:
+            self.execute_my_shell(["ls", ">", "%s" % my_out])
+            self.execute_my_shell(["ls", ">>", "%s" % my_out])
+            self.execute_my_shell(["ls", ">", "%s" % my_out])
+            self.execute_real_shell(["ls", ">", "%s" % ref_out])
+            self.execute_real_shell(["ls", ">>", "%s" % ref_out])
+            self.execute_real_shell(["ls", ">", "%s" % ref_out])
+            with open(my_out, 'r') as my:
+                with open(ref_out, 'r') as ref:
+                    self.assertEqual(ref.read(), my.read())
+        finally:
+            for f in [my_out, ref_out]:
+                os.remove(f)
 
     def test_left_00(self):
         my_in = "in.my"
