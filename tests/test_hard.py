@@ -174,3 +174,37 @@ class TestAdvanced(unittest.TestCase):
                 if i < 20:
                     raise AssertionError
                 break
+
+    def test_and_or_00(self):
+        self.compare_shells(["false", "||", "false", "||", "true", "&&", "ls"])
+
+    def test_and_or_01(self):
+        self.compare_shells(["false", "||", "false", "||", "true", "&&", "echo", "hello"])
+
+    def test_and_or_02(self):
+        self.compare_shells(["false", "||", "false", "||", "true", "&&", "echo", "hello", ";", "echo", "ok"])
+
+    def test_and_or_pipe_00(self):
+        self.compare_shells(["false", "||", "false", "||", "true", "&&",
+                             "echo", "hello", "|", "cat -e" ";", "echo", "ok"])
+
+    def test_and_or_pipe_01(self):
+        self.compare_shells(["false", "||", "false", "||", "true", "&&",
+                             "echo", "hello", "|", "cat -e" ";", "echo", "ok", "|", "cat", "-e"])
+
+    def test_and_or_pipe_02(self):
+        self.compare_shells(["false", "|", "cat -e", "&&", "echo", "ok"])
+
+    def test_and_or_pipe_03(self):
+        self.compare_shells(["false", "|", "cat -e", "&&", "echo", "ok", "|", "false", "||",
+                             "echo", "ok2"])
+
+    def test_and_or_pipe_04(self):
+        out = self.execute_my_shell(["false", "|", "cat -e", "&&", "echo", "ok", "|", "false", "&&",
+                                     "echo", "ok2"])
+        self.assertEqual(("", ""), out)
+
+    def test_and_or_pipe_05(self):
+        out = self.execute_my_shell(["false", "|", "cat -e", "&&", "echo", "ok", "|", "false", "&&",
+                                     "echo", "ok2", ";", "echo", "ok3"])
+        self.assertEqual(("ok3", ""), out)
