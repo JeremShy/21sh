@@ -20,7 +20,7 @@ class TestBasics(unittest.TestCase):
             raise IOError("Make the project: %s not here\n" % cls.binary)
         cls.prompt = cls.get_prompt(cls.binary)
         try:
-            if subprocess.call(["valgrind", "--version"]) == 0:
+            if os.getenv("VALGRIND") == "TRUE" and subprocess.call(["valgrind", "--version"]) == 0:
                 cls.valgrind = True
         except OSError:
             os.write(2, "WARNING: No valgrind\n")
