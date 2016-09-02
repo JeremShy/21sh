@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_add_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:34:16 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/09/01 17:34:20 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/09/03 00:50:22 by JeremShy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,13 @@ static int		command_with_logical_operators(t_data *data, char *str,
 	{
 		delete_list_command(data->command);
 		data->command = NULL;
-		return (0);
+		while (str[*i] && str[*i] != ';')
+			(*i)++;
+		if (str[*i])
+			(*i)++;
+		else
+			return (0);
+		return (1);
 	}
 	delete_list_command(data->command);
 	data->command = NULL;
