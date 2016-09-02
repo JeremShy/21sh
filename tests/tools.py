@@ -10,7 +10,7 @@ def valgrind_wrapper(program, command):
     """
     valgrind = ["valgrind", "--leak-check=full"]
 
-    cmd_list = ["/bin/echo"] + command
+    cmd_list = ["/bin/echo", "-n"] + command
 
     p_command = subprocess.Popen(cmd_list, stdout=subprocess.PIPE)
     p_minishell = subprocess.Popen(
