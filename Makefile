@@ -185,6 +185,6 @@ check: $(NAME)
 	@echo "##   NO termcaps tests            ##"
 	@echo "####################################"
 	@python -m unittest discover tests/
-	@echo "ALL TESTS SUCCEED"
+	@echo "ALL TESTS SUCCEED ASK FOR MORE TESTS"
 
 .PHONY : all clean fclean re check
