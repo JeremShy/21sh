@@ -106,6 +106,26 @@ class TestBasics(unittest.TestCase):
                              "|", "cat -e", "|", "sort", "|", "rev", "|", "sort", "|", "cat -e",
                              "|", "cat -e", "|", "cat -e", "|", "cat -e"])
 
+    def test_pipe_05(self):
+        ret = self.execute_my_shell(["ls", "|", "cat -e", "|"])
+        self.assertEqual(("", "42sh: parse error near '|' or '&'\n"), ret)
+
+    def test_pipe_06(self):
+        ret = self.execute_my_shell(["ls", "|", "cat -e", "|", "|"])
+        self.assertEqual(("", "42sh: parse error near '|' or '&'\n"), ret)
+
+    def test_pipe_07(self):
+        ret = self.execute_my_shell(["|", "ls", "|", "cat -e"])
+        self.assertEqual(("", "42sh: parse error near '|' or '&'\n"), ret)
+
+    def test_pipe_08(self):
+        ret = self.execute_my_shell(["|", "ls", "|", "cat -e", "|"])
+        self.assertEqual(("", "42sh: parse error near '|' or '&'\n"), ret)
+
+    def test_pipe_09(self):
+        ret = self.execute_my_shell(["ls", "|", "cat | -e"])
+        self.assertEqual(("", "42sh: command not found: -e\n"), ret)
+
     def test_pipe_100_pipe(self):
         base = ["ls"]
 
@@ -119,6 +139,22 @@ class TestBasics(unittest.TestCase):
         out = "out"
         self.compare_shells(["ls", ">", "%s" % out])
         os.remove(out)
+
+    def test_and_00(self):
+        self.compare_shells(["ls", "&&", "ls"])
+
+    def test_and_01(self):
+        ret = self.execute_my_shell(["nocommand", "&&", "ls"])
+        self.assertEqual(("", "42sh: command not found: nocommand\n"), ret)
+
+    def test_and_02(self):
+        self.compare_shells(["ls", "&&", "ls", "&&", "ls", "&&", "ls", "&&", "ls", "&&", "ls", "&&", "ls"])
+
+    def test_or_00(self):
+        self.compare_shells(["false", "||", "ls"])
+
+    def test_or_01(self):
+        self.compare_shells(["false", "||", "ls", "||", "ls"])
 
     def test_right_01(self):
         my_out = "out.my"

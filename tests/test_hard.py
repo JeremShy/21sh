@@ -159,9 +159,10 @@ class TestAdvanced(unittest.TestCase):
 
     def test_ultra_pipe_00(self):
         base = ["ls"]
-        tries = 1000
 
-        os.write(2, "\nStarting %s wait please\n" % self.test_ultra_pipe_00.__name__)
+        tries = int("%d " % os.getenv("ULTRA_PIPES") if os.getenv("ULTRA_PIPES") else 10)
+
+        # os.write(2, "\nStarting %s wait please\n" % self.test_ultra_pipe_00.__name__)
 
         for i in xrange(tries):
             base.append("|")
@@ -173,3 +174,61 @@ class TestAdvanced(unittest.TestCase):
                 if i < 20:
                     raise AssertionError
                 break
+
+    def test_and_or_00(self):
+        self.compare_shells(["false", "||", "false", "||", "true", "&&", "ls"])
+
+    def test_and_or_01(self):
+        self.compare_shells(["false", "||", "false", "||", "true", "&&", "echo", "hello"])
+
+    def test_and_or_02(self):
+        self.compare_shells(["false", "||", "false", "||", "true", "&&", "echo", "hello", ";", "echo", "ok"])
+
+    def test_and_or_pipe_00(self):
+        self.compare_shells(["false", "||", "false", "||", "true", "&&",
+                             "echo", "hello", "|", "cat -e" ";", "echo", "ok"])
+
+    def test_and_or_pipe_01(self):
+        self.compare_shells(["false", "||", "false", "||", "true", "&&",
+                             "echo", "hello", "|", "cat -e" ";", "echo", "ok", "|", "cat", "-e"])
+
+    def test_and_or_pipe_02(self):
+        self.compare_shells(["false", "|", "cat -e", "&&", "echo", "ok"])
+
+    def test_and_or_pipe_03(self):
+        self.compare_shells(["false", "|", "cat -e", "&&", "echo", "ok", "|", "false", "||",
+                             "echo", "ok2"])
+
+    def test_and_or_pipe_04(self):
+        out = self.execute_my_shell(["false", "|", "cat -e", "&&", "echo", "ok", "|", "false", "&&",
+                                     "echo", "ok2"])
+        self.assertEqual(("", ""), out)
+
+    def test_and_or_pipe_05(self):
+        out = self.execute_my_shell(["false", "|", "cat -e", "&&", "echo", "ok", "|", "false", "&&",
+                                     "echo", "ok2", ";", "echo", "ok3"])
+        self.assertEqual(("ok3", ""), out)
+
+    def test_redirection_00(self):
+        self.compare_shells(["ls notherethefile 2>&1 | cat -e"])
+
+    def test_redirection_01(self):
+        self.compare_shells(["ls notherethefile 2>&1 | cat -e 1>&2 | cat -e"])
+
+    def test_redirection_02(self):
+        self.compare_shells(["ls notherethefile 2>&1 | cat -e 1>&2 2>&1 | cat -e"])
+
+    def test_redirection_03(self):
+        self.compare_shells(["ls notherethefile 2>&1 1>&2 2>&1 | cat -e"])
+
+    def test_redirection_04(self):
+        self.compare_shells(["ls notherethefile 2>&1 1>&2 2>&1 | cat -e && echo 2>&1 ok"])
+
+    def test_redirection_05(self):
+        self.compare_shells(["ls notherethefile 2>&1 1>&2 2>&1 | cat -e || echo 2>&1 ok"])
+
+    def test_redirection_06(self):
+        self.compare_shells(["ls notherethefile 2>&1 1>&2 2>&1 | cat -e || echo 1>&1 ok"])
+
+    def test_redirection_07(self):
+        self.compare_shells(["ls notherethefile 2>&1 1>&2 2>&1 | cat -e || echo 1>&1 ok"])
