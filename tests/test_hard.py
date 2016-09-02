@@ -12,6 +12,7 @@ class TestAdvanced(unittest.TestCase):
     binary = "%s/../%s" % (tests_dir, BINARY_NAME)
     prompt = ""
     dev_null = None
+    valgrind = False
 
     @classmethod
     def setUpClass(cls):
@@ -20,6 +21,10 @@ class TestAdvanced(unittest.TestCase):
             raise IOError("Make the project: %s not here\n" % cls.binary)
         cls.prompt = cls.get_prompt(cls.binary)
         cls.dev_null = open("/dev/null", 'w')
+        if subprocess.call(["valgrind", "--version"]) == 0:
+            cls.valgrind = True
+        else:
+            os.write(2, "Warning: No valgrind")
 
     @classmethod
     def tearDownClass(cls):
@@ -52,7 +57,8 @@ class TestAdvanced(unittest.TestCase):
         stdout = stdout.replace("%s\n" % self.prompt, "")
         stdout = stdout.replace("%s" % self.prompt, "")
 
-        tools.valgrind_wrapper(self.binary, command)
+        if self.valgrind:
+            tools.valgrind_wrapper(self.binary, command)
 
         return stdout, stderr
 

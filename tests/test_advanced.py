@@ -11,6 +11,7 @@ class TestBasics(unittest.TestCase):
     tests_dir = os.path.split(__file__)[0]
     binary = "%s/../%s" % (tests_dir, BINARY_NAME)
     prompt = ""
+    valgrind = False
 
     @classmethod
     def setUpClass(cls):
@@ -18,6 +19,10 @@ class TestBasics(unittest.TestCase):
         if os.path.isfile(cls.binary) is False:
             raise IOError("Make the project: %s not here\n" % cls.binary)
         cls.prompt = cls.get_prompt(cls.binary)
+        if subprocess.call(["valgrind", "--version"]) == 0:
+            cls.valgrind = True
+        else:
+            os.write(2, "Warning: No valgrind")
 
     @classmethod
     def tearDownClass(cls):
@@ -49,7 +54,8 @@ class TestBasics(unittest.TestCase):
         stdout = stdout.replace("%s\n" % self.prompt, "")
         stdout = stdout.replace("%s" % self.prompt, "")
 
-        tools.valgrind_wrapper(self.binary, command)
+        if self.valgrind:
+            tools.valgrind_wrapper(self.binary, command)
 
         return stdout, stderr
 
