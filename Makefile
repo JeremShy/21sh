@@ -173,15 +173,18 @@ leaks: all
 	 valgrind --leak-check=full ./42sh
 
 check: $(NAME)
-	@echo "#####################################"
-	@echo "##    Test Driven Development    ##"
-	@echo "##                               ##"
-	@echo "##       . is OK                 ##"
-	@echo "##       F is ERROR              ##"
-	@echo "##       E is CRITICAL           ##"
-	@echo "##                               ##"
-	@echo "##       valgrind in PATH ?      ##"
-	@echo "#####################################"
-	python -m unittest discover tests/
+	@echo "####################################"
+	@echo "##   Test Driven Development      ##"
+	@echo "##                                ##"
+	@echo "##   . is OK                      ##"
+	@echo "##   F is ERROR                   ##"
+	@echo "##   E is CRITICAL                ##"
+	@echo "##                                ##"
+	@echo "##   valgrind in PATH ?           ##"
+	@echo "##   tests made from stdin        ##"
+	@echo "##   NO termcaps tests            ##"
+	@echo "####################################"
+	@python -m unittest discover tests/
+	@echo "ALL TESTS SUCCEED"
 
 .PHONY : all clean fclean re check
