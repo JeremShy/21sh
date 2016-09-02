@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   term.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:34:16 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/09/01 17:34:21 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/09/02 13:26:52 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void		invert_term(void)
 	if (current && (tmp = singleton_termios(NULL, 0)))
 	{
 		tcgetattr(0, current);
-		tcsetattr(0, TCSADRAIN, tmp);
+		if (isatty(0))
+			tcsetattr(0, TCSADRAIN, tmp);
 		free(tmp);
 		singleton_termios(current, 1);
 	}
