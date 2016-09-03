@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 17:34:16 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/09/01 17:34:20 by jcamhi           ###   ########.fr       */
+/*   Created: 2016/09/03 22:31:03 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/03 22:31:05 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int			true_var_and_subs(t_data *data, char **str)
 		{
 			if (!replace_depending_quotes(data, str, &open_quote, &index))
 				return (0);
-			if ((*str)[index])
+			if ((*str)[index] && !data->subs_for_first_char)
 				index++;
 		}
 	}

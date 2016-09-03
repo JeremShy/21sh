@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/03 19:03:48 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/09/03 19:03:49 by jcamhi           ###   ########.fr       */
+/*   Created: 2016/09/03 22:28:55 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/03 22:28:58 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ typedef struct			s_data {
 	int					parse_count;
 	size_t				parse_old_i;
 	t_hc				**parse_heredocs;
+	int					subs_for_first_char;
 }						t_data;
 
 t_env					*ft_parse_env(char **env);

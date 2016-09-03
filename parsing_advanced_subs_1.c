@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 17:34:16 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/09/01 17:34:21 by jcamhi           ###   ########.fr       */
+/*   Created: 2016/09/03 22:32:15 by jcamhi            #+#    #+#             */
+/*   Updated: 2016/09/03 22:32:16 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,21 @@ static void	is_subs_and_replace_init(t_data *data, size_t *length,
 	data->flag_enter = 1;
 	data->subs_index = *index;
 	data->subs_flag = flag;
+	data->subs_for_first_char = 0;
 }
 
 static void	is_subs_and_replace_end_of_if(t_data *data, size_t *index)
 {
-	(*index)--;
+	if (!data->subs_for_first_char)
+		(*index)--;
 	data->flag_enter = 0;
+}
+
+int			cradoc_for_first_char(size_t *index, t_data *data)
+{
+	if (*index == 0)
+		data->subs_for_first_char = 1;
+	return (1);
 }
 
 int			is_subs_and_replace(t_data *d, char **str, size_t *index, int flag)
@@ -35,7 +44,7 @@ int			is_subs_and_replace(t_data *d, char **str, size_t *index, int flag)
 	is_subs_and_replace_init(d, &length, index, flag);
 	if (!is_escaped_char(*str, *index) && (*str)[*index] == '!')
 	{
-		if ((*str)[length] == '!')
+		if (cradoc_for_first_char(index, d) && (*str)[length] == '!')
 		{
 			if (!subs_for_last_command(d, &arg, &length))
 				return (0);
