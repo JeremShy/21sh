@@ -6,7 +6,7 @@
 #    By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/01 17:36:17 by adomingu          #+#    #+#              #
-#    Updated: 2016/09/01 19:41:02 by adomingu         ###   ########.fr        #
+#    Updated: 2016/09/03 23:41:48 by adomingu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,6 @@
 		 exit_builtin.c \
 		 handle_pipe.c \
 		 handle_pipe_spawn_proc.c \
-		 get_pb.c \
 		 echo.c \
 		 history_1.c\
 		 history_2.c\

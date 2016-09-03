@@ -6,7 +6,7 @@
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:24 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/02 16:08:54 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/03 23:43:09 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ static void	handle_buf(t_data *data, char *buf, int *flag, t_env **env)
 	}
 	else if (buf[0] == 10 && buf[1] == 0 && !data->mode_copy)
 		create_history(data, env);
-	else if (buf[0] == 16 && buf[1] == 0 && !data->mode_copy)
-		do_get_pb(data);
 	else if (buf[0] == 9 && buf[1] == 0)
 		if (!data->c && !data->mode_copy)
 			ft_autocomplete(data);
