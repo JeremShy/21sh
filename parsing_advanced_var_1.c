@@ -60,7 +60,7 @@ void		is_var_and_replace(t_data *data, char **str, size_t *index)
 		if ((*str)[*index + 1] == '?')
 		{
 			data->var_length++;
-			arg = ft_strdup(ft_itoa_base(data->ret, 10));
+			arg = ft_itoa_base(data->ret, 10);
 			delete_var_and_replace(str, *index, data->var_length, arg);
 			return ;
 		}

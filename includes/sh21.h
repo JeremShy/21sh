@@ -167,6 +167,7 @@ typedef struct			s_data {
 	int					parse_count;
 	size_t				parse_old_i;
 	t_hc				**parse_heredocs;
+	int					subs_for_first_char;
 }						t_data;
 
 t_env					*ft_parse_env(char **env);
