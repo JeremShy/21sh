@@ -70,7 +70,7 @@ void		is_var_and_replace(t_data *data, char **str, size_t *index)
 		if (data->var_length - (*index + 1) == 0)
 			return (free_arg_and_stop(&arg));
 		if (ft_strequ(arg, ""))
-			wrong_var_and_stop(data, arg, str, index);
+			return (wrong_var_and_stop(data, arg, str, index));
 		else
 			delete_var_and_replace(str, *index, data->var_length, arg);
 		*index = data->var_length - (*index + 1);
