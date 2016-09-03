@@ -37,7 +37,7 @@ static int		command_with_logical_operators(t_data *data, char *str,
 	{
 		delete_list_command(data->command);
 		data->command = NULL;
-		while (str[*i] && str[*i] != ';')
+		while (str[*i] && str[*i] != ';' && !ft_strnequ(str + *i, "||", 2))
 			(*i)++;
 		if (str[*i])
 			(*i)++;
