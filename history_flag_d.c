@@ -71,12 +71,13 @@ int			history_flag_d(t_data *data, char **scmd, t_cmd *cmd)
 	t_history	*tmp_deb;
 	int			j;
 
-	tmp_deb = data->history;
-	while (tmp_deb->prec)
-		tmp_deb = tmp_deb->prec;
 	j = 0;
 	while (scmd[j] != NULL)
 	{
+		if (!(tmp_deb = data->history))
+			return (0);
+		while (tmp_deb->prec)
+			tmp_deb = tmp_deb->prec;
 		if (ft_isdigit(scmd[j][0]))
 		{
 			if (history_flag_d_2(data, tmp_deb, ft_atoi(scmd[j]), cmd) == 1)
