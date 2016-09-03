@@ -6,7 +6,7 @@
 /*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:30:26 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 18:56:25 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/03 19:31:20 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	handle_expression(char **str, int n_av, t_cmd *cmd, t_hc **heredocs)
 
 int			split_cmd(int count, char **str, t_cmd *cmd, t_hc **heredocs)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	cmd->av = (char**)mallocp((count + 2) * sizeof(char*));
