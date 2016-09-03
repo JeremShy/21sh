@@ -6,7 +6,7 @@
 /*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/03 22:28:55 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/09/03 22:28:58 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/09/03 23:30:43 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,6 @@ void					display_heredoc (t_hc *elem);
 void					free_heredoc(t_data *data, t_hc *list);
 char					*find_exec(char *scmd, t_data *data, t_env *env);
 int						fork_pipes(t_cmd *cmd, t_env *env, t_data *data);
-char					*get_pb(void);
 int						is_empty_border(char *str, size_t beg, size_t end);
 void					get_pos_after_quote(size_t *i, char *str);
 void					close_fd_cmd(t_cmd *cmd);
