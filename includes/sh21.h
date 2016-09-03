@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 19:46:39 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/09/02 00:13:10 by vsteffen         ###   ########.fr       */
+/*   Created: 2016/09/03 19:03:36 by vsteffen          #+#    #+#             */
+/*   Updated: 2016/09/03 19:04:05 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ typedef struct			s_data {
 	int					cd_ret;
 
 	char				**new_elem;
-	char				**tmp_when_must_do_something;
+	char				**tmp_var_env;
 	int					i;
 	t_cmd				*orig_cmd;
 	t_cmd				*cd_cmd;
@@ -463,4 +463,5 @@ int						is_boucle_h_e_pu_pd(t_data *data, char *buf);
 int						is_boucle_h_e_pu_pd(t_data *data, char *buf);
 void					real_page_up(t_data *data);
 void					real_page_down(t_data *data);
+
 #endif

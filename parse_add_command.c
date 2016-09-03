@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 17:33:08 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/09/01 17:33:14 by vsteffen         ###   ########.fr       */
+/*   Created: 2016/09/03 19:01:48 by vsteffen          #+#    #+#             */
+/*   Updated: 2016/09/03 19:01:51 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,13 @@ static int		command_with_logical_operators(t_data *data, char *str,
 	{
 		delete_list_command(data->command);
 		data->command = NULL;
-		return (0);
+		while (str[*i] && str[*i] != ';' && !ft_strnequ(str + *i, "||", 2))
+			(*i)++;
+		if (str[*i] && (str[*i] == ';' || ft_strnequ(str + *i, "||", 2)))
+			(*i) += (str[*i] == ';') ? 1 : 2;
+		else
+			return (0);
+		return (1);
 	}
 	delete_list_command(data->command);
 	data->command = NULL;
