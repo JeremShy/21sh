@@ -6,7 +6,7 @@
 #    By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/01 19:43:55 by vsteffen          #+#    #+#              #
-#    Updated: 2016/09/01 19:44:03 by vsteffen         ###   ########.fr        #
+#    Updated: 2016/09/03 23:32:37 by vsteffen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,6 @@
 		 exit_builtin.c \
 		 handle_pipe.c \
 		 handle_pipe_spawn_proc.c \
-		 get_pb.c \
 		 echo.c \
 		 history_1.c\
 		 history_2.c\
