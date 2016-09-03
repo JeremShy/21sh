@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 17:33:09 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/09/03 21:28:10 by vsteffen         ###   ########.fr       */
+/*   Created: 2016/09/03 22:33:16 by vsteffen          #+#    #+#             */
+/*   Updated: 2016/09/03 22:33:16 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void		is_var_and_replace(t_data *data, char **str, size_t *index)
 		if ((*str)[*index + 1] == '?')
 		{
 			data->var_length++;
-			arg = ft_strdup(ft_itoa_base(data->ret, 10));
+			arg = ft_itoa_base(data->ret, 10);
 			delete_var_and_replace(str, *index, data->var_length, arg);
 			return ;
 		}

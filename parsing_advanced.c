@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 17:33:08 by vsteffen          #+#    #+#             */
-/*   Updated: 2016/09/01 17:33:14 by vsteffen         ###   ########.fr       */
+/*   Created: 2016/09/03 22:31:13 by vsteffen          #+#    #+#             */
+/*   Updated: 2016/09/03 22:31:14 by vsteffen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int			true_var_and_subs(t_data *data, char **str)
 		{
 			if (!replace_depending_quotes(data, str, &open_quote, &index))
 				return (0);
-			if ((*str)[index])
+			if ((*str)[index] && !data->subs_for_first_char)
 				index++;
 		}
 	}
