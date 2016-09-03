@@ -6,7 +6,7 @@
 /*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 19:47:59 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/09/02 00:05:52 by jcamhi           ###   ########.fr       */
+/*   Updated: 2016/09/03 17:46:56 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ typedef struct			s_data {
 	int					cd_ret;
 
 	char				**new_elem;
-	char				**tmp_when_must_do_something;
+	char				**tmp_var_env;
 	int					i;
 	t_cmd				*orig_cmd;
 	t_cmd				*cd_cmd;
