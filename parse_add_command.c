@@ -6,7 +6,7 @@
 /*   By: jcamhi <jcamhi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 17:34:16 by jcamhi            #+#    #+#             */
-/*   Updated: 2016/09/03 17:48:55 by adomingu         ###   ########.fr       */
+/*   Updated: 2016/09/03 18:10:50 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ static int		command_with_logical_operators(t_data *data, char *str,
 		data->command = NULL;
 		while (str[*i] && str[*i] != ';' && !ft_strnequ(str + *i, "||", 2))
 			(*i)++;
-		if (str[*i])
-			(*i)++;
+		if (str[*i] && (str[*i] == ';' || ft_strnequ(str + *i, "||", 2)))
+			(*i) += (str[*i] == ';') ? 1 : 2;
 		else
 			return (0);
 		return (1);
