@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/03 18:56:42 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/03 18:56:44 by adomingu         ###   ########.fr       */
+/*   Created: 2016/09/03 22:29:46 by adomingu          #+#    #+#             */
+/*   Updated: 2016/09/03 22:29:49 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ typedef struct			s_data {
 	int					parse_count;
 	size_t				parse_old_i;
 	t_hc				**parse_heredocs;
+	int					subs_for_first_char;
 }						t_data;
 
 t_env					*ft_parse_env(char **env);

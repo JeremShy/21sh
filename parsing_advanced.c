@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 17:30:26 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:33 by adomingu         ###   ########.fr       */
+/*   Created: 2016/09/03 22:31:23 by adomingu          #+#    #+#             */
+/*   Updated: 2016/09/03 22:31:24 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int			true_var_and_subs(t_data *data, char **str)
 		{
 			if (!replace_depending_quotes(data, str, &open_quote, &index))
 				return (0);
-			if ((*str)[index])
+			if ((*str)[index] && !data->subs_for_first_char)
 				index++;
 		}
 	}
