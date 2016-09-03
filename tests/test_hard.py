@@ -207,7 +207,7 @@ class TestAdvanced(unittest.TestCase):
     def test_and_or_pipe_05(self):
         out = self.execute_my_shell(["false", "|", "cat -e", "&&", "echo", "ok", "|", "false", "&&",
                                      "echo", "ok2", ";", "echo", "ok3"])
-        self.assertEqual(("ok3", ""), out)
+        self.assertEqual(("ok3\n", ""), out)
 
     def test_redirection_00(self):
         self.compare_shells(["ls notherethefile 2>&1 | cat -e"])
