@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 17:30:26 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/01 17:30:33 by adomingu         ###   ########.fr       */
+/*   Created: 2016/09/03 18:52:50 by adomingu          #+#    #+#             */
+/*   Updated: 2016/09/03 18:52:51 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,13 @@ static int		command_with_logical_operators(t_data *data, char *str,
 	{
 		delete_list_command(data->command);
 		data->command = NULL;
-		return (0);
+		while (str[*i] && str[*i] != ';' && !ft_strnequ(str + *i, "||", 2))
+			(*i)++;
+		if (str[*i] && (str[*i] == ';' || ft_strnequ(str + *i, "||", 2)))
+			(*i) += (str[*i] == ';') ? 1 : 2;
+		else
+			return (0);
+		return (1);
 	}
 	delete_list_command(data->command);
 	data->command = NULL;

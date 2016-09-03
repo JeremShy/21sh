@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sh21.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 17:35:40 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/02 00:13:36 by adomingu         ###   ########.fr       */
+/*   Created: 2016/09/03 18:56:42 by adomingu          #+#    #+#             */
+/*   Updated: 2016/09/03 18:56:44 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ typedef struct			s_data {
 	int					cd_ret;
 
 	char				**new_elem;
-	char				**tmp_when_must_do_something;
+	char				**tmp_var_env;
 	int					i;
 	t_cmd				*orig_cmd;
 	t_cmd				*cd_cmd;

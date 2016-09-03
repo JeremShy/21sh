@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adomingu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 17:30:24 by adomingu          #+#    #+#             */
-/*   Updated: 2016/09/02 16:53:20 by adomingu         ###   ########.fr       */
+/*   Created: 2016/09/03 18:54:50 by adomingu          #+#    #+#             */
+/*   Updated: 2016/09/03 18:54:56 by adomingu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ t_env			*create_tmp_env(t_data *data, t_env *env, char **scmd, int i)
 			data->new_elem = ft_strsplit(scmd[i], '=');
 			if (!data->new_elem[1])
 			{
-				data->tmp_when_must_do_something = mallocp(3 * sizeof(char*));
-				data->tmp_when_must_do_something[0] = ft_strdup(data->new_elem[0]);
-				data->tmp_when_must_do_something[1] = ft_strdup("");
-				data->tmp_when_must_do_something[2] = NULL;
+				data->tmp_var_env = mallocp(3 * sizeof(char*));
+				data->tmp_var_env[0] = ft_strdup(data->new_elem[0]);
+				data->tmp_var_env[1] = ft_strdup("");
+				data->tmp_var_env[2] = NULL;
 				free_char_tab(data->new_elem);
-				data->new_elem = data->tmp_when_must_do_something;
+				data->new_elem = data->tmp_var_env;
 			}
 			create_tmp_env_2(&tmp, data);
 			i++;
