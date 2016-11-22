@@ -6,7 +6,7 @@
 #    By: adomingu <adomingu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/09/01 17:36:17 by adomingu          #+#    #+#              #
-#    Updated: 2016/09/03 23:25:45 by jcamhi           ###   ########.fr        #
+#    Updated: 2016/11/22 19:17:22 by vsteffen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -122,6 +122,7 @@
 		 boucle_move_history.c \
 		 boucle_ctrl_d_and_l.c
 
+SRC_PATH = ./srcs/
 OBJ_PATH = ./obj/
 INC_PATH = ./includes
 

@@ -40,4 +40,4 @@ si elles en ont.
 * **Jérémy Camhi** - [Jeremshy](https://github.com/JeremShy)
 * **Vivien Steffen** - [vsteffen](https://github.com/vsteffen)
 * **Anna Dominguez** - [Vesta-nna](https://github.com/Vesta-nna)
-* **Julien Balestra** - [JulienBalestra](https://github.com/)
+* **Julien Balestra** - [JulienBalestra](https://github.com/JulienBalestra)
