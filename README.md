@@ -36,6 +36,13 @@ Features supplémentaires :
 si elles en ont.
 * Complétion dynamique.
 
+## Tests
+
+Pour lancer les tests contenus dans le dossier "tests", lancez la commande suivante :
+```
+make check
+```
+
 ## Contributeurs :
 * **Jérémy Camhi** - [Jeremshy](https://github.com/JeremShy)
 * **Vivien Steffen** - [vsteffen](https://github.com/vsteffen)
